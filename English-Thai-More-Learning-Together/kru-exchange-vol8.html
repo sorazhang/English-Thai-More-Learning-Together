@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Vol. 8</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Bebas+Neue&family=Rubik:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0c0c;
+    --bg2: #161616;
+    --bg3: #202020;
+    --cream: #f0e8d0;
+    --muted: #6a6050;
+    --border: rgba(240,200,80,0.14);
+    --eng: #60a8f0;
+    --thai: #f06080;
+    --roman: #60d0a0;
+    --gold: #f0c840;
+    --gold2: #f8e060;
+    --accent: #f0c840;
+    --red: #e03020;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Rubik', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--red);
+    padding: 2.5rem 2rem 2rem;
+    position: relative; overflow: hidden;
+  }
+
+  header::before {
+    content: 'LUMPINEE';
+    position: absolute;
+    right: -1rem; bottom: -1.5rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 7rem; letter-spacing: 0.02em;
+    color: rgba(0,0,0,0.2);
+    line-height: 1; pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .h-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .vol-tag {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem; letter-spacing: 0.2em;
+    color: rgba(0,0,0,0.6); margin-bottom: 0.4rem; display: block;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 7vw, 4.5rem);
+    line-height: 1; letter-spacing: 0.03em;
+    color: var(--gold); margin-bottom: 0.2rem;
+  }
+
+  .sub { font-size: 0.82rem; color: rgba(0,0,0,0.5); font-weight: 400; margin-bottom: 1.3rem; }
+
+  .legend { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 500; }
+  .lsq { width: 9px; height: 9px; border-radius: 1px; }
+  .le { background: var(--eng); }
+  .lt { background: var(--thai); }
+  .lr { background: var(--roman); }
+  .leg span { color: rgba(0,0,0,0.55); }
+
+  /* TABS */
+  .tabs {
+    display: flex; overflow-x: auto;
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+    padding: 0 1.2rem;
+    scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: 0.9rem 1.1rem;
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.8rem; font-weight: 600; color: var(--muted);
+    cursor: pointer; white-space: nowrap;
+    border-bottom: 3px solid transparent; margin-bottom: -1px;
+    transition: all 0.15s; letter-spacing: 0.02em;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+
+  .tab:hover { color: var(--cream); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* CONTENT */
+  .content { max-width: 860px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro {
+    font-size: 0.83rem; line-height: 1.7; color: var(--muted);
+    padding: 0.85rem 1.1rem; margin-bottom: 1.8rem;
+    border-left: 3px solid var(--gold);
+    background: rgba(240,200,64,0.06);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .intro strong { color: var(--cream); }
+
+  .grp {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem; letter-spacing: 0.18em;
+    color: var(--muted); margin: 2.2rem 0 0.9rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  /* CARDS */
+  .card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.1rem 1.3rem;
+    margin-bottom: 0.65rem; cursor: pointer;
+    transition: all 0.18s; position: relative;
+  }
+
+  .card:hover {
+    border-color: rgba(240,200,64,0.4);
+    background: var(--bg3); transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  }
+
+  .card.on { border-color: var(--gold); background: var(--bg3); box-shadow: 0 0 0 1px rgba(240,200,64,0.15); }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; color: var(--muted); letter-spacing: 0.1em; }
+
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 500; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.28rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+
+  .note {
+    margin-top: 0.62rem; padding-top: 0.58rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.76rem; color: var(--muted); line-height: 1.6;
+  }
+
+  .note b { color: var(--gold); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  /* TABLE */
+  .tw { overflow-x: auto; margin-bottom: 0.8rem; }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; font-size: 0.85rem;
+  }
+
+  thead tr { background: var(--red); }
+  thead th {
+    padding: 0.6rem 1rem; text-align: left;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.82rem; letter-spacing: 0.16em; color: rgba(240,232,208,0.8);
+  }
+
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 500; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr2 { color: var(--roman); font-style: italic; }
+  .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  /* INFO BOX */
+  .infobox {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.8rem;
+  }
+
+  .infobox-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.88rem; letter-spacing: 0.18em;
+    color: var(--gold); margin-bottom: 0.5rem;
+  }
+
+  .infobox p { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+  .infobox p b { color: var(--cream); }
+  .infobox .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; line-height: 1.7; }
+  .infobox .r { color: var(--roman); font-size: 0.8rem; font-style: italic; }
+  .infobox .e { color: var(--eng); font-size: 0.88rem; font-weight: 500; margin-bottom: 0.3rem; }
+
+  /* CROWD SHOUT CARDS */
+  .shout {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; margin-bottom: 0.6rem;
+    cursor: pointer; transition: all 0.18s;
+    display: flex; align-items: stretch;
+  }
+
+  .shout:hover { border-color: rgba(240,200,64,0.4); transform: translateY(-1px); }
+  .shout.on { border-color: var(--gold); }
+
+  .shout-bar {
+    width: 5px; flex-shrink: 0;
+    background: var(--red);
+  }
+
+  .shout-content { padding: 0.9rem 1.1rem; flex: 1; }
+  .shout-content .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--gold); font-size: 1.15rem; font-weight: 700; line-height: 1.5; margin-bottom: 0.2rem; }
+  .shout-content .r { color: var(--roman); font-size: 0.84rem; font-style: italic; margin-bottom: 0.2rem; }
+  .shout-content .e { color: var(--muted); font-size: 0.82rem; }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  @media (max-width: 560px) {
+    header::before { font-size: 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-inner">
+    <span class="vol-tag">🥊 Language Exchange · Vol. 8</span>
+    <h1>English ↔ Thai<br>More Learning Together</h1>
+    <p class="sub">Lumpinee Stadium · Fight Night · The Real Thing</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span>English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span>ภาษาไทย</span></div>
+      <div class="leg"><div class="lsq lr"></div><span>Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('stadium')">🏟️ The Stadium</button>
+  <button class="tab" onclick="sw('tickets')">🎟️ Tickets</button>
+  <button class="tab" onclick="sw('watchingfight')">👀 Watching the Fight</button>
+  <button class="tab" onclick="sw('crowd')">📣 Crowd Phrases</button>
+  <button class="tab" onclick="sw('scoring')">📊 Scoring</button>
+</nav>
+
+<div class="content">
+
+  <!-- THE STADIUM -->
+  <div id="stadium" class="section active">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> Lumpinee (ลุมพินี) is the most famous Muay Thai stadium in Thailand — every fighter dreams of fighting there. This vol is about going to watch a real fight night. Practical, fun, and exactly what you need before your next Thailand trip.
+    </p>
+
+    <div class="grp">About Lumpinee</div>
+
+    <div class="infobox">
+      <div class="infobox-label">🏟️ Lumpinee Stadium — ลุมพินีสนามมวย</div>
+      <p>The new Lumpinee Stadium moved to <b>Ram Intra, Bangkok</b> in 2014 — managed by the Royal Thai Army. Fight nights are typically <b>Tuesday, Friday, and Saturday</b>. It is THE home of Muay Thai — championships fought here carry serious prestige. The atmosphere is electric — live <b>sarama music</b> (วงปี่กลอง — wong bpii-glong) plays throughout every fight, getting faster and louder as the action builds.</p>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Is this your first time watching Muay Thai live?</div>
+      <div class="t">นี่เป็นครั้งแรกที่ดูมวยไทยสดไหม?</div>
+      <div class="r">nîi bpen khráng-râaek thîi duu muay thai sòt mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> สด (sòt) = live/fresh. ดูสด = watch live. ครั้งแรก (khráng-râaek) = first time.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Lumpinee is the most prestigious Muay Thai stadium in Thailand.</div>
+      <div class="t">ลุมพินีเป็นสนามมวยที่มีชื่อเสียงที่สุดในไทย</div>
+      <div class="r">lum-phí-nii bpen sà-nǎam muay thîi mii chûe-sǐang thîi-sùt nai thai</div>
+      <div class="note"><span class="ks">Sora:</span> สนามมวย (sà-nǎam muay) = Muay Thai stadium. มีชื่อเสียง (mii chûe-sǐang) = famous/prestigious. Literally "has name-sound."</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">The live music gets faster when the fight heats up — that's normal!</div>
+      <div class="t">ดนตรีสดจะเร็วขึ้นตอนที่การชกเดือด — ปกตินะ!</div>
+      <div class="r">don-dtrii sòt jà reo khûen tawn thîi gaan chók dùeat — bpòk-gà-tì ná!</div>
+      <div class="note"><span class="ke">Kru:</span> The sarama music (วงปี่กลอง) is one of the most unique things about Muay Thai — it responds to the fight in real time. Tell students this so they're not confused when the music suddenly speeds up dramatically mid-round.<br><span class="ks">Sora:</span> เดือด (dùeat) = boiling/heating up. Used for exciting situations!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">The stadium has ringside seats, middle tier, and standing at the back.</div>
+      <div class="t">สนามมีที่นั่งริงไซด์ ชั้นกลาง และยืนด้านหลัง</div>
+      <div class="r">sà-nǎam mii thîi-nâng ring-sai — chán glaang — láe yuen dâan lǎng</div>
+      <div class="note"><span class="ks">Sora:</span> ริงไซด์ (ring-sai) = ringside · ชั้น (chán) = floor/tier · ยืน (yuen) = standing</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">The standing section is cheaper and usually has the most energy.</div>
+      <div class="t">โซนยืนถูกกว่าและมักมีบรรยากาศที่คึกคักที่สุด</div>
+      <div class="r">soon yuen thùuk gwàa — láe mák mii ban-yaa-gàat thîi khûek-khák thîi-sùt</div>
+      <div class="note"><span class="ks">Sora:</span> คึกคัก (khûek-khák) = lively/buzzing. บรรยากาศ (ban-yaa-gàat) = atmosphere.</div>
+    </div>
+
+  </div><!-- /stadium -->
+
+
+  <!-- TICKETS -->
+  <div id="tickets" class="section">
+    <p class="intro">
+      <strong>Sora learns:</strong> How to get tickets and what to expect at the door. <strong>Kru learns:</strong> How to explain ticket options to students planning their first visit.
+    </p>
+
+    <div class="grp">Buying Tickets</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">How much is a ticket?</div>
+      <div class="t">ตั๋วราคาเท่าไหร่?</div>
+      <div class="r">dtǔa raa-khaa thâo-rài?</div>
+      <div class="note"><span class="ks">Sora:</span> ตั๋ว (dtǔa) = ticket. Works for any kind of ticket — concert, stadium, train. Essential word!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Two tickets please — ringside.</div>
+      <div class="t">ขอตั๋วสองใบนะคะ — ริงไซด์</div>
+      <div class="r">khǎaw dtǔa sǎawng bai ná khâ — ring-sai</div>
+      <div class="note"><span class="ks">Sora:</span> ใบ (bai) = the classifier for tickets (flat objects). สองใบ = two tickets. Don't forget ค่ะ (khâ) at the end — you're female!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">What time does the first fight start?</div>
+      <div class="t">การชกแรกเริ่มกี่โมง?</div>
+      <div class="r">gaan chók râaek rôem gìi moong?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">How many fights are on tonight?</div>
+      <div class="t">คืนนี้มีกี่คู่?</div>
+      <div class="r">khuen níi mii gìi khûu?</div>
+      <div class="note"><span class="ks">Sora:</span> คู่ (khûu) = pair — this is the Thai counter for fights (two fighters = one pair). กี่คู่ = how many bouts?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">Is there food and drinks inside?</div>
+      <div class="t">ข้างในมีอาหารและเครื่องดื่มไหม?</div>
+      <div class="r">khâang-nai mii aa-hǎan láe khrûeang-dùem mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> เครื่องดื่ม (khrûeang-dùem) = drinks/beverages. ข้างใน (khâang-nai) = inside.</div>
+    </div>
+
+    <div class="grp">Useful Ticket Vocabulary</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Ticket</td><td class="tt">ตั๋ว</td><td class="tr2">dtǔa</td></tr>
+          <tr><td class="te">Ringside seat</td><td class="tt">ริงไซด์</td><td class="tr2">ring-sai</td></tr>
+          <tr><td class="te">Main card fight</td><td class="tt">คู่เอก</td><td class="tr2">khûu-èek</td></tr>
+          <tr><td class="te">Undercard fight</td><td class="tt">คู่รอง</td><td class="tr2">khûu-rawng</td></tr>
+          <tr><td class="te">Entrance / Gate</td><td class="tt">ประตูทางเข้า</td><td class="tr2">bprà-dtuu thaang-khâo</td></tr>
+          <tr><td class="te">Programme / Fight card</td><td class="tt">โปรแกรมการชก</td><td class="tr2">bproo-graem gaan chók</td></tr>
+          <tr><td class="te">Weight class</td><td class="tt">รุ่น</td><td class="tr2">rûn</td></tr>
+          <tr><td class="te">Championship bout</td><td class="tt">การชกชิงแชมป์</td><td class="tr2">gaan chók ching chaem</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /tickets -->
+
+
+  <!-- WATCHING THE FIGHT -->
+  <div id="watchingfight" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> What's actually happening in the ring — how to follow the action, understand what the referee is doing, and talk about the fight with the people around you.
+    </p>
+
+    <div class="grp">During the Fight</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Which fighter do you think is winning?</div>
+      <div class="t">คิดว่านักมวยคนไหนกำลังชนะอยู่?</div>
+      <div class="r">khít wâa nák-muay khon nǎi gamlang chaná yùu?</div>
+      <div class="note"><span class="ks">Sora:</span> นักมวย (nák-muay) = Muay Thai fighter. กำลัง...อยู่ (gamlang...yùu) = currently doing something (ongoing action marker).</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">The red corner fighter is much better tonight.</div>
+      <div class="t">นักมวยมุมแดงคืนนี้เก่งกว่ามาก</div>
+      <div class="r">nák-muay mum daeng khuen níi gèng gwàa mâak</div>
+      <div class="note"><span class="ks">Sora:</span> มุมแดง (mum daeng) = red corner · มุมน้ำเงิน (mum nám-ngoen) = blue corner. The red corner is almost always the higher-ranked fighter.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Did you see that elbow? That was beautiful!</div>
+      <div class="t">เห็นศอกนั้นไหม? สวยมากเลย!</div>
+      <div class="r">hěn sàawk nán mǎi? sǔay mâak looei!</div>
+      <div class="note"><span class="ks">Sora:</span> สวย (sǔay) = beautiful — Thais use this for clean technique in a fight. You'll hear it from the crowd. ศอก (sàawk) = elbow.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">He's in the clinch a lot — trying to slow the fight down.</div>
+      <div class="t">เขาจับคลินช์เยอะมาก — พยายามชะลอจังหวะ</div>
+      <div class="r">khǎo jàp khlin yóe mâak — phayaayaam chá-law jang-wà</div>
+      <div class="note"><span class="ks">Sora:</span> ชะลอ (chá-law) = to slow down · จังหวะ (jang-wà) = rhythm/timing</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">The referee stopped the fight — it's a TKO.</div>
+      <div class="t">กรรมการหยุดการชก — TKO</div>
+      <div class="r">gam-má-gaan yùt gaan chók — TKO</div>
+      <div class="note"><span class="ks">Sora:</span> กรรมการ (gam-má-gaan) = referee/official. หยุด (yùt) = to stop.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">It went to a decision — who do you think won?</div>
+      <div class="t">ตัดสินจากแต้ม — คิดว่าใครชนะ?</div>
+      <div class="r">dtàt-sǐn jàak dtàem — khít wâa khrai chaná?</div>
+      <div class="note"><span class="ks">Sora:</span> ตัดสิน (dtàt-sǐn) = to decide/judge. แต้ม (dtàem) = points. ตัดสินจากแต้ม = points decision.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">07</div>
+      <div class="e">Knockout! / The fight is over!</div>
+      <div class="t">น็อค! / จบการชกแล้ว!</div>
+      <div class="r">nók! / jòp gaan chók láaew!</div>
+      <div class="note"><span class="ks">Sora:</span> น็อค (nók) = knockout (borrowed from English). จบ (jòp) = finished/over. จบแล้ว = it's over!</div>
+    </div>
+
+    <div class="grp">Ways a Fight Can End</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Result</th><th>ภาษาไทย</th><th>Romanized</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Knockout (KO)</td><td class="tt">น็อคเอาท์</td><td class="tr2">nók-ao</td></tr>
+          <tr><td class="te">TKO (referee stops)</td><td class="tt">กรรมการหยุดการชก</td><td class="tr2">gam-má-gaan yùt gaan chók</td></tr>
+          <tr><td class="te">Points decision</td><td class="tt">ตัดสินจากแต้ม</td><td class="tr2">dtàt-sǐn jàak dtàem</td></tr>
+          <tr><td class="te">Draw</td><td class="tt">เสมอ</td><td class="tr2">sà-mǒe</td></tr>
+          <tr><td class="te">Disqualification</td><td class="tt">ถูกตัดสิทธิ์</td><td class="tr2">thùuk dtàt-sìt</td></tr>
+          <tr><td class="te">Corner throws in the towel</td><td class="tt">คอร์เนอร์ยอมแพ้</td><td class="tr2">khawn-nôe yom-pháe</td></tr>
+          <tr><td class="te">Winner by unanimous decision</td><td class="tt">ชนะเป็นเอกฉันท์</td><td class="tr2">chaná bpen èek-kà-chǎn</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /watchingfight -->
+
+
+  <!-- CROWD PHRASES -->
+  <div id="crowd" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> What the crowd actually shouts at Lumpinee — these are the real words you'll hear flying around you all night. Learn them and join in!
+    </p>
+
+    <div class="grp">What the Crowd Shouts</div>
+
+    <div class="shout" onclick="this.classList.toggle('on')">
+      <div class="shout-bar"></div>
+      <div class="shout-content">
+        <div class="t">สู้! สู้!</div>
+        <div class="r">sûu! sûu!</div>
+        <div class="e">Fight! / Come on! Push! — The most common shout in the stadium</div>
+      </div>
+    </div>
+
+    <div class="shout" onclick="this.classList.toggle('on')">
+      <div class="shout-bar"></div>
+      <div class="shout-content">
+        <div class="t">สวย! สวยมาก!</div>
+        <div class="r">sǔay! sǔay mâak!</div>
+        <div class="e">Beautiful! So clean! — After a perfect technique</div>
+      </div>
+    </div>
+
+    <div class="shout" onclick="this.classList.toggle('on')">
+      <div class="shout-bar"></div>
+      <div class="shout-content">
+        <div class="t">เตะ! เตะ!</div>
+        <div class="r">té! té!</div>
+        <div class="e">Kick! Kick! — Crowd wants to see a kick</div>
+      </div>
+    </div>
+
+    <div class="shout" onclick="this.classList.toggle('on')">
+      <div class="shout-bar"></div>
+      <div class="shout-content">
+        <div class="t">หนีไม่ได้แล้ว!</div>
+        <div class="r">nǐi mâi dâai láaew!</div>
+        <div class="e">Can't run now! — When a fighter is cornered</div>
+      </div>
+    </div>
+
+    <div class="shout" onclick="this.classList.toggle('on')">
+      <div class="shout-bar"></div>
+      <div class="shout-content">
+        <div class="t">โอ้โห!</div>
+        <div class="r">ôo-hǒo!</div>
+        <div class="e">Wow! Oh my! — Crowd reaction to something wild</div>
+      </div>
+    </div>
+
+    <div class="shout" onclick="this.classList.toggle('on')">
+      <div class="shout-bar"></div>
+      <div class="shout-content">
+        <div class="t">จบแล้ว! จบแล้ว!</div>
+        <div class="r">jòp láaew! jòp láaew!</div>
+        <div class="e">It's over! It's over! — When a fighter is in trouble</div>
+      </div>
+    </div>
+
+    <div class="shout" onclick="this.classList.toggle('on')">
+      <div class="shout-bar"></div>
+      <div class="shout-content">
+        <div class="t">แน่จริงมาเลย!</div>
+        <div class="r">nâe-jing maa looei!</div>
+        <div class="e">Come on if you dare! / Show what you've got!</div>
+      </div>
+    </div>
+
+    <div class="shout" onclick="this.classList.toggle('on')">
+      <div class="shout-bar"></div>
+      <div class="shout-content">
+        <div class="t">ไปเลย! ไปเลย!</div>
+        <div class="r">bpai looei! bpai looei!</div>
+        <div class="e">Go! Go! — Urging a fighter to push forward and finish</div>
+      </div>
+    </div>
+
+    <div class="grp">Things to Say to People Around You</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Which fighter are you supporting?</div>
+      <div class="t">เชียร์นักมวยคนไหนอยู่?</div>
+      <div class="r">chîan nák-muay khon nǎi yùu?</div>
+      <div class="note"><span class="ks">Sora:</span> เชียร์ (chîan) = to cheer for / support (from English "cheer"). Very commonly used in Thai sports contexts.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">I think the blue corner will win.</div>
+      <div class="t">คิดว่ามุมน้ำเงินจะชนะ</div>
+      <div class="r">khít wâa mum nám-ngoen jà chaná</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">That was an incredible fight!</div>
+      <div class="t">การชกนั้นตื่นตาตื่นใจมากเลย!</div>
+      <div class="r">gaan chók nán tùen-taa-tùen-jai mâak looei!</div>
+      <div class="note"><span class="ks">Sora:</span> ตื่นตาตื่นใจ (tùen-taa-tùen-jai) = breathtaking/thrilling. Literally "wake the eyes, wake the heart." The perfect phrase after a great fight.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">That decision was unfair!</div>
+      <div class="t">การตัดสินนั้นไม่ยุติธรรมเลย!</div>
+      <div class="r">gaan dtàt-sǐn nán mâi yút-dtì-tham looei!</div>
+      <div class="note"><span class="ks">Sora:</span> ยุติธรรม (yút-dtì-tham) = fair/just. ไม่ยุติธรรม = unfair. You might need this one — Thai crowd decisions can be controversial!</div>
+    </div>
+
+  </div><!-- /crowd -->
+
+
+  <!-- SCORING -->
+  <div id="scoring" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> How to explain Muay Thai scoring in English — useful for students who don't understand why a fighter won.<br>
+      <strong>Sora learns:</strong> The Thai words used for scoring — so you can follow what's being discussed around you at the stadium.
+    </p>
+
+    <div class="grp">How Muay Thai is Scored</div>
+
+    <div class="infobox">
+      <div class="infobox-label">📊 The scoring system</div>
+      <p>Muay Thai is NOT scored like boxing — <b>clean, powerful strikes beat defensive work</b>. Judges reward <b>effective aggression</b>, damage caused, and ring control. A fighter who lands fewer but harder, cleaner techniques scores better than one who throws many weak strikes. <b>The last two rounds</b> matter most — Thais call this กินแต้มท้าย (gin dtàem tháai) = "eating points at the end."</p>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>What scores well</th><th>ภาษาไทย</th><th>Romanized</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Clean powerful kick</td><td class="tt">เตะหนักสะอาด</td><td class="tr2">té nàk sà-àat</td></tr>
+          <tr><td class="te">Knockdown</td><td class="tt">ล้มคู่ต่อสู้</td><td class="tr2">lóm khûu-tàw-sûu</td></tr>
+          <tr><td class="te">Dominant clinch / knees</td><td class="tt">ครองคลินช์ / เข่า</td><td class="tr2">khrong khlin / khào</td></tr>
+          <tr><td class="te">Ring control</td><td class="tt">ควบคุมพื้นที่</td><td class="tr2">khûap-khum phúen-thîi</td></tr>
+          <tr><td class="te">Aggression</td><td class="tt">ความก้าวร้าว</td><td class="tr2">khwaam gâao-ráao</td></tr>
+          <tr><td class="te">Clean teep to the body</td><td class="tt">ทีปตรงที่ตัว</td><td class="tr2">thiip trong thîi tua</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Talking About the Score</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">He's behind on points — he needs a finish.</div>
+      <div class="t">เขาแต้มตามอยู่ — ต้องน็อคให้ได้</div>
+      <div class="r">khǎo dtàem taam yùu — tâwng nók hâi dâai</div>
+      <div class="note"><span class="ks">Sora:</span> แต้มตาม (dtàem taam) = trailing on points. น็อคให้ได้ (nók hâi dâai) = must get the KO.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">In Thai scoring, the last two rounds count the most.</div>
+      <div class="t">ในการให้คะแนนแบบไทย สองยกสุดท้ายสำคัญที่สุด</div>
+      <div class="r">nai gaan hâi khá-naen bàaep thai — sǎawng yók sùt-tháai sǎm-khan thîi-sùt</div>
+      <div class="note"><span class="ke">Kru:</span> This surprises most foreigners — a fighter can dominate early rounds and still lose if they fade at the end. It's one of the most important things to understand about Muay Thai scoring.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">The judges scored it for the red corner.</div>
+      <div class="t">กรรมการให้คะแนนมุมแดงชนะ</div>
+      <div class="r">gam-má-gaan hâi khá-naen mum daeng chaná</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">He won every round — a clear points victory.</div>
+      <div class="t">เขาชนะทุกยก — ชนะแต้มอย่างชัดเจน</div>
+      <div class="r">khǎo chaná thúk yók — chaná dtàem yàang chát-jeen</div>
+      <div class="note"><span class="ks">Sora:</span> ชัดเจน (chát-jeen) = clear/obvious. ชนะแต้มอย่างชัดเจน = a clear points win.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">Both fighters were incredible — what a night!</div>
+      <div class="t">นักมวยทั้งสองสุดยอดมาก — คืนนี้เยี่ยมจริงๆ!</div>
+      <div class="r">nák-muay tháng-sǎawng sùt-yàwt mâak — khuen níi yîam jing-jing!</div>
+      <div class="note"><span class="ks">Sora:</span> ทั้งสอง (tháng-sǎawng) = both. สุดยอด (sùt-yàwt) = awesome/top of the peak. จริงๆ (jing-jing) = really/truly.</div>
+    </div>
+
+  </div><!-- /scoring -->
+
+</div><!-- /content -->
+
+<footer>
+  Click any card to highlight · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Vol. 8 · Lumpinee Stadium
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
