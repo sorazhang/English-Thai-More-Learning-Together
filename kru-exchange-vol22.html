@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Vol. 22</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Yeseva+One&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f0e8;
+    --bg2: #ebe4d4;
+    --bg3: #dfd6c2;
+    --ink: #1a1208;
+    --muted: #8a7a5a;
+    --border: rgba(26,18,8,0.1);
+    --eng: #1a5c9a;
+    --thai: #9a1a3a;
+    --roman: #1a7a4a;
+    --gold: #9a6a10;
+    --gold2: #c08820;
+    --accent: #c84a10;
+    --teal: #0a7a6a;
+    --sea: #1a6a9a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER — warm ocean / coconut feel */
+  header {
+    background: var(--teal);
+    padding: 2.8rem 2rem 2.2rem;
+    position: relative; overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -35deg,
+      transparent, transparent 30px,
+      rgba(255,255,255,0.03) 30px,
+      rgba(255,255,255,0.03) 31px
+    );
+    pointer-events: none;
+  }
+
+  header::after {
+    content: 'ใต้';
+    position: absolute; right: 1rem; bottom: -1.5rem;
+    font-family: 'Noto Sans Thai', sans-serif;
+    font-size: 10rem; font-weight: 700;
+    color: rgba(255,255,255,0.06);
+    line-height: 1; pointer-events: none;
+  }
+
+  .h-inner { max-width: 880px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .vol-tag {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.24em;
+    text-transform: uppercase; color: rgba(255,255,255,0.6);
+    margin-bottom: 0.6rem; display: block;
+  }
+
+  h1 {
+    font-family: 'Yeseva One', serif;
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    line-height: 1.05; color: #f8f4ec;
+    margin-bottom: 0.25rem;
+  }
+
+  h1 span { color: #ffe080; }
+
+  .sub { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-bottom: 1.3rem; letter-spacing: 0.04em; }
+
+  .legend { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 600; }
+  .lsq { width: 9px; height: 9px; border-radius: 50%; }
+  .le { background: #78b8f0; }
+  .lt { background: #f07898; }
+  .lr { background: #78e0b0; }
+  .leg span { color: rgba(255,255,255,0.5); }
+
+  /* TABS */
+  .tabs {
+    display: flex; overflow-x: auto;
+    background: var(--bg2); border-bottom: 2px solid var(--bg3);
+    padding: 0 1.2rem;
+    scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: 0.9rem 1.05rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.8rem; font-weight: 700; color: var(--muted);
+    cursor: pointer; white-space: nowrap;
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+    transition: all 0.15s;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* CONTENT */
+  .content { max-width: 880px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro {
+    font-size: 0.83rem; line-height: 1.72; color: var(--muted);
+    padding: 0.9rem 1.1rem; margin-bottom: 1.8rem;
+    border-left: 3px solid var(--teal);
+    background: rgba(10,122,106,0.07);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .intro strong { color: var(--ink); }
+
+  .grp {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted);
+    margin: 2.2rem 0 0.9rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  /* DISH CARDS */
+  .dish {
+    background: white; border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
+    margin-bottom: 0.8rem; cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .dish:hover {
+    border-color: rgba(200,74,16,0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+
+  .dish.on { border-color: var(--accent); background: #fffdf8; }
+
+  .dish-top {
+    display: grid; grid-template-columns: 64px 1fr;
+    align-items: stretch;
+  }
+
+  .dish-emoji {
+    background: var(--bg2); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 2rem; padding: 0.8rem;
+    border-right: 1px solid var(--border);
+  }
+
+  .dish-main { padding: 0.85rem 1.1rem; }
+
+  .dish-name {
+    font-family: 'Yeseva One', serif;
+    font-size: 1.05rem; color: var(--accent);
+    margin-bottom: 0.15rem;
+  }
+
+  .dish-thai {
+    font-family: 'Noto Sans Thai', sans-serif;
+    color: var(--thai); font-size: 1rem; font-weight: 600;
+    margin-bottom: 0.1rem; line-height: 1.6;
+  }
+
+  .dish-roman { color: var(--roman); font-size: 0.82rem; font-style: italic; }
+
+  .dish-body {
+    padding: 0.85rem 1.1rem; border-top: 1px dashed var(--border);
+    font-size: 0.8rem; color: var(--muted); line-height: 1.68;
+  }
+
+  .dish-body b { color: var(--ink); }
+  .dish-body .say { color: var(--eng); font-weight: 600; }
+  .dish-body .hot { color: #c03010; font-weight: 700; }
+
+  .spice {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-top: 0.5rem; font-size: 0.75rem; color: var(--muted);
+  }
+
+  .spice-dots { display: flex; gap: 3px; }
+  .spice-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+  .spice-dot.hot { background: #d03010; }
+  .spice-dot.mid { background: var(--gold2); }
+
+  /* SIMPLE CARDS */
+  .card {
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.1rem 1.3rem;
+    margin-bottom: 0.65rem; cursor: pointer;
+    transition: all 0.18s; position: relative;
+  }
+
+  .card:hover { border-color: rgba(200,74,16,0.3); box-shadow: 0 3px 12px rgba(0,0,0,0.07); transform: translateY(-1px); }
+  .card.on { border-color: var(--accent); background: #fffdf8; }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-size: 0.65rem; color: rgba(26,18,8,0.2); font-weight: 700; }
+
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 600; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.28rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+
+  .note {
+    margin-top: 0.62rem; padding-top: 0.58rem;
+    border-top: 1px dashed var(--border);
+    font-size: 0.76rem; color: var(--muted); line-height: 1.6;
+  }
+
+  .note b { color: var(--gold2); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  /* TABLE */
+  .tw { overflow-x: auto; margin-bottom: 0.8rem; }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; font-size: 0.85rem;
+  }
+
+  thead tr { background: var(--teal); }
+  thead th {
+    padding: 0.6rem 1rem; text-align: left;
+    font-size: 0.67rem; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; color: rgba(248,244,236,0.85);
+  }
+
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 600; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr2 { color: var(--roman); font-style: italic; }
+  .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  /* INFO BOX */
+  .ibox {
+    background: rgba(10,122,106,0.06); border: 1px solid rgba(10,122,106,0.2);
+    border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.8rem;
+    border-left: 3px solid var(--teal);
+  }
+
+  .ibox-label {
+    font-size: 0.67rem; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 0.5rem;
+  }
+
+  .ibox p { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+  .ibox p b { color: var(--ink); }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  @media (max-width: 520px) {
+    .dish-top { grid-template-columns: 54px 1fr; }
+    .dish-emoji { font-size: 1.5rem; }
+    header::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-inner">
+    <span class="vol-tag">🥊 Language Exchange · Vol. 22</span>
+    <h1>English <span>↔</span> Thai<br>More Learning Together</h1>
+    <p class="sub">Southern Thai Food · Phuket · Hat Yai · Coastal Flavours</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span>English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span>ภาษาไทย Thai Script</span></div>
+      <div class="leg"><div class="lsq lr"></div><span>Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('southern')">🌶️ Southern Flavours</button>
+  <button class="tab" onclick="sw('curries')">🍛 Curries</button>
+  <button class="tab" onclick="sw('seafood')">🦐 Seafood</button>
+  <button class="tab" onclick="sw('muslim')">🫓 Muslim South</button>
+  <button class="tab" onclick="sw('southvocab')">📖 South Vocab</button>
+</nav>
+
+<div class="content">
+
+  <!-- SOUTHERN FLAVOURS -->
+  <div id="southern" class="section active">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> Southern Thai food is a completely different world from Bangkok or the north. It's <b>the spiciest food in Thailand</b> — more coconut, more turmeric, more fermented shrimp paste, and more chilli than anywhere else. The south also has a large Muslim population whose food is distinct and extraordinary.
+    </p>
+
+    <div class="ibox">
+      <div class="ibox-label">🌶️ What makes southern Thai food different</div>
+      <p>Southern food uses <b>more turmeric</b> (ขมิ้น — khà-mîn) giving dishes a vivid yellow colour. <b>Kapi (กะปิ)</b> fermented shrimp paste is used heavily — more pungent and salty than in the central region. The heat level is genuinely extreme — even Thais from Bangkok find southern food very spicy. <b>Fresh seafood</b> is central — the south has coastline on both sides: the Gulf of Thailand and the Andaman Sea.</p>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🟡</div>
+        <div class="dish-main">
+          <div class="dish-name">Khua Kling</div>
+          <div class="dish-thai">คั่วกลิ้ง</div>
+          <div class="dish-roman">khûa glîng</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>The defining dish of the south.</b> Dry-fried minced meat — usually pork or beef — with a ferociously spiced southern curry paste: dried chilli, lemongrass, galangal, turmeric, and kaffir lime. No coconut milk — it's completely dry, intensely aromatic, and deeply spicy. Eaten with rice and raw vegetables.<br><br>
+        <div class="spice"><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><span class="hot">Extremely spicy — Thailand's hottest staple dish</span></div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍃</div>
+        <div class="dish-main">
+          <div class="dish-name">Gaeng Som</div>
+          <div class="dish-thai">แกงส้ม</div>
+          <div class="dish-roman">gaeng sôm</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Sour orange curry — the south's most iconic soup.</b> A fiery, sour, thin broth made with a paste of dried chilli, shrimp paste, and turmeric — no coconut milk. Usually with fish or prawns and vegetables. The tamarind gives it a sharp, bright sourness. Completely different from Bangkok's milder sweet gaeng som.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot"></div></div> <span class="hot">Very spicy</span> · Sour and intense</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🥗</div>
+        <div class="dish-main">
+          <div class="dish-name">Yam Pak Bung</div>
+          <div class="dish-thai">ยำผักบุ้ง</div>
+          <div class="dish-roman">yam phàk-bûng</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Morning glory spicy salad.</b> Blanched water morning glory (ผักบุ้ง) tossed in a dressing of lime juice, fish sauce, chilli, garlic, and shrimp paste — topped with crispy shallots and dried shrimp. The south does salads differently — spicier and more pungent than the central Thai version.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> <span class="hot">Spicy</span> · Sour and punchy</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍤</div>
+        <div class="dish-main">
+          <div class="dish-name">Pak Tai</div>
+          <div class="dish-thai">หอยทอด / ปาท่องโก๋</div>
+          <div class="dish-roman">hǒy-thâwt / bpaa-thâwng-goo</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Southern breakfast culture.</b> The south has its own breakfast world. หอยทอด (hǒy-thâwt) = oyster omelette, popular in Phuket — egg, oysters, bean sprouts, and starchy batter fried together. ปาท่องโก๋ (bpaa-thâwng-goo) = deep-fried dough sticks eaten with coffee or condensed milk — Chinese-Thai influence that dominates southern mornings.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · The gentle morning face of the south</div>
+      </div>
+    </div>
+
+  </div><!-- /southern -->
+
+
+  <!-- CURRIES -->
+  <div id="curries" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> The south is curry country. Massaman is the most internationally famous — but the local curries you'll find in Hat Yai, Trang, and Phuket are extraordinary and deeply different from anything in Bangkok.
+    </p>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍛</div>
+        <div class="dish-main">
+          <div class="dish-name">Massaman</div>
+          <div class="dish-thai">มัสมั่น</div>
+          <div class="dish-roman">mát-sà-mân</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>The world's most beloved Thai curry.</b> A rich, slow-cooked curry with Muslim-Persian roots — coconut milk, potato, onion, peanuts, cardamom, cinnamon, and star anise. Usually with beef (เนื้อ — núea) or chicken. Sweet, nutty, mildly spiced. <b>CNN once called it the world's most delicious food.</b> Originates from Pattani in Thailand's deep south.<br><br>
+        How to order: <span class="say">"Mát-sà-mân núea neung thi khâ"</span> = One beef Massaman please.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot mid"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Mild · Sweet, warm and deeply fragrant</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🟤</div>
+        <div class="dish-main">
+          <div class="dish-name">Gaeng Tai Pla</div>
+          <div class="dish-thai">แกงไตปลา</div>
+          <div class="dish-roman">gaeng dtai bplaa</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Fermented fish kidney curry — not for the timid.</b> One of the most intense curries in all of Thai cooking. Made with ไตปลา (dtai bplaa) — salted, fermented fish innards — giving the broth a funky, deeply savoury depth unlike anything else. Loaded with bamboo shoots, vegetables, and chilli. An acquired taste that southern Thais are fiercely proud of.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div></div> <span class="hot">Ferociously spicy + fermented</span> · Not for beginners</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🥥</div>
+        <div class="dish-main">
+          <div class="dish-name">Yellow Curry (Southern)</div>
+          <div class="dish-thai">แกงเหลือง</div>
+          <div class="dish-roman">gaeng lǔeang</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Southern yellow curry — turmeric-forward and sour.</b> The southern yellow curry is completely different from the central Thai version — no coconut milk, thin and sour broth from tamarind or fresh turmeric. Usually with fish or crab. The vivid yellow colour comes from fresh turmeric root, not powder. Light, sharp, and addictive.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> <span class="hot">Spicy</span> · Sour and earthy yellow</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍗</div>
+        <div class="dish-main">
+          <div class="dish-name">Gai Yang Phuket</div>
+          <div class="dish-thai">ไก่ย่างภูเก็ต</div>
+          <div class="dish-roman">gài-yâang phuu-gèt</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Phuket-style grilled chicken.</b> Whole chicken marinated in turmeric, lemongrass, coriander root, and garlic then grilled over charcoal — golden yellow, smoky, juicy inside. A Phuket speciality that's been feeding locals and visitors for generations. Served with sticky rice and a spicy tamarind dipping sauce.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot mid"></div><div class="spice-dot mid"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Medium · Aromatic and golden</div>
+      </div>
+    </div>
+
+  </div><!-- /curries -->
+
+
+  <!-- SEAFOOD -->
+  <div id="seafood" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> The south has two coastlines — the Gulf of Thailand and the Andaman Sea. Fresh seafood is the heart of southern food culture. Eating at a beachside seafood restaurant, choosing your fish from a tank, and eating it under the stars is one of life's great experiences.
+    </p>
+
+    <div class="grp">At a Seafood Restaurant</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Can I choose my own fish from the tank?</div>
+      <div class="t">ขอเลือกปลาเองจากตู้ได้ไหมคะ?</div>
+      <div class="r">khǎaw lûeak bplaa eeng jàak dtûu dâai mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> เลือก (lûeak) = to choose/select. ตู้ (dtûu) = tank/cabinet. At good seafood restaurants, you pick your live fish, crab, or prawns directly from the tank and they cook it fresh.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">How much is this per kilogram?</div>
+      <div class="t">อันนี้กิโลละเท่าไหร่คะ?</div>
+      <div class="r">an níi gi-loo lá thâo-rài khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> กิโล (gi-loo) = kilogram. ละ (lá) = per. Live seafood is priced by weight — always ask before they cook it!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Can you cook it steamed with lime and chilli?</div>
+      <div class="t">ขอทำแบบนึ่งมะนาวพริกได้ไหมคะ?</div>
+      <div class="r">khǎaw tham bàaep nûeng má-naao phrík dâai mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> นึ่ง (nûeng) = steamed. This is the classic way to eat whole fish in Thailand — steamed with lime, chilli, garlic, and fish sauce. Light, bright, and lets the fresh fish shine.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Stir-fried with salted egg, please.</div>
+      <div class="t">ผัดไข่เค็มนะคะ</div>
+      <div class="r">phàt khài khem ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> ไข่เค็ม (khài khem) = salted egg. One of the south's favourite preparations — prawns, crab, or squid stir-fried with salted egg yolk and butter. Rich, salty, addictive.</div>
+    </div>
+
+    <div class="grp">Famous Seafood Dishes</div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🦀</div>
+        <div class="dish-main">
+          <div class="dish-name">Poo Pad Pong Karee</div>
+          <div class="dish-thai">ปูผัดผงกะหรี่</div>
+          <div class="dish-roman">bpuu phàt phǒng gà-rîi</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Yellow curry powder crab.</b> Whole crab stir-fried in a creamy, aromatic sauce of yellow curry powder, egg, evaporated milk, spring onion, and celery. One of Thailand's great seafood dishes — messy to eat, impossible to stop eating. Best with a cold Thai beer and no cutlery.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot mid"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Mild-medium · Rich and eggy</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🦑</div>
+        <div class="dish-main">
+          <div class="dish-name">Pla Muek Yang</div>
+          <div class="dish-thai">ปลาหมึกย่าง</div>
+          <div class="dish-roman">bplaa-mùek yâang</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Grilled squid.</b> Whole squid grilled over charcoal, basted with a seasoned sauce, and served with a sweet-spicy dipping sauce. Found at every coastal market and beach stall. In the south they do it best — caught that morning, on the grill by evening.<br><br>
+        How to order: <span class="say">"Bplaa-mùek yâang neung dtua khâ"</span> = One grilled squid please.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot mid"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Mild · The sauce adds the kick</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍤</div>
+        <div class="dish-main">
+          <div class="dish-name">Tom Yum Talay</div>
+          <div class="dish-thai">ต้มยำทะเล</div>
+          <div class="dish-roman">tôm-yam thá-lee</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Seafood Tom Yum — best in the south.</b> The famous hot-and-sour Thai soup at its finest — prawn, squid, mussel, and fish in a broth of lemongrass, galangal, kaffir lime, lime juice, fish sauce, and chilli. When made with just-caught seafood on the Andaman coast, this is one of the most electrifying soups on earth.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> <span class="hot">Spicy</span> · Sour, fragrant, alive</div>
+      </div>
+    </div>
+
+  </div><!-- /seafood -->
+
+
+  <!-- MUSLIM SOUTH -->
+  <div id="muslim" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> The deep south of Thailand (Pattani, Yala, Narathiwat, and parts of Songkhla) is majority Muslim Malay. The food culture is distinct — no pork, strong spices, roti, biryani, and dishes with Middle Eastern and Malay influences. Hat Yai is the best city to explore it.
+    </p>
+
+    <div class="ibox">
+      <div class="ibox-label">🕌 Muslim Thai food — what to know</div>
+      <p>Look for the <b>ฮาลาล (haa-laan)</b> — Halal sign — green crescent moon logo outside restaurants. No pork, no alcohol. Muslim Thai food uses <b>beef, lamb, chicken, and seafood</b>. The flavours are heavily spiced — cumin, cardamom, coriander seed — more similar to South Asian cooking than central Thai. <b>Hat Yai</b> is the food capital of the Muslim south and one of Thailand's most underrated food cities.</p>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🫓</div>
+        <div class="dish-main">
+          <div class="dish-name">Roti</div>
+          <div class="dish-thai">โรตี</div>
+          <div class="dish-roman">roo-dtii</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>The most loved street snack of the Muslim south.</b> Paper-thin flaky flatbread — the dough stretched on a griddle until translucent, then folded and fried in ghee or butter. Eaten sweet with condensed milk and sugar (โรตีหวาน — roo-dtii wǎan), with banana (โรตีกล้วย), or savoury alongside Massaman curry. Absolutely extraordinary.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · Flaky, buttery heaven</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍖</div>
+        <div class="dish-main">
+          <div class="dish-name">Khao Mok Gai</div>
+          <div class="dish-thai">ข้าวหมกไก่</div>
+          <div class="dish-roman">khâao mòk gài</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Thai biryani — fragrant chicken on spiced rice.</b> Chicken braised with turmeric, coriander, cumin, cinnamon, and cardamom, then layered with long-grain rice and cooked together in a pot. Served with a clear cucumber relish and fried shallots. The Thai Muslim version of biryani — lighter than Indian biryani but deeply aromatic.<br><br>
+        How to order: <span class="say">"Khâao mòk gài neung thi khâ"</span><br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot mid"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Mild · Warm spiced and fragrant</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🥛</div>
+        <div class="dish-main">
+          <div class="dish-name">Teh Tarik</div>
+          <div class="dish-thai">ชาดึง</div>
+          <div class="dish-roman">chaa dueng</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Pulled milk tea — the drink of the Muslim south.</b> Strong black tea poured repeatedly between two containers from height — "pulling" it to create a frothy, aerated, creamy drink with sweetened condensed milk. Originally from Malaysia. Served hot or iced. In Hat Yai every Muslim kopitiam (coffee shop) serves this.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · Sweet, milky, frothy</div>
+      </div>
+    </div>
+
+    <div class="grp">Useful Phrases in the Muslim South</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Is this Halal?</div>
+      <div class="t">อาหารนี้ฮาลาลไหมคะ?</div>
+      <div class="r">aa-hǎan níi haa-laan mǎi khâ?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">I don't eat pork.</div>
+      <div class="t">ฉันไม่กินหมูค่ะ</div>
+      <div class="r">chǎn mâi gin mǔu khâ</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">One roti with condensed milk please.</div>
+      <div class="t">โรตีนมข้นหนึ่งที่ค่ะ</div>
+      <div class="r">roo-dtii nom-khôn nùeng thîi khâ</div>
+      <div class="note"><span class="ks">Sora:</span> นมข้น (nom-khôn) = condensed milk. นม (nom) = milk · ข้น (khôn) = thick/condensed.</div>
+    </div>
+
+  </div><!-- /muslim -->
+
+
+  <!-- SOUTH VOCAB -->
+  <div id="southvocab" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> The vocabulary of the south — key ingredients, flavours, and a taste of the southern Thai dialect (ภาษาใต้ — phaa-sǎa dtâi) that sounds so different from Bangkok Thai!
+    </p>
+
+    <div class="grp">Key Southern Ingredients</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Role in southern food</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Fresh turmeric</td><td class="tt">ขมิ้น</td><td class="tr2">khà-mîn</td><td class="tn2">Gives everything its yellow glow</td></tr>
+          <tr><td class="te">Fermented shrimp paste</td><td class="tt">กะปิ</td><td class="tr2">gà-bpì</td><td class="tn2">Base of almost every southern curry paste</td></tr>
+          <tr><td class="te">Sator beans</td><td class="tt">สะตอ</td><td class="tr2">sà-dtaw</td><td class="tn2">Bitter flat green beans — uniquely southern</td></tr>
+          <tr><td class="te">Bird's eye chilli</td><td class="tt">พริกขี้หนู</td><td class="tr2">phrík-khîi-nǔu</td><td class="tn2">The tiny chilli that destroys you. Used constantly</td></tr>
+          <tr><td class="te">Tamarind</td><td class="tt">มะขาม</td><td class="tr2">má-khǎam</td><td class="tn2">The souring agent in gaeng som and many others</td></tr>
+          <tr><td class="te">Dried shrimp</td><td class="tt">กุ้งแห้ง</td><td class="tr2">gûng hâeng</td><td class="tn2">Salty depth in salads and curries</td></tr>
+          <tr><td class="te">Cumin</td><td class="tt">ยี่หร่า</td><td class="tr2">yîi-raa</td><td class="tn2">Key in Massaman and Muslim south dishes</td></tr>
+          <tr><td class="te">Cardamom</td><td class="tt">กระวาน</td><td class="tr2">grà-waan</td><td class="tn2">Khao mok, Massaman — warmly perfumed</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">North vs Central vs South — Quick Comparison</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Feature</th><th>North (เหนือ)</th><th>Central / Bangkok</th><th>South (ใต้)</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Spice level</td><td class="tn2">Medium</td><td class="tn2">Medium</td><td class="tn2" style="color:#c03010;font-weight:700">Very hot 🌶️🌶️🌶️</td></tr>
+          <tr><td class="te">Staple grain</td><td class="tt">ข้าวเหนียว</td><td class="tt">ข้าวสวย</td><td class="tt">ข้าวสวย</td></tr>
+          <tr><td class="te">Key flavour</td><td class="tn2">Herbal, smoky</td><td class="tn2">Sweet, balanced</td><td class="tn2">Sour, pungent, fiery</td></tr>
+          <tr><td class="te">Signature ingredient</td><td class="tn2">Lemongrass + coconut</td><td class="tn2">Fish sauce + palm sugar</td><td class="tn2">Turmeric + shrimp paste</td></tr>
+          <tr><td class="te">Influence</td><td class="tn2">Burmese + Yunnan</td><td class="tn2">Chinese + Central Thai</td><td class="tn2">Malay + Indian</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">A Taste of Southern Thai Dialect</div>
+
+    <div class="ibox">
+      <div class="ibox-label">🗣️ ภาษาใต้ — Southern dialect</div>
+      <p>Southern Thai (ภาษาใต้ — phaa-sǎa dtâi) is famously fast, clipped, and hard even for central Thais to follow. You won't be expected to speak it — but knowing a few words will delight any southerner you meet!</p>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Standard Thai</th><th>Southern dialect</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="te">อร่อย (à-ràwy)</td><td class="tt">แซบ (sâaep)</td><td class="tn2">Delicious — also used in Isan. Say this in the south!</td></tr>
+          <tr><td class="te">ขอบคุณ (khàwp-khun)</td><td class="tt">ขอบใจ (khàwp-jai)</td><td class="tn2">Thank you — warm and local</td></tr>
+          <tr><td class="te">ไม่เป็นไร (mâi bpen rai)</td><td class="tt">ไม่เป็นหยัง (mâi bpen yǎng)</td><td class="tn2">No worries</td></tr>
+          <tr><td class="te">กินข้าว (gin khâao)</td><td class="tt">กินเข้า (gin khâo)</td><td class="tn2">To eat — slightly different pronunciation</td></tr>
+          <tr><td class="te">เผ็ด (phèt)</td><td class="tt">เผ็ดแซบ (phèt sâaep)</td><td class="tn2">Spicy-delicious — the highest southern compliment</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Spicy and delicious! (Southern compliment)</div>
+      <div class="t">เผ็ดแซบมากเลย!</div>
+      <div class="r">phèt sâaep mâak looei!</div>
+      <div class="note"><span class="ks">Sora:</span> แซบ (sâaep) = delicious in the southern and northeastern dialects. If you say this to a southerner after eating their food — especially something fiery — they will absolutely love you for it.</div>
+    </div>
+
+  </div><!-- /southvocab -->
+
+</div><!-- /content -->
+
+<footer>
+  Click any dish or card to expand · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Vol. 22 · Southern Thailand 🌶️
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>

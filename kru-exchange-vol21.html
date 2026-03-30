@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Vol. 21</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Righteous&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a12;
+    --bg2: #121220;
+    --bg3: #1a1a2e;
+    --cream: #f8f0e0;
+    --muted: #7a7090;
+    --border: rgba(180,140,255,0.13);
+    --eng: #70b8ff;
+    --thai: #ff7090;
+    --roman: #70e0b0;
+    --gold: #ffcc40;
+    --gold2: #ffe060;
+    --accent: #ff6030;
+    --purple: #a070ff;
+    --neon: #ff6030;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER — night market neon feel */
+  header {
+    background: var(--bg2);
+    padding: 2.8rem 2rem 2.2rem;
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* neon glow lines */
+  header::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--purple), var(--neon));
+  }
+
+  .neon-bg {
+    position: absolute; right: 1rem; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Righteous', sans-serif;
+    font-size: 8rem; letter-spacing: -0.02em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,96,48,0.12);
+    pointer-events: none; line-height: 1;
+    white-space: nowrap;
+  }
+
+  .h-inner { max-width: 880px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .vol-tag {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 0.6rem; display: block;
+  }
+
+  h1 {
+    font-family: 'Righteous', sans-serif;
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    line-height: 1.05; color: var(--cream);
+    margin-bottom: 0.25rem; letter-spacing: 0.01em;
+  }
+
+  h1 span { color: var(--gold); }
+
+  .sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.3rem; letter-spacing: 0.04em; }
+
+  .legend { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 600; }
+  .lsq { width: 9px; height: 9px; border-radius: 50%; }
+  .le { background: var(--eng); }
+  .lt { background: var(--thai); }
+  .lr { background: var(--roman); }
+  .leg span { color: rgba(248,240,224,0.5); }
+
+  /* TABS */
+  .tabs {
+    display: flex; overflow-x: auto;
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+    padding: 0 1.2rem;
+    scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: 0.9rem 1.05rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.8rem; font-weight: 700; color: var(--muted);
+    cursor: pointer; white-space: nowrap;
+    border-bottom: 3px solid transparent; margin-bottom: -1px;
+    transition: all 0.15s;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+
+  .tab:hover { color: var(--cream); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* CONTENT */
+  .content { max-width: 880px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro {
+    font-size: 0.83rem; line-height: 1.72; color: var(--muted);
+    padding: 0.9rem 1.1rem; margin-bottom: 1.8rem;
+    border-left: 3px solid var(--gold);
+    background: rgba(255,204,64,0.06);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .intro strong { color: var(--cream); }
+
+  .grp {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted);
+    margin: 2.2rem 0 0.9rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  /* DISH CARDS */
+  .dish {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
+    margin-bottom: 0.8rem; cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .dish:hover {
+    border-color: rgba(255,96,48,0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.6);
+  }
+
+  .dish.on { border-color: var(--accent); }
+
+  .dish-top {
+    display: grid; grid-template-columns: 64px 1fr;
+    align-items: stretch;
+  }
+
+  .dish-emoji {
+    background: var(--bg3); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 2rem; padding: 0.8rem;
+    border-right: 1px solid var(--border);
+  }
+
+  .dish-main { padding: 0.85rem 1.1rem; }
+
+  .dish-name {
+    font-family: 'Righteous', sans-serif;
+    font-size: 1.05rem; color: var(--gold2);
+    margin-bottom: 0.15rem; letter-spacing: 0.02em;
+  }
+
+  .dish-thai {
+    font-family: 'Noto Sans Thai', sans-serif;
+    color: var(--thai); font-size: 1rem; font-weight: 600;
+    margin-bottom: 0.1rem; line-height: 1.6;
+  }
+
+  .dish-roman { color: var(--roman); font-size: 0.82rem; font-style: italic; }
+
+  .dish-body {
+    padding: 0.85rem 1.1rem; border-top: 1px solid var(--border);
+    font-size: 0.8rem; color: var(--muted); line-height: 1.68;
+  }
+
+  .dish-body b { color: var(--cream); }
+  .dish-body .say { color: var(--eng); font-weight: 600; }
+  .dish-body .hot { color: #ff4020; font-weight: 700; }
+
+  .spice {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-top: 0.5rem; font-size: 0.75rem; color: var(--muted);
+  }
+
+  .spice-dots { display: flex; gap: 3px; }
+  .spice-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+  .spice-dot.hot { background: #e04020; }
+  .spice-dot.mid { background: var(--gold); }
+
+  /* SIMPLE CARDS */
+  .card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.1rem 1.3rem;
+    margin-bottom: 0.65rem; cursor: pointer;
+    transition: all 0.18s; position: relative;
+  }
+
+  .card:hover { border-color: rgba(255,96,48,0.35); background: var(--bg3); transform: translateY(-1px); }
+  .card.on { border-color: var(--accent); background: var(--bg3); }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-size: 0.65rem; color: var(--muted); font-weight: 700; }
+
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 600; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.28rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+
+  .note {
+    margin-top: 0.62rem; padding-top: 0.58rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.76rem; color: var(--muted); line-height: 1.6;
+  }
+
+  .note b { color: var(--gold); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  /* TABLE */
+  .tw { overflow-x: auto; margin-bottom: 0.8rem; }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; font-size: 0.85rem;
+  }
+
+  thead tr { background: rgba(255,96,48,0.2); }
+  thead th {
+    padding: 0.6rem 1rem; text-align: left;
+    font-size: 0.67rem; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
+  }
+
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 600; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr2 { color: var(--roman); font-style: italic; }
+  .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  /* INFO BOX */
+  .ibox {
+    background: var(--bg2); border: 1px solid rgba(255,204,64,0.2);
+    border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.8rem;
+    border-left: 3px solid var(--gold);
+  }
+
+  .ibox-label {
+    font-size: 0.67rem; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem;
+  }
+
+  .ibox p { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+  .ibox p b { color: var(--cream); }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  @media (max-width: 520px) {
+    .dish-top { grid-template-columns: 54px 1fr; }
+    .dish-emoji { font-size: 1.5rem; }
+    .neon-bg { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="neon-bg">กรุงเทพ</div>
+  <div class="h-inner">
+    <span class="vol-tag">🥊 Language Exchange · Vol. 21</span>
+    <h1>English <span>↔</span> Thai<br>More Learning Together</h1>
+    <p class="sub">Bangkok Street Food · Night Markets · Roadside Classics</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span>English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span>ภาษาไทย Thai Script</span></div>
+      <div class="leg"><div class="lsq lr"></div><span>Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('noodles')">🍜 Noodles</button>
+  <button class="tab" onclick="sw('rice')">🍚 Rice Dishes</button>
+  <button class="tab" onclick="sw('grilled')">🔥 Grilled & Fried</button>
+  <button class="tab" onclick="sw('snacks')">🧆 Snacks & Sweets</button>
+  <button class="tab" onclick="sw('drinks')">🧃 Drinks</button>
+  <button class="tab" onclick="sw('streetphrases')">🗣️ Street Phrases</button>
+</nav>
+
+<div class="content">
+
+  <!-- NOODLES -->
+  <div id="noodles" class="section active">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> Bangkok is a noodle city. Every corner has a cart or shophouse serving one variation or another. The key is knowing what to order — and how to customise it. Thais always adjust their own bowl at the table with the four condiments: sugar, fish sauce, chilli flakes, and vinegar.
+    </p>
+
+    <div class="ibox">
+      <div class="ibox-label">🍜 The four-condiment table set</div>
+      <p>Every noodle stall has four little jars — <b>น้ำตาล (nám-dtaan)</b> sugar, <b>น้ำปลา (nám-bplaa)</b> fish sauce, <b>พริกแห้ง (phrík hâeng)</b> dried chilli flakes, and <b>น้ำส้ม (nám-sôm)</b> vinegar with chillies. Thais always season their own bowl — don't be shy, try it!</p>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍜</div>
+        <div class="dish-main">
+          <div class="dish-name">Pad Thai</div>
+          <div class="dish-thai">ผัดไทย</div>
+          <div class="dish-roman">phàt-thai</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>The most famous Thai dish in the world.</b> Stir-fried rice noodles with egg, bean sprouts, spring onions, dried shrimp, and peanuts — in a tamarind-based sauce. Comes with shrimp (กุ้ง — gûng) or chicken (ไก่ — gài). Squeeze lime over it, add chilli flakes to taste.<br><br>
+        How to order: <span class="say">"Phàt-thai gûng neung thi khâ"</span> = One prawn Pad Thai please.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot mid"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Mild base · Add chilli yourself</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🥣</div>
+        <div class="dish-main">
+          <div class="dish-name">Boat Noodles</div>
+          <div class="dish-thai">ก๋วยเตี๋ยวเรือ</div>
+          <div class="dish-roman">gǔay-dtǐao ruea</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Bangkok's most intense noodle soup.</b> Small bowls of rich, dark broth with pork or beef, offal, blood, and herbs — originally sold from boats on Bangkok's canals. Each bowl is tiny — you order 5 to 10 at a time. The broth is deeply savoury and slightly spiced with five-spice and cinnamon.<br><br>
+        How to order: <span class="say">"Kho gǔay-dtǐao ruea mǔu hâa thi khâ"</span> = Five bowls of pork boat noodles.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot mid"></div><div class="spice-dot mid"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Medium · Rich and complex</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍲</div>
+        <div class="dish-main">
+          <div class="dish-name">Tom Yum Noodles</div>
+          <div class="dish-thai">ก๋วยเตี๋ยวต้มยำ</div>
+          <div class="dish-roman">gǔay-dtǐao tôm-yam</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Noodles in spicy Tom Yum broth.</b> The famous hot-and-sour soup served as a noodle bowl — lemongrass, galangal, lime leaf, chilli, and lime juice. Can be with seafood (ทะเล — thá-lee) or pork. The dry version (แห้ง — hâeng) has no soup — just the noodles tossed in the paste. Amazing.<br><br>
+        How to order: <span class="say">"Gǔay-dtǐao tôm-yam gûng hâeng neung thi khâ"</span> = One dry prawn tom yum noodles.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> <span class="hot">Spicy</span> · Sour and fragrant</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍝</div>
+        <div class="dish-main">
+          <div class="dish-name">Bamee</div>
+          <div class="dish-thai">บะหมี่</div>
+          <div class="dish-roman">bà-mìi</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Egg noodles — Bangkok's Chinese-Thai classic.</b> Yellow wheat-egg noodles in a light, clear broth with wontons, char siu pork, or seafood. Sold from carts and tiny shophouses across the city. A bowl costs 50–80 baht and is one of Bangkok's best cheap meals.<br><br>
+        How to order: <span class="say">"Bà-mìi nám gûng neung thi khâ"</span> = One prawn egg noodle soup.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · Light and comforting</div>
+      </div>
+    </div>
+
+    <div class="grp">Noodle Types — Know Your Noodles</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Noodle</th><th>ภาษาไทย</th><th>Romanized</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Thin rice noodles</td><td class="tt">เส้นเล็ก</td><td class="tr2">sên lék</td><td class="tn2">Most common — wiggly and slippery</td></tr>
+          <tr><td class="te">Wide rice noodles</td><td class="tt">เส้นใหญ่</td><td class="tr2">sên yài</td><td class="tn2">Flat and wide — great for stir-fry</td></tr>
+          <tr><td class="te">Egg noodles</td><td class="tt">บะหมี่</td><td class="tr2">bà-mìi</td><td class="tn2">Yellow wheat noodles</td></tr>
+          <tr><td class="te">Glass noodles</td><td class="tt">วุ้นเส้น</td><td class="tr2">wún-sên</td><td class="tn2">Clear, chewy, slippery</td></tr>
+          <tr><td class="te">Rice vermicelli</td><td class="tt">เส้นหมี่</td><td class="tr2">sên mìi</td><td class="tn2">Very thin, light</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /noodles -->
+
+
+  <!-- RICE DISHES -->
+  <div id="rice" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> Bangkok's rice dishes are fast, cheap, and everywhere. These are the everyday meals that millions of Bangkokians eat for lunch — often at a cart on the pavement with plastic stools and no menu. Just point and eat.
+    </p>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍳</div>
+        <div class="dish-main">
+          <div class="dish-name">Khao Pad</div>
+          <div class="dish-thai">ข้าวผัด</div>
+          <div class="dish-roman">khâao phàt</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Thai fried rice.</b> Jasmine rice wok-fried with egg, garlic, and your choice of protein — served with cucumber slices, spring onion, and lime. Simple, satisfying, everywhere. Add crab (pu — bpuu) and it becomes Bangkok's most loved quick meal: ข้าวผัดปู (khâao phàt bpuu).<br><br>
+        How to order: <span class="say">"Khâao phàt gài neung thi khâ"</span> = One chicken fried rice.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · Add fish sauce at table</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🌿</div>
+        <div class="dish-main">
+          <div class="dish-name">Pad Krapow</div>
+          <div class="dish-thai">ผัดกะเพรา</div>
+          <div class="dish-roman">phàt gà-phrao</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>The unofficial national dish of Thailand.</b> Minced meat — usually pork (หมู — mǔu) or chicken — stir-fried with Thai holy basil, fish sauce, oyster sauce, garlic, and bird's eye chilli. Served over rice with a fried egg (ไข่ดาว — khài-daao) on top. <b>Every Bangkok street stall sells this.</b><br><br>
+        How to order: <span class="say">"Phàt gà-phrao mǔu sàp khài-daao khâ"</span> = Minced pork holy basil with egg please.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> <span class="hot">Spicy</span> · The real Bangkok taste</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🐓</div>
+        <div class="dish-main">
+          <div class="dish-name">Khao Man Gai</div>
+          <div class="dish-thai">ข้าวมันไก่</div>
+          <div class="dish-roman">khâao man gài</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Poached chicken on rice.</b> Silky poached chicken over rice cooked in chicken stock — served with a dark ginger-soybean dipping sauce, cucumber, and a bowl of clear broth on the side. Bangkok's greatest comfort food. Open 24 hours at some places.<br><br>
+        How to order: <span class="say">"Khâao man gài neung thi khâ"</span><br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · Pure and comforting</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🥘</div>
+        <div class="dish-main">
+          <div class="dish-name">Khao Na Ped</div>
+          <div class="dish-thai">ข้าวหน้าเป็ด</div>
+          <div class="dish-roman">khâao nâa bpèt</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Roasted duck over rice.</b> Chinese-Thai roasted duck sliced and laid over steamed rice with a five-spice gravy sauce. Often served alongside Khao Man Gai at the same stall. The skin should be caramelised and slightly crispy. One of Bangkok's great cheap eats under 60 baht.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · Rich and sweet-savoury</div>
+      </div>
+    </div>
+
+  </div><!-- /rice -->
+
+
+  <!-- GRILLED & FRIED -->
+  <div id="grilled" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> The smell of Bangkok at night is charcoal smoke. Street stalls line the pavements with grills loaded with skewers, whole fish, and crispy things. These are the snacks you eat while walking, standing, or sitting on a plastic stool at 11pm.
+    </p>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍢</div>
+        <div class="dish-main">
+          <div class="dish-name">Moo Ping</div>
+          <div class="dish-thai">หมูปิ้ง</div>
+          <div class="dish-roman">mǔu bpîng</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Grilled pork skewers — Bangkok's breakfast and snack.</b> Thin slices of pork marinated in coconut milk, fish sauce, garlic, and coriander root — grilled over charcoal until caramelised. Usually sold in the morning alongside sticky rice in a bag. 10–15 baht a skewer.<br><br>
+        How to order: <span class="say">"Mǔu bpîng sǎam mài khâ"</span> = Three pork skewers please.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · Sweet and smoky</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🐟</div>
+        <div class="dish-main">
+          <div class="dish-name">Pla Pao</div>
+          <div class="dish-thai">ปลาเผา</div>
+          <div class="dish-roman">bplaa phao</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Salt-crusted grilled fish.</b> A whole fish — usually tilapia or sea bass — packed with lemongrass and coated in a thick crust of salt, then grilled slowly over charcoal until the flesh steams inside. Cracked open at the table and eaten with a spicy seafood dipping sauce (น้ำจิ้มซีฟู้ด).<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot mid"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Fish mild · Dipping sauce very spicy</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🥚</div>
+        <div class="dish-main">
+          <div class="dish-name">Khai Jeow</div>
+          <div class="dish-thai">ไข่เจียว</div>
+          <div class="dish-roman">khài-jiaw</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Thai omelette — the most underrated street food.</b> Egg beaten with fish sauce and fried in a very hot wok with plenty of oil until puffed, golden-brown, and crispy on the outside, soft inside. Served on rice. The best version has crispy edges and a wobbly centre. Simple perfection.<br><br>
+        How to order: <span class="say">"Khâao khài-jiaw mǔu sàp neung thi khâ"</span> = Minced pork omelette on rice.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · Pure comfort food</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🦈</div>
+        <div class="dish-main">
+          <div class="dish-name">Tod Mun Pla</div>
+          <div class="dish-thai">ทอดมันปลา</div>
+          <div class="dish-roman">thâwt-man bplaa</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Thai fish cakes.</b> Minced fish mixed with red curry paste, kaffir lime leaf, and green beans — formed into patties and deep-fried until golden. Served with a sweet cucumber relish dipping sauce. A Bangkok staple found at street stalls and restaurants alike.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot mid"></div><div class="spice-dot mid"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Medium · Aromatic and bouncy</div>
+      </div>
+    </div>
+
+  </div><!-- /grilled -->
+
+
+  <!-- SNACKS & SWEETS -->
+  <div id="snacks" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> Bangkok's snack and dessert culture is extraordinary — eaten at any time of day, not just after meals. Many are ancient recipes sold from traditional brass pans or banana leaf wraps.
+    </p>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🥞</div>
+        <div class="dish-main">
+          <div class="dish-name">Khanom Krok</div>
+          <div class="dish-thai">ขนมครก</div>
+          <div class="dish-roman">khà-nǒm khróok</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Coconut pancake puffs.</b> Small round coconut-rice batter pancakes cooked in a heavy cast iron pan with round moulds — crispy shell outside, creamy custard-soft inside. Topped with spring onion or sweet corn. One of Bangkok's most beloved street snacks — you eat them hot, two at a time.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · Sweet and creamy</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍌</div>
+        <div class="dish-main">
+          <div class="dish-name">Kluay Tod</div>
+          <div class="dish-thai">กล้วยทอด</div>
+          <div class="dish-roman">glûay thâwt</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Fried bananas.</b> Small Thai bananas dipped in a batter of rice flour, shredded coconut, sesame seeds, and a little salt — deep fried until shatteringly crispy. The batter is the star. Hot, crunchy, fragrant, and sold in paper bags for 20 baht. Absolutely addictive.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · Crispy sweet perfection</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🧁</div>
+        <div class="dish-main">
+          <div class="dish-name">Mango Sticky Rice</div>
+          <div class="dish-thai">ข้าวเหนียวมะม่วง</div>
+          <div class="dish-roman">khâao-nǐao má-mûang</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Thailand's most famous dessert.</b> Sweet sticky rice soaked in coconut cream, served with fresh ripe mango and a drizzle of salty-sweet coconut sauce. Best in mango season (March–June) but sold year-round. Available at almost every Bangkok market and dessert stall.<br><br>
+        How to order: <span class="say">"Khâao-nǐao má-mûang neung thi khâ"</span><br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · Pure tropical bliss</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍧</div>
+        <div class="dish-main">
+          <div class="dish-name">Nam Khaeng Sai</div>
+          <div class="dish-thai">น้ำแข็งไส</div>
+          <div class="dish-roman">nám-khǎeng sài</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Shaved ice dessert.</b> Finely shaved ice in a bowl loaded with toppings — red beans, grass jelly, sweet corn, coconut jelly, tapioca pearls — then drizzled with coconut milk and sweet syrup. A Bangkok essential on hot days (which is every day). Pick your toppings!<br><br>
+        How to order: Just point at what you want on top! <span class="say">"Ao an níi dûay khâ"</span> = I'll have this one too.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Not spicy · Cold, sweet, refreshing</div>
+      </div>
+    </div>
+
+  </div><!-- /snacks -->
+
+
+  <!-- DRINKS -->
+  <div id="drinks" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> Bangkok's street drinks are as iconic as the food. Served in plastic bags with a straw or tall cups packed with ice — these are what you drink while eating, walking, or surviving the heat.
+    </p>
+
+    <div class="grp">The Classic Drinks</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Drink</th><th>ภาษาไทย</th><th>Romanized</th><th>What it is</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Thai iced tea</td><td class="tt">ชาเย็น</td><td class="tr2">chaa yen</td><td class="tn2">Strong orange tea with sweetened condensed milk over ice</td></tr>
+          <tr><td class="te">Thai iced coffee</td><td class="tt">โอเลี้ยง</td><td class="tr2">oh-lîang</td><td class="tn2">Black coffee with sugar — no milk. Strong and sweet</td></tr>
+          <tr><td class="te">Fresh coconut</td><td class="tt">มะพร้าวน้ำหอม</td><td class="tr2">má-phráao nám-hǒm</td><td class="tn2">Young coconut, drink the water, eat the flesh</td></tr>
+          <tr><td class="te">Nam manao</td><td class="tt">น้ำมะนาว</td><td class="tr2">nám má-naao</td><td class="tn2">Fresh lime soda or lime juice — tangy and perfect</td></tr>
+          <tr><td class="te">Sugarcane juice</td><td class="tt">น้ำอ้อย</td><td class="tr2">nám ôoy</td><td class="tn2">Fresh pressed — found at street carts everywhere</td></tr>
+          <tr><td class="te">Butterfly pea tea</td><td class="tt">น้ำดอกอัญชัน</td><td class="tr2">nám dàawk an-chan</td><td class="tn2">Deep blue tea — add lime and it turns purple!</td></tr>
+          <tr><td class="te">Cha yen (pink milk)</td><td class="tt">นมสด</td><td class="tr2">nom sòt</td><td class="tn2">Fresh milk over ice — simple but beloved</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Ordering Drinks</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">One Thai iced tea — less sweet please.</div>
+      <div class="t">ชาเย็นหนึ่งแก้ว — หวานน้อยหน่อยนะคะ</div>
+      <div class="r">chaa yen nùeng gâew — wǎan-nóoi nàwy ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> หวานน้อย (wǎan-nóoi) = less sweet. หวานมาก (wǎan-mâak) = very sweet. แก้ว (gâew) = glass/cup — the classifier for drinks.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Can I have it in a cup — not a plastic bag?</div>
+      <div class="t">ขอใส่แก้วได้ไหมคะ ไม่ใส่ถุง</div>
+      <div class="r">khǎaw sài gâew dâai mǎi khâ — mâi sài thǔng</div>
+      <div class="note"><span class="ks">Sora:</span> ถุง (thǔng) = plastic bag. Many street vendors default to bagged drinks — this phrase is useful! สิ่งแวดล้อม (sìng-wâaet-lóom) = environment — relevant if you're trying to reduce plastic.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Extra ice please!</div>
+      <div class="t">เพิ่มน้ำแข็งด้วยนะคะ!</div>
+      <div class="r">phêm nám-khǎeng dûay ná khâ!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">No sugar please — I'll sweeten it myself.</div>
+      <div class="t">ไม่ใส่น้ำตาลนะคะ — จะปรุงเองค่ะ</div>
+      <div class="r">mâi sài nám-dtaan ná khâ — jà bprung eeng khâ</div>
+      <div class="note"><span class="ks">Sora:</span> ปรุงเอง (bprung eeng) = season/adjust yourself. A great phrase for any food or drink where you want to control your own seasoning.</div>
+    </div>
+
+  </div><!-- /drinks -->
+
+
+  <!-- STREET PHRASES -->
+  <div id="streetphrases" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> The phrases that make street food experiences come alive — beyond just ordering. These are what you say to vendors, friends, and strangers when you're eating your way through Bangkok.
+    </p>
+
+    <div class="grp">At the Stall</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">What is the most popular dish here?</div>
+      <div class="t">ที่นี่เมนูอะไรขายดีที่สุด?</div>
+      <div class="r">thîi-nîi mee-nuu à-rai khǎai-dii thîi-sùt?</div>
+      <div class="note"><span class="ks">Sora:</span> ขายดี (khǎai-dii) = sells well / popular. Literally "sells good." Ask this at any stall and the vendor will point you straight to their best dish.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Can I watch you cook it?</div>
+      <div class="t">ดูทำได้ไหมคะ?</div>
+      <div class="r">duu tham dâai mǎi khâ?</div>
+      <div class="note"><span class="ke">Kru:</span> Most Bangkok street vendors are happy to let you watch — and it's one of the best things to do. The wok work alone is worth watching.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">So cheap! Thank you!</div>
+      <div class="t">ถูกมากเลย! ขอบคุณนะคะ!</div>
+      <div class="r">thùuk mâak looei! khàwp-khun ná khâ!</div>
+      <div class="note"><span class="ks">Sora:</span> Saying ถูก (thùuk) = cheap after paying is a genuine compliment in Thailand — it shows you appreciate the value. Vendors love hearing it.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Do you open every day?</div>
+      <div class="t">เปิดทุกวันไหมคะ?</div>
+      <div class="r">bpòet thúk wan mǎi khâ?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">I'll be back tomorrow!</div>
+      <div class="t">พรุ่งนี้จะกลับมาอีกนะคะ!</div>
+      <div class="r">phrûng-níi jà glàp maa ìik ná khâ!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">This is the best thing I've eaten in Bangkok!</div>
+      <div class="t">อร่อยที่สุดที่กินในกรุงเทพเลยค่ะ!</div>
+      <div class="r">à-ràwy thîi-sùt thîi gin nai grung-thêep looei khâ!</div>
+      <div class="note"><span class="ks">Sora:</span> This will make any vendor beam. Guaranteed you'll get extra portions, a free dessert, or at minimum a very happy cook. Use it freely when you mean it!</div>
+    </div>
+
+    <div class="grp">Talking About Food With Friends</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">07</div>
+      <div class="e">Where should we eat tonight?</div>
+      <div class="t">คืนนี้จะไปกินที่ไหนดี?</div>
+      <div class="r">khuen níi jà bpai gin thîi-nǎi dii?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">08</div>
+      <div class="e">I want something spicy.</div>
+      <div class="t">อยากกินของเผ็ดๆ</div>
+      <div class="r">yàak gin khǎawng phèt-phèt</div>
+      <div class="note"><span class="ks">Sora:</span> Doubling an adjective makes it casual and vivid — เผ็ดๆ = nice and spicy. เย็นๆ = nice and cool. อร่อยๆ = really tasty. Very natural spoken Thai.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">09</div>
+      <div class="e">Let's try one more stall!</div>
+      <div class="t">ไปลองร้านต่อไปอีกร้านหนึ่งเถอะ!</div>
+      <div class="r">bpai laawng ráan tàw bpai ìik ráan nùeng thòe!</div>
+      <div class="note"><span class="ks">Sora:</span> เถอะ (thòe) = a particle meaning "let's just do it / come on." Very casual and fun — use with friends when you want to persuade someone to keep eating!</div>
+    </div>
+
+  </div><!-- /streetphrases -->
+
+</div><!-- /content -->
+
+<footer>
+  Click any dish or card to expand · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Vol. 21 · Bangkok Street Food 🍜
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>

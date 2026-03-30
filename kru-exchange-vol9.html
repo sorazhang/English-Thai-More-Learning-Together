@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Vol. 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Abril+Fatface&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1e0e04;
+    --bg2: #2a1508;
+    --bg3: #361c0c;
+    --cream: #f8eedc;
+    --muted: #8a7258;
+    --border: rgba(230,160,60,0.15);
+    --eng: #78c0e8;
+    --thai: #e87878;
+    --roman: #78c898;
+    --gold: #e8a830;
+    --gold2: #f8c858;
+    --accent: #e06820;
+    --green: #78c898;
+    --chili: #d84020;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--bg2);
+    padding: 2.8rem 2rem 2.2rem;
+    position: relative; overflow: hidden;
+    border-bottom: 3px solid var(--accent);
+  }
+
+  header::before {
+    content: '🍜';
+    position: absolute;
+    right: 2rem; top: 50%;
+    transform: translateY(-50%);
+    font-size: 9rem; opacity: 0.07;
+    pointer-events: none; line-height: 1;
+  }
+
+  .h-inner { max-width: 880px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .vol-tag {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 0.6rem; display: block;
+  }
+
+  h1 {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(1.8rem, 5.5vw, 3.4rem);
+    line-height: 1.05; color: var(--cream);
+    margin-bottom: 0.25rem; letter-spacing: -0.01em;
+  }
+
+  h1 span { color: var(--gold); }
+
+  .sub { font-size: 0.82rem; color: var(--muted); font-weight: 400; margin-bottom: 1.3rem; letter-spacing: 0.04em; }
+
+  .legend { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 600; }
+  .lsq { width: 9px; height: 9px; border-radius: 50%; }
+  .le { background: var(--eng); }
+  .lt { background: var(--thai); }
+  .lr { background: var(--roman); }
+  .leg span { color: rgba(248,238,220,0.55); }
+
+  /* TABS */
+  .tabs {
+    display: flex; overflow-x: auto;
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+    padding: 0 1.2rem;
+    scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: 0.9rem 1.05rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.8rem; font-weight: 700; color: var(--muted);
+    cursor: pointer; white-space: nowrap;
+    border-bottom: 3px solid transparent; margin-bottom: -1px;
+    transition: all 0.15s;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+
+  .tab:hover { color: var(--cream); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* CONTENT */
+  .content { max-width: 880px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro {
+    font-size: 0.83rem; line-height: 1.72; color: var(--muted);
+    padding: 0.9rem 1.1rem; margin-bottom: 1.8rem;
+    border-left: 3px solid var(--gold);
+    background: rgba(232,168,48,0.07);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .intro strong { color: var(--cream); }
+
+  .grp {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted);
+    margin: 2.2rem 0 0.9rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  /* DISH CARD — the hero of this vol */
+  .dish {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
+    margin-bottom: 0.8rem; cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .dish:hover {
+    border-color: rgba(232,168,48,0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+
+  .dish.on { border-color: var(--gold); }
+
+  .dish-top {
+    display: grid; grid-template-columns: 68px 1fr;
+    align-items: stretch;
+  }
+
+  .dish-emoji {
+    background: var(--bg3); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 2rem; padding: 0.8rem;
+    border-right: 1px solid var(--border);
+  }
+
+  .dish-main { padding: 0.85rem 1.1rem; }
+
+  .dish-name {
+    font-family: 'Abril Fatface', serif;
+    font-size: 1.1rem; color: var(--gold2);
+    margin-bottom: 0.15rem; letter-spacing: 0.01em;
+  }
+
+  .dish-thai {
+    font-family: 'Noto Sans Thai', sans-serif;
+    color: var(--thai); font-size: 1rem; font-weight: 600;
+    margin-bottom: 0.1rem; line-height: 1.6;
+  }
+
+  .dish-roman { color: var(--roman); font-size: 0.82rem; font-style: italic; }
+
+  .dish-body {
+    padding: 0.85rem 1.1rem; border-top: 1px solid var(--border);
+    font-size: 0.8rem; color: var(--muted); line-height: 1.68;
+  }
+
+  .dish-body b { color: var(--cream); }
+  .dish-body .say { color: var(--eng); font-weight: 600; }
+  .dish-body .chili { color: var(--chili); font-weight: 700; }
+
+  /* SPICE METER */
+  .spice {
+    display: flex; align-items: center; gap: 0.4rem;
+    margin-top: 0.5rem; font-size: 0.75rem; color: var(--muted);
+  }
+
+  .spice-dots { display: flex; gap: 3px; }
+  .spice-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+  .spice-dot.hot { background: var(--chili); }
+  .spice-dot.mid { background: var(--gold); }
+
+  /* SIMPLE CARDS */
+  .card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.1rem 1.3rem;
+    margin-bottom: 0.65rem; cursor: pointer;
+    transition: all 0.18s; position: relative;
+  }
+
+  .card:hover { border-color: rgba(232,168,48,0.38); background: var(--bg3); transform: translateY(-1px); box-shadow: 0 5px 18px rgba(0,0,0,0.4); }
+  .card.on { border-color: var(--gold); background: var(--bg3); }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-size: 0.65rem; color: var(--muted); font-weight: 700; }
+
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 600; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.28rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+
+  .note {
+    margin-top: 0.62rem; padding-top: 0.58rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.76rem; color: var(--muted); line-height: 1.6;
+  }
+
+  .note b { color: var(--gold); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  /* TABLE */
+  .tw { overflow-x: auto; margin-bottom: 0.8rem; }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; font-size: 0.85rem;
+  }
+
+  thead tr { background: rgba(224,104,32,0.3); }
+  thead th {
+    padding: 0.6rem 1rem; text-align: left;
+    font-size: 0.67rem; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold);
+  }
+
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 600; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr2 { color: var(--roman); font-style: italic; }
+  .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  /* INFO BOX */
+  .ibox {
+    background: var(--bg2); border: 1px solid rgba(232,168,48,0.2);
+    border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.8rem;
+    border-left: 3px solid var(--gold);
+  }
+
+  .ibox-label {
+    font-size: 0.67rem; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem;
+  }
+
+  .ibox p { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+  .ibox p b { color: var(--cream); }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  @media (max-width: 520px) {
+    .dish-top { grid-template-columns: 56px 1fr; }
+    .dish-emoji { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-inner">
+    <span class="vol-tag">🥊 Language Exchange · Vol. 9</span>
+    <h1>English <span>↔</span> Thai<br>More Learning Together</h1>
+    <p class="sub">Food in Northern Thailand · Chiang Mai · Lanna Cuisine</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span>English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span>ภาษาไทย Thai Script</span></div>
+      <div class="leg"><div class="lsq lr"></div><span>Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('musteat')">🍜 Must-Eat Dishes</button>
+  <button class="tab" onclick="sw('khaosoiworld')">🍛 Khao Soi Deep</button>
+  <button class="tab" onclick="sw('market')">🌅 Night Bazaar</button>
+  <button class="tab" onclick="sw('ordering')">🗣️ Ordering Thai</button>
+  <button class="tab" onclick="sw('vocab')">📖 Food Vocab</button>
+</nav>
+
+<div class="content">
+
+  <!-- MUST-EAT DISHES -->
+  <div id="musteat" class="section active">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> Northern Thai food (อาหารภาคเหนือ — aa-hǎan phâak nǔea) is its own world — richer, earthier, and less sweet than central Thai food. Chiang Mai is the capital of it all. Here are the dishes you absolutely cannot miss.
+    </p>
+
+    <div class="ibox">
+      <div class="ibox-label">🗺️ Northern Thai food — what makes it different</div>
+      <p>Northern Thailand was the ancient <b>Lanna Kingdom</b> (ล้านนา — láan naa). The food reflects this — influenced by Myanmar, Yunnan China, and Laos. It's <b>less sweet, more herbal, more fermented</b> than Bangkok food. Sticky rice (ข้าวเหนียว — khâao nǐao) replaces jasmine rice as the staple. Many dishes come with raw vegetables and chilli dips.</p>
+    </div>
+
+    <div class="grp">The Legendary Dishes</div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍜</div>
+        <div class="dish-main">
+          <div class="dish-name">Khao Soi</div>
+          <div class="dish-thai">ข้าวซอย</div>
+          <div class="dish-roman">khâao soi</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>The king of northern Thai food.</b> Egg noodles in a rich, creamy coconut curry broth — served with crispy fried noodles on top, pickled mustard greens, shallots, and lime on the side. Usually made with chicken (ไก่ — gài) or beef (เนื้อ — núea).<br><br>
+        How to say it: <span class="say">"Khao soi gài neung thi khráp/khâ"</span> = One chicken khao soi please.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot mid"></div><div class="spice-dot mid"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Mild–Medium · Can be made spicier</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🌭</div>
+        <div class="dish-main">
+          <div class="dish-name">Sai Ua</div>
+          <div class="dish-thai">ไส้อั่ว</div>
+          <div class="dish-roman">sâi-ùa</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Northern Thai herbed sausage.</b> Pork sausage packed with lemongrass, galangal, kaffir lime leaves, chilli, and turmeric. Grilled over charcoal until caramelised outside, juicy inside. You'll smell it from 50 metres away at any market.<br><br>
+        How to say it: <span class="say">"Sâi-ùa neung chin khâ"</span> = One piece of sai ua please.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot mid"></div><div class="spice-dot mid"></div><div class="spice-dot mid"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Medium · Aromatic and warming</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🫙</div>
+        <div class="dish-main">
+          <div class="dish-name">Nam Prik Noom</div>
+          <div class="dish-thai">น้ำพริกหนุ่ม</div>
+          <div class="dish-roman">nám-phrík-nùm</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Roasted green chilli dip.</b> Chargrilled green chillies, garlic, and shallots pounded together into a smoky, fiery dip. Eaten with sticky rice, raw vegetables, and deep-fried pork rinds (แคบหมู — khâaep mǔu). This is the soul food of the north.<br><br>
+        How to say it: <span class="say">"Kho nám-phrík-nùm dûay khâ"</span> = Can I have the nam prik noom?<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot"></div></div> <span class="chili">Very spicy</span> · You have been warned</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🥩</div>
+        <div class="dish-main">
+          <div class="dish-name">Khanom Jeen Nam Ngiao</div>
+          <div class="dish-thai">ขนมจีนน้ำเงี้ยว</div>
+          <div class="dish-roman">khà-nǒm-jeen nám-ngîao</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Northern rice noodles in tomato-pork broth.</b> Fresh rice vermicelli noodles served with a deep red broth made from dried chillies, tomatoes, pork ribs, and fermented soybeans. Topped with crispy dried chilli and herbs. Unique to the north — you can't find this in Bangkok.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot hot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> <span class="chili">Spicy</span> · Rich and complex</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🥬</div>
+        <div class="dish-main">
+          <div class="dish-name">Gaeng Hang Lay</div>
+          <div class="dish-thai">แกงฮังเล</div>
+          <div class="dish-roman">gaeng hang-lay</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Northern pork belly curry.</b> A slow-cooked Burmese-influenced curry with pork belly, ginger, garlic, and tamarind. It's dark, rich, sweet-sour, and barely spicy — very different from green or red Thai curry. Often served at festivals and celebrations. Great for those who can't handle heat!<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot mid"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> Mild · Sweet and savoury</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🐷</div>
+        <div class="dish-main">
+          <div class="dish-name">Kaab Muu</div>
+          <div class="dish-thai">แคบหมู</div>
+          <div class="dish-roman">khâaep mǔu</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Deep-fried pork rinds.</b> The ultimate northern Thai snack — thin, crunchy, and deeply porky. Eaten with everything: with nam prik dips, alongside noodles, on top of curry. You'll find it sold in bags at every market in Chiang Mai. Completely addictive.<br><br>
+        <div class="spice"><div class="spice-dots"><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div><div class="spice-dot"></div></div> No heat · Pure savoury crunch</div>
+      </div>
+    </div>
+
+    <div class="dish" onclick="this.classList.toggle('on')">
+      <div class="dish-top">
+        <div class="dish-emoji">🍚</div>
+        <div class="dish-main">
+          <div class="dish-name">Khao Niao</div>
+          <div class="dish-thai">ข้าวเหนียว</div>
+          <div class="dish-roman">khâao nǐao</div>
+        </div>
+      </div>
+      <div class="dish-body">
+        <b>Sticky rice — the northern staple.</b> In the north, sticky rice replaces jasmine rice. It comes in a small woven basket (กระติ๊บ — grà-dtíp). You pull off a small ball, roll it slightly, and use it to scoop up food. Don't use chopsticks — use your right hand. This is how locals eat.<br><br>
+        How to say it: <span class="say">"Kho khâao nǐao phêm dûay khâ"</span> = Can I have more sticky rice?
+      </div>
+    </div>
+
+  </div><!-- /musteat -->
+
+
+  <!-- KHAO SOI DEEP DIVE -->
+  <div id="khaosoiworld" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> Khao soi deserves its own section. It is arguably the most famous dish in all of northern Thailand — and debating who makes the best one is a daily activity in Chiang Mai.
+    </p>
+
+    <div class="grp">Everything About Khao Soi</div>
+
+    <div class="ibox">
+      <div class="ibox-label">🍜 What is Khao Soi exactly?</div>
+      <p>Khao soi (ข้าวซอย) is believed to have origins in <b>Yunnan, China</b> and came to northern Thailand via Muslim traders. The broth is a coconut milk curry — richer and creamier than a regular Thai curry. The toppings are half the experience: <b>crispy fried noodles, shallots, pickled mustard greens (ผักกาดดอง), lime, and chilli oil</b>. Squeeze the lime, stir everything in, eat immediately.</p>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">One khao soi chicken please.</div>
+      <div class="t">ข้าวซอยไก่หนึ่งที่ครับ/ค่ะ</div>
+      <div class="r">khâao soi gài nùeng thîi khráp/khâ</div>
+      <div class="note"><span class="ks">Sora:</span> ที่ (thîi) = portion/serving in a restaurant. หนึ่งที่ = one serving. This is very natural Thai ordering — much more so than just saying the dish name alone.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Can I have it less spicy?</div>
+      <div class="t">ขอเผ็ดน้อยหน่อยได้ไหมคะ?</div>
+      <div class="r">khǎaw phèt-nóoi nàwy dâai mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> เผ็ดน้อย (phèt-nóoi) = less spicy. เผ็ดมาก (phèt-mâak) = very spicy. หน่อย (nàwy) softens the request — "just a little less spicy please."</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">This is the best khao soi I've ever had!</div>
+      <div class="t">ข้าวซอยที่นี่อร่อยที่สุดที่เคยกินมาเลย!</div>
+      <div class="r">khâao soi thîi-nîi à-ràwy thîi-sùt thîi khoei gin maa looei!</div>
+      <div class="note"><span class="ks">Sora:</span> ที่เคยกินมา (thîi khoei gin maa) = "that I've ever eaten." เคย (khoei) = ever/used to. This sentence structure is really useful for superlatives with past experience.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Where is the best khao soi in Chiang Mai?</div>
+      <div class="t">ข้าวซอยที่ไหนอร่อยที่สุดในเชียงใหม่?</div>
+      <div class="r">khâao soi thîi-nǎi à-ràwy thîi-sùt nai chiang-mài?</div>
+      <div class="note"><span class="ke">Kru:</span> Ask a local this question — everyone has a strong opinion and will love telling you. Khao Soi Khun Yai and Khao Soi Mae Sai are two legendary spots.<br><span class="ks">Sora:</span> เชียงใหม่ (chiang-mài) = Chiang Mai. Literally "New City."</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">Can I have some extra crispy noodles on top?</div>
+      <div class="t">ขอเส้นทอดเพิ่มได้ไหมคะ?</div>
+      <div class="r">khǎaw sên thâwt phêm dâai mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> เส้นทอด (sên thâwt) = fried noodles. เพิ่ม (phêm) = extra/more. A very useful word at any food stall!</div>
+    </div>
+
+    <div class="grp">The Khao Soi Ritual</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">Squeeze the lime in first, then stir everything together.</div>
+      <div class="t">บีบมะนาวก่อนเลย แล้วคนทุกอย่างเข้าด้วยกัน</div>
+      <div class="r">bìip má-naao gàawn looei — láaew khon thúk yàang khâo dûay gan</div>
+      <div class="note"><span class="ks">Sora:</span> บีบ (bìip) = to squeeze. มะนาว (má-naao) = lime. คน (khon) = to stir (as a verb). Don't confuse with คน (khon) = person — same spelling, different tone!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">07</div>
+      <div class="e">Add the pickled mustard greens on the side — they cut through the richness.</div>
+      <div class="t">ใส่ผักกาดดองด้วยนะ — ช่วยตัดความมันได้ดี</div>
+      <div class="r">sài phàk-gàat-dong dûay ná — chûay dtàt khwaam man dâai dii</div>
+      <div class="note"><span class="ks">Sora:</span> ผักกาดดอง (phàk-gàat-dong) = pickled mustard greens. ตัด (dtàt) = to cut. ความมัน (khwaam man) = richness/fattiness.</div>
+    </div>
+
+  </div><!-- /khaosoiworld -->
+
+
+  <!-- NIGHT BAZAAR -->
+  <div id="market" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> Chiang Mai's markets are where the best northern food lives — Warorot Market by day, the Saturday and Sunday Walking Streets, and the famous Night Bazaar. Here's how to eat your way through them.
+    </p>
+
+    <div class="grp">At the Market</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">What is this? Can I try a little?</div>
+      <div class="t">นี่คืออะไร? ขอลองนิดหน่อยได้ไหม?</div>
+      <div class="r">nîi khue à-rai? khǎaw laawng nít-nàwy dâai mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> Most vendors at Chiang Mai markets are happy to let you try before buying. ลอง (laawng) = to try. นิดหน่อย (nít-nàwy) = just a little bit.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">How spicy is this?</div>
+      <div class="t">อันนี้เผ็ดแค่ไหน?</div>
+      <div class="r">an níi phèt khâe nǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> แค่ไหน (khâe nǎi) = to what extent / how much. Use this for anything — ไกลแค่ไหน = how far? แพงแค่ไหน = how expensive?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">One portion please — for eating here.</div>
+      <div class="t">หนึ่งที่ครับ/ค่ะ — กินที่นี่เลย</div>
+      <div class="r">nùeng thîi khráp/khâ — gin thîi-nîi looei</div>
+      <div class="note"><span class="ks">Sora:</span> กินที่นี่ (gin thîi-nîi) = eat here. As opposed to เอากลับบ้าน (ao glàp bâan) = take away.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Do you have vegetarian options?</div>
+      <div class="t">มีเมนูมังสวิรัติไหมคะ?</div>
+      <div class="r">mii mee-nuu mang-sà-wí-rát mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> มังสวิรัติ (mang-sà-wí-rát) = vegetarian. You can also say เจ (jee) which means vegan/Buddhist vegetarian — very widely understood throughout Thailand.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">That smells amazing — what is it?</div>
+      <div class="t">หอมมากเลย — นั่นคืออะไร?</div>
+      <div class="r">hǒm mâak looei — nân khue à-rai?</div>
+      <div class="note"><span class="ks">Sora:</span> หอม (hǒm) = fragrant/smells good. เหม็น (měn) = smells bad. These two words are very useful in a market full of interesting aromas!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">I'll take two of these and one of those.</div>
+      <div class="t">เอาอันนี้สองอัน และอันนั้นหนึ่งอัน</div>
+      <div class="r">ao an níi sǎawng an — láe an nán nùeng an</div>
+      <div class="note"><span class="ks">Sora:</span> เอา (ao) = to take/want. อัน (an) = general item classifier. This pattern works for pointing at anything at a market stall.</div>
+    </div>
+
+    <div class="grp">Famous Chiang Mai Markets</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Market</th><th>ภาษาไทย</th><th>When</th><th>Famous for</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Warorot Market</td><td class="tt">ตลาดวโรรส</td><td class="tr2">Daily, morning</td><td class="tn2">Sai ua, kaab muu, local snacks — very local, not touristy</td></tr>
+          <tr><td class="te">Sunday Walking Street</td><td class="tt">ถนนคนเดินวันอาทิตย์</td><td class="tr2">Sunday evening</td><td class="tn2">Wualai Rd — street food, handicrafts, very Chiang Mai</td></tr>
+          <tr><td class="te">Saturday Walking Street</td><td class="tt">ถนนคนเดินวันเสาร์</td><td class="tr2">Saturday evening</td><td class="tn2">Wichayanon Rd — food stalls everywhere</td></tr>
+          <tr><td class="te">Night Bazaar</td><td class="tt">ไนท์บาซาร์</td><td class="tr2">Nightly</td><td class="tn2">Chang Klan Rd — more touristy but great food court inside</td></tr>
+          <tr><td class="te">Muang Mai Market</td><td class="tt">ตลาดเมืองใหม่</td><td class="tr2">Very early AM</td><td class="tn2">Wholesale fresh produce — arrive before 6am for the real experience</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /market -->
+
+
+  <!-- ORDERING -->
+  <div id="ordering" class="section">
+    <p class="intro">
+      <strong>Sora learns:</strong> The actual phrases for ordering food like a local — adjusting spice, asking for more, paying, and complimenting the cook. These work anywhere in Thailand, not just the north.
+    </p>
+
+    <div class="grp">Ordering Food</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Excuse me! / Over here!</div>
+      <div class="t">น้องครับ! / น้องค่ะ!</div>
+      <div class="r">nóong khráp! / nóong khâ!</div>
+      <div class="note"><span class="ks">Sora:</span> น้อง (nóong) = younger sibling — used to politely call a server of any age. It's warm and natural. Never clap or snap fingers — that's rude in Thailand.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Not spicy at all, please.</div>
+      <div class="t">ไม่เผ็ดเลยนะคะ</div>
+      <div class="r">mâi phèt looei ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> เลย (looei) makes it absolute — "not even a little bit spicy." If you just say ไม่เผ็ด, they might still add a little. Add เลย to really mean it!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Very spicy please — I can handle it!</div>
+      <div class="t">เผ็ดมากเลยนะ — กินเผ็ดได้!</div>
+      <div class="r">phèt mâak looei ná — gin phèt dâai!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">No meat please — I'm vegetarian.</div>
+      <div class="t">ไม่ใส่เนื้อสัตว์นะคะ — กินมังสวิรัติ</div>
+      <div class="r">mâi sài núea-sàt ná khâ — gin mang-sà-wí-rát</div>
+      <div class="note"><span class="ks">Sora:</span> เนื้อสัตว์ (núea-sàt) = animal meat. ไม่ใส่ (mâi sài) = don't put in. This phrasing is clearer than just saying vegetarian — it tells them specifically what to leave out.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">Can I have more rice please?</div>
+      <div class="t">ขอข้าวเพิ่มได้ไหมคะ?</div>
+      <div class="r">khǎaw khâao phêm dâai mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> At most local Thai restaurants, extra rice is free or very cheap. เพิ่ม (phêm) = extra/more. Use this for anything — น้ำเพิ่ม = more water.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">This is absolutely delicious!</div>
+      <div class="t">อร่อยมากๆ เลยค่ะ!</div>
+      <div class="r">à-ràwy mâak-mâak looei khâ!</div>
+      <div class="note"><span class="ks">Sora:</span> Doubling มาก to มากๆ makes it emphatic — "SO delicious!" Always say this to the cook or vendor when food is great. It genuinely makes their day.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">07</div>
+      <div class="e">Check please! / Bill please!</div>
+      <div class="t">เก็บตังค์ด้วยนะคะ!</div>
+      <div class="r">gèp dtang dûay ná khâ!</div>
+      <div class="note"><span class="ks">Sora:</span> เก็บตังค์ (gèp dtang) = literally "collect money" — this is casual Thai for "bill please." More formal: เช็คบิลด้วยครับ/ค่ะ (chék bin dûay khráp/khâ). Both work perfectly.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">08</div>
+      <div class="e">I'll come back here every day!</div>
+      <div class="t">จะกลับมากินทุกวันเลย!</div>
+      <div class="r">jà glàp maa gin thúk wan looei!</div>
+      <div class="note"><span class="ks">Sora:</span> Say this when food is exceptional — vendors love it and you might get extra portions! It's a genuine compliment that goes beyond just "delicious."</div>
+    </div>
+
+  </div><!-- /ordering -->
+
+
+  <!-- FOOD VOCAB -->
+  <div id="vocab" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> The essential northern Thai food vocabulary — ingredients, flavours, and cooking words you'll hear and see constantly in Chiang Mai.
+    </p>
+
+    <div class="grp">Key Northern Ingredients</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Found in</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Lemongrass</td><td class="tt">ตะไคร้</td><td class="tr2">dtà-khráai</td><td class="tn2">Sai ua, curries, soups</td></tr>
+          <tr><td class="te">Galangal</td><td class="tt">ข่า</td><td class="tr2">khàa</td><td class="tn2">Tom kha, sai ua</td></tr>
+          <tr><td class="te">Kaffir lime leaf</td><td class="tt">ใบมะกรูด</td><td class="tr2">bai má-grùut</td><td class="tn2">Everywhere in the north</td></tr>
+          <tr><td class="te">Turmeric</td><td class="tt">ขมิ้น</td><td class="tr2">khà-mîn</td><td class="tn2">Sai ua, khao soi broth</td></tr>
+          <tr><td class="te">Dried chilli</td><td class="tt">พริกแห้ง</td><td class="tr2">phrík hâeng</td><td class="tn2">Nam prik, broths</td></tr>
+          <tr><td class="te">Fermented soybeans</td><td class="tt">เต้าเจี้ยว</td><td class="tr2">dtâo-jîao</td><td class="tn2">Nam ngiao broth</td></tr>
+          <tr><td class="te">Coconut milk</td><td class="tt">กะทิ</td><td class="tr2">gà-thi</td><td class="tn2">Khao soi, gaeng hang lay</td></tr>
+          <tr><td class="te">Sticky rice</td><td class="tt">ข้าวเหนียว</td><td class="tr2">khâao nǐao</td><td class="tn2">Everything — it's the staple</td></tr>
+          <tr><td class="te">Tamarind</td><td class="tt">มะขาม</td><td class="tr2">má-khǎam</td><td class="tn2">Gaeng hang lay, sauces</td></tr>
+          <tr><td class="te">Shrimp paste</td><td class="tt">กะปิ</td><td class="tr2">gà-bpì</td><td class="tn2">Nam prik dips</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Describing Flavour</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Flavour</th><th>ภาษาไทย</th><th>Romanized</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Spicy</td><td class="tt">เผ็ด</td><td class="tr2">phèt</td></tr>
+          <tr><td class="te">Sweet</td><td class="tt">หวาน</td><td class="tr2">wǎan</td></tr>
+          <tr><td class="te">Salty</td><td class="tt">เค็ม</td><td class="tr2">khem</td></tr>
+          <tr><td class="te">Sour</td><td class="tt">เปรี้ยว</td><td class="tr2">bprîao</td></tr>
+          <tr><td class="te">Bitter</td><td class="tt">ขม</td><td class="tr2">khǒm</td></tr>
+          <tr><td class="te">Savoury / Umami</td><td class="tt">กลมกล่อม</td><td class="tr2">glom-glàwm</td></tr>
+          <tr><td class="te">Rich / Heavy</td><td class="tt">มัน</td><td class="tr2">man</td></tr>
+          <tr><td class="te">Fragrant / Aromatic</td><td class="tt">หอม</td><td class="tr2">hǒm</td></tr>
+          <tr><td class="te">Refreshing / Light</td><td class="tt">สดชื่น</td><td class="tr2">sòt-chûen</td></tr>
+          <tr><td class="te">Delicious</td><td class="tt">อร่อย</td><td class="tr2">à-ràwy</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">A Little Northern Thai Dialect</div>
+
+    <div class="ibox">
+      <div class="ibox-label">🗣️ Kham Mueang — คำเมือง</div>
+      <p>Northern Thais speak their own dialect called <b>Kham Mueang (คำเมือง)</b>. It's different enough that central Thais sometimes struggle to understand it. You don't need to learn it — but knowing a few words will delight any local in Chiang Mai!</p>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Standard Thai</th><th>Northern dialect</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="te">สวัสดี (sà-wàt-dii)</td><td class="tt">สวัสดี / อุ๊ ฮู้</td><td class="tn2">Hello</td></tr>
+          <tr><td class="te">ขอบคุณ (khàwp-khun)</td><td class="tt">ขอบใจ (khàwp-jai)</td><td class="tn2">Thank you — used everywhere in Chiang Mai!</td></tr>
+          <tr><td class="te">อร่อย (à-ràwy)</td><td class="tt">หลิ้ม (lîm)</td><td class="tn2">Delicious — say this and locals will love you</td></tr>
+          <tr><td class="te">เก่ง (gèng)</td><td class="tt">ป้อเก่ง (bpâw gèng)</td><td class="tn2">Well done! / Great!</td></tr>
+          <tr><td class="te">ไม่เป็นไร (mâi bpen rai)</td><td class="tt">บ่เป็นหยัง (bàw bpen yǎng)</td><td class="tn2">No worries / it's okay</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Thank you! (Northern dialect — locals will be delighted)</div>
+      <div class="t">ขอบใจนะคะ!</div>
+      <div class="r">khàwp-jai ná khâ!</div>
+      <div class="note"><span class="ks">Sora:</span> ขอบใจ (khàwp-jai) is the northern way to say thank you — literally "thank the heart." Use this in Chiang Mai and watch people's faces light up. It shows you actually paid attention to their culture.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Delicious! (Northern word)</div>
+      <div class="t">หลิ้มมากเลยค่ะ!</div>
+      <div class="r">lîm mâak looei khâ!</div>
+      <div class="note"><span class="ks">Sora:</span> หลิ้ม (lîm) = delicious in Kham Mueang northern dialect. Drop this at a market stall instead of อร่อย and watch the vendor absolutely beam. Guaranteed extra portion energy.</div>
+    </div>
+
+  </div><!-- /vocab -->
+
+</div><!-- /content -->
+
+<footer>
+  Click any dish or card to expand · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Vol. 9 · Northern Thailand 🍜
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
