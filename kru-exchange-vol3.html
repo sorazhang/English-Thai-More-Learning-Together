@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kru & Sora — Vol. 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg2: #151b24;
+    --bg3: #1c2433;
+    --border: rgba(99,132,180,0.15);
+    --cream: #dde4ee;
+    --muted: #5a6a84;
+    --eng: #64b5f6;
+    --thai: #f48fb1;
+    --roman: #80cbc4;
+    --gold: #ffd54f;
+    --accent: #7c6af7;
+    --red: #ef5350;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    padding: 2.8rem 2rem 2.2rem;
+    background: linear-gradient(135deg, #0d1117 0%, #131929 50%, #0d1117 100%);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: end;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .vol-stamp {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2rem, 5.5vw, 3.2rem);
+    font-weight: 600;
+    line-height: 1.05;
+    color: var(--cream);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 0.4rem;
+  }
+
+  .vol-num {
+    font-family: 'Lora', serif;
+    font-size: 5rem;
+    font-weight: 600;
+    color: rgba(124,106,247,0.1);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .legend {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  .b-eng { background: rgba(100,181,246,0.15); color: var(--eng); border: 1px solid rgba(100,181,246,0.25); }
+  .b-thai { background: rgba(244,143,177,0.15); color: var(--thai); border: 1px solid rgba(244,143,177,0.25); }
+  .b-roman { background: rgba(128,203,196,0.15); color: var(--roman); border: 1px solid rgba(128,203,196,0.25); }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    overflow-x: auto;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.2rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
+  }
+
+  .tab {
+    padding: 0.85rem 1.1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.18s;
+    letter-spacing: 0.02em;
+    background: none;
+    border-top: none; border-left: none; border-right: none;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .tab:hover { color: var(--cream); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* CONTENT */
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.4rem 5rem;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro {
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--muted);
+    padding: 0.85rem 1.1rem;
+    margin-bottom: 1.8rem;
+    border-left: 2px solid var(--accent);
+    background: rgba(124,106,247,0.06);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .intro strong { color: var(--cream); font-weight: 600; }
+
+  .grp {
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 2.2rem 0 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  /* CARDS */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.1rem 1.3rem;
+    margin-bottom: 0.65rem;
+    cursor: pointer;
+    transition: all 0.18s;
+    position: relative;
+  }
+
+  .card:hover {
+    border-color: rgba(124,106,247,0.35);
+    background: var(--bg3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+
+  .card.on {
+    border-color: var(--accent);
+    background: var(--bg3);
+    box-shadow: 0 0 0 1px rgba(124,106,247,0.2);
+  }
+
+  .num {
+    position: absolute;
+    top: 0.9rem; right: 1.1rem;
+    font-size: 0.65rem; color: var(--muted);
+    font-weight: 700; letter-spacing: 0.05em;
+  }
+
+  .e { color: var(--eng); font-size: 0.98rem; font-weight: 500; margin-bottom: 0.45rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.08rem; font-weight: 600; margin-bottom: 0.28rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.85rem; font-style: italic; letter-spacing: 0.02em; }
+
+  .note {
+    margin-top: 0.65rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.76rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .note b { color: var(--gold); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  /* TABLE */
+  .tbl-wrap { overflow-x: auto; margin-bottom: 0.7rem; }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; font-size: 0.85rem;
+  }
+
+  thead tr { background: rgba(124,106,247,0.18); }
+  thead th {
+    padding: 0.6rem 1rem; text-align: left;
+    font-size: 0.66rem; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+
+  tbody td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 500; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr { color: var(--roman); font-style: italic; }
+  .tn { color: var(--muted); font-size: 0.76rem; }
+
+  /* DIALOGUE */
+  .dlg-wrap {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; margin-bottom: 0.8rem;
+  }
+
+  .dlg-title {
+    background: rgba(124,106,247,0.2);
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .dlg-line {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 58px 1fr;
+    gap: 0.8rem;
+    align-items: start;
+  }
+
+  .dlg-line:last-child { border-bottom: none; }
+
+  .spk {
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding-top: 0.15rem;
+  }
+
+  .spk.kru { color: var(--eng); }
+  .spk.sora { color: var(--roman); }
+
+  .dt .e { font-size: 0.9rem; padding-right: 0; }
+  .dt .t { font-size: 0.98rem; }
+  .dt .r { font-size: 0.8rem; }
+
+  /* PATTERN BOXES */
+  .pattern-box {
+    background: var(--bg3); border: 1px solid rgba(124,106,247,0.25);
+    border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.7rem;
+  }
+
+  .pattern-label {
+    font-size: 0.67rem; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem;
+  }
+
+  .pattern-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.4rem 1rem; font-size: 0.85rem;
+  }
+
+  .pr-eng { color: var(--eng); font-weight: 500; }
+  .pr-thai { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; }
+  .pr-roman { color: var(--roman); font-style: italic; font-size: 0.8rem; }
+
+  .pattern-note { font-size: 0.76rem; color: var(--muted); margin-top: 0.6rem; line-height: 1.5; }
+  .pattern-note b { color: var(--gold); }
+
+  footer {
+    text-align: center; padding: 1.5rem;
+    font-size: 0.74rem; color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 560px) {
+    .header-grid { grid-template-columns: 1fr; }
+    .vol-num { display: none; }
+    .dlg-line { grid-template-columns: 44px 1fr; }
+    .pattern-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-grid">
+    <div>
+      <div class="vol-stamp">🥊 Language Exchange · Vol. 3</div>
+      <h1>English <em>↔</em> Thai · More Learning Together</h1>
+      <p class="subtitle">English ↔ Thai · Going Deeper</p>
+    </div>
+    <div class="vol-num">III</div>
+  </div>
+  <div class="legend">
+    <span class="badge b-eng">EN English</span>
+    <span class="badge b-thai">ไทย Thai Script</span>
+    <span class="badge b-roman">ROM Romanized</span>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('daily')">🌅 Daily Life</button>
+  <button class="tab" onclick="sw('time')">🕐 Time & Scheduling</button>
+  <button class="tab" onclick="sw('muay')">🥋 Muay Thai Deep</button>
+  <button class="tab" onclick="sw('numbers')">💰 Numbers & Money</button>
+  <button class="tab" onclick="sw('compliments')">🌸 Compliments</button>
+  <button class="tab" onclick="sw('grammar')">📐 Grammar Patterns</button>
+</nav>
+
+<div class="content">
+
+  <!-- DAILY LIFE -->
+  <div id="daily" class="section active">
+    <p class="intro">
+      <strong>Kru learns:</strong> Everyday English for chatting with students about routines, sleep, travel and weekend plans.<br>
+      <strong>Sora learns:</strong> How Thai people talk about their day — casual, real, not textbook.
+    </p>
+
+    <div class="grp">Morning & Routine</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Did you sleep well?</div>
+      <div class="t">นอนหลับสนิทไหม?</div>
+      <div class="r">nawn làp sà-nìt mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> นอนหลับ (nawn làp) = to sleep · สนิท (sà-nìt) here means soundly/deeply. This word also means "close/intimate" between people — context tells you which!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">I didn't sleep enough — I was up late.</div>
+      <div class="t">นอนไม่พอ — ตื่นดึกมาก</div>
+      <div class="r">nawn mâi phaw — tùen dùek mâak</div>
+      <div class="note"><span class="ks">Sora:</span> ตื่นดึก (tùen dùek) = stayed up late · ตื่นเช้า (tùen cháao) = woke up early. ตื่น (tùen) = to wake up / to be awake.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">What time do you usually start your day?</div>
+      <div class="t">ปกติเริ่มวันตอนกี่โมง?</div>
+      <div class="r">bpòk-gà-tì rôem wan tawn gìi moong?</div>
+      <div class="note"><span class="ke">Kru:</span> This opens up a lot of follow-on conversation — routines, training schedules, lifestyle.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">I usually run in the morning before training.</div>
+      <div class="t">ปกติวิ่งตอนเช้าก่อนฝึก</div>
+      <div class="r">bpòk-gà-tì wîng tawn cháao gàawn fùek</div>
+      <div class="note"><span class="ks">Sora:</span> ปกติ (bpòk-gà-tì) = usually/normally. One of the most useful adverbs in Thai — stick it at the start of sentences.</div>
+    </div>
+
+    <div class="grp">Weekend & Free Time</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">What are you up to this weekend?</div>
+      <div class="t">สุดสัปดาห์นี้มีแผนอะไรไหม?</div>
+      <div class="r">sùt-sàp-daa níi mii phǎen à-rai mǎi?</div>
+      <div class="note"><span class="ke">Kru:</span> "What are you up to?" is very natural British/Australian English — more casual than "What are your plans?"</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">I just want to relax and do nothing.</div>
+      <div class="t">แค่อยากพักผ่อนและไม่ทำอะไรเลย</div>
+      <div class="r">khâe yàak phák-phàwn láe mâi tham à-rai looei</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">07</div>
+      <div class="e">I have some errands to run.</div>
+      <div class="t">มีธุระต้องทำอยู่บ้าง</div>
+      <div class="r">mii thú-rá tâwng tham yùu bâang</div>
+      <div class="note"><span class="ke">Kru:</span> "Errands" = small tasks outside (shopping, appointments, etc). Very common in English conversation.<br><span class="ks">Sora:</span> ธุระ (thú-rá) = business/task/errand. "มีธุระ" is also how Thais politely say they're busy.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">08</div>
+      <div class="e">I went to watch Muay Thai live last weekend — it was incredible.</div>
+      <div class="t">สุดสัปดาห์ที่แล้วไปดูมวยไทยสด — ตื่นตาตื่นใจมากเลย</div>
+      <div class="r">sùt-sàp-daa thîi láaew bpai duu muay thai sòt — tùen-taa-tùen-jai mâak looei</div>
+      <div class="note"><span class="ks">Sora:</span> ตื่นตาตื่นใจ (tùen-taa-tùen-jai) = awe-inspiring/thrilling. Literally "wake the eyes, wake the heart" — a beautiful expression for something that leaves you wide-eyed.</div>
+    </div>
+
+    <div class="grp">Travel Prep (for Thailand trips)</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">09</div>
+      <div class="e">I'm planning to go to Thailand next year.</div>
+      <div class="t">วางแผนจะไปไทยปีหน้า</div>
+      <div class="r">waang phǎen jà bpai thai bpii nâa</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">10</div>
+      <div class="e">Can you recommend a good gym in Bangkok?</div>
+      <div class="t">แนะนำยิมดีๆ ในกรุงเทพได้ไหม?</div>
+      <div class="r">náe-nam yim dii-dii nai grung-thêep dâai mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> กรุงเทพ (grung-thêep) = Bangkok (the Thai name). Always use this in Thai — calling it "Bangkok" (บางกอก) marks you as a non-native!</div>
+    </div>
+
+  </div><!-- /daily -->
+
+
+  <!-- TIME & SCHEDULING -->
+  <div id="time" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> Time expressions and scheduling English — useful for managing class bookings and student check-ins.<br>
+      <strong>Sora learns:</strong> Thai time language — including the Thai clock system which is completely different from English!
+    </p>
+
+    <div class="grp">Thai Clock System — Special Note for Sora</div>
+
+    <div class="card" style="border-color: rgba(255,213,79,0.3); background: rgba(255,213,79,0.04);">
+      <div class="e" style="color: var(--gold)">⚠️ Thai has a unique time system — learn this!</div>
+      <div class="note" style="border-top: none; margin-top: 0.3rem; padding-top: 0;">
+        Thai divides the day into <b>4 segments</b>, not AM/PM:<br><br>
+        <b>ตีหนึ่ง – ตีห้า</b> (dtii nueng – dtii hâa) = 1am–5am (night)<br>
+        <b>หกโมงเช้า – สิบเอ็ดโมงเช้า</b> = 6am–11am (morning)<br>
+        <b>เที่ยง</b> (thîang) = noon<br>
+        <b>บ่ายหนึ่ง – บ่ายสี่</b> (bàai nueng – bàai sìi) = 1pm–4pm (afternoon)<br>
+        <b>ห้าโมงเย็น – หกโมงเย็น</b> = 5pm–6pm (evening)<br>
+        <b>หนึ่งทุ่ม – ห้าทุ่ม</b> (nueng thùm – hâa thùm) = 7pm–11pm (night)<br>
+        <b>เที่ยงคืน</b> (thîang khuen) = midnight<br><br>
+        <b>The 24-hour system</b> is also common in formal/official contexts — e.g. train times, hospitals.
+      </div>
+    </div>
+
+    <div class="grp">Useful Time Phrases</div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th></tr></thead>
+        <tbody>
+          <tr><td class="te">What time is it?</td><td class="tt">ตอนนี้กี่โมงแล้ว?</td><td class="tr">tawn níi gìi moong láaew?</td></tr>
+          <tr><td class="te">What time shall we meet?</td><td class="tt">จะนัดเจอกันกี่โมงดี?</td><td class="tr">jà nát jooe gan gìi moong dii?</td></tr>
+          <tr><td class="te">I'll be there at 6pm.</td><td class="tt">จะไปถึงตอนหกโมงเย็น</td><td class="tr">jà bpai thǔeng tawn hòk moong yen</td></tr>
+          <tr><td class="te">I'm running a bit late.</td><td class="tt">มาช้านิดหน่อยนะ</td><td class="tr">maa châa nít-nàwy ná</td></tr>
+          <tr><td class="te">I'll be there in 10 minutes.</td><td class="tt">อีกสิบนาทีถึงแล้ว</td><td class="tr">ìik sìp naa-thii thǔeng láaew</td></tr>
+          <tr><td class="te">Can we reschedule?</td><td class="tt">เลื่อนนัดได้ไหม?</td><td class="tr">lûean nát dâai mǎi?</td></tr>
+          <tr><td class="te">Are you free on Saturday?</td><td class="tt">วันเสาร์ว่างไหม?</td><td class="tr">wan sǎo wâang mǎi?</td></tr>
+          <tr><td class="te">Same time next week?</td><td class="tt">สัปดาห์หน้าเวลาเดิมไหม?</td><td class="tr">sàp-daa nâa we-laa doem mǎi?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Days & When</div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Today</td><td class="tt">วันนี้</td><td class="tr">wan níi</td><td class="tn">—</td></tr>
+          <tr><td class="te">Tomorrow</td><td class="tt">พรุ่งนี้</td><td class="tr">phrûng níi</td><td class="tn">—</td></tr>
+          <tr><td class="te">Yesterday</td><td class="tt">เมื่อวาน</td><td class="tr">mûea-waan</td><td class="tn">—</td></tr>
+          <tr><td class="te">The day after tomorrow</td><td class="tt">มะรืนนี้</td><td class="tr">má-ruen níi</td><td class="tn">Thai has a specific word for this!</td></tr>
+          <tr><td class="te">Next week</td><td class="tt">สัปดาห์หน้า</td><td class="tr">sàp-daa nâa</td><td class="tn">—</td></tr>
+          <tr><td class="te">Last week</td><td class="tt">สัปดาห์ที่แล้ว</td><td class="tr">sàp-daa thîi láaew</td><td class="tn">—</td></tr>
+          <tr><td class="te">In the morning</td><td class="tt">ตอนเช้า</td><td class="tr">tawn cháao</td><td class="tn">—</td></tr>
+          <tr><td class="te">In the evening</td><td class="tt">ตอนเย็น</td><td class="tr">tawn yen</td><td class="tn">—</td></tr>
+          <tr><td class="te">At night</td><td class="tt">ตอนกลางคืน</td><td class="tr">tawn glaang-khuen</td><td class="tn">—</td></tr>
+          <tr><td class="te">Soon / Shortly</td><td class="tt">เดี๋ยว</td><td class="tr">dǐao</td><td class="tn">Very casual — also means "later" in context</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /time -->
+
+
+  <!-- MUAY THAI DEEP -->
+  <div id="muay" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> More advanced English for discussing strategy, technique philosophy, and fighting styles with students.<br>
+      <strong>Sora learns:</strong> Deeper Muay Thai vocabulary in Thai — so you can follow more of what coaches discuss during training.
+    </p>
+
+    <div class="grp">Technique Vocabulary</div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Jab</td><td class="tt">หมัดตรงซ้าย</td><td class="tr">màt trong sáai</td></tr>
+          <tr><td class="te">Cross</td><td class="tt">หมัดตรงขวา</td><td class="tr">màt trong khwǎa</td></tr>
+          <tr><td class="te">Hook</td><td class="tt">หมัดเหวี่ยง</td><td class="tr">màt wìang</td></tr>
+          <tr><td class="te">Uppercut</td><td class="tt">หมัดเสย</td><td class="tr">màt sǒei</td></tr>
+          <tr><td class="te">Roundhouse kick</td><td class="tt">เตะกลม</td><td class="tr">té glom</td></tr>
+          <tr><td class="te">Teep (push kick)</td><td class="tt">ทีป / เตะตรง</td><td class="tr">thiip / té trong</td></tr>
+          <tr><td class="te">Elbow</td><td class="tt">ศอก</td><td class="tr">sàawk</td></tr>
+          <tr><td class="te">Knee</td><td class="tt">เข่า</td><td class="tr">khào</td></tr>
+          <tr><td class="te">Clinch</td><td class="tt">คลินช์ / จับคอ</td><td class="tr">khlin / jàp khaw</td></tr>
+          <tr><td class="te">Sweep</td><td class="tt">เกี่ยว / สวีป</td><td class="tr">gìao / sa-wiip</td></tr>
+          <tr><td class="te">Block / Defence</td><td class="tt">ป้องกัน / บล็อก</td><td class="tr">bpâwng-gan / blàwk</td></tr>
+          <tr><td class="te">Footwork</td><td class="tt">การเคลื่อนไหวเท้า</td><td class="tr">gaan khlûean-wǎi tháao</td></tr>
+          <tr><td class="te">Distance / Range</td><td class="tt">ระยะ</td><td class="tr">rá-yá</td></tr>
+          <tr><td class="te">Timing</td><td class="tt">จังหวะ</td><td class="tr">jang-wà</td></tr>
+          <tr><td class="te">Combination</td><td class="tt">คอมโบ</td><td class="tr">khawm-boo</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Strategy & Philosophy</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Muay Thai is about timing, not just power.</div>
+      <div class="t">มวยไทยเน้นเรื่องจังหวะ ไม่ใช่แค่พลัง</div>
+      <div class="r">muay thai nên rûeang jang-wà — mâi châi khâe phlaang</div>
+      <div class="note"><span class="ke">Kru:</span> A great opener for a philosophical discussion with curious students.<br><span class="ks">Sora:</span> จังหวะ (jang-wà) = timing/rhythm. This word is also used for music beats — same concept!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">You need to read your opponent — watch their patterns.</div>
+      <div class="t">ต้องอ่านคู่ต่อสู้ให้ออก — สังเกตรูปแบบของเขา</div>
+      <div class="r">tâwng àan khûu-tàw-sûu hâi àawk — sǎng-gèt rûup-bàaep khǎawng khǎo</div>
+      <div class="note"><span class="ks">Sora:</span> อ่าน (àan) = to read (and also "to read" a situation/person — same as English). คู่ต่อสู้ (khûu-tàw-sûu) = opponent.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Stay patient — don't force it.</div>
+      <div class="t">ใจเย็นไว้ — อย่าฝืน</div>
+      <div class="r">jai yen wái — yàa fùen</div>
+      <div class="note"><span class="ks">Sora:</span> ใจเย็น (jai yen) from Vol. 2 idioms — cool heart. ฝืน (fùen) = to force/push against. Together this is pure Muay Thai wisdom.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Your right kick is stronger — use it more strategically.</div>
+      <div class="t">เตะขวาของคุณแรงกว่า — ใช้มันให้มีกลยุทธ์มากขึ้น</div>
+      <div class="r">té khwǎa khǎawng khun raeng gwàa — chái man hâi mii gon-la-yút mâak khûen</div>
+      <div class="note"><span class="ks">Sora:</span> กลยุทธ์ (gon-la-yút) = strategy/tactic. แรงกว่า (raeng gwàa) = stronger than. gwàa = the Thai comparative "more than."</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">Your defence creates your offence.</div>
+      <div class="t">การป้องกันของคุณสร้างโอกาสโจมตี</div>
+      <div class="r">gaan bpâwng-gan khǎawng khun sâang oo-gàat joom-dtii</div>
+      <div class="note"><span class="ke">Kru:</span> This is the kind of philosophy statement that resonates with serious students — it shows depth of knowledge.<br><span class="ks">Sora:</span> โจมตี (joom-dtii) = to attack/strike · โอกาส (oo-gàat) = opportunity</div>
+    </div>
+
+  </div><!-- /muay -->
+
+
+  <!-- NUMBERS & MONEY -->
+  <div id="numbers" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> English for handling payments, prices, and class bookings professionally.<br>
+      <strong>Sora learns:</strong> Thai numbers and money language — essential for markets, taxis, and paying at the gym in Thailand!
+    </p>
+
+    <div class="grp">Thai Numbers</div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Number</th><th>ไทย</th><th>Romanized</th><th>Number</th><th>ไทย</th><th>Romanized</th></tr></thead>
+        <tbody>
+          <tr><td class="te">0</td><td class="tt">ศูนย์</td><td class="tr">sǔun</td><td class="te">10</td><td class="tt">สิบ</td><td class="tr">sìp</td></tr>
+          <tr><td class="te">1</td><td class="tt">หนึ่ง</td><td class="tr">nùeng</td><td class="te">20</td><td class="tt">ยี่สิบ</td><td class="tr">yîi-sìp</td></tr>
+          <tr><td class="te">2</td><td class="tt">สอง</td><td class="tr">sǎawng</td><td class="te">30</td><td class="tt">สามสิบ</td><td class="tr">sǎam-sìp</td></tr>
+          <tr><td class="te">3</td><td class="tt">สาม</td><td class="tr">sǎam</td><td class="te">50</td><td class="tt">ห้าสิบ</td><td class="tr">hâa-sìp</td></tr>
+          <tr><td class="te">4</td><td class="tt">สี่</td><td class="tr">sìi</td><td class="te">100</td><td class="tt">หนึ่งร้อย</td><td class="tr">nùeng-ráwy</td></tr>
+          <tr><td class="te">5</td><td class="tt">ห้า</td><td class="tr">hâa</td><td class="te">500</td><td class="tt">ห้าร้อย</td><td class="tr">hâa-ráwy</td></tr>
+          <tr><td class="te">6</td><td class="tt">หก</td><td class="tr">hòk</td><td class="te">1,000</td><td class="tt">หนึ่งพัน</td><td class="tr">nùeng-phan</td></tr>
+          <tr><td class="te">7</td><td class="tt">เจ็ด</td><td class="tr">jèt</td><td class="te">10,000</td><td class="tt">หนึ่งหมื่น</td><td class="tr">nùeng-mùen</td></tr>
+          <tr><td class="te">8</td><td class="tt">แปด</td><td class="tr">bpàet</td><td class="te">100,000</td><td class="tt">หนึ่งแสน</td><td class="tr">nùeng-sǎaen</td></tr>
+          <tr><td class="te">9</td><td class="tt">เก้า</td><td class="tr">gâo</td><td class="te">1,000,000</td><td class="tt">หนึ่งล้าน</td><td class="tr">nùeng-láan</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Money & Payments</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">How much is a single class?</div>
+      <div class="t">ค่าเรียนต่อครั้งเท่าไหร่?</div>
+      <div class="r">khâa rian tàw khráng thâo-rài?</div>
+      <div class="note"><span class="ks">Sora:</span> ค่า (khâa) = fee/cost · เท่าไหร่ (thâo-rài) = how much? The most essential shopping phrase in Thai!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Do you offer a package deal?</div>
+      <div class="t">มีแพ็กเกจให้เลือกไหม?</div>
+      <div class="r">mii phák-gèt hâi lûeak mǎi?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Can I pay by card / PayNow / cash?</div>
+      <div class="t">จ่ายด้วยบัตร / PayNow / เงินสดได้ไหม?</div>
+      <div class="r">jàai dûay bàt / PayNow / ngoen-sòt dâai mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> เงิน (ngoen) = money · สด (sòt) = fresh/cash. เงินสด literally "fresh money" = cash!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">That's too expensive — is there a discount?</div>
+      <div class="t">แพงไปหน่อย — มีส่วนลดไหม?</div>
+      <div class="r">phaeng bpai nàwy — mii sùan-lót mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> แพง (phaeng) = expensive · ถูก (thùuk) = cheap. ส่วนลด (sùan-lót) = discount. Know these for Bangkok markets!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">Keep the change.</div>
+      <div class="t">ไม่ต้องทอนนะ</div>
+      <div class="r">mâi tâwng thawn ná</div>
+      <div class="note"><span class="ks">Sora:</span> ทอน (thawn) = to give change. มาตรฐาน (maat-trà-thǎan) = standard. Simple but super useful.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">Let me split the bill with you.</div>
+      <div class="t">ขอหารกันนะ</div>
+      <div class="r">khǎaw hǎan gan ná</div>
+      <div class="note"><span class="ks">Sora:</span> หาร (hǎan) means "to divide" in maths — using it for splitting a bill is very natural in Thai.</div>
+    </div>
+
+  </div><!-- /numbers -->
+
+
+  <!-- COMPLIMENTS -->
+  <div id="compliments" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> A wider range of compliments in English — beyond "good job!" — that make students feel genuinely seen.<br>
+      <strong>Sora learns:</strong> How to give sincere compliments in Thai, from casual to heartfelt.
+    </p>
+
+    <div class="grp">Complimenting Skills & Effort</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">You have a natural feel for this.</div>
+      <div class="t">คุณมีความรู้สึกที่เป็นธรรมชาติสำหรับสิ่งนี้</div>
+      <div class="r">khun mii khwaam-rúu-sùek thîi bpen-tham-maa-châat sǎm-ràp sìng níi</div>
+      <div class="note"><span class="ke">Kru:</span> This tells a student they have talent beyond hard work — very motivating for someone who doubts themselves.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">The consistency you've shown is impressive.</div>
+      <div class="t">ความสม่ำเสมอที่คุณแสดงออกมานั้นน่าประทับใจมาก</div>
+      <div class="r">khwaam sà-màm-sà-mǒe thîi khun sà-daeng àawk maa nán nâa-bprà-tháp-jai mâak</div>
+      <div class="note"><span class="ke">Kru:</span> Praising consistency rewards the process, not just results. Students who hear this keep showing up.<br><span class="ks">Sora:</span> น่าประทับใจ (nâa-bprà-tháp-jai) = impressive. ประทับใจ = to be impressed/touched.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">You picked that up really fast.</div>
+      <div class="t">เรียนรู้ได้เร็วมากเลย</div>
+      <div class="r">rian-rúu dâai reo mâak looei</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">That technique is looking sharp.</div>
+      <div class="t">เทคนิคนั้นดูคมชัดมากเลย</div>
+      <div class="r">thék-nìk nán duu khom-chát mâak looei</div>
+      <div class="note"><span class="ks">Sora:</span> คมชัด (khom-chát) = sharp/crisp/precise. Literally "sharp + clear." Great gym compliment to recognise!</div>
+    </div>
+
+    <div class="grp">Complimenting Character</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">I appreciate how hard you push yourself.</div>
+      <div class="t">ชื่นชมมากที่คุณพยายามอย่างหนัก</div>
+      <div class="r">chûen-chom mâak thîi khun phayaayaam yàang nàk</div>
+      <div class="note"><span class="ks">Sora:</span> ชื่นชม (chûen-chom) = to admire/appreciate. A warmer word than just แสดงความขอบคุณ.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">You have a really good attitude.</div>
+      <div class="t">คุณมีทัศนคติที่ดีมากเลย</div>
+      <div class="r">khun mii thát-sà-ná-khá-dtì thîi dii mâak looei</div>
+      <div class="note"><span class="ke">Kru:</span> Attitude compliments stick longer than technique compliments — they speak to who someone is, not just what they can do.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">07</div>
+      <div class="e">คุณเก่งมากเลย / คุณสุดยอดเลย</div>
+      <div class="t">คุณเก่งมากเลย / คุณสุดยอดเลย</div>
+      <div class="r">khun gèng mâak looei / khun sùt-yàwt looei</div>
+      <div class="e" style="margin-top:0.4rem">You're really skilled! / You're awesome!</div>
+      <div class="note"><span class="ks">Sora:</span> สุดยอด (sùt-yàwt) literally = "top peak" — it's the Thai equivalent of "awesome!" Very commonly used and always lands well.</div>
+    </div>
+
+    <div class="grp">Receiving a Compliment</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">08</div>
+      <div class="e">Thank you, that means a lot.</div>
+      <div class="t">ขอบคุณนะ มีความหมายมากเลย</div>
+      <div class="r">khàwp-khun ná — mii khwaam-mǎai mâak looei</div>
+      <div class="note"><span class="ke">Kru:</span> Graceful English response to a compliment — not too humble, not dismissive.<br><span class="ks">Sora:</span> มีความหมาย (mii khwaam-mǎai) = meaningful / means a lot.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">09</div>
+      <div class="e">I still have a lot to learn — but thank you!</div>
+      <div class="t">ยังมีอีกเยอะที่ต้องเรียนรู้ — แต่ขอบคุณนะ!</div>
+      <div class="r">yang mii ìik yóe thîi tâwng rian-rúu — tàae khàwp-khun ná!</div>
+      <div class="note"><span class="ke">Kru:</span> Humble deflection — very Thai in spirit! Showing you still want to grow builds respect with students.</div>
+    </div>
+
+  </div><!-- /compliments -->
+
+
+  <!-- GRAMMAR PATTERNS -->
+  <div id="grammar" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> Key English grammar patterns that are often tricky for Thai speakers — with examples.<br>
+      <strong>Sora learns:</strong> The Thai grammar patterns behind what you're already saying — understanding the structure helps you create new sentences independently.
+    </p>
+
+    <div class="grp">Pattern 1: Verb + ขึ้น / ลง (up/down = more/less)</div>
+
+    <div class="pattern-box">
+      <div class="pattern-label">Thai Pattern — Adding direction to verbs</div>
+      <p style="font-size:0.82rem; color: var(--muted); margin-bottom: 0.8rem; line-height:1.6">In Thai, adding <span style="color:var(--thai)">ขึ้น (khûen)</span> = up/more/worsening, or <span style="color:var(--thai)">ลง (long)</span> = down/less/improving after a verb changes the meaning powerfully.</p>
+      <div class="pattern-row">
+        <div class="pr-eng">Get better</div><div class="pr-thai">ดีขึ้น</div>
+        <div class="pr-roman">dii khûen</div><div></div>
+        <div class="pr-eng">Get worse</div><div class="pr-thai">แย่ลง</div>
+        <div class="pr-roman">yâae long</div><div></div>
+        <div class="pr-eng">Speed up</div><div class="pr-thai">เร็วขึ้น</div>
+        <div class="pr-roman">reo khûen</div><div></div>
+        <div class="pr-eng">Slow down</div><div class="pr-thai">ช้าลง</div>
+        <div class="pr-roman">châa long</div><div></div>
+        <div class="pr-eng">Improve (skill)</div><div class="pr-thai">เก่งขึ้น</div>
+        <div class="pr-roman">gèng khûen</div><div></div>
+        <div class="pr-eng">Get heavier</div><div class="pr-thai">หนักขึ้น</div>
+        <div class="pr-roman">nàk khûen</div><div></div>
+      </div>
+      <div class="pattern-note"><b>Sora's takeaway:</b> Once you know this pattern, you can modify almost any adjective. ดี (good) → ดีขึ้น (better). แข็งแรง (strong) → แข็งแรงขึ้น (stronger). No conjugation needed — just add ขึ้น or ลง!</div>
+    </div>
+
+    <div class="grp">Pattern 2: English Tense vs Thai Aspect Markers</div>
+
+    <div class="pattern-box">
+      <div class="pattern-label">Key difference — Thai has no verb tenses</div>
+      <p style="font-size:0.82rem; color: var(--muted); margin-bottom: 0.8rem; line-height:1.6">Thai verbs <b style="color:var(--cream)">never change form</b>. Instead, Thai uses time words and aspect markers. This is why Thai speakers sometimes struggle with English tenses — and why Sora sometimes hears Thai that sounds "tenseless."</p>
+      <div class="pattern-row">
+        <div class="pr-eng">I train (now)</div><div class="pr-thai">ฉันฝึกอยู่</div>
+        <div class="pr-roman">chǎn fùek yùu</div><div class="tn" style="font-size:0.75rem; color:var(--muted)">อยู่ = ongoing marker</div>
+
+        <div class="pr-eng">I trained (yesterday)</div><div class="pr-thai">เมื่อวานฉันฝึก</div>
+        <div class="pr-roman">mûea-waan chǎn fùek</div><div class="tn" style="font-size:0.75rem; color:var(--muted)">เมื่อวาน = time word does the work</div>
+
+        <div class="pr-eng">I will train (tomorrow)</div><div class="pr-thai">พรุ่งนี้ฉันจะฝึก</div>
+        <div class="pr-roman">phrûng níi chǎn jà fùek</div><div class="tn" style="font-size:0.75rem; color:var(--muted)">จะ = future marker</div>
+
+        <div class="pr-eng">I have already trained</div><div class="pr-thai">ฉันฝึกแล้ว</div>
+        <div class="pr-roman">chǎn fùek láaew</div><div class="tn" style="font-size:0.75rem; color:var(--muted)">แล้ว = completion marker</div>
+      </div>
+      <div class="pattern-note"><b>Kru's takeaway:</b> English forces you to change the verb: train / trained / will train. Focus on the patterns: "yesterday I ___ed" / "tomorrow I will ___" / "I have already ___ed" — these are the three most important to practise.</div>
+    </div>
+
+    <div class="grp">Pattern 3: Questions with ไหม / ไม่</div>
+
+    <div class="pattern-box">
+      <div class="pattern-label">Thai yes/no questions — just add ไหม at the end</div>
+      <p style="font-size:0.82rem; color: var(--muted); margin-bottom: 0.8rem; line-height:1.6">Any statement in Thai becomes a yes/no question by adding <span style="color:var(--thai)">ไหม (mǎi)</span> at the end. The answer: <span style="color:var(--thai)">ใช่ / ได้</span> (yes) or <span style="color:var(--thai)">ไม่ใช่ / ไม่ได้</span> (no).</p>
+      <div class="pattern-row">
+        <div class="pr-eng">You're tired.</div><div class="pr-thai">คุณเหนื่อย</div>
+        <div class="pr-roman">khun nùeay</div><div></div>
+        <div class="pr-eng">Are you tired?</div><div class="pr-thai">คุณเหนื่อยไหม?</div>
+        <div class="pr-roman">khun nùeay mǎi?</div><div></div>
+        <div class="pr-eng">You understand.</div><div class="pr-thai">คุณเข้าใจ</div>
+        <div class="pr-roman">khun khâo jai</div><div></div>
+        <div class="pr-eng">Do you understand?</div><div class="pr-thai">คุณเข้าใจไหม?</div>
+        <div class="pr-roman">khun khâo jai mǎi?</div><div></div>
+      </div>
+      <div class="pattern-note"><b>Sora's takeaway:</b> Don't confuse <span style="color:var(--thai)">ไหม</span> (mǎi = question particle) with <span style="color:var(--thai)">ไม่</span> (mâi = no/not). Same spelling, different tones — one asks a question, one negates! This is one of the most common mix-ups for learners.</div>
+    </div>
+
+    <div class="grp">Pattern 4: Softening with นะ / นะคะ</div>
+
+    <div class="pattern-box">
+      <div class="pattern-label">The magic particle — นะ</div>
+      <p style="font-size:0.82rem; color: var(--muted); margin-bottom: 0.8rem; line-height:1.6"><span style="color:var(--thai)">นะ (ná)</span> added to the end of sentences softens commands, invites agreement, or adds warmth. It's untranslatable but essential — removing it makes Thai sound blunt or even rude.</p>
+      <div class="pattern-row">
+        <div class="pr-eng">Relax! (blunt)</div><div class="pr-thai">ผ่อนคลาย!</div>
+        <div class="pr-roman">phàawn khlaai!</div><div></div>
+        <div class="pr-eng">Relax, okay? (warm)</div><div class="pr-thai">ผ่อนคลายนะ</div>
+        <div class="pr-roman">phàawn khlaai ná</div><div></div>
+        <div class="pr-eng">Try again! (blunt)</div><div class="pr-thai">ลองอีกครั้ง!</div>
+        <div class="pr-roman">laawng ìik khráng!</div><div></div>
+        <div class="pr-eng">Try again, okay? (warm)</div><div class="pr-thai">ลองอีกครั้งนะ</div>
+        <div class="pr-roman">laawng ìik khráng ná</div><div></div>
+      </div>
+      <div class="pattern-note"><b>Sora's takeaway:</b> Add นะ to almost anything and it becomes instantly friendlier. Female speakers can use <span style="color:var(--thai)">นะคะ (ná khâ)</span> for extra politeness in formal situations. <b>Kru's English equivalent:</b> "okay?" / "alright?" added at the end of instructions does the same job.</div>
+    </div>
+
+  </div><!-- /grammar -->
+
+</div><!-- /content -->
+
+<footer>
+  Click any card to highlight · Tone marks: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  Kru & Sora language exchange 🥊 · Vol. 3
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kru & Sora — Language Exchange</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e0c;
+    --bg2: #1a1814;
+    --bg3: #232018;
+    --gold: #c9933a;
+    --gold-light: #e8b85a;
+    --red: #c03030;
+    --cream: #f0e8d8;
+    --muted: #7a7060;
+    --eng: #7ecfb3;
+    --thai-script: #e8b85a;
+    --roman: #c9a0dc;
+    --border: rgba(201, 147, 58, 0.2);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% -20%, rgba(201,147,58,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 span { color: var(--gold); }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dot-eng { background: var(--eng); }
+  .dot-thai { background: var(--thai-script); }
+  .dot-roman { background: var(--roman); }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 0 1.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabs::-webkit-scrollbar { height: 3px; }
+  .tabs::-webkit-scrollbar-track { background: transparent; }
+  .tabs::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+  .tab {
+    padding: 1rem 1.2rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .tab:hover { color: var(--cream); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ── CONTENT ── */
+  .content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-intro {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    padding: 0.8rem 1rem;
+    border-left: 2px solid var(--gold);
+    background: rgba(201, 147, 58, 0.05);
+    line-height: 1.6;
+  }
+
+  /* ── PHRASE CARDS ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .card:hover {
+    border-color: rgba(201,147,58,0.45);
+    background: var(--bg3);
+  }
+
+  .card.highlighted {
+    border-color: var(--gold);
+    background: var(--bg3);
+    box-shadow: 0 0 0 1px rgba(201,147,58,0.15), 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .card-num {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .eng {
+    color: var(--eng);
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.55rem;
+    line-height: 1.4;
+    padding-right: 2rem;
+  }
+
+  .thai-script {
+    font-family: 'Noto Sans Thai', sans-serif;
+    color: var(--thai-script);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    line-height: 1.6;
+  }
+
+  .roman {
+    color: var(--roman);
+    font-size: 0.88rem;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
+
+  .note {
+    margin-top: 0.7rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .note strong { color: var(--gold-light); font-weight: 500; }
+
+  /* ── GROUP HEADERS ── */
+  .group-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 2rem 0 0.8rem;
+    padding-left: 0.2rem;
+    opacity: 0.8;
+  }
+
+  .group-label:first-of-type { margin-top: 0; }
+
+  /* ── CONNECTORS TABLE ── */
+  .connector-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    align-items: start;
+  }
+
+  .connector-row > div {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
+  .connector-row .col-eng { color: var(--eng); }
+  .connector-row .col-thai { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai-script); font-size: 0.95rem; }
+  .connector-row .col-roman { color: var(--roman); font-style: italic; }
+
+  .col-header {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 0.3rem;
+  }
+
+  /* responsive */
+  @media (max-width: 600px) {
+    .connector-row { grid-template-columns: 1fr; }
+    .connector-row > div:not(:last-child) { border-bottom: none; border-radius: 0; }
+    .connector-row > div:first-child { border-radius: 4px 4px 0 0; }
+    .connector-row > div:last-child { border-radius: 0 0 4px 4px; }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">🥊 Language Exchange</div>
+  <h1>English <span>↔</span> Thai · More Learning Together</h1>
+  <p class="subtitle">English ↔ Thai · Study Together</p>
+  <div class="legend">
+    <div class="legend-item"><div class="dot dot-eng"></div><span style="color:var(--eng)">English</span></div>
+    <div class="legend-item"><div class="dot dot-thai"></div><span style="color:var(--thai-script)">ภาษาไทย Thai Script</span></div>
+    <div class="legend-item"><div class="dot dot-roman"></div><span style="color:var(--roman)">Romanized (tone marks)</span></div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="switchTab('corrections')">🎯 Corrections</button>
+  <button class="tab" onclick="switchTab('encouragement')">💪 Encouragement</button>
+  <button class="tab" onclick="switchTab('smalltalk')">☕ Small Talk</button>
+  <button class="tab" onclick="switchTab('clarify')">🔄 Clarifying</button>
+  <button class="tab" onclick="switchTab('connectors')">🔗 Natural Connectors</button>
+</nav>
+
+<div class="content">
+
+  <!-- ───── CORRECTIONS ───── -->
+  <div id="corrections" class="section active">
+    <p class="section-intro">
+      <strong style="color:var(--gold-light)">Kru learns:</strong> How to give polite, professional corrections in English — softened phrasing that international students respond well to.<br>
+      <strong style="color:var(--roman)">Sora learns:</strong> How a kru would give corrections in Thai — useful vocab for understanding feedback during training.
+    </p>
+
+    <div class="group-label">Technique Corrections</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">01</div>
+      <div class="eng">Try bringing your elbow a little higher.</div>
+      <div class="thai-script">ลองยกข้อศอกขึ้นมาหน่อยนะ</div>
+      <div class="roman">laawng yók khâw-sàawk khûen maa nàwy ná</div>
+      <div class="note"><strong>Note (Kru):</strong> "Try..." softens a direct command. More natural than "Elbow up!" with international students.<br><strong>Note (Sora):</strong> นะ (ná) at the end makes the request gentle and friendly.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">02</div>
+      <div class="eng">Your guard is dropping a little — keep it up.</div>
+      <div class="thai-script">การ์ดตกลงมานิดหน่อย — ยกขึ้นด้วยนะ</div>
+      <div class="roman">gaan tòk long maa nít nàwy — yók khûen dûay ná</div>
+      <div class="note"><strong>Note (Kru):</strong> Acknowledge the problem, then give the fix. Avoid "Wrong!" — it discourages students.<br><strong>Note (Sora):</strong> ด้วยนะ (dûay ná) = "as well, okay?" — adds softness.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">03</div>
+      <div class="eng">Relax your shoulders — you're tensing up.</div>
+      <div class="thai-script">ผ่อนคลายไหล่หน่อย — กำลังเกร็งอยู่</div>
+      <div class="roman">phàawn khlaai lài nàwy — gamlang kreng yùu</div>
+      <div class="note"><strong>Note (Sora):</strong> เกร็ง (kreng) = to tense/stiffen. Very useful gym word to recognise!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">04</div>
+      <div class="eng">Rotate your hips more when you kick.</div>
+      <div class="thai-script">หมุนสะโพกมากขึ้นตอนเตะ</div>
+      <div class="roman">mun sà-phôok mâak khûen tawn té</div>
+      <div class="note"><strong>Note (Sora):</strong> หมุน (mun) = rotate/twist · สะโพก (sà-phôok) = hips · เตะ (té) = to kick</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">05</div>
+      <div class="eng">Step forward as you punch — use your body weight.</div>
+      <div class="thai-script">ก้าวไปข้างหน้าตอนชก — ใช้น้ำหนักตัวด้วย</div>
+      <div class="roman">gâao pai khâang-nâa tawn chók — chái nám-nàk tua dûay</div>
+      <div class="note"><strong>Note (Sora):</strong> ก้าว (gâao) = to step · ชก (chók) = to punch · น้ำหนัก (nám-nàk) = weight</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">06</div>
+      <div class="eng">Keep your chin down — protect yourself.</div>
+      <div class="thai-script">ก้มคางลงไว้ — ป้องกันตัวด้วย</div>
+      <div class="roman">kôm khaang long wái — bpâwng-gan tua dûay</div>
+      <div class="note"><strong>Note (Kru):</strong> "Protect yourself" sounds caring, not critical.<br><strong>Note (Sora):</strong> ป้องกัน (bpâwng-gan) = to protect/defend</div>
+    </div>
+
+    <div class="group-label">Pace & Rhythm</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">07</div>
+      <div class="eng">Slow it down — focus on the technique first.</div>
+      <div class="thai-script">ช้าลงก่อน — โฟกัสที่เทคนิคก่อนนะ</div>
+      <div class="roman">châa long gàawn — foh-gát thîi thék-nìk gàawn ná</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">08</div>
+      <div class="eng">Breathe out when you strike.</div>
+      <div class="thai-script">หายใจออกตอนที่ออกหมัด</div>
+      <div class="roman">hǎai jai àawk tawn thîi àawk màt</div>
+      <div class="note"><strong>Note (Sora):</strong> หายใจ (hǎai jai) = to breathe · ออกหมัด (àawk màt) = to throw a punch</div>
+    </div>
+
+  </div><!-- /corrections -->
+
+
+  <!-- ───── ENCOURAGEMENT ───── -->
+  <div id="encouragement" class="section">
+    <p class="section-intro">
+      <strong style="color:var(--gold-light)">Kru learns:</strong> Warm, natural English phrases that motivate students — beyond just "Good!"<br>
+      <strong style="color:var(--roman)">Sora learns:</strong> How encouragement sounds in Thai — the kind of thing you'll hear from coaches mid-training.
+    </p>
+
+    <div class="group-label">Progress & Effort</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">01</div>
+      <div class="eng">That's much better — I can see the improvement!</div>
+      <div class="thai-script">ดีขึ้นมากเลย — เห็นความก้าวหน้าชัดเจนเลย!</div>
+      <div class="roman">dii khûen mâak looei — hěn khwaam gâao-nâa chát-jeen looei!</div>
+      <div class="note"><strong>Note (Kru):</strong> Naming what you see ("I can see...") feels specific and genuine, not generic praise.<br><strong>Note (Sora):</strong> ความก้าวหน้า (khwaam gâao-nâa) = progress/improvement</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">02</div>
+      <div class="eng">You're improving really fast.</div>
+      <div class="thai-script">พัฒนาเร็วมากเลยนะ</div>
+      <div class="roman">phát-thanaa reo mâak looei ná</div>
+      <div class="note"><strong>Note (Sora):</strong> พัฒนา (phát-thanaa) = to develop/improve. A key word for tracking progress!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">03</div>
+      <div class="eng">Good effort today — you pushed through.</div>
+      <div class="thai-script">วันนี้พยายามดีมาก — สู้ดีเลย</div>
+      <div class="roman">wan níi phayaayaam dii mâak — sûu dii looei</div>
+      <div class="note"><strong>Note (Sora):</strong> สู้ (sûu) = to fight/push through. Coaches say this a lot — it's a big motivating word in Thai.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">04</div>
+      <div class="eng">Almost! You nearly had it — try once more.</div>
+      <div class="thai-script">เกือบได้แล้ว! เกือบสำเร็จแล้ว — ลองอีกครั้งนะ</div>
+      <div class="roman">gùeap dâai láaew! gùeap sǎm-rèt láaew — laawng ìik khráng ná</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">05</div>
+      <div class="eng">Don't give up — you can do it.</div>
+      <div class="thai-script">อย่าเพิ่งถอดใจ — เธอทำได้</div>
+      <div class="roman">yàa phêng thàwt jai — thooe tham dâai</div>
+      <div class="note"><strong>Note (Kru):</strong> "Don't give up" is warmer than "Keep going" for tired students.<br><strong>Note (Sora):</strong> ถอดใจ (thàwt jai) = to give up/lose heart. Literally "remove heart" — beautiful phrase.</div>
+    </div>
+
+    <div class="group-label">After a Round / Session</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">06</div>
+      <div class="eng">That was a solid round. How do you feel?</div>
+      <div class="thai-script">ยกนั้นทำได้ดีมาก รู้สึกยังไงบ้าง?</div>
+      <div class="roman">yók nán tham dâai dii mâak — rúu-sùek yang-ngai bâang?</div>
+      <div class="note"><strong>Note (Sora):</strong> ยก (yók) = round (in Muay Thai). Also means "to lift" — same word!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">07</div>
+      <div class="eng">Take a rest — you've earned it.</div>
+      <div class="thai-script">พักได้เลย — คุณทำได้ดีมากแล้ว</div>
+      <div class="roman">phák dâai looei — khun tham dâai dii mâak láaew</div>
+    </div>
+
+  </div><!-- /encouragement -->
+
+
+  <!-- ───── SMALL TALK ───── -->
+  <div id="smalltalk" class="section">
+    <p class="section-intro">
+      <strong style="color:var(--gold-light)">Kru learns:</strong> Conversational English for building rapport with students outside of training.<br>
+      <strong style="color:var(--roman)">Sora learns:</strong> Casual Thai phrases for connecting with coaches and people at the gym.
+    </p>
+
+    <div class="group-label">At the Gym</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">01</div>
+      <div class="eng">How are you feeling today?</div>
+      <div class="thai-script">วันนี้เป็นยังไงบ้าง?</div>
+      <div class="roman">wan níi pen yang-ngai bâang?</div>
+      <div class="note"><strong>Note (Kru):</strong> More personal than "Are you okay?" — invites students to share if they're tired or sore.<br><strong>Note (Sora):</strong> เป็นยังไง (pen yang-ngai) = casual "how is it / how are you doing?"</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">02</div>
+      <div class="eng">Are you sore from yesterday?</div>
+      <div class="thai-script">เมื่อวานเจ็บกล้ามเนื้อไหม?</div>
+      <div class="roman">mûea-waan jèp glâam-núea mǎi?</div>
+      <div class="note"><strong>Note (Sora):</strong> เจ็บกล้ามเนื้อ (jèp glâam-núea) = muscle soreness (DOMS). เจ็บ (jèp) = to hurt/ache.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">03</div>
+      <div class="eng">Have you eaten yet?</div>
+      <div class="thai-script">กินข้าวยังหรือเปล่า?</div>
+      <div class="roman">gin khâao yang rǔe bplào?</div>
+      <div class="note"><strong>Note (Sora):</strong> Literally "eaten rice yet?" — Thai people use กินข้าว for any meal, not just rice. Very common caring phrase.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">04</div>
+      <div class="eng">How long have you been training Muay Thai?</div>
+      <div class="thai-script">ฝึกมวยไทยมานานแค่ไหนแล้ว?</div>
+      <div class="roman">fùek muay thai maa naan khâe-nǎi láaew?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">05</div>
+      <div class="eng">Where are you from?</div>
+      <div class="thai-script">คุณมาจากไหน?</div>
+      <div class="roman">khun maa jàak nǎi?</div>
+    </div>
+
+    <div class="group-label">Getting to Know Each Other</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">06</div>
+      <div class="eng">How long are you staying in Singapore?</div>
+      <div class="thai-script">อยู่สิงคโปร์นานแค่ไหน?</div>
+      <div class="roman">yùu sing-khá-bpoo naan khâe-nǎi?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">07</div>
+      <div class="eng">What do you do for work?</div>
+      <div class="thai-script">ทำงานอะไรอยู่?</div>
+      <div class="roman">tham ngaan à-rai yùu?</div>
+      <div class="note"><strong>Note (Sora):</strong> ทำงาน (tham ngaan) = to work. You'll hear this all the time in casual conversation.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">08</div>
+      <div class="eng">Do you want to grab food after training?</div>
+      <div class="thai-script">หลังฝึกอยากไปกินข้าวด้วยกันไหม?</div>
+      <div class="roman">lǎng fùek yàak bpai gin khâao dûay gan mǎi?</div>
+      <div class="note"><strong>Note (Kru):</strong> Building social connection outside training is great for student retention!<br><strong>Note (Sora):</strong> ด้วยกัน (dûay gan) = together</div>
+    </div>
+
+  </div><!-- /smalltalk -->
+
+
+  <!-- ───── CLARIFYING ───── -->
+  <div id="clarify" class="section">
+    <p class="section-intro">
+      <strong style="color:var(--gold-light)">Kru learns:</strong> How to check understanding and handle confusion gracefully in English.<br>
+      <strong style="color:var(--roman)">Sora learns:</strong> How to ask for clarification mid-training — essential for learning from kru!
+    </p>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">01</div>
+      <div class="eng">Do you understand, or should I show you again?</div>
+      <div class="thai-script">เข้าใจไหม หรือจะให้สาธิตอีกครั้ง?</div>
+      <div class="roman">khâo jai mǎi — rǔe jà hâi sǎa-thít ìik khráng?</div>
+      <div class="note"><strong>Note (Kru):</strong> Giving the option to see a demo removes the pressure of admitting confusion.<br><strong>Note (Sora):</strong> สาธิต (sǎa-thít) = to demonstrate/show</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">02</div>
+      <div class="eng">Let me show you what I mean.</div>
+      <div class="thai-script">ให้ครูสาธิตให้ดูนะ</div>
+      <div class="roman">hâi khruu sǎa-thít hâi duu ná</div>
+      <div class="note"><strong>Note (Sora):</strong> ครู (khruu) = teacher/kru. Kru referring to himself as ครู is common in Thai.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">03</div>
+      <div class="eng">Can you say that again, a bit more slowly?</div>
+      <div class="thai-script">พูดอีกครั้งได้ไหม ช้าๆ หน่อย?</div>
+      <div class="roman">phûut ìik khráng dâai mǎi — châa châa nàwy?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">04</div>
+      <div class="eng">I'm not quite sure I understand — can you explain differently?</div>
+      <div class="thai-script">ยังไม่ค่อยเข้าใจเลย — อธิบายแบบอื่นได้ไหม?</div>
+      <div class="roman">yang mâi khàwy khâo jai looei — à-thí-baai bàaep ùen dâai mǎi?</div>
+      <div class="note"><strong>Note (Kru):</strong> "Not quite sure" is softer than "I don't understand" — students often feel embarrassed to say they're lost.<br><strong>Note (Sora):</strong> อธิบาย (à-thí-baai) = to explain</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">05</div>
+      <div class="eng">What does that word mean?</div>
+      <div class="thai-script">คำนั้นแปลว่าอะไร?</div>
+      <div class="roman">kham nán bplaae wâa à-rai?</div>
+      <div class="note"><strong>Note (Sora):</strong> Super useful for when kru uses a Thai technique word mid-session!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">06</div>
+      <div class="eng">Does that make sense?</div>
+      <div class="thai-script">เข้าใจแล้วใช่ไหม?</div>
+      <div class="roman">khâo jai láaew châi mǎi?</div>
+      <div class="note"><strong>Note (Kru):</strong> Quick check-in after explaining something. Very natural filler in English conversation.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">07</div>
+      <div class="eng">Let me know if you have any questions.</div>
+      <div class="thai-script">ถ้ามีคำถามอะไรก็บอกได้เลยนะ</div>
+      <div class="roman">thâa mii kham-thǎam à-rai gâw bàawk dâai looei ná</div>
+      <div class="note"><strong>Note (Kru):</strong> Always end explanations with this — creates a safe space for students to ask.</div>
+    </div>
+
+  </div><!-- /clarify -->
+
+
+  <!-- ───── CONNECTORS ───── -->
+  <div id="connectors" class="section">
+    <p class="section-intro">
+      <strong style="color:var(--gold-light)">Kru learns:</strong> Natural English filler words and connectors that make speech sound fluent — not textbook.<br>
+      <strong style="color:var(--roman)">Sora learns:</strong> Thai equivalents — these are the little words that make spoken Thai sound natural.
+    </p>
+
+    <div class="group-label">Openers & Softeners</div>
+
+    <div class="connector-row">
+      <div class="col-eng"><div class="col-header">English</div>Actually, ...</div>
+      <div class="col-thai"><div class="col-header">ภาษาไทย</div>จริงๆ แล้ว...</div>
+      <div class="col-roman"><div class="col-header">Romanized</div>jing jing láaew...</div>
+    </div>
+
+    <div class="connector-row">
+      <div class="col-eng">To be honest, ...</div>
+      <div class="col-thai">พูดตรงๆ เลย...</div>
+      <div class="col-roman">phûut trong trong looei...</div>
+    </div>
+
+    <div class="connector-row">
+      <div class="col-eng">Honestly, ...</div>
+      <div class="col-thai">จริงๆ นะ...</div>
+      <div class="col-roman">jing jing ná...</div>
+    </div>
+
+    <div class="connector-row">
+      <div class="col-eng">What I mean is...</div>
+      <div class="col-thai">ที่หมายถึงคือ...</div>
+      <div class="col-roman">thîi mǎai thǔeng khue...</div>
+    </div>
+
+    <div class="group-label">Checking & Confirming</div>
+
+    <div class="connector-row">
+      <div class="col-eng">You know what I mean?</div>
+      <div class="col-thai">เข้าใจที่พูดไหม?</div>
+      <div class="col-roman">khâo jai thîi phûut mǎi?</div>
+    </div>
+
+    <div class="connector-row">
+      <div class="col-eng">Right? / Isn't it?</div>
+      <div class="col-thai">ใช่ไหม? / จริงไหม?</div>
+      <div class="col-roman">châi mǎi? / jing mǎi?</div>
+    </div>
+
+    <div class="connector-row">
+      <div class="col-eng">Exactly! / That's right!</div>
+      <div class="col-thai">ถูกต้อง! / ใช่เลย!</div>
+      <div class="col-roman">thùuk-tâwng! / châi looei!</div>
+    </div>
+
+    <div class="group-label">Thinking & Pausing</div>
+
+    <div class="connector-row">
+      <div class="col-eng">Let me think...</div>
+      <div class="col-thai">ขอคิดดูก่อน...</div>
+      <div class="col-roman">khǎaw khít duu gàawn...</div>
+    </div>
+
+    <div class="connector-row">
+      <div class="col-eng">How do I say this...</div>
+      <div class="col-thai">จะพูดยังไงดีนะ...</div>
+      <div class="col-roman">jà phûut yang-ngai dii ná...</div>
+    </div>
+
+    <div class="connector-row">
+      <div class="col-eng">Something like that / More or less</div>
+      <div class="col-thai">ประมาณนั้น / ประมาณนั้นแหละ</div>
+      <div class="col-roman">bprà-maan nán / bprà-maan nán làe</div>
+    </div>
+
+    <div class="group-label">Reacting</div>
+
+    <div class="connector-row">
+      <div class="col-eng">Really? / No way!</div>
+      <div class="col-thai">จริงเหรอ? / ไม่น่าเชื่อ!</div>
+      <div class="col-roman">jing rǒe? / mâi nâa-chûea!</div>
+    </div>
+
+    <div class="connector-row">
+      <div class="col-eng">That makes sense.</div>
+      <div class="col-thai">เข้าใจแล้ว / มีเหตุผลดี</div>
+      <div class="col-roman">khâo jai láaew / mii hèt-phon dii</div>
+    </div>
+
+    <div class="connector-row">
+      <div class="col-eng">I see what you mean.</div>
+      <div class="col-thai">เข้าใจที่คุณพูดแล้ว</div>
+      <div class="col-roman">khâo jai thîi khun phûut láaew</div>
+    </div>
+
+    <div class="group-label">Ending a Conversation Gracefully</div>
+
+    <div class="connector-row">
+      <div class="col-eng">Anyway, let's get back to it.</div>
+      <div class="col-thai">โอเค กลับมาฝึกกันต่อเลย</div>
+      <div class="col-roman">oh-khee — glàp maa fùek gan tàw looei</div>
+    </div>
+
+    <div class="connector-row">
+      <div class="col-eng">See you next time!</div>
+      <div class="col-thai">แล้วเจอกันใหม่นะ!</div>
+      <div class="col-roman">láaew jooe gan mài ná!</div>
+    </div>
+
+    <div class="connector-row">
+      <div class="col-eng">Take care!</div>
+      <div class="col-thai">ดูแลตัวเองด้วยนะ!</div>
+      <div class="col-roman">duu-laae tua-eeng dûay ná!</div>
+    </div>
+
+  </div><!-- /connectors -->
+
+</div><!-- /content -->
+
+<footer>
+  Click any card to highlight it · Tone marks: à = low · â = falling · á = high · ǎ = rising · a = mid<br>
+  Made for Kru & Sora's language exchange 🥊
+</footer>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

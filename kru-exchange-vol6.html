@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Vol. 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0a06;
+    --bg2: #18110a;
+    --bg3: #221a10;
+    --cream: #f4ead8;
+    --muted: #7a6a52;
+    --border: rgba(220,160,60,0.15);
+    --eng: #4a9ed6;
+    --thai: #d64a6a;
+    --roman: #4ab87a;
+    --gold: #dca03c;
+    --gold2: #f0c060;
+    --accent: #e05c20;
+    --red: #c03020;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--bg2);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-bg-text {
+    position: absolute;
+    right: -2rem; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14rem; font-weight: 800;
+    color: rgba(220,160,60,0.04);
+    line-height: 1; pointer-events: none;
+    letter-spacing: -0.04em;
+  }
+
+  .header-stripe {
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+  }
+
+  .h-inner {
+    max-width: 900px; margin: 0 auto;
+    padding: 2.2rem 2rem 2rem;
+    position: relative;
+  }
+
+  .vol-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 0.5rem; display: block;
+  }
+
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 6vw, 3.8rem);
+    font-weight: 800; line-height: 1;
+    color: var(--cream); letter-spacing: -0.01em;
+    text-transform: uppercase; margin-bottom: 0.2rem;
+  }
+
+  h1 span { color: var(--gold); }
+
+  .sub { font-size: 0.82rem; color: var(--muted); font-weight: 300; margin-bottom: 1.3rem; letter-spacing: 0.06em; }
+
+  .legend { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+  .leg { display: flex; align-items: center; gap: 0.45rem; font-size: 0.76rem; font-weight: 500; }
+  .lsq { width: 9px; height: 9px; border-radius: 1px; }
+  .le { background: var(--eng); }
+  .lt { background: var(--thai); }
+  .lr { background: var(--roman); }
+  .leg span { color: rgba(244,234,216,0.6); }
+
+  /* TABS */
+  .tabs {
+    display: flex; overflow-x: auto;
+    background: var(--bg2);
+    border-bottom: 2px solid var(--bg3);
+    padding: 0 1.2rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: 0.9rem 1.1rem;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.8rem; font-weight: 600; color: var(--muted);
+    cursor: pointer; white-space: nowrap;
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+    transition: all 0.15s; letter-spacing: 0.02em;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+
+  .tab:hover { color: var(--cream); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* CONTENT */
+  .content { max-width: 900px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro {
+    font-size: 0.82rem; line-height: 1.72; color: var(--muted);
+    padding: 0.85rem 1.1rem; margin-bottom: 1.8rem;
+    border-left: 3px solid var(--accent);
+    background: rgba(224,92,32,0.06);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .intro strong { color: var(--cream); }
+
+  .grp {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--muted);
+    margin: 2.2rem 0 0.9rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  /* CARDS */
+  .card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 1.1rem 1.3rem;
+    margin-bottom: 0.65rem; cursor: pointer;
+    transition: all 0.18s; position: relative;
+  }
+
+  .card:hover {
+    border-color: rgba(224,92,32,0.4);
+    background: var(--bg3); transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  }
+
+  .card.on { border-color: var(--accent); background: var(--bg3); box-shadow: 0 0 0 1px rgba(224,92,32,0.2); }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-size: 0.65rem; color: var(--muted); font-weight: 700; font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.1em; }
+
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 500; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.28rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+
+  .note {
+    margin-top: 0.62rem; padding-top: 0.58rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.76rem; color: var(--muted); line-height: 1.6;
+  }
+
+  .note b { color: var(--gold); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  /* TABLE */
+  .tw { overflow-x: auto; margin-bottom: 0.8rem; }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 6px; overflow: hidden; font-size: 0.85rem;
+  }
+
+  thead tr { background: rgba(224,92,32,0.2); }
+  thead th {
+    padding: 0.6rem 1rem; text-align: left;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent);
+  }
+
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 500; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr2 { color: var(--roman); font-style: italic; }
+  .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  /* CALLOUT */
+  .cbox {
+    border-radius: 6px; padding: 1rem 1.2rem; margin-bottom: 0.8rem;
+    border: 1px solid;
+  }
+
+  .cbox-fire { background: rgba(224,92,32,0.07); border-color: rgba(224,92,32,0.25); }
+  .cbox-gold { background: rgba(220,160,60,0.07); border-color: rgba(220,160,60,0.25); }
+
+  .cbox-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; margin-bottom: 0.55rem;
+  }
+
+  .cl-fire { color: var(--accent); }
+  .cl-gold { color: var(--gold); }
+
+  .cbox p { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+  .cbox p b { color: var(--cream); }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 1.4rem; margin-bottom: 1rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0.5rem; width: 1px; background: var(--border); }
+
+  .tl-item {
+    position: relative; margin-bottom: 1rem;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 0.9rem 1.1rem;
+    cursor: pointer; transition: all 0.18s;
+  }
+
+  .tl-item::before {
+    content: '';
+    position: absolute; left: -1.7rem; top: 1rem;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg);
+  }
+
+  .tl-item:hover { border-color: rgba(224,92,32,0.4); background: var(--bg3); }
+  .tl-item.on { border-color: var(--accent); background: var(--bg3); }
+
+  .tl-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem;
+  }
+
+  /* DIALOGUE */
+  .dlg { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 0.8rem; }
+  .dlg-hd { background: rgba(224,92,32,0.15); padding: 0.5rem 1rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+  .dlg-ln { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 58px 1fr; gap: 0.8rem; align-items: start; }
+  .dlg-ln:last-child { border-bottom: none; }
+  .spk { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding-top: 0.15rem; font-family: 'Barlow Condensed', sans-serif; }
+  .spk.kru { color: var(--eng); }
+  .spk.sora { color: var(--roman); }
+  .dt .e { font-size: 0.9rem; padding-right: 0; }
+  .dt .t { font-size: 0.97rem; }
+  .dt .r { font-size: 0.8rem; }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  @media (max-width: 560px) {
+    .dlg-ln { grid-template-columns: 44px 1fr; }
+    .header-bg-text { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-stripe"></div>
+  <div class="header-bg-text">VI</div>
+  <div class="h-inner">
+    <span class="vol-tag">🥊 Language Exchange · Vol. 6</span>
+    <h1>English <span>↔</span> Thai<br>More Learning Together</h1>
+    <p class="sub">Competition Preparation · Fight Week · The Big Day</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span>English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span>ภาษาไทย Thai Script</span></div>
+      <div class="leg"><div class="lsq lr"></div><span>Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('camplife')">🏕️ Camp Life</button>
+  <button class="tab" onclick="sw('weightcut')">⚖️ Weight & Nutrition</button>
+  <button class="tab" onclick="sw('mental')">🧠 Mental Prep</button>
+  <button class="tab" onclick="sw('fightweek')">📅 Fight Week</button>
+  <button class="tab" onclick="sw('ringside')">🎙️ Ringside</button>
+  <button class="tab" onclick="sw('after')">🏅 Win or Lose</button>
+</nav>
+
+<div class="content">
+
+  <!-- CAMP LIFE -->
+  <div id="camplife" class="section active">
+    <p class="intro">
+      <strong>Kru learns:</strong> English for describing training camp life to international students — schedules, expectations, and routines.<br>
+      <strong>Sora learns:</strong> Thai camp vocabulary — what coaches and fighters say to each other in a real training environment.
+    </p>
+
+    <div class="grp">Daily Camp Routine</div>
+
+    <div class="cbox cbox-gold">
+      <div class="cbox-label cl-gold">🏕️ A typical Muay Thai camp day</div>
+      <p>Morning: <b>วิ่ง (wîng)</b> running + <b>ซ้อม (sáwm)</b> training · Midday: rest + eat · Evening: <b>ซ้อมอีกรอบ (sáwm ìik râwp)</b> second session. Fighters in Thailand often do this 6 days a week leading up to a fight. The camp is called <b>ค่ายมวย (khâai muay)</b> — literally "boxing camp."</p>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Training camp starts three weeks before the fight.</div>
+      <div class="t">แคมป์ฝึกเริ่มสามอาทิตย์ก่อนชก</div>
+      <div class="r">kháem fùek rôem sǎam aa-thít gàawn chók</div>
+      <div class="note"><span class="ks">Sora:</span> อาทิตย์ (aa-thít) = week. ก่อน (gàawn) = before. สามอาทิตย์ก่อน = "three weeks before."</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">We train twice a day during fight camp.</div>
+      <div class="t">ช่วงแคมป์ชก เราซ้อมสองรอบต่อวัน</div>
+      <div class="r">chûang kháem chók — rao sáwm sǎawng râwp tàw wan</div>
+      <div class="note"><span class="ks">Sora:</span> ซ้อม (sáwm) = to train/practise · รอบ (râwp) = round/session · ต่อวัน (tàw wan) = per day</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">You need to be in bed by 10pm during camp.</div>
+      <div class="t">ช่วงแคมป์ต้องเข้านอนก่อนสี่ทุ่ม</div>
+      <div class="r">chûang kháem tâwng khâo-nawn gàawn sìi-thûm</div>
+      <div class="note"><span class="ks">Sora:</span> สี่ทุ่ม (sìi thûm) = 10pm in the Thai clock system (4th night period). เข้านอน (khâo-nawn) = to go to bed.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">No alcohol during fight camp — not even a little.</div>
+      <div class="t">ช่วงแคมป์ห้ามดื่มเลย — แม้แต่นิดเดียว</div>
+      <div class="r">chûang kháem hâam dùem looei — máe-dtàe nít-diaw</div>
+      <div class="note"><span class="ke">Kru:</span> Be direct about this. Students from some cultures don't take social drinking seriously as a performance issue.<br><span class="ks">Sora:</span> ห้าม (hâam) = forbidden/not allowed · แม้แต่ (máe-dtàe) = not even</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">How are you feeling about the camp so far?</div>
+      <div class="t">รู้สึกยังไงบ้างกับแคมป์จนถึงตอนนี้?</div>
+      <div class="r">rúu-sùek yang-ngai bâang gàp kháem jon-thǔeng tawn níi?</div>
+      <div class="note"><span class="ks">Sora:</span> จนถึงตอนนี้ (jon-thǔeng tawn níi) = until now / so far. Very useful phrase for check-ins.</div>
+    </div>
+
+    <div class="grp">Sparring</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">Let's do light sparring today — focus on technique, not power.</div>
+      <div class="t">วันนี้ชกเบาๆ ก่อน — เน้นเทคนิค ไม่ใช่พลัง</div>
+      <div class="r">wan níi chók bao-bao gàawn — nên thék-nìk mâi châi phlaang</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">07</div>
+      <div class="e">Don't go too hard in sparring — save it for the fight.</div>
+      <div class="t">อย่าหนักเกินไปตอนซ้อมชก — เก็บไว้ให้ถึงวันแข่ง</div>
+      <div class="r">yàa nàk goen bpai tawn sáwm-chók — gèp wái hâi thǔeng wan khàeng</div>
+      <div class="note"><span class="ks">Sora:</span> เก็บไว้ (gèp wái) = to save/keep. ซ้อมชก (sáwm-chók) = sparring. วันแข่ง (wan khàeng) = fight/competition day.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">08</div>
+      <div class="e">Your sparring partner is helping you — respect each other.</div>
+      <div class="t">คู่ซ้อมกำลังช่วยคุณ — เคารพซึ่งกันและกัน</div>
+      <div class="r">khûu-sáwm gamlang chûay khun — khao-róp sûeng-gan-láe-gan</div>
+      <div class="note"><span class="ks">Sora:</span> คู่ซ้อม (khûu-sáwm) = sparring partner. ซึ่งกันและกัน (sûeng-gan-láe-gan) = each other/one another.</div>
+    </div>
+
+  </div><!-- /camplife -->
+
+
+  <!-- WEIGHT & NUTRITION -->
+  <div id="weightcut" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> English for discussing weight management — a sensitive but critical topic before competition.<br>
+      <strong>Sora learns:</strong> Thai vocabulary for talking about weight, food, and body condition with coaches and teammates.
+    </p>
+
+    <div class="grp">Weight Management</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">What weight class are you fighting at?</div>
+      <div class="t">คุณแข่งรุ่นน้ำหนักอะไร?</div>
+      <div class="r">khun khàeng rûn nám-nàk à-rai?</div>
+      <div class="note"><span class="ks">Sora:</span> รุ่น (rûn) = class/division · น้ำหนัก (nám-nàk) = weight. รุ่นน้ำหนัก = weight class.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">How much do you need to cut?</div>
+      <div class="t">ต้องลดน้ำหนักอีกเท่าไหร่?</div>
+      <div class="r">tâwng lót nám-nàk ìik thâo-rài?</div>
+      <div class="note"><span class="ks">Sora:</span> ลดน้ำหนัก (lót nám-nàk) = to lose/cut weight. Literally "reduce weight."</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Don't crash diet — it will hurt your performance.</div>
+      <div class="t">อย่าลดน้ำหนักแบบสุดโต่ง — จะทำให้สมรรถภาพแย่ลง</div>
+      <div class="r">yàa lót nám-nàk bàaep sùt-tòong — jà tham hâi sà-màt-thà-phâap yâae long</div>
+      <div class="note"><span class="ke">Kru:</span> Students often try to cut weight too fast. This phrase is important for their safety.<br><span class="ks">Sora:</span> สมรรถภาพ (sà-màt-thà-phâap) = performance/capability · สุดโต่ง (sùt-tòong) = extreme</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Eat clean — rice, chicken, vegetables. No junk food.</div>
+      <div class="t">กินอาหารสะอาด — ข้าว ไก่ ผัก อย่ากินของทอดของมัน</div>
+      <div class="r">gin aa-hǎan sà-àat — khâao gài phàk — yàa gin khǎawng-thâwt khǎawng-man</div>
+      <div class="note"><span class="ks">Sora:</span> ของทอด (khǎawng-thâwt) = fried food · ของมัน (khǎawng-man) = fatty/oily food. สะอาด (sà-àat) = clean.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">Stay hydrated but reduce water the day before weigh-in.</div>
+      <div class="t">ดื่มน้ำให้เพียงพอ แต่ลดน้ำก่อนวันชั่งน้ำหนัก</div>
+      <div class="r">dùem nám hâi phiang-phaw — tàae lót nám gàawn wan châng nám-nàk</div>
+      <div class="note"><span class="ks">Sora:</span> ชั่งน้ำหนัก (châng nám-nàk) = to weigh in. ชั่ง (châng) = to weigh (using scales).</div>
+    </div>
+
+    <div class="grp">Weigh-in Day</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">Did you make weight?</div>
+      <div class="t">น้ำหนักผ่านไหม?</div>
+      <div class="r">nám-nàk phàan mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> ผ่าน (phàan) = to pass. Simple and direct — you'll hear this at every weigh-in.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">07</div>
+      <div class="e">Good — now rehydrate and eat properly. You have time.</div>
+      <div class="t">ดี — ตอนนี้ดื่มน้ำและกินให้ดีเลย ยังมีเวลา</div>
+      <div class="r">dii — tawn níi dùem nám láe gin hâi dii looei — yang mii we-laa</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">08</div>
+      <div class="e">I'm 500 grams over — what should I do?</div>
+      <div class="t">น้ำหนักเกินห้าร้อยกรัม — ต้องทำยังไงดี?</div>
+      <div class="r">nám-nàk goen hâa-ráwy gram — tâwng tham yang-ngai dii?</div>
+      <div class="note"><span class="ks">Sora:</span> เกิน (goen) = over/excess. กรัม (gram) = gram. ห้าร้อย (hâa-ráwy) = 500.</div>
+    </div>
+
+  </div><!-- /weightcut -->
+
+
+  <!-- MENTAL PREP -->
+  <div id="mental" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> Language for supporting a fighter's mental state — visualisation, confidence, managing fear.<br>
+      <strong>Sora learns:</strong> Thai phrases for expressing and managing pre-fight mental states — what fighters say to themselves and each other.
+    </p>
+
+    <div class="grp">Building Confidence</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">You've done the work — now trust yourself.</div>
+      <div class="t">คุณทำทุกอย่างแล้ว — ตอนนี้เชื่อใจตัวเองได้เลย</div>
+      <div class="r">khun tham thúk yàang láaew — tawn níi chûea-jai tua-eeng dâai looei</div>
+      <div class="note"><span class="ks">Sora:</span> เชื่อใจ (chûea-jai) = to trust (literally "believe heart"). ตัวเอง (tua-eeng) = yourself.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Visualise yourself winning — see it before it happens.</div>
+      <div class="t">ลองจินตนาการว่าตัวเองชนะ — เห็นภาพก่อนที่มันจะเกิดขึ้น</div>
+      <div class="r">laawng jin-dtà-naa-gaan wâa tua-eeng chaná — hěn phâap gàawn thîi man jà gòet khûen</div>
+      <div class="note"><span class="ke">Kru:</span> Visualisation is used by elite athletes worldwide. Make this feel like a tool, not a superstition.<br><span class="ks">Sora:</span> จินตนาการ (jin-dtà-naa-gaan) = to visualise/imagine</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Fear is normal. Use it — don't fight it.</div>
+      <div class="t">กลัวเป็นเรื่องปกติ ใช้มันให้เป็นประโยชน์ — อย่าสู้กับมัน</div>
+      <div class="r">glua bpen rûeang bpòk-gà-tì — chái man hâi bpen bprà-yòot — yàa sûu gàp man</div>
+      <div class="note"><span class="ks">Sora:</span> กลัว (glua) = to be afraid/scared. ประโยชน์ (bprà-yòot) = benefit/use.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Focus on what you can control. Let go of everything else.</div>
+      <div class="t">โฟกัสที่สิ่งที่ควบคุมได้ แล้วปล่อยวางทุกอย่างที่เหลือ</div>
+      <div class="r">foh-gát thîi sìng thîi khûap-khum dâai — láaew bplàwy-waang thúk yàang thîi lǔea</div>
+      <div class="note"><span class="ks">Sora:</span> ควบคุม (khûap-khum) = to control · ปล่อยวาง (bplàwy-waang) = to let go / release. A deeply Buddhist concept in Thai culture.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">I believe in you — now believe in yourself.</div>
+      <div class="t">ครูเชื่อในตัวคุณ — ตอนนี้ก็เชื่อในตัวเองด้วย</div>
+      <div class="r">khruu chûea nai tua khun — tawn níi gâw chûea nai tua-eeng dûay</div>
+    </div>
+
+    <div class="grp">Managing Pre-Fight Nerves</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">Take a deep breath. In through the nose, slow out through the mouth.</div>
+      <div class="t">หายใจลึกๆ เข้าช้าๆ ทางจมูก ออกช้าๆ ทางปาก</div>
+      <div class="r">hǎai-jai lûek-lûek — khâo châa-châa thaang ja-mùuk — àawk châa-châa thaang bpàak</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">07</div>
+      <div class="e">Stop thinking about the result — focus only on the next moment.</div>
+      <div class="t">หยุดคิดถึงผลลัพธ์ — โฟกัสแค่ช่วงเวลาถัดไป</div>
+      <div class="r">yùt khít-thǔeng phon-làp — foh-gát khâe chûang we-laa thàt bpai</div>
+      <div class="note"><span class="ks">Sora:</span> ผลลัพธ์ (phon-làp) = result/outcome · ถัดไป (thàt bpai) = next/upcoming</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">08</div>
+      <div class="e">I feel nervous but ready.</div>
+      <div class="t">กังวลอยู่ แต่พร้อมแล้ว</div>
+      <div class="r">gang-won yùu — tàae phráwm láaew</div>
+      <div class="note"><span class="ks">Sora:</span> พร้อม (phráwm) = ready. Short, powerful, and exactly what a fighter says before walking out.</div>
+    </div>
+
+  </div><!-- /mental -->
+
+
+  <!-- FIGHT WEEK -->
+  <div id="fightweek" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> Day-by-day fight week English — tapering, rest, travel, weigh-in, fight night logistics.<br>
+      <strong>Sora learns:</strong> How Thai fighters and coaches talk through fight week — the language of the final countdown.
+    </p>
+
+    <div class="grp">Fight Week Timeline</div>
+
+    <div class="timeline">
+
+      <div class="tl-item" onclick="this.classList.toggle('on')">
+        <div class="tl-label">7 Days Out — หนึ่งอาทิตย์ก่อนชก</div>
+        <div class="e">Last hard session today — from here we taper down.</div>
+        <div class="t">วันนี้ซ้อมหนักรอบสุดท้าย — จากนี้ค่อยๆ ลดลง</div>
+        <div class="r">wan níi sáwm nàk râwp sùt-tháai — jàak níi khàwy-khàwy lót long</div>
+        <div class="note"><span class="ks">Sora:</span> รอบสุดท้าย (râwp sùt-tháai) = last session. ค่อยๆ ลดลง (khàwy-khàwy lót long) = gradually reduce.</div>
+      </div>
+
+      <div class="tl-item" onclick="this.classList.toggle('on')">
+        <div class="tl-label">5 Days Out — ห้าวันก่อนชก</div>
+        <div class="e">Light pads and technique work only — no heavy sparring.</div>
+        <div class="t">ชกแป้งเบาๆ และฝึกเทคนิคเท่านั้น — ไม่มีซ้อมหนัก</div>
+        <div class="r">chók bpâeng bao-bao láe fùek thék-nìk thâo-nán — mâi mii sáwm nàk</div>
+        <div class="note"><span class="ks">Sora:</span> ชกแป้ง (chók bpâeng) = hitting pads. เท่านั้น (thâo-nán) = only/that's all.</div>
+      </div>
+
+      <div class="tl-item" onclick="this.classList.toggle('on')">
+        <div class="tl-label">2 Days Out — สองวันก่อนชก</div>
+        <div class="e">Rest. Sleep. Stay off your feet as much as possible.</div>
+        <div class="t">พัก นอน หลีกเลี่ยงการเดินให้มากที่สุด</div>
+        <div class="r">phák — nawn — lìik-lîang gaan doen hâi mâak thîi-sùt</div>
+        <div class="note"><span class="ks">Sora:</span> หลีกเลี่ยง (lìik-lîang) = to avoid. Good word for instructions about what NOT to do before a fight.</div>
+      </div>
+
+      <div class="tl-item" onclick="this.classList.toggle('on')">
+        <div class="tl-label">Weigh-in Day — วันชั่งน้ำหนัก</div>
+        <div class="e">Stay calm at the weigh-in. Don't stare down your opponent — save the energy.</div>
+        <div class="t">ใจเย็นตอนชั่งน้ำหนัก อย่าจ้องหน้าคู่แข่ง — เก็บพลังงานไว้</div>
+        <div class="r">jai-yen tawn châng nám-nàk — yàa jâwng nâa khûu-khàeng — gèp phlaang-ngaan wái</div>
+        <div class="note"><span class="ks">Sora:</span> จ้อง (jâwng) = to stare · คู่แข่ง (khûu-khàeng) = opponent/rival</div>
+      </div>
+
+      <div class="tl-item" onclick="this.classList.toggle('on')">
+        <div class="tl-label">Fight Day — วันชก</div>
+        <div class="e">Eat a good meal 3 hours before. Then rest, wrap your hands, and focus.</div>
+        <div class="t">กินอาหารดีๆ สามชั่วโมงก่อนชก แล้วพัก พันมือ และโฟกัส</div>
+        <div class="r">gin aa-hǎan dii-dii sǎam chûa-moong gàawn chók — láaew phák phân mue láe foh-gát</div>
+        <div class="note"><span class="ks">Sora:</span> พันมือ (phân mue) = to wrap hands. Literally "wrap + hands." One of the most ritual-like moments of fight prep.</div>
+      </div>
+
+    </div><!-- /timeline -->
+
+    <div class="grp">Practical Logistics</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">What time do we need to arrive at the venue?</div>
+      <div class="t">ต้องถึงสถานที่จัดงานกี่โมง?</div>
+      <div class="r">tâwng thǔeng sà-thǎan-thîi jàt-ngaan gìi moong?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Make sure you have your gloves, wraps, gumshield, and shorts.</div>
+      <div class="t">ตรวจสอบให้ดีว่ามีนวม ผ้าพัน ฟันยาง และกางเกง</div>
+      <div class="r">trùat-sàwp hâi dii wâa mii nûam — phâa-phân — fan-yaang — láe gaang-geeng</div>
+      <div class="note"><span class="ks">Sora:</span> นวม (nûam) = gloves · ผ้าพัน (phâa-phân) = hand wraps · ฟันยาง (fan-yaang) = gumshield · กางเกง (gaang-geeng) = shorts</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">I'll be in your corner — just listen to my voice between rounds.</div>
+      <div class="t">ครูจะอยู่ที่คอร์เนอร์ — ระหว่างยก ฟังเสียงครูอย่างเดียว</div>
+      <div class="r">khruu jà yùu thîi khawn-nôe — rá-wàang yók — fang sǐang khruu yàang-diaw</div>
+      <div class="note"><span class="ks">Sora:</span> คอร์เนอร์ (khawn-nôe) = corner (boxing). ฟังเสียง (fang sǐang) = listen to the voice. อย่างเดียว (yàang-diaw) = only/just that.</div>
+    </div>
+
+  </div><!-- /fightweek -->
+
+
+  <!-- RINGSIDE -->
+  <div id="ringside" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> The English phrases shouted between rounds and during fights — clear, sharp, actionable.<br>
+      <strong>Sora learns:</strong> The Thai equivalents — the real language of the corner that fighters hear mid-fight.
+    </p>
+
+    <div class="grp">Between Rounds — Corner Instructions</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Move! / Keep moving!</td><td class="tt">เคลื่อนไหว! / ขยับตัว!</td><td class="tr2">khlûean wǎi! / khà-yàp tua!</td></tr>
+          <tr><td class="te">Clinch! Grab him!</td><td class="tt">จับ! / คลินช์!</td><td class="tr2">jàp! / khlin!</td></tr>
+          <tr><td class="te">Break! / Step back!</td><td class="tt">แยก! / ถอยหลัง!</td><td class="tr2">yâaek! / thàwy-lǎng!</td></tr>
+          <tr><td class="te">Kick the body!</td><td class="tt">เตะตัว!</td><td class="tr2">té tua!</td></tr>
+          <tr><td class="te">Use your teep!</td><td class="tt">ทีปเข้าไป!</td><td class="tr2">thiip khâo bpai!</td></tr>
+          <tr><td class="te">Counter after the block!</td><td class="tt">ตอบโต้หลังบล็อก!</td><td class="tr2">dtàwp-dtôe lǎng blàwk!</td></tr>
+          <tr><td class="te">You're winning — stay calm!</td><td class="tt">กำลังชนะ — ใจเย็น!</td><td class="tr2">gamlang chaná — jai-yen!</td></tr>
+          <tr><td class="te">Finish strong!</td><td class="tt">ปิดให้สวย!</td><td class="tr2">bpìt hâi sǔay!</td></tr>
+          <tr><td class="te">Watch out for the left!</td><td class="tt">ระวังซ้าย!</td><td class="tr2">rá-wang sáai!</td></tr>
+          <tr><td class="te">Use your length — stay outside!</td><td class="tt">ใช้ระยะ — อยู่นอก!</td><td class="tr2">chái rá-yá — yùu nâawk!</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Sample Corner Dialogue</div>
+
+    <div class="dlg">
+      <div class="dlg-hd">🎙️ Between Round 1 and Round 2</div>
+      <div class="dlg-ln">
+        <div class="spk kru">Kru</div>
+        <div class="dt">
+          <div class="e">Good round. You're ahead. What did you notice?</div>
+          <div class="t">ยกดี คุณนำอยู่ สังเกตอะไรบ้าง?</div>
+          <div class="r">yók dii — khun nam yùu — sǎng-gèt à-rai bâang?</div>
+        </div>
+      </div>
+      <div class="dlg-ln">
+        <div class="spk sora">Fighter</div>
+        <div class="dt">
+          <div class="e">He keeps dropping his right hand after he punches.</div>
+          <div class="t">เขาปล่อยมือขวาลงทุกครั้งหลังชก</div>
+          <div class="r">khǎo bplàwy mue khwǎa long thúk khráng lǎng chók</div>
+        </div>
+      </div>
+      <div class="dlg-ln">
+        <div class="spk kru">Kru</div>
+        <div class="dt">
+          <div class="e">Exactly — wait for it and counter with the left hook. Breathe. Go.</div>
+          <div class="t">ใช่เลย — รอจังหวะนั้น แล้วตอบด้วยฮุคซ้าย หายใจ ไปเลย</div>
+          <div class="r">châi looei — raw jang-wà nán — láaew dtàwp dûay húk sáai — hǎai-jai — bpai looei</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">Encouragement During the Fight</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Come on! Push! / สู้! สู้!</div>
+      <div class="t">สู้! สู้!</div>
+      <div class="r">sûu! sûu!</div>
+      <div class="note"><span class="ks">Sora:</span> สู้ (sûu) = fight! You'll hear this shouted by Thai crowds constantly — it means "keep fighting / push through!" The crowd energy in Thai Muay Thai is electric.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">That's it! Beautiful! / นั่นแหละ! สวยมาก!</div>
+      <div class="t">นั่นแหละ! สวยมาก!</div>
+      <div class="r">nân-làe! sǔay mâak!</div>
+      <div class="note"><span class="ks">Sora:</span> สวย (sǔay) = beautiful — Thai people use it for clean technique, not just looks. A clean kick is สวยมาก!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Shake it off! Keep going!</div>
+      <div class="t">สะบัดทิ้งไป! สู้ต่อ!</div>
+      <div class="r">sà-bàt thîng bpai! sûu tàw!</div>
+    </div>
+
+  </div><!-- /ringside -->
+
+
+  <!-- WIN OR LOSE -->
+  <div id="after" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> How to handle the moments after a fight in English — celebrating a win, processing a loss, respecting the opponent.<br>
+      <strong>Sora learns:</strong> Thai phrases for post-fight — what fighters and coaches say to each other after the result.
+    </p>
+
+    <div class="grp">After a Win</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">You did it! I knew you could!</div>
+      <div class="t">ทำได้แล้ว! รู้เลยว่าคุณทำได้!</div>
+      <div class="r">tham dâai láaew! rúu looei wâa khun tham dâai!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Congratulations — you earned this.</div>
+      <div class="t">ยินดีด้วย — คุณสมควรได้รับสิ่งนี้</div>
+      <div class="r">yin-dii dûay — khun sǒm-khuan dâai-ráp sìng níi</div>
+      <div class="note"><span class="ks">Sora:</span> ยินดีด้วย (yin-dii dûay) = congratulations. สมควร (sǒm-khuan) = deserve/worthy.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Let's celebrate — but not too much. We have more work to do.</div>
+      <div class="t">ฉลองกันหน่อย — แต่อย่ามาก ยังมีงานที่ต้องทำอีก</div>
+      <div class="r">chà-long gan nàwy — tàae yàa mâak — yang mii ngaan thîi tâwng tham ìik</div>
+    </div>
+
+    <div class="grp">After a Loss</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">It's okay. Losses are part of this sport — they make you better.</div>
+      <div class="t">โอเคนะ การแพ้เป็นส่วนหนึ่งของกีฬานี้ — มันทำให้คุณดีขึ้น</div>
+      <div class="r">oh-khee ná — gaan pháe bpen sùan-nùeng khǎawng gii-laa níi — man tham hâi khun dii khûen</div>
+      <div class="note"><span class="ke">Kru:</span> Give space first. This phrase lands best 10 minutes after the result — not in the immediate moment of loss.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">You fought well. I'm still proud of you.</div>
+      <div class="t">คุณสู้ได้ดีมาก ยังภูมิใจในตัวคุณอยู่นะ</div>
+      <div class="r">khun sûu dâai dii mâak — yang phuum-jai nai tua khun yùu ná</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">We'll look at the footage together and come back stronger.</div>
+      <div class="t">เราจะดูคลิปด้วยกัน แล้วกลับมาแข็งแกร่งกว่าเดิม</div>
+      <div class="r">rao jà duu khlit dûay gan — láaew glàp maa khǎeng-grâeng gwàa doem</div>
+      <div class="note"><span class="ks">Sora:</span> กลับมา (glàp maa) = to come back · แข็งแกร่งกว่าเดิม (khǎeng-grâeng gwàa doem) = stronger than before. A promise, not just comfort.</div>
+    </div>
+
+    <div class="grp">Respecting the Opponent</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">07</div>
+      <div class="e">Always wai your opponent after the fight — win or lose.</div>
+      <div class="t">ไหว้คู่แข่งหลังชกเสมอ — ไม่ว่าจะชนะหรือแพ้</div>
+      <div class="r">wâi khûu-khàeng lǎng chók sà-mǒe — mâi wâa jà chaná rǔe pháe</div>
+      <div class="note"><span class="ke">Kru:</span> This is Muay Thai culture — the wai after a fight shows respect for the art and for your opponent. It's not optional.<br><span class="ks">Sora:</span> เสมอ (sà-mǒe) = always · ไม่ว่า (mâi wâa) = regardless / no matter</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">08</div>
+      <div class="e">Good fight. Well done to your opponent too.</div>
+      <div class="t">ชกดีมาก ขอชมคู่แข่งคุณด้วยนะ</div>
+      <div class="r">chók dii mâak — khǎaw chom khûu-khàeng khun dûay ná</div>
+      <div class="note"><span class="ke">Kru:</span> Acknowledging the opponent's performance shows class — teach students that Muay Thai is about mutual respect, not just winning.</div>
+    </div>
+
+  </div><!-- /after -->
+
+</div><!-- /content -->
+
+<footer>
+  Click any card to highlight · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Vol. 6
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
