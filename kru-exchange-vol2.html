@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kru & Sora — Vol. 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Syne:wght@700;800&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --bg2: #ece5d8;
+    --bg3: #e2d9c8;
+    --ink: #1a1510;
+    --muted: #7a6e5f;
+    --red: #b83020;
+    --blue: #1a4a7a;
+    --green: #1a5c3a;
+    --gold: #8a6020;
+    --eng: #1a4a7a;
+    --thai-script: #8a2010;
+    --roman: #1a5c3a;
+    --border: rgba(26, 21, 16, 0.12);
+    --accent: #b83020;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ──  */
+  header {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::after {
+    content: 'VOL.2';
+    position: absolute;
+    right: -0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Syne', sans-serif;
+    font-size: 7rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.04);
+    letter-spacing: -0.05em;
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .header-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.5);
+    font-weight: 300;
+    margin-bottom: 1.4rem;
+  }
+
+  .legend {
+    display: flex;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  .pill {
+    padding: 0.15rem 0.55rem;
+    border-radius: 2px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .pill-eng { background: var(--eng); color: white; }
+  .pill-thai { background: var(--thai-script); color: white; }
+  .pill-roman { background: var(--roman); color: white; }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    overflow-x: auto;
+    background: var(--bg2);
+    border-bottom: 2px solid var(--ink);
+    padding: 0 1.5rem;
+    gap: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabs::-webkit-scrollbar { height: 2px; }
+  .tabs::-webkit-scrollbar-thumb { background: var(--ink); }
+
+  .tab {
+    padding: 0.9rem 1.1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.15s;
+    letter-spacing: 0.02em;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--ink); border-bottom-color: var(--accent); }
+
+  /* ── CONTENT ── */
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-intro {
+    font-size: 0.83rem;
+    color: var(--muted);
+    margin-bottom: 1.8rem;
+    padding: 0.9rem 1.1rem;
+    border-left: 3px solid var(--accent);
+    background: var(--bg2);
+    line-height: 1.65;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .section-intro strong { font-weight: 600; }
+  .section-intro .lbl-kru { color: var(--eng); }
+  .section-intro .lbl-sora { color: var(--roman); }
+
+  /* ── CARDS ── */
+  .group-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 2.2rem 0 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .group-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .group-label:first-of-type { margin-top: 0.2rem; }
+
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .card:hover {
+    border-color: rgba(26,21,16,0.25);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    transform: translateY(-1px);
+  }
+
+  .card.highlighted {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px rgba(184,48,32,0.2), 0 4px 16px rgba(0,0,0,0.1);
+  }
+
+  .card-num {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 0.68rem;
+    color: var(--border);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .eng {
+    color: var(--eng);
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    line-height: 1.45;
+    padding-right: 2.5rem;
+  }
+
+  .thai-script {
+    font-family: 'Noto Sans Thai', sans-serif;
+    color: var(--thai-script);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    line-height: 1.7;
+  }
+
+  .roman {
+    color: var(--roman);
+    font-size: 0.87rem;
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
+
+  .note {
+    margin-top: 0.7rem;
+    padding-top: 0.65rem;
+    border-top: 1px dashed var(--border);
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .note strong { color: var(--gold); font-weight: 600; }
+  .note .kru { color: var(--eng); font-weight: 600; }
+  .note .sora { color: var(--roman); font-weight: 600; }
+
+  /* ── DIALOGUE CARDS ── */
+  .dialogue-wrap {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+  }
+
+  .dialogue-title {
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+  }
+
+  .dialogue-line {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 0.8rem;
+    align-items: start;
+  }
+
+  .dialogue-line:last-child { border-bottom: none; }
+
+  .speaker {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-top: 0.15rem;
+  }
+
+  .speaker.kru { color: var(--eng); }
+  .speaker.sora { color: var(--roman); }
+
+  .dialogue-text .eng { font-size: 0.92rem; margin-bottom: 0.25rem; padding-right: 0; }
+  .dialogue-text .thai-script { font-size: 1rem; margin-bottom: 0.2rem; }
+  .dialogue-text .roman { font-size: 0.82rem; }
+
+  /* ── 3-COL TABLE ── */
+  .table-wrap { overflow-x: auto; margin-bottom: 0.8rem; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    font-size: 0.86rem;
+  }
+
+  thead tr { background: var(--ink); }
+  thead th {
+    padding: 0.65rem 1rem;
+    text-align: left;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--bg);
+  }
+
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+
+  tbody td { padding: 0.7rem 1rem; vertical-align: top; line-height: 1.5; }
+  .td-eng { color: var(--eng); font-weight: 500; }
+  .td-thai { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai-script); font-size: 0.95rem; font-weight: 600; }
+  .td-roman { color: var(--roman); font-style: italic; }
+  .td-note { color: var(--muted); font-size: 0.78rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 560px) {
+    .dialogue-line { grid-template-columns: 48px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">🥊 Language Exchange · Vol. 2</div>
+  <h1>English ↔ Thai · More Learning Together</h1>
+  <p class="subtitle">English ↔ Thai · More Learning Together</p>
+  <div class="legend">
+    <div class="legend-item"><span class="pill pill-eng">EN</span> English</div>
+    <div class="legend-item"><span class="pill pill-thai">ไทย</span> Thai Script</div>
+    <div class="legend-item"><span class="pill pill-roman">ROM</span> Romanized</div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="switchTab('goals')">🎯 Goals & Plans</button>
+  <button class="tab" onclick="switchTab('body')">🩹 Body & Feelings</button>
+  <button class="tab" onclick="switchTab('food')">🍜 Food & Eating Out</button>
+  <button class="tab" onclick="switchTab('fightday')">🏆 Fight Day</button>
+  <button class="tab" onclick="switchTab('opinions')">💬 Opinions</button>
+  <button class="tab" onclick="switchTab('idioms')">🌿 Thai Idioms</button>
+</nav>
+
+<div class="content">
+
+  <!-- ── GOALS & PLANS ── -->
+  <div id="goals" class="section active">
+    <p class="section-intro">
+      <strong class="lbl-kru">Kru learns:</strong> How to discuss training goals, progress plans, and long-term improvement with students in natural English.<br>
+      <strong class="lbl-sora">Sora learns:</strong> How to talk about your own training goals in Thai — great for communicating with your kru.
+    </p>
+
+    <div class="group-label">Setting Goals</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">01</div>
+      <div class="eng">What are you hoping to get out of training?</div>
+      <div class="thai-script">หวังว่าจะได้อะไรจากการฝึกบ้าง?</div>
+      <div class="roman">wǎng wâa jà dâai à-rai jàak gaan fùek bâang?</div>
+      <div class="note"><span class="kru">Kru:</span> Open-ended — much better than asking "What's your goal?" which can feel like an interview. Invite the student to share freely.<br><span class="sora">Sora:</span> หวัง (wǎng) = to hope · ได้ (dâai) = to get/receive · จาก (jàak) = from</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">02</div>
+      <div class="eng">I want to focus on your defence this month.</div>
+      <div class="thai-script">เดือนนี้อยากเน้นเรื่องการป้องกันตัวของคุณ</div>
+      <div class="roman">duean níi yàak nên rûeang gaan bpâwng-gan tua khǎawng khun</div>
+      <div class="note"><span class="sora">Sora:</span> เน้น (nên) = to focus on/emphasise. Very useful verb — you'll hear coaches use it to signal what the session is about.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">03</div>
+      <div class="eng">Let's work on this together step by step.</div>
+      <div class="thai-script">มาฝึกเรื่องนี้ด้วยกัน ทีละขั้นตอนนะ</div>
+      <div class="roman">maa fùek rûeang níi dûay gan — thii lá khân-tawn ná</div>
+      <div class="note"><span class="sora">Sora:</span> ทีละขั้นตอน (thii lá khân-tawn) = step by step. Literally "one step at a time."</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">04</div>
+      <div class="eng">By the end of this month, you should be able to — </div>
+      <div class="thai-script">ภายในสิ้นเดือนนี้ คุณน่าจะทำได้ —</div>
+      <div class="roman">phaai nai sîn duean níi — khun nâa jà tham dâai —</div>
+      <div class="note"><span class="kru">Kru:</span> Setting a concrete timeline gives students something to aim for. Follow up with a specific skill.<br><span class="sora">Sora:</span> น่าจะ (nâa jà) = should be able to / probably will. Softer than จะ (jà) which is a firm "will."</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">05</div>
+      <div class="eng">How often are you planning to train each week?</div>
+      <div class="thai-script">วางแผนจะฝึกกี่วันต่อสัปดาห์?</div>
+      <div class="roman">waang phǎen jà fùek gìi wan tàw sàp-daa?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">06</div>
+      <div class="eng">You've already come a long way from where you started.</div>
+      <div class="thai-script">คุณมาได้ไกลมากจากตอนที่เริ่มต้นแล้ว</div>
+      <div class="roman">khun maa dâai glai mâak jàak tawn thîi rôem-tôn láaew</div>
+      <div class="note"><span class="kru">Kru:</span> Acknowledging how far someone has come builds confidence more than just talking about what's next.</div>
+    </div>
+
+    <div class="group-label">Talking About Your Own Progress</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">07</div>
+      <div class="eng">I want to get better at my teep.</div>
+      <div class="thai-script">อยากเก่งเรื่องทีปมากขึ้น</div>
+      <div class="roman">yàak gèng rûeang thiip mâak khûen</div>
+      <div class="note"><span class="sora">Sora:</span> เก่ง (gèng) = to be good at / skilled. A great compliment word — ครูเก่งมาก (khruu gèng mâak) = "Kru is very skilled!"</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">08</div>
+      <div class="eng">I feel like I'm improving but slowly.</div>
+      <div class="thai-script">รู้สึกว่าพัฒนาขึ้น แต่ค่อนข้างช้า</div>
+      <div class="roman">rúu-sùek wâa phát-thanaa khûen — tàae khâwn-khâang châa</div>
+      <div class="note"><span class="sora">Sora:</span> ค่อนข้าง (khâwn-khâang) = quite / rather. A useful softener — ค่อนข้างยาก = "quite difficult."</div>
+    </div>
+
+  </div><!-- /goals -->
+
+
+  <!-- ── BODY & FEELINGS ── -->
+  <div id="body" class="section">
+    <p class="section-intro">
+      <strong class="lbl-kru">Kru learns:</strong> How to ask about and respond to injuries or fatigue in English — important for student safety.<br>
+      <strong class="lbl-sora">Sora learns:</strong> Key body and feeling vocabulary in Thai. Essential for describing aches, tiredness, or injuries to your kru.
+    </p>
+
+    <div class="group-label">Checking In / Injuries</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">01</div>
+      <div class="eng">Is anything hurting right now?</div>
+      <div class="thai-script">ตอนนี้มีที่ไหนเจ็บไหม?</div>
+      <div class="roman">tawn níi mii thîi nǎi jèp mǎi?</div>
+      <div class="note"><span class="kru">Kru:</span> Ask this before every session. Students often push through pain silently — especially beginners trying to impress.<br><span class="sora">Sora:</span> เจ็บ (jèp) = to hurt/ache. Different from เจ็บปวด (jèp-bpùat) which is more intense pain.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">02</div>
+      <div class="eng">Don't push it if you're injured — tell me and we'll adjust.</div>
+      <div class="thai-script">ถ้าบาดเจ็บอยู่ อย่าฝืน — บอกครูนะ แล้วจะปรับให้</div>
+      <div class="roman">thâa bàat-jèp yùu — yàa fùen — bàawk khruu ná — láaew jà bpràp hâi</div>
+      <div class="note"><span class="sora">Sora:</span> ฝืน (fùen) = to push through/force yourself against pain. บาดเจ็บ (bàat-jèp) = to be injured.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">03</div>
+      <div class="eng">Where does it hurt?</div>
+      <div class="thai-script">เจ็บตรงไหน?</div>
+      <div class="roman">jèp trong nǎi?</div>
+    </div>
+
+    <div class="group-label">Body Parts — Quick Reference</div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>English</th>
+            <th>ภาษาไทย</th>
+            <th>Romanized</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-eng">Knee</td><td class="td-thai">เข่า</td><td class="td-roman">khào</td></tr>
+          <tr><td class="td-eng">Shin</td><td class="td-thai">แข้ง</td><td class="td-roman">khâaeng</td></tr>
+          <tr><td class="td-eng">Ankle</td><td class="td-thai">ข้อเท้า</td><td class="td-roman">khâw-tháao</td></tr>
+          <tr><td class="td-eng">Wrist</td><td class="td-thai">ข้อมือ</td><td class="td-roman">khâw-mue</td></tr>
+          <tr><td class="td-eng">Shoulder</td><td class="td-thai">ไหล่</td><td class="td-roman">lài</td></tr>
+          <tr><td class="td-eng">Neck</td><td class="td-thai">คอ</td><td class="td-roman">khaw</td></tr>
+          <tr><td class="td-eng">Back / Lower back</td><td class="td-thai">หลัง / บั้นเอว</td><td class="td-roman">lǎng / bân-eo</td></tr>
+          <tr><td class="td-eng">Rib</td><td class="td-thai">ซี่โครง</td><td class="td-roman">sîi-khroong</td></tr>
+          <tr><td class="td-eng">Knuckle</td><td class="td-thai">ข้อนิ้ว</td><td class="td-roman">khâw-níu</td></tr>
+          <tr><td class="td-eng">Elbow</td><td class="td-thai">ข้อศอก</td><td class="td-roman">khâw-sàawk</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="group-label">Fatigue & Energy</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">04</div>
+      <div class="eng">You look tired — shall we reduce the rounds today?</div>
+      <div class="thai-script">ดูเหนื่อยนะ — ลดจำนวนยกวันนี้ดีไหม?</div>
+      <div class="roman">duu nùeay ná — lót jam-nuan yók wan níi dii mǎi?</div>
+      <div class="note"><span class="sora">Sora:</span> เหนื่อย (nùeay) = tired/exhausted. Very common word — you'll use this daily! Also เหนื่อยมาก = very tired.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">05</div>
+      <div class="eng">I'm exhausted — my legs feel heavy.</div>
+      <div class="thai-script">เหนื่อยมากเลย — ขาหนักเลย</div>
+      <div class="roman">nùeay mâak looei — khǎa nàk looei</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">06</div>
+      <div class="eng">I feel dizzy — I need a moment.</div>
+      <div class="thai-script">รู้สึกเวียนหัว — ขอพักแป๊บนึงนะ</div>
+      <div class="roman">rúu-sùek wian-hǔa — khǎaw phák bpáep nueng ná</div>
+      <div class="note"><span class="sora">Sora:</span> แป๊บนึง (bpáep nueng) = just a moment / a sec. Very casual, very useful.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">07</div>
+      <div class="eng">My energy is good today — let's go hard.</div>
+      <div class="thai-script">วันนี้พลังงานดีมาก — ไปเต็มที่เลย</div>
+      <div class="roman">wan níi phlaang-ngaan dii mâak — bpai tem-thîi looei</div>
+      <div class="note"><span class="sora">Sora:</span> เต็มที่ (tem-thîi) = to go all out / full effort. You'll hear coaches shout this constantly — learn it!</div>
+    </div>
+
+  </div><!-- /body -->
+
+
+  <!-- ── FOOD ── -->
+  <div id="food" class="section">
+    <p class="section-intro">
+      <strong class="lbl-kru">Kru learns:</strong> Social dining English — ordering, recommending, expressing preferences. Great for bonding with students after training.<br>
+      <strong class="lbl-sora">Sora learns:</strong> Food vocab and ordering phrases in Thai — essential for eating out in Thailand!
+    </p>
+
+    <div class="group-label">Sample Dialogue — After Training</div>
+
+    <div class="dialogue-wrap">
+      <div class="dialogue-title">🍜 Going to eat after training</div>
+
+      <div class="dialogue-line">
+        <div class="speaker kru">Kru</div>
+        <div class="dialogue-text">
+          <div class="eng">Are you hungry? I know a good place nearby.</div>
+          <div class="thai-script">หิวไหม? รู้จักร้านอร่อยๆ แถวนี้อยู่</div>
+          <div class="roman">hǐu mǎi? rúu-jàk ráan à-ràwy-à-ràwy thǎaeo níi yùu</div>
+        </div>
+      </div>
+
+      <div class="dialogue-line">
+        <div class="speaker sora">Sora</div>
+        <div class="dialogue-text">
+          <div class="eng">Yes, I'm starving! What kind of food?</div>
+          <div class="thai-script">หิวมากเลย! อาหารประเภทไหนอะ?</div>
+          <div class="roman">hǐu mâak looei! aa-hǎan bprà-phêet nǎi à?</div>
+        </div>
+      </div>
+
+      <div class="dialogue-line">
+        <div class="speaker kru">Kru</div>
+        <div class="dialogue-text">
+          <div class="eng">Thai food — rice and stir fry. Simple but really good.</div>
+          <div class="thai-script">อาหารไทย — ข้าวกับผัด เรียบง่ายแต่อร่อยมาก</div>
+          <div class="roman">aa-hǎan thai — khâao gàp phàt — rîap-ngâai tàae à-ràwy mâak</div>
+        </div>
+      </div>
+
+      <div class="dialogue-line">
+        <div class="speaker sora">Kru</div>
+        <div class="dialogue-text">
+          <div class="eng">Do you eat spicy food?</div>
+          <div class="thai-script">กินเผ็ดได้ไหม?</div>
+          <div class="roman">gin phèt dâai mǎi?</div>
+        </div>
+      </div>
+
+      <div class="dialogue-line">
+        <div class="speaker sora">Sora</div>
+        <div class="dialogue-text">
+          <div class="eng">A little spicy is okay — but not too much!</div>
+          <div class="thai-script">เผ็ดนิดหน่อยได้ — แต่อย่าเยอะนะ!</div>
+          <div class="roman">phèt nít-nàwy dâai — tàae yàa yóe ná!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group-label">Ordering & Preferences</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">01</div>
+      <div class="eng">What do you recommend?</div>
+      <div class="thai-script">แนะนำอะไรดี?</div>
+      <div class="roman">náe-nam à-rai dii?</div>
+      <div class="note"><span class="kru">Kru:</span> A perfect phrase when a student is overwhelmed by a Thai menu.<br><span class="sora">Sora:</span> แนะนำ (náe-nam) = to recommend. Also used for recommending places, people, etc.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">02</div>
+      <div class="eng">I'll have the same as you.</div>
+      <div class="thai-script">ฉันขอเหมือนที่คุณสั่งเลย</div>
+      <div class="roman">chǎn khǎaw mǔean thîi khun sàng looei</div>
+      <div class="note"><span class="sora">Sora:</span> สั่ง (sàng) = to order (food). เหมือน (mǔean) = same as / like.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">03</div>
+      <div class="eng">Can we get the bill, please?</div>
+      <div class="thai-script">ขอเช็คบิลด้วยนะครับ/ค่ะ</div>
+      <div class="roman">khǎaw chék bin dûay ná khráp/khâ</div>
+      <div class="note"><span class="sora">Sora:</span> Use ค่ะ (khâ) at the end since you're female. ครับ (khráp) is for males.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">04</div>
+      <div class="eng">This is delicious — what is it called?</div>
+      <div class="thai-script">อร่อยมากเลย — นี่ชื่ออะไรอะ?</div>
+      <div class="roman">à-ràwy mâak looei — nîi chûe à-rai à?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">05</div>
+      <div class="eng">I don't eat — (meat / pork / seafood).</div>
+      <div class="thai-script">ฉันไม่กิน — (เนื้อ / หมู / อาหารทะเล)</div>
+      <div class="roman">chǎn mâi gin — (núea / mǔu / aa-hǎan thá-lee)</div>
+      <div class="note"><span class="sora">Sora:</span> Very useful when eating with students who have dietary needs! เนื้อ (núea) = meat · หมู (mǔu) = pork · อาหารทะเล (aa-hǎan thá-lee) = seafood</div>
+    </div>
+
+    <div class="group-label">Complimenting the Food / Host</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">06</div>
+      <div class="eng">You have great taste — this place is amazing.</div>
+      <div class="thai-script">รสนิยมดีมากเลย — ร้านนี้เยี่ยมมาก</div>
+      <div class="roman">rót-ní-yom dii mâak looei — ráan níi yîam mâak</div>
+      <div class="note"><span class="kru">Kru:</span> Saying this when a student picks a good spot builds their confidence and shows you appreciate them.<br><span class="sora">Sora:</span> เยี่ยม (yîam) = excellent/great. Strong positive word.</div>
+    </div>
+
+  </div><!-- /food -->
+
+
+  <!-- ── FIGHT DAY ── -->
+  <div id="fightday" class="section">
+    <p class="section-intro">
+      <strong class="lbl-kru">Kru learns:</strong> How to support and communicate with students on competition day — pre-fight, between rounds, post-fight.<br>
+      <strong class="lbl-sora">Sora learns:</strong> What a kru says in the corner in Thai — so you understand what's happening during a fight.
+    </p>
+
+    <div class="group-label">Pre-Fight</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">01</div>
+      <div class="eng">You've trained hard for this — trust your preparation.</div>
+      <div class="thai-script">คุณฝึกมาหนักมาก — เชื่อมั่นในการเตรียมพร้อมของตัวเองนะ</div>
+      <div class="roman">khun fùek maa nàk mâak — chûea-mân nai gaan triam-phráwm khǎawng tua-eeng ná</div>
+      <div class="note"><span class="kru">Kru:</span> Pre-fight nerves are normal. Remind students to trust the work — not just feel brave.<br><span class="sora">Sora:</span> เชื่อมั่น (chûea-mân) = to believe in/trust · เตรียมพร้อม (triam-phráwm) = to prepare</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">02</div>
+      <div class="eng">Stay relaxed — don't tense up before you go out.</div>
+      <div class="thai-script">ผ่อนคลายนะ — อย่าเกร็งก่อนที่จะออกไป</div>
+      <div class="roman">phàawn khlaai ná — yàa kreng gàawn thîi jà àawk bpai</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">03</div>
+      <div class="eng">Listen to me between rounds, okay?</div>
+      <div class="thai-script">ระหว่างยก ฟังครูด้วยนะ โอเคไหม?</div>
+      <div class="roman">rá-wàang yók — fang khruu dûay ná — oh-khee mǎi?</div>
+    </div>
+
+    <div class="group-label">Between Rounds (Corner)</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">04</div>
+      <div class="eng">Breathe. In through the nose, out through the mouth.</div>
+      <div class="thai-script">หายใจ เข้าทางจมูก ออกทางปาก</div>
+      <div class="roman">hǎai-jai — khâo thaang ja-mùuk — àawk thaang bpàak</div>
+      <div class="note"><span class="sora">Sora:</span> จมูก (ja-mùuk) = nose · ปาก (bpàak) = mouth. Essential for understanding corner instructions!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">05</div>
+      <div class="eng">You're winning — keep doing what you're doing.</div>
+      <div class="thai-script">คุณกำลังชนะอยู่ — ทำแบบนี้ต่อไปเลย</div>
+      <div class="roman">khun gamlang chaná yùu — tham bàaep níi tàw bpai looei</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">06</div>
+      <div class="eng">Stop chasing — let them come to you.</div>
+      <div class="thai-script">หยุดไล่ตาม — ให้เขาเข้ามาหาเอง</div>
+      <div class="roman">yùt lâi-taam — hâi khǎo khâo maa hǎa eeng</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">07</div>
+      <div class="eng">Watch the left kick — it's coming every time.</div>
+      <div class="thai-script">ระวังเตะซ้ายด้วย — มาทุกครั้งเลย</div>
+      <div class="roman">rá-wang té-sáai dûay — maa thúk khráng looei</div>
+      <div class="note"><span class="sora">Sora:</span> ระวัง (rá-wang) = watch out / be careful. ทุกครั้ง (thúk khráng) = every time.</div>
+    </div>
+
+    <div class="group-label">Post-Fight</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">08</div>
+      <div class="eng">Win or lose — I'm proud of how you fought.</div>
+      <div class="thai-script">ไม่ว่าจะชนะหรือแพ้ — ภูมิใจในวิธีที่คุณสู้มากเลย</div>
+      <div class="roman">mâi wâa jà chaná rǔe pháe — phuum-jai nai wí-thii thîi khun sûu mâak looei</div>
+      <div class="note"><span class="kru">Kru:</span> This matters more than any result. Students remember how their kru made them feel after a loss.<br><span class="sora">Sora:</span> ภูมิใจ (phuum-jai) = proud · แพ้ (pháe) = to lose · ชนะ (chaná) = to win</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">09</div>
+      <div class="eng">Every fight teaches you something. We'll review it together.</div>
+      <div class="thai-script">ทุกการชกสอนอะไรบางอย่างเสมอ เราจะมารีวิวด้วยกันนะ</div>
+      <div class="roman">thúk gaan chók sǎawn à-rai baang-yàang sà-mǒe — rao jà maa rii-wiu dûay gan ná</div>
+    </div>
+
+  </div><!-- /fightday -->
+
+
+  <!-- ── OPINIONS ── -->
+  <div id="opinions" class="section">
+    <p class="section-intro">
+      <strong class="lbl-kru">Kru learns:</strong> How to express opinions, agree, disagree, and have a real conversation — not just gym talk.<br>
+      <strong class="lbl-sora">Sora learns:</strong> How to share opinions confidently in Thai and engage kru in real discussions.
+    </p>
+
+    <div class="group-label">Sharing Your View</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">01</div>
+      <div class="eng">In my opinion, ...</div>
+      <div class="thai-script">ในความเห็นของฉัน...</div>
+      <div class="roman">nai khwaam-hěn khǎawng chǎn...</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">02</div>
+      <div class="eng">I think it depends on the situation.</div>
+      <div class="thai-script">คิดว่าขึ้นอยู่กับสถานการณ์</div>
+      <div class="roman">khít wâa khûen yùu gàp sà-thǎan-gaan</div>
+      <div class="note"><span class="kru">Kru:</span> Great phrase for when students ask absolute questions — "Is this technique better?" or "Who's the best fighter?"<br><span class="sora">Sora:</span> ขึ้นอยู่กับ (khûen yùu gàp) = it depends on. Very useful phrase.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">03</div>
+      <div class="eng">That's a good point — I hadn't thought of it that way.</div>
+      <div class="thai-script">จุดนั้นดีมาก — ไม่เคยคิดแบบนั้นมาก่อน</div>
+      <div class="roman">jùt nán dii mâak — mâi khoei khít bàaep nán maa gàawn</div>
+      <div class="note"><span class="kru">Kru:</span> Validating a student's idea before adding your own builds trust and makes conversations richer.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">04</div>
+      <div class="eng">I agree with you, but —</div>
+      <div class="thai-script">เห็นด้วยนะ แต่ —</div>
+      <div class="roman">hěn dûay ná — tàae —</div>
+      <div class="note"><span class="sora">Sora:</span> เห็นด้วย (hěn dûay) = to agree. เห็นด้วยกับคุณ = "I agree with you." Very natural in conversation.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">05</div>
+      <div class="eng">I'm not sure about that — what makes you say so?</div>
+      <div class="thai-script">ไม่แน่ใจในเรื่องนั้น — พูดแบบนั้นเพราะอะไร?</div>
+      <div class="roman">mâi nâe-jai nai rûeang nán — phûut bàaep nán phráw à-rai?</div>
+      <div class="note"><span class="kru">Kru:</span> This is how educated English speakers disagree — question the reasoning, not the person.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">06</div>
+      <div class="eng">What do you think about — ?</div>
+      <div class="thai-script">คิดยังไงกับ — ?</div>
+      <div class="roman">khít yang-ngai gàp — ?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">07</div>
+      <div class="eng">I feel strongly about this.</div>
+      <div class="thai-script">รู้สึกหนักแน่นในเรื่องนี้มาก</div>
+      <div class="roman">rúu-sùek nàk-nâen nai rûeang níi mâak</div>
+      <div class="note"><span class="sora">Sora:</span> หนักแน่น (nàk-nâen) = firm / strongly held. More nuanced than just "I like this a lot."</div>
+    </div>
+
+  </div><!-- /opinions -->
+
+
+  <!-- ── THAI IDIOMS ── -->
+  <div id="idioms" class="section">
+    <p class="section-intro">
+      <strong class="lbl-sora">Sora learns:</strong> Colourful Thai idioms and expressions that real people use in daily life — the kind of thing you'd never find in a textbook.<br>
+      <strong class="lbl-kru">Kru learns:</strong> Their English equivalents — idioms bring personality to conversation!
+    </p>
+
+    <div class="group-label">Body & Feeling Idioms</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">01</div>
+      <div class="thai-script">ใจร้อน</div>
+      <div class="roman">jai ráwn</div>
+      <div class="eng">Literally: hot heart → Meaning: impatient / hot-headed / impulsive</div>
+      <div class="note">English equivalent: "Don't be so hasty." / "Slow down." <br>Used in Muay Thai: ใจร้อน = throwing punches without thinking. คุณใจร้อนไปนะ = "You're being too impulsive."</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">02</div>
+      <div class="thai-script">ใจเย็น</div>
+      <div class="roman">jai yen</div>
+      <div class="eng">Literally: cool heart → Meaning: calm / patient / composed</div>
+      <div class="note">English equivalent: "Take it easy." / "Stay cool." <br>Coaches say this constantly: ใจเย็นๆ นะ = "Stay calm / be patient." Opposite of ใจร้อน above.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">03</div>
+      <div class="thai-script">ถอดใจ</div>
+      <div class="roman">thàwt jai</div>
+      <div class="eng">Literally: remove heart → Meaning: to give up / lose the will to continue</div>
+      <div class="note">English equivalent: "Don't throw in the towel." / "Keep going." <br>อย่าถอดใจ (yàa thàwt jai) = "Don't give up" — one of the most motivating things a kru can say.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">04</div>
+      <div class="thai-script">เสียขวัญ</div>
+      <div class="roman">sǐa-khwǎn</div>
+      <div class="eng">Literally: lose spirit → Meaning: to be frightened / rattled / lose one's nerve</div>
+      <div class="note">English equivalent: "Shaken up." / "Lost their nerve." <br>อย่าเสียขวัญ (yàa sǐa khwǎn) = "Don't lose your nerve." Very useful pre-fight.</div>
+    </div>
+
+    <div class="group-label">Effort & Results</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">05</div>
+      <div class="thai-script">น้ำขึ้นให้รีบตัก</div>
+      <div class="roman">nám khûen hâi riip tàk</div>
+      <div class="eng">Literally: when the water rises, scoop quickly → Make the most of an opportunity while you can.</div>
+      <div class="note">English equivalent: "Strike while the iron is hot." / "Make hay while the sun shines."</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">06</div>
+      <div class="thai-script">ทำอะไรทำจริง</div>
+      <div class="roman">tham à-rai tham jing</div>
+      <div class="eng">Literally: whatever you do, do it for real → If you're going to do something, commit fully.</div>
+      <div class="note">English equivalent: "Go hard or go home." / "Whatever's worth doing is worth doing well." <br>Great kru philosophy for training!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">07</div>
+      <div class="thai-script">ฝึกบ่อยๆ จะชินเอง</div>
+      <div class="roman">fùek bàwy-bàwy jà chin eeng</div>
+      <div class="eng">Literally: train often enough, you'll get used to it naturally.</div>
+      <div class="note">English equivalent: "Practice makes perfect." / "It'll click eventually." <br>Very reassuring thing to say to a frustrated student!</div>
+    </div>
+
+    <div class="group-label">People & Personality</div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">08</div>
+      <div class="thai-script">หน้าใหญ่</div>
+      <div class="roman">nâa yài</div>
+      <div class="eng">Literally: big face → Someone who needs to save face / concerned with image / proud</div>
+      <div class="note">English equivalent: "Proud" / "Saving face." Understanding this concept is essential for navigating Thai social situations gracefully.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">09</div>
+      <div class="thai-script">ปากหวาน</div>
+      <div class="roman">bpàak wǎan</div>
+      <div class="eng">Literally: sweet mouth → Someone who says nice things / a charmer (can be genuine or flattering)</div>
+      <div class="note">English equivalent: "He has a silver tongue." / "She's very sweet-talking." Context tells you if it's sincere or not!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('highlighted')">
+      <div class="card-num">10</div>
+      <div class="thai-script">ขี้เกียจ</div>
+      <div class="roman">khîi-gìat</div>
+      <div class="eng">Literally: lazy excrement (!) → Just means: lazy / can't be bothered</div>
+      <div class="note">English equivalent: "So lazy." <br>ขี้ (khîi) is a very productive prefix in Thai — it attaches to traits: ขี้ขลาด (cowardly), ขี้ลืม (forgetful), ขี้อาย (shy). Learn this pattern and your vocab triples!</div>
+    </div>
+
+  </div><!-- /idioms -->
+
+</div><!-- /content -->
+
+<footer>
+  Click any card to highlight it · Tone marks: à = low · â = falling · á = high · ǎ = rising · a = mid<br>
+  Kru & Sora language exchange 🥊 · Vol. 2
+</footer>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
