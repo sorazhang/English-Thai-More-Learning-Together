@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Vol. 7</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f2eb;
+    --bg2: #ede6d8;
+    --bg3: #e2d8c4;
+    --ink: #1e160a;
+    --muted: #8c7a5e;
+    --border: rgba(30,22,10,0.1);
+    --eng: #1a4c7c;
+    --thai: #7c1a3a;
+    --roman: #1a6c3c;
+    --gold: #a07018;
+    --gold2: #c8942a;
+    --accent: #8c2a0a;
+    --saffron: #d49020;
+    --lotus: #c8607a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Mulish', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    padding: 3rem 2rem 2.4rem;
+    position: relative; overflow: hidden;
+  }
+
+  /* decorative pattern */
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(200,148,42,0.04) 20px,
+      rgba(200,148,42,0.04) 21px
+    );
+    pointer-events: none;
+  }
+
+  header::after {
+    content: 'VII';
+    position: absolute; right: 1.5rem; bottom: -1.2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 10rem; font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    line-height: 1; pointer-events: none;
+    letter-spacing: -0.05em;
+  }
+
+  .h-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .vol-tag {
+    display: inline-block;
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--saffron);
+    margin-bottom: 0.7rem;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.7rem, 4.8vw, 3rem);
+    font-weight: 700; line-height: 1.1;
+    color: #f7f2eb; margin-bottom: 0.3rem;
+  }
+
+  h1 em { font-style: italic; color: rgba(212,144,32,0.9); }
+
+  .sub { font-size: 0.82rem; color: rgba(247,242,235,0.4); font-weight: 300; margin-bottom: 1.4rem; }
+
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .leg { display: flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; font-weight: 500; }
+  .lsq { width: 10px; height: 10px; border-radius: 2px; }
+  .le { background: #4a7cc8; }
+  .lt { background: #c84a7a; }
+  .lr { background: #4ac87a; }
+  .leg-t { color: rgba(247,242,235,0.65); }
+
+  /* TABS */
+  .tabs {
+    display: flex; overflow-x: auto;
+    background: var(--bg2); border-bottom: 2px solid var(--bg3);
+    padding: 0 1.2rem;
+    scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: 0.9rem 1.1rem;
+    font-size: 0.79rem; font-weight: 600; color: var(--muted);
+    cursor: pointer; white-space: nowrap;
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+    transition: all 0.15s; letter-spacing: 0.02em;
+    background: none; border-top: none; border-left: none; border-right: none;
+    font-family: 'Mulish', sans-serif;
+  }
+
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* CONTENT */
+  .content { max-width: 900px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro {
+    font-size: 0.82rem; line-height: 1.72; color: var(--muted);
+    padding: 0.85rem 1.1rem; margin-bottom: 1.8rem;
+    border-left: 3px solid var(--saffron); background: rgba(212,144,32,0.06);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .intro strong { color: var(--ink); }
+
+  .grp {
+    font-size: 0.67rem; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted);
+    margin: 2.2rem 0 0.9rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  /* CARDS */
+  .card {
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.1rem 1.3rem;
+    margin-bottom: 0.65rem; cursor: pointer;
+    transition: all 0.18s; position: relative;
+  }
+
+  .card:hover {
+    border-color: rgba(140,42,10,0.3);
+    box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+  }
+
+  .card.on { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(140,42,10,0.12); background: #fffdf9; }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-size: 0.65rem; color: var(--border); font-weight: 700; }
+
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 500; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.25rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+
+  .note {
+    margin-top: 0.62rem; padding-top: 0.58rem;
+    border-top: 1px dashed var(--border);
+    font-size: 0.76rem; color: var(--muted); line-height: 1.6;
+  }
+
+  .note b { color: var(--gold2); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  /* TABLE */
+  .tw { overflow-x: auto; margin-bottom: 0.7rem; }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; font-size: 0.85rem;
+  }
+
+  thead tr { background: var(--ink); }
+  thead th {
+    padding: 0.6rem 1rem; text-align: left;
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; color: rgba(247,242,235,0.7);
+  }
+
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 500; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr2 { color: var(--roman); font-style: italic; }
+  .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  /* CULTURE CARD — special styled */
+  .culture-card {
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; margin-bottom: 0.8rem;
+    cursor: pointer; transition: all 0.18s;
+  }
+
+  .culture-card:hover { border-color: rgba(140,42,10,0.3); box-shadow: 0 3px 14px rgba(0,0,0,0.08); transform: translateY(-1px); }
+  .culture-card.on { border-color: var(--accent); background: #fffdf9; }
+
+  .cc-top {
+    display: grid; grid-template-columns: 60px 1fr;
+    gap: 0; align-items: stretch;
+  }
+
+  .cc-icon {
+    background: var(--ink); display: flex; align-items: center;
+    justify-content: center; font-size: 1.6rem;
+    padding: 0.8rem;
+  }
+
+  .cc-main { padding: 0.9rem 1.2rem; }
+
+  .cc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight: 700;
+    color: var(--ink); margin-bottom: 0.2rem;
+  }
+
+  .cc-thai {
+    font-family: 'Noto Sans Thai', sans-serif;
+    color: var(--thai); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.1rem;
+  }
+
+  .cc-roman { color: var(--roman); font-size: 0.8rem; font-style: italic; }
+
+  .cc-body { padding: 0.9rem 1.2rem; border-top: 1px dashed var(--border); font-size: 0.8rem; color: var(--muted); line-height: 1.65; }
+  .cc-body b { color: var(--ink); }
+  .cc-body .eng-eq { color: var(--eng); font-weight: 600; font-style: italic; }
+
+  /* CALLOUT */
+  .hbox {
+    background: rgba(212,144,32,0.07); border: 1px solid rgba(212,144,32,0.22);
+    border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.7rem;
+  }
+
+  .hbox-label {
+    font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--saffron); margin-bottom: 0.55rem;
+  }
+
+  .hbox p { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+  .hbox p b { color: var(--ink); }
+
+  /* FESTIVAL CARDS */
+  .festival {
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; margin-bottom: 0.7rem;
+    cursor: pointer; transition: all 0.18s;
+  }
+
+  .festival:hover { border-color: rgba(212,144,32,0.4); transform: translateY(-1px); box-shadow: 0 3px 14px rgba(0,0,0,0.08); }
+  .festival.on { border-color: var(--saffron); }
+
+  .fest-header {
+    background: linear-gradient(135deg, var(--ink) 0%, #2e1e08 100%);
+    padding: 0.7rem 1.2rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+
+  .fest-emoji { font-size: 1.4rem; }
+
+  .fest-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; font-weight: 700; color: #f7f2eb;
+  }
+
+  .fest-thai {
+    font-family: 'Noto Sans Thai', sans-serif;
+    font-size: 0.85rem; color: rgba(247,242,235,0.6);
+  }
+
+  .fest-body { padding: 0.9rem 1.2rem; font-size: 0.8rem; color: var(--muted); line-height: 1.65; }
+  .fest-body b { color: var(--ink); }
+  .fest-phrase { margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px dashed var(--border); }
+  .fest-phrase .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1rem; font-weight: 600; line-height: 1.7; }
+  .fest-phrase .r { color: var(--roman); font-size: 0.82rem; font-style: italic; }
+  .fest-phrase .e { color: var(--eng); font-size: 0.88rem; font-weight: 500; margin-bottom: 0.3rem; }
+
+  /* DIALOGUE */
+  .dlg { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 0.8rem; }
+  .dlg-hd { background: var(--ink); padding: 0.5rem 1rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(247,242,235,0.6); }
+  .dlg-ln { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 58px 1fr; gap: 0.8rem; align-items: start; }
+  .dlg-ln:last-child { border-bottom: none; }
+  .spk { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding-top: 0.15rem; }
+  .spk.kru { color: var(--eng); }
+  .spk.sora { color: var(--roman); }
+  .dt .e { font-size: 0.9rem; padding-right: 0; }
+  .dt .t { font-size: 0.97rem; }
+  .dt .r { font-size: 0.8rem; }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  @media (max-width: 560px) {
+    header::after { display: none; }
+    .dlg-ln { grid-template-columns: 44px 1fr; }
+    .cc-top { grid-template-columns: 50px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-inner">
+    <div class="vol-tag">🥊 Language Exchange · Vol. 7</div>
+    <h1>English <em>↔</em> Thai<br>More Learning Together</h1>
+    <p class="sub">Thai Culture Deep Dive · Festivals · Buddhist Life · Social Customs</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span class="leg-t">English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span class="leg-t">ภาษาไทย Thai Script</span></div>
+      <div class="leg"><div class="lsq lr"></div><span class="leg-t">Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('concepts')">🌸 Core Concepts</button>
+  <button class="tab" onclick="sw('buddhism')">🙏 Buddhism</button>
+  <button class="tab" onclick="sw('festivals')">🎊 Festivals</button>
+  <button class="tab" onclick="sw('royalty')">👑 Royalty & Respect</button>
+  <button class="tab" onclick="sw('food-culture')">🍛 Food Culture</button>
+  <button class="tab" onclick="sw('superstitions')">🪬 Spirits & Beliefs</button>
+</nav>
+
+<div class="content">
+
+  <!-- CORE CONCEPTS -->
+  <div id="concepts" class="section active">
+    <p class="intro">
+      <strong>Kru learns:</strong> Deep cultural concepts that explain Thai behaviour — essential context for working with Thai students and understanding kru's worldview.<br>
+      <strong>Sora learns:</strong> The Thai words behind these concepts — once you name them, you see them everywhere.
+    </p>
+
+    <div class="grp">The Untranslatable Thai Concepts</div>
+
+    <div class="culture-card" onclick="this.classList.toggle('on')">
+      <div class="cc-top">
+        <div class="cc-icon">😊</div>
+        <div class="cc-main">
+          <div class="cc-title">Sanuk</div>
+          <div class="cc-thai">สนุก</div>
+          <div class="cc-roman">sà-nùk</div>
+        </div>
+      </div>
+      <div class="cc-body">
+        <b>What it means:</b> Everything in life should have an element of fun — if it isn't sanuk, it's not worth doing properly. Thai people will add humour, games, or lightness even to serious situations. This is NOT laziness — it's a philosophy that joy increases effort and quality.<br><br>
+        <span class="eng-eq">English nearest:</span> "If it ain't fun, why do it?" — but as a life principle, not an excuse.
+      </div>
+    </div>
+
+    <div class="culture-card" onclick="this.classList.toggle('on')">
+      <div class="cc-top">
+        <div class="cc-icon">🤫</div>
+        <div class="cc-main">
+          <div class="cc-title">Kreng Jai</div>
+          <div class="cc-thai">เกรงใจ</div>
+          <div class="cc-roman">greng-jai</div>
+        </div>
+      </div>
+      <div class="cc-body">
+        <b>What it means:</b> Not wanting to impose, trouble, or burden others — even when you genuinely need help. It's why Thais say "no, thank you" to food even when hungry, why students won't admit they're confused, and why people won't ask direct questions. <br><br>
+        <b>In training:</b> A student in pain may not tell you because of เกรงใจ. Always check in directly — don't wait for them to volunteer it.<br><br>
+        <span class="eng-eq">English nearest:</span> "I don't want to be a burden." — but as an instinctive reflex, not a thought.
+      </div>
+    </div>
+
+    <div class="culture-card" onclick="this.classList.toggle('on')">
+      <div class="cc-top">
+        <div class="cc-icon">😌</div>
+        <div class="cc-main">
+          <div class="cc-title">Jai Yen</div>
+          <div class="cc-thai">ใจเย็น</div>
+          <div class="cc-roman">jai-yen</div>
+        </div>
+      </div>
+      <div class="cc-body">
+        <b>What it means:</b> Cool heart — composure, patience, not reacting impulsively. In Thai culture, someone who stays calm under pressure is deeply admired. Losing your temper publicly is considered shameful, not powerful.<br><br>
+        <b>Opposite:</b> ใจร้อน (jai-ráwn) = hot heart / impulsive / quick to anger.<br><br>
+        <span class="eng-eq">English nearest:</span> "Keep your cool." — but with a spiritual dimension.
+      </div>
+    </div>
+
+    <div class="culture-card" onclick="this.classList.toggle('on')">
+      <div class="cc-top">
+        <div class="cc-icon">🌀</div>
+        <div class="cc-main">
+          <div class="cc-title">Mai Pen Rai</div>
+          <div class="cc-thai">ไม่เป็นไร</div>
+          <div class="cc-roman">mâi bpen rai</div>
+        </div>
+      </div>
+      <div class="cc-body">
+        <b>What it means:</b> Never mind / no worries / it doesn't matter. This phrase dissolves awkwardness, defuses conflict, and expresses Buddhist acceptance of impermanence — things happen, and clinging to them serves no purpose.<br><br>
+        <b>Use it constantly:</b> When someone apologises, when something goes wrong, when a plan changes. ไม่เป็นไร is the social lubricant of Thai life.<br><br>
+        <span class="eng-eq">English nearest:</span> "No worries" + "It is what it is" + "Don't mention it" combined.
+      </div>
+    </div>
+
+    <div class="culture-card" onclick="this.classList.toggle('on')">
+      <div class="cc-top">
+        <div class="cc-icon">😳</div>
+        <div class="cc-main">
+          <div class="cc-title">Sia Na</div>
+          <div class="cc-thai">เสียหน้า</div>
+          <div class="cc-roman">sǐa nâa</div>
+        </div>
+      </div>
+      <div class="cc-body">
+        <b>What it means:</b> To lose face — being embarrassed or shamed publicly. For Thais, reputation and social standing are deeply important. Publicly correcting, humiliating, or criticising someone causes เสียหน้า and can permanently damage a relationship.<br><br>
+        <b>Opposite:</b> รักษาหน้า (rák-sǎa nâa) = save face — this is the active goal.<br><br>
+        <span class="eng-eq">English nearest:</span> "Save face" — but far more powerful in Thai culture than in Western contexts.
+      </div>
+    </div>
+
+    <div class="culture-card" onclick="this.classList.toggle('on')">
+      <div class="cc-top">
+        <div class="cc-icon">🙏</div>
+        <div class="cc-main">
+          <div class="cc-title">Bun & Baap</div>
+          <div class="cc-thai">บุญ & บาป</div>
+          <div class="cc-roman">bun & bàap</div>
+        </div>
+      </div>
+      <div class="cc-body">
+        <b>บุญ (bun)</b> = merit — good deeds that improve your karma and next life. Giving to monks, helping others, and acting with integrity accumulates บุญ.<br><br>
+        <b>บาป (bàap)</b> = sin/demerit — actions that harm karma. Lying, cruelty, and disrespect create บาป.<br><br>
+        <b>Why this matters:</b> Thai people often explain good or bad fortune through บุญ and บาป. Understanding this explains generosity, temple donations, and why Thais value kindness as more than just politeness.<br><br>
+        <span class="eng-eq">English nearest:</span> "Karma" — but within a specifically Buddhist framework.
+      </div>
+    </div>
+
+  </div><!-- /concepts -->
+
+
+  <!-- BUDDHISM -->
+  <div id="buddhism" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> How to explain Thai Buddhist practices to international students who may be visiting temples or seeing monks for the first time.<br>
+      <strong>Sora learns:</strong> Thai Buddhist vocabulary — important for visiting temples and understanding the spiritual layer of Muay Thai itself.
+    </p>
+
+    <div class="grp">Buddhist Basics</div>
+
+    <div class="hbox">
+      <div class="hbox-label">🙏 Muay Thai & Buddhism</div>
+      <p>Muay Thai is deeply intertwined with Buddhism. Fighters pray before a fight, the <b>Mongkon</b> (มงคล — mongkhon) headband is blessed by monks, and the <b>Wai Kru</b> (ไหว้ครู) ceremony before a fight is a form of spiritual gratitude. Understanding Buddhism helps you understand why these rituals matter — they're not superstition, they're sincere devotion.</p>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Monk</td><td class="tt">พระ / พระภิกษุ</td><td class="tr2">phrá / phrá-phík-sù</td><td class="tn2">Male ordained Buddhist monk</td></tr>
+          <tr><td class="te">Novice monk</td><td class="tt">เณร</td><td class="tr2">neen</td><td class="tn2">Young monk in training</td></tr>
+          <tr><td class="te">Temple</td><td class="tt">วัด</td><td class="tr2">wát</td><td class="tn2">Also means monastery</td></tr>
+          <tr><td class="te">Buddha image</td><td class="tt">พระพุทธรูป</td><td class="tr2">phrá-phút-thá-rûup</td><td class="tn2">Sacred — never point feet at</td></tr>
+          <tr><td class="te">Offering / Alms</td><td class="tt">ทำบุญ</td><td class="tr2">tham bun</td><td class="tn2">To make merit</td></tr>
+          <tr><td class="te">Incense sticks</td><td class="tt">ธูป</td><td class="tr2">thûup</td><td class="tn2">Used in prayer and offerings</td></tr>
+          <tr><td class="te">Flower garland</td><td class="tt">พวงมาลัย</td><td class="tr2">phuang-maa-lai</td><td class="tn2">Offered at shrines</td></tr>
+          <tr><td class="te">Spirit house</td><td class="tt">ศาลพระภูมิ</td><td class="tr2">sǎan phrá-phuum</td><td class="tn2">Outside every Thai home/business</td></tr>
+          <tr><td class="te">Ordination</td><td class="tt">การบวช</td><td class="tr2">gaan bùat</td><td class="tn2">Most Thai men ordain at least once</td></tr>
+          <tr><td class="te">Dharma / Teaching</td><td class="tt">ธรรม</td><td class="tr2">tham</td><td class="tn2">Buddhist teaching / righteousness</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Visiting a Temple — What to Say & Do</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Please dress modestly — cover your shoulders and knees.</div>
+      <div class="t">แต่งตัวสุภาพด้วยนะ — ปิดไหล่และเข่า</div>
+      <div class="r">tàeng-tua sù-phâap dûay ná — bpìt lài láe khào</div>
+      <div class="note"><span class="ke">Kru:</span> Important to warn students before visiting a temple. Most temples provide sarongs to borrow but it's respectful to come prepared.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Remove your shoes before entering any building inside the temple.</div>
+      <div class="t">ถอดรองเท้าก่อนเข้าอาคารในวัดทุกหลัง</div>
+      <div class="r">thàwt rawng-tháao gàawn khâo aa-khaan nai wát thúk lǎng</div>
+      <div class="note"><span class="ks">Sora:</span> ถอด (thàwt) = to remove (clothing/shoes). รองเท้า (rawng-tháao) = shoes. อาคาร (aa-khaan) = building.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Never point your feet toward a Buddha image or a monk.</div>
+      <div class="t">อย่าชี้เท้าไปทางพระพุทธรูปหรือพระเด็ดขาด</div>
+      <div class="r">yàa chîi tháao bpai thaang phrá-phút-thá-rûup rǔe phrá dèt-khàat</div>
+      <div class="note"><span class="ke">Kru:</span> The feet are the lowest, most spiritually impure part of the body in Thai culture. Even accidentally pointing feet toward something sacred is offensive.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Women must not touch or hand things directly to a monk.</div>
+      <div class="t">ผู้หญิงต้องไม่แตะต้องหรือส่งของให้พระโดยตรง</div>
+      <div class="r">phûu-yǐng tâwng mâi tàe-tâwng rǔe sòng khǎawng hâi phrá dooi-trong</div>
+      <div class="note"><span class="ke">Kru:</span> Items should be placed on a cloth for the monk to pick up, or handed to a male companion to pass on. This is a well-known and important rule for female visitors.<br><span class="ks">Sora:</span> โดยตรง (dooi-trong) = directly</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">The Wai Kru in Muay Thai is our way of thanking our teachers and ancestors before we fight.</div>
+      <div class="t">ไหว้ครูในมวยไทยคือการขอบคุณครูและบรรพบุรุษของเราก่อนชก</div>
+      <div class="r">wâi khruu nai muay thai khue gaan khàwp-khun khruu láe ban-phá-bù-rùt khǎawng rao gàawn chók</div>
+      <div class="note"><span class="ks">Sora:</span> บรรพบุรุษ (ban-phá-bù-rùt) = ancestors. The Wai Kru is one of the most beautiful aspects of Muay Thai — a meditation, a prayer, and a show of lineage all in one.</div>
+    </div>
+
+  </div><!-- /buddhism -->
+
+
+  <!-- FESTIVALS -->
+  <div id="festivals" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> How to explain Thai festivals to curious international students — and the right things to say at the right time.<br>
+      <strong>Sora learns:</strong> Festival names, vocabulary, and the key phrases used during each celebration. If you visit Thailand during these times — you'll want to know these!
+    </p>
+
+    <div class="grp">The Big Four Thai Festivals</div>
+
+    <div class="festival" onclick="this.classList.toggle('on')">
+      <div class="fest-header">
+        <div class="fest-emoji">💦</div>
+        <div>
+          <div class="fest-title">Songkran</div>
+          <div class="fest-thai">สงกรานต์ — sǒng-graan · April</div>
+        </div>
+      </div>
+      <div class="fest-body">
+        Thai New Year — a 3-day water festival in mid-April, the hottest time of year. Water is poured to wash away bad luck and pay respect to elders. In Bangkok and Chiang Mai it becomes a massive city-wide water fight. <b>It is the biggest party in Thailand.</b><br><br>
+        <b>Important:</b> Anything electronic in your pocket will get soaked. Embrace it!
+        <div class="fest-phrase">
+          <div class="e">Happy New Year! (Songkran greeting)</div>
+          <div class="t">สวัสดีปีใหม่ไทย!</div>
+          <div class="r">sà-wàt-dii bpii-mài thai!</div>
+        </div>
+        <div class="fest-phrase">
+          <div class="e">May you be happy and healthy this year.</div>
+          <div class="t">ขอให้มีความสุขและสุขภาพดีตลอดปีนะ</div>
+          <div class="r">khǎaw hâi mii khwaam-sùk láe sùk-khà-phâap dii tà-làwt bpii ná</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="festival" onclick="this.classList.toggle('on')">
+      <div class="fest-header">
+        <div class="fest-emoji">🏮</div>
+        <div>
+          <div class="fest-title">Loy Krathong</div>
+          <div class="fest-thai">ลอยกระทง — loi grà-thong · November</div>
+        </div>
+      </div>
+      <div class="fest-body">
+        On the full moon of the 12th lunar month, Thais float small lotus-shaped baskets (กระทง — grà-thong) carrying candles, incense, and flowers on rivers and lakes — releasing bad luck and paying respects to the water goddess Mae Khongkha. In Chiang Mai, sky lanterns (โคมลอย — khoom loi) are released simultaneously — one of the most beautiful sights in Asia.<br><br>
+        <b>Tradition:</b> Make a wish as your krathong floats away.
+        <div class="fest-phrase">
+          <div class="e">Happy Loy Krathong!</div>
+          <div class="t">สุขสันต์วันลอยกระทง!</div>
+          <div class="r">sùk-sǎn wan loi grà-thong!</div>
+        </div>
+        <div class="fest-phrase">
+          <div class="e">Let go of all the bad — let the water carry it away.</div>
+          <div class="t">ปล่อยทุกสิ่งร้ายไป — ให้น้ำพัดพาไป</div>
+          <div class="r">bplàwy thúk sìng ráai bpai — hâi nám phát-phaa bpai</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="festival" onclick="this.classList.toggle('on')">
+      <div class="fest-header">
+        <div class="fest-emoji">🕯️</div>
+        <div>
+          <div class="fest-title">Visakha Bucha</div>
+          <div class="fest-thai">วันวิสาขบูชา — wan wí-sǎa-khà-buu-chaa · May</div>
+        </div>
+      </div>
+      <div class="fest-body">
+        The holiest day in Buddhism — commemorating the birth, enlightenment, and death of the Buddha, all on the same date. Thais visit temples, listen to sermons, and walk the <b>เวียนเทียน (wian-thian)</b> — a candlelit procession around the temple three times. <b>Alcohol is not sold in Thailand on this day.</b>
+        <div class="fest-phrase">
+          <div class="e">Today is a Buddhist holy day — no alcohol is sold.</div>
+          <div class="t">วันนี้เป็นวันพระสำคัญ — ไม่มีขายเหล้า</div>
+          <div class="r">wan níi bpen wan-phrá sǎm-khan — mâi mii khǎai lâo</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="festival" onclick="this.classList.toggle('on')">
+      <div class="fest-header">
+        <div class="fest-emoji">🎆</div>
+        <div>
+          <div class="fest-title">Thai New Year / Western New Year</div>
+          <div class="fest-thai">ปีใหม่ — bpii mài · January 1</div>
+        </div>
+      </div>
+      <div class="fest-body">
+        Thailand celebrates both its traditional New Year (Songkran in April) and the Western New Year on January 1st — with fireworks, street parties, and countdowns. Bangkok's celebrations rival anywhere in the world.
+        <div class="fest-phrase">
+          <div class="e">Happy New Year!</div>
+          <div class="t">สวัสดีปีใหม่!</div>
+          <div class="r">sà-wàt-dii bpii-mài!</div>
+        </div>
+        <div class="fest-phrase">
+          <div class="e">Wishing you a wonderful year ahead.</div>
+          <div class="t">ขอให้ปีหน้าเป็นปีที่ดีนะ</div>
+          <div class="r">khǎaw hâi bpii nâa bpen bpii thîi dii ná</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /festivals -->
+
+
+  <!-- ROYALTY & RESPECT -->
+  <div id="royalty" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> What to know — and what to tell students — about Thailand's royal family and the deep respect Thais feel for the monarchy.<br>
+      <strong>Sora learns:</strong> The language and customs around Thai royal culture — essential knowledge for anyone visiting or living in Thailand.
+    </p>
+
+    <div class="hbox">
+      <div class="hbox-label">⚠️ Important — Lèse-majesté in Thailand</div>
+      <p>Thailand has strict lèse-majesté laws (กฎหมายหมิ่นพระบรมเดชานุภาพ). Any criticism of the royal family — publicly, online, or even in private conversations with strangers — is a serious criminal offence. <b>International visitors have been arrested and jailed.</b> Never make jokes or negative comments about the royal family in Thailand, even casually. This applies to social media posts made while in the country.</p>
+    </div>
+
+    <div class="grp">Royal Vocabulary</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td class="te">The King</td><td class="tt">พระมหากษัตริย์ / ในหลวง</td><td class="tr2">phrá-má-hǎa-gà-sàt / nai-lǔang</td><td class="tn2">ในหลวง is the affectionate term</td></tr>
+          <tr><td class="te">The Queen</td><td class="tt">สมเด็จพระราชินี</td><td class="tr2">sǒm-dèt phrá-raa-chi-nii</td><td class="tn2">—</td></tr>
+          <tr><td class="te">The Royal Family</td><td class="tt">พระบรมวงศานุวงศ์</td><td class="tr2">phrá-baw-rom-wong-sǎa-nú-wong</td><td class="tn2">—</td></tr>
+          <tr><td class="te">Royal anthem</td><td class="tt">เพลงสรรเสริญพระบารมี</td><td class="tr2">phleeng-sǎn-soen-phrá-baa-ra-mii</td><td class="tn2">Stand still and silent when played</td></tr>
+          <tr><td class="te">National anthem</td><td class="tt">เพลงชาติ</td><td class="tr2">phleeng-châat</td><td class="tn2">Played 8am and 6pm — stand still</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Showing Respect in Public</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Stand still and silent when the national anthem plays — it's played at 8am and 6pm in public spaces.</div>
+      <div class="t">หยุดนิ่งและเงียบตอนเพลงชาติ — เปิดตอน 8 โมงเช้าและ 6 โมงเย็นในที่สาธารณะ</div>
+      <div class="r">yùt nîng láe ngîap tawn phleeng-châat — bpòet tawn bpàet moong cháao láe hòk moong yen nai thîi sǎa-thaa-rá-ná</div>
+      <div class="note"><span class="ke">Kru:</span> This surprises most international visitors. At train stations, parks, schools — everyone stops. It's not optional and locals notice if you don't.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">In Thai cinemas, the royal anthem plays before every film — everyone stands.</div>
+      <div class="t">ในโรงหนังไทย เพลงสรรเสริญฯ เปิดก่อนทุกรอบ — ทุกคนยืน</div>
+      <div class="r">nai roong-nǎng thai — phleeng-sǎn-soen bpòet gàawn thúk râwp — thúk khon yuen</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Portraits of the royal family are displayed everywhere — treat them with respect.</div>
+      <div class="t">รูปพระบรมฉายาลักษณ์มีอยู่ทุกที่ — แสดงความเคารพด้วยนะ</div>
+      <div class="r">rûup phrá-baw-rom-chǎai-yaa-lák mii yùu thúk thîi — sà-daeng khwaam khao-róp dûay ná</div>
+    </div>
+
+  </div><!-- /royalty -->
+
+
+  <!-- FOOD CULTURE -->
+  <div id="food-culture" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> The cultural depth behind Thai food — how eating together, sharing dishes, and hospitality through food are central to Thai social life.<br>
+      <strong>Sora learns:</strong> Food culture vocabulary and the phrases Thais use around meals — eating is a deeply social and cultural act in Thailand.
+    </p>
+
+    <div class="grp">How Thai People Eat</div>
+
+    <div class="hbox">
+      <div class="hbox-label">🍛 Thai dining culture at a glance</div>
+      <p>In Thailand, meals are <b>communal</b> — dishes are ordered for the table and shared, not ordered individually. Refusing food offered by a host is mildly impolite. The host always orders more than needed — leaving food shows the host provided enough. Eating alone is considered a little sad — กินข้าวคนเดียว (gin khâao khon diaw) = "eating alone" carries a tone of loneliness.</p>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">In Thailand we always share dishes — order several for the table.</div>
+      <div class="t">ในไทยเราแชร์อาหารกันเสมอ — สั่งหลายๆ อย่างสำหรับโต๊ะ</div>
+      <div class="r">nai thai rao chaer aa-hǎan gan sà-mǒe — sàng lǎai-lǎai yàang sǎm-ràp dtó</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">กินข้าวยัง? / กินข้าวหรือยัง? — Have you eaten yet?</div>
+      <div class="t">กินข้าวยัง? / กินข้าวหรือยัง?</div>
+      <div class="r">gin khâao yang? / gin khâao rǔe yang?</div>
+      <div class="note"><span class="ks">Sora:</span> This is one of the most common Thai greetings — asking if someone has eaten is expressing care. It's not literally about food. Respond: กินแล้ว (gin láaew) = "already eaten" or ยังเลย (yang looei) = "not yet!"</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">The host always pays — don't fight over the bill with a Thai host.</div>
+      <div class="t">เจ้าภาพจ่ายเสมอ — อย่าแย่งจ่ายเงินกับเจ้าภาพไทย</div>
+      <div class="r">jâo-phâap jàai sà-mǒe — yàa yâeng jàai ngoen gàp jâo-phâap thai</div>
+      <div class="note"><span class="ke">Kru:</span> If a Thai person invited you to eat, they intend to pay. Insisting to split is uncomfortable. Accept gracefully and reciprocate by inviting them next time.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">อร่อยมากเลย! — It's delicious!</div>
+      <div class="t">อร่อยมากเลย!</div>
+      <div class="r">à-ràwy mâak looei!</div>
+      <div class="note"><span class="ks">Sora:</span> Always say this when you enjoy food cooked by or chosen by a Thai person. It makes them genuinely happy. อร่อย (à-ràwy) = delicious — one of the most important words you'll ever learn.</div>
+    </div>
+
+    <div class="grp">Thai Food Customs Worth Knowing</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Custom</th><th>What it means</th><th>Key phrase</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Utensils</td><td class="tn2">Thais use a spoon and fork — not chopsticks (except for noodles). The spoon goes in the right hand, fork left.</td><td class="tt" style="font-size:0.85rem">ช้อน / ส้อม</td></tr>
+          <tr><td class="te">Rice is central</td><td class="tn2">Everything else is the "กับข้าว" (accompaniment to rice). Rice isn't a side — it's the foundation.</td><td class="tt" style="font-size:0.85rem">กับข้าว</td></tr>
+          <tr><td class="te">Complimenting</td><td class="tn2">Always compliment the food. It's the highest hospitality you can offer in return.</td><td class="tt" style="font-size:0.85rem">อร่อยมาก</td></tr>
+          <tr><td class="te">Finishing your plate</td><td class="tn2">In Thai culture, finishing everything signals the host gave too little. Leave a little.</td><td class="tt" style="font-size:0.85rem">อิ่มแล้ว</td></tr>
+          <tr><td class="te">Saying you're full</td><td class="tn2">อิ่มแล้ว (ìm láaew) = I'm full already. Say this to stop being served more!</td><td class="tt" style="font-size:0.85rem">อิ่มแล้ว</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /food-culture -->
+
+
+  <!-- SPIRITS & BELIEFS -->
+  <div id="superstitions" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> The spirit beliefs and superstitions that coexist with Buddhism in Thai daily life — this is part of the real Thailand that most tourists never understand.<br>
+      <strong>Sora learns:</strong> The vocabulary of Thai folk beliefs — relevant if you're training in Thailand, visiting spirit houses, or trying to understand what locals do before important events.
+    </p>
+
+    <div class="grp">Spirit Houses & Sacred Objects</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Every Thai home and business has a spirit house outside.</div>
+      <div class="t">ทุกบ้านและธุรกิจในไทยมีศาลพระภูมิอยู่ด้านนอก</div>
+      <div class="r">thúk bâan láe thú-rà-gìt nai thai mii sǎan-phrá-phuum yùu dâan-nâawk</div>
+      <div class="note"><span class="ke">Kru:</span> The spirit house (ศาลพระภูมิ) is a miniature temple where the protective spirit of the land is honoured with offerings of food, water, flowers, and incense. Never disrespect one.<br><span class="ks">Sora:</span> ศาลพระภูมิ (sǎan-phrá-phuum) = spirit house. You'll see them everywhere in Thailand.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">The Mongkon is blessed by monks — it protects the fighter.</div>
+      <div class="t">มงคลได้รับการอวยพรจากพระ — ช่วยปกป้องนักมวย</div>
+      <div class="r">mongkhon dâai-ráp gaan uay-phawn jàak phrá — chûay bpòk-bprâwng nák-muay</div>
+      <div class="note"><span class="ks">Sora:</span> มงคล (mongkhon) = the blessed headband worn during Wai Kru. Only the trainer (kru) removes it — it must be passed over the head, never under. Deeply sacred.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">The Prajiad armbands are for protection and good luck in a fight.</div>
+      <div class="t">ประเจียดเป็นของที่ใส่เพื่อความโชคดีและปกป้องในการชก</div>
+      <div class="r">bprà-jìat bpen khǎawng thîi sài phûea khwaam-chôok-dii láe bpòk-bprâwng nai gaan chók</div>
+      <div class="note"><span class="ks">Sora:</span> ประเจียด (bprà-jìat) = the armbands worn during fights. Often contain a rolled sacred cloth. โชคดี (chôok-dii) = good luck.</div>
+    </div>
+
+    <div class="grp">Common Thai Beliefs & Superstitions</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Belief</th><th>ภาษาไทย</th><th>What it means</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Never whistle at night</td><td class="tt">ห้ามผิวปากตอนกลางคืน</td><td class="tn2">Believed to summon spirits or bring bad luck</td></tr>
+          <tr><td class="te">Don't cut nails at night</td><td class="tt">ห้ามตัดเล็บตอนกลางคืน</td><td class="tn2">Old belief — spirits can attach to the clippings</td></tr>
+          <tr><td class="te">Don't step on a doorstep</td><td class="tt">ห้ามเหยียบธรณีประตู</td><td class="tn2">The spirit of the house lives there</td></tr>
+          <tr><td class="te">Sleep with your head facing east</td><td class="tt">นอนหันหัวไปทางทิศตะวันออก</td><td class="tn2">Feet toward the east (direction of death) is bad luck</td></tr>
+          <tr><td class="te">Never give someone a clock as a gift</td><td class="tt">ห้ามให้นาฬิกาเป็นของขวัญ</td><td class="tn2">Symbolises counting down to death</td></tr>
+          <tr><td class="te">Wearing a sacred amulet</td><td class="tt">ห้อยพระ</td><td class="tn2">Most Thai men wear a Buddha amulet — never mock one</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Sample Dialogue — Kru Explains Before the Fight</div>
+
+    <div class="dlg">
+      <div class="dlg-hd">🙏 Before the Wai Kru ceremony</div>
+      <div class="dlg-ln">
+        <div class="spk sora">Sora</div>
+        <div class="dt">
+          <div class="e">Kru — what should I think about during the Wai Kru?</div>
+          <div class="t">ครู — ระหว่างไหว้ครู ควรคิดถึงอะไร?</div>
+          <div class="r">khruu — rá-wàang wâi-khruu — khuan khít-thǔeng à-rai?</div>
+        </div>
+      </div>
+      <div class="dlg-ln">
+        <div class="spk kru">Kru</div>
+        <div class="dt">
+          <div class="e">Think of everyone who helped you get here. Your family. Your teachers. Say thank you in your heart.</div>
+          <div class="t">คิดถึงทุกคนที่ช่วยให้คุณมาถึงวันนี้ ครอบครัว ครู ขอบคุณในใจ</div>
+          <div class="r">khít-thǔeng thúk khon thîi chûay hâi khun maa thǔeng wan níi — khrâwp-khrua — khruu — khàwp-khun nai jai</div>
+        </div>
+      </div>
+      <div class="dlg-ln">
+        <div class="spk sora">Sora</div>
+        <div class="dt">
+          <div class="e">And the Mongkon — do I wear it the whole fight?</div>
+          <div class="t">แล้วมงคลล่ะ — ใส่ตลอดการชกไหม?</div>
+          <div class="r">láaew mongkhon là — sài tà-làwt gaan chók mǎi?</div>
+        </div>
+      </div>
+      <div class="dlg-ln">
+        <div class="spk kru">Kru</div>
+        <div class="dt">
+          <div class="e">No — only during the Wai Kru. I remove it before the fight starts. Only I can touch it.</div>
+          <div class="t">ไม่ — แค่ตอนไหว้ครู ครูถอดให้ก่อนชก มีแต่ครูที่แตะได้</div>
+          <div class="r">mâi — khâe tawn wâi-khruu — khruu thàwt hâi gàawn chók — mii-dtàe khruu thîi tàe dâai</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /superstitions -->
+
+</div><!-- /content -->
+
+<footer>
+  Click any card to highlight · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Vol. 7
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
