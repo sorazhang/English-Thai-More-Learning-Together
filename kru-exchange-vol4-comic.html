@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Vol. 4 · Comic Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&family=Bangers&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --bg2: #f2ede4;
+    --bg3: #e8e0d2;
+    --ink: #1c1710;
+    --muted: #8a7d6a;
+    --border: rgba(28,23,16,0.1);
+    --eng: #2a5c8a;
+    --thai: #8a2040;
+    --roman: #2a6640;
+    --gold: #b87820;
+    --accent: #c05828;
+    --accent2: #7a4898;
+    --panel-border: 2.5px solid #1c1710;
+    --speech-bg: #fffef8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    padding: 2.5rem 2rem 0;
+    position: relative; overflow: hidden;
+  }
+
+  .header-scene {
+    position: absolute; right: 0; bottom: 0; top: 0;
+    width: 260px; opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .h-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; padding-bottom: 2.2rem; }
+
+  .vol-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.7rem;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+    font-weight: 700; line-height: 1.1;
+    color: #faf7f2; margin-bottom: 0.3rem;
+  }
+
+  h1 i { font-style: italic; color: rgba(192,88,40,0.9); }
+
+  .sub { font-size: 0.82rem; color: rgba(250,247,242,0.4); font-weight: 300; margin-bottom: 1.4rem; }
+
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; font-weight: 500; }
+  .lsq { width: 10px; height: 10px; border-radius: 2px; }
+  .le { background: var(--eng); }
+  .lt { background: var(--thai); }
+  .lr { background: var(--roman); }
+  .leg-eng { color: rgba(250,247,242,0.7); }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex; overflow-x: auto;
+    background: var(--bg2); border-bottom: 2px solid var(--bg3);
+    padding: 0 1.2rem;
+    scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: 0.9rem 1.1rem;
+    font-size: 0.79rem; font-weight: 600; color: var(--muted);
+    cursor: pointer; white-space: nowrap;
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+    transition: all 0.15s; letter-spacing: 0.02em;
+    background: none; border-top: none; border-left: none; border-right: none;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── CONTENT ── */
+  .content { max-width: 900px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro {
+    font-size: 0.82rem; line-height: 1.72; color: var(--muted);
+    padding: 0.85rem 1.1rem; margin-bottom: 1.8rem;
+    border-left: 3px solid var(--accent); background: rgba(192,88,40,0.05);
+    border-radius: 0 4px 4px 0;
+  }
+  .intro strong { color: var(--ink); }
+
+  .grp {
+    font-size: 0.67rem; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted);
+    margin: 2.2rem 0 0.9rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  /* ── CARDS ── */
+  .card {
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.1rem 1.3rem;
+    margin-bottom: 0.65rem; cursor: pointer;
+    transition: all 0.18s; position: relative;
+  }
+  .card:hover { border-color: rgba(192,88,40,0.3); box-shadow: 0 3px 14px rgba(0,0,0,0.07); transform: translateY(-1px); }
+  .card.on { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(192,88,40,0.15); background: #fffcfa; }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-size: 0.65rem; color: var(--border); font-weight: 700; }
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 500; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.25rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+
+  .note {
+    margin-top: 0.62rem; padding-top: 0.58rem;
+    border-top: 1px dashed var(--border);
+    font-size: 0.76rem; color: var(--muted); line-height: 1.6;
+  }
+  .note b { color: var(--gold); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  .tw { overflow-x: auto; margin-bottom: 0.7rem; }
+  table { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 0.85rem; }
+  thead tr { background: var(--ink); }
+  thead th { padding: 0.6rem 1rem; text-align: left; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(250,247,242,0.7); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 500; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr2 { color: var(--roman); font-style: italic; }
+  .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  .hbox { background: rgba(122,72,152,0.07); border: 1px solid rgba(122,72,152,0.2); border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.7rem; }
+  .hbox-label { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.6rem; }
+  .hbox p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+  .hbox p b { color: var(--ink); }
+
+
+  /* ════════════════════════════════════════
+     COMIC DESIGN ELEMENTS
+  ════════════════════════════════════════ */
+
+  /* ── COMIC STRIP — 3-panel intro ── */
+  .comic-strip {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 0; border: var(--panel-border);
+    border-radius: 8px; overflow: hidden;
+    margin-bottom: 1.8rem; background: white;
+  }
+
+  .panel {
+    border-right: var(--panel-border);
+    padding: 0; position: relative;
+    display: flex; flex-direction: column;
+    min-height: 180px;
+    background: white;
+  }
+
+  .panel:last-child { border-right: none; }
+
+  .panel-num {
+    position: absolute; top: 6px; left: 8px;
+    font-family: 'Bangers', cursive;
+    font-size: 0.75rem; color: rgba(28,23,16,0.2);
+    letter-spacing: 0.05em;
+  }
+
+  .panel-scene {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem 0.8rem 0.5rem;
+    background: var(--bg2);
+    border-bottom: var(--panel-border);
+  }
+
+  .panel-caption {
+    padding: 0.45rem 0.6rem;
+    font-size: 0.72rem; color: var(--ink); line-height: 1.4;
+    text-align: center;
+  }
+
+  /* speech bubble */
+  .speech {
+    background: var(--speech-bg);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 0.45rem 0.65rem;
+    font-size: 0.72rem; color: var(--ink); line-height: 1.4;
+    position: relative; text-align: center; max-width: 120px;
+    font-weight: 500;
+  }
+
+  .speech::after {
+    content: '';
+    position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--ink);
+  }
+
+  .speech::before {
+    content: '';
+    position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--speech-bg);
+    z-index: 1;
+  }
+
+  .speech.left::after { left: 20%; }
+  .speech.left::before { left: 20%; }
+  .speech.right::after { left: 80%; }
+  .speech.right::before { left: 80%; }
+
+  .speech .thai {
+    font-family: 'Noto Sans Thai', sans-serif;
+    color: var(--thai); font-weight: 700; font-size: 0.85rem;
+    display: block; margin-top: 0.15rem;
+  }
+
+  .speech .roman {
+    color: var(--roman); font-style: italic; font-size: 0.66rem;
+    display: block; margin-top: 0.05rem;
+  }
+
+  /* thought bubble */
+  .thought {
+    background: var(--speech-bg);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.7rem; line-height: 1.35;
+    text-align: center; max-width: 110px;
+    position: relative;
+  }
+
+  /* action burst */
+  .burst {
+    font-family: 'Bangers', cursive;
+    font-size: 1.1rem; letter-spacing: 0.04em;
+    color: var(--accent);
+    -webkit-text-stroke: 1px var(--ink);
+    display: inline-block;
+    transform: rotate(-4deg);
+  }
+
+  .burst.gold { color: var(--gold); }
+  .burst.big { font-size: 1.4rem; }
+
+  /* ── SCENE BANNER — per section ── */
+  .scene-banner {
+    display: flex; align-items: center; gap: 1rem;
+    background: var(--ink); border-radius: 8px;
+    padding: 0.7rem 1rem; margin-bottom: 1.2rem;
+    position: relative; overflow: hidden;
+  }
+
+  .scene-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,255,255,0.02) 8px, rgba(255,255,255,0.02) 9px);
+    pointer-events: none;
+  }
+
+  .scene-banner-art { flex-shrink: 0; position: relative; z-index: 1; }
+
+  .scene-banner-text { flex: 1; position: relative; z-index: 1; }
+
+  .scene-banner-title {
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem; letter-spacing: 0.08em;
+    color: var(--bg); line-height: 1;
+    margin-bottom: 0.15rem;
+  }
+
+  .scene-banner-sub {
+    font-size: 0.72rem; color: rgba(250,247,242,0.45);
+    font-style: italic;
+  }
+
+  /* ── REACTION STICKER ── */
+  .sticker {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    background: white; border: 2px solid var(--ink);
+    border-radius: 20px; padding: 0.2rem 0.6rem;
+    font-size: 0.7rem; font-weight: 700;
+    box-shadow: 2px 2px 0 var(--ink);
+    margin: 0 0.2rem;
+  }
+
+  .sticker.fire { background: #fff0e0; color: var(--accent); }
+  .sticker.star { background: #fffbe0; color: var(--gold); }
+  .sticker.heart { background: #ffe0e8; color: var(--thai); }
+  .sticker.check { background: #e8f8e8; color: var(--roman); }
+
+  /* ── KRU/SORA CHARACTER LABEL ── */
+  .char-label {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.18rem 0.6rem;
+    border-radius: 3px; border: 1.5px solid;
+    margin-bottom: 0.3rem;
+  }
+
+  .char-label.kru { background: rgba(42,92,138,0.08); color: var(--eng); border-color: var(--eng); }
+  .char-label.sora { background: rgba(42,102,64,0.08); color: var(--roman); border-color: var(--roman); }
+
+  /* ── PANEL FIGURE SIZING ── */
+  .fig { width: 60px; height: 80px; }
+  .fig-sm { width: 48px; height: 64px; }
+  .fig-scene { width: 100%; max-height: 90px; }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  @media (max-width: 580px) {
+    .comic-strip { grid-template-columns: 1fr; }
+    .panel { border-right: none; border-bottom: var(--panel-border); min-height: 140px; }
+    .panel:last-child { border-bottom: none; }
+    .header-scene { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER with scene illustration ── -->
+<header>
+  <!-- header scene SVG: kru and student in gym -->
+  <svg class="header-scene" viewBox="0 0 260 200" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMax meet">
+    <!-- heavy bag -->
+    <ellipse cx="190" cy="65" rx="18" ry="28" fill="#3a2a18" stroke="#faf7f2" stroke-width="1.5" opacity="0.6"/>
+    <rect x="188" y="18" width="4" height="22" fill="#faf7f2" opacity="0.3"/>
+    <!-- kru figure (right, coaching) -->
+    <!-- body -->
+    <rect x="178" y="105" width="22" height="38" rx="4" fill="#c05828" opacity="0.8"/>
+    <!-- head -->
+    <circle cx="189" cy="98" r="10" fill="#d4a870" opacity="0.9"/>
+    <!-- hair -->
+    <path d="M179 95 Q189 86 199 95" stroke="#1c1710" stroke-width="2" fill="none" opacity="0.8"/>
+    <!-- arm pointing -->
+    <line x1="200" y1="118" x2="218" y2="110" stroke="#d4a870" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+    <!-- legs -->
+    <rect x="180" y="141" width="8" height="22" rx="3" fill="#2a1c0e" opacity="0.8"/>
+    <rect x="191" y="141" width="8" height="22" rx="3" fill="#2a1c0e" opacity="0.8"/>
+
+    <!-- student figure (left, listening) -->
+    <!-- body -->
+    <rect x="95" y="112" width="20" height="35" rx="4" fill="#2a5c8a" opacity="0.7"/>
+    <!-- head -->
+    <circle cx="105" cy="105" r="9" fill="#d4a870" opacity="0.9"/>
+    <!-- hair -->
+    <path d="M96 102 Q105 93 114 102" stroke="#1c1710" stroke-width="2" fill="none" opacity="0.8"/>
+    <!-- arms -->
+    <line x1="95" y1="122" x2="80" y2="130" stroke="#d4a870" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+    <line x1="115" y1="122" x2="128" y2="130" stroke="#d4a870" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+    <!-- legs -->
+    <rect x="97" y="145" width="7" height="20" rx="3" fill="#1c3a5c" opacity="0.8"/>
+    <rect x="107" y="145" width="7" height="20" rx="3" fill="#1c3a5c" opacity="0.8"/>
+
+    <!-- speech bubble floating -->
+    <rect x="55" y="72" width="68" height="28" rx="8" fill="#fffef8" stroke="#1c1710" stroke-width="1.5" opacity="0.9"/>
+    <path d="M85 100 L82 108 L91 100Z" fill="#fffef8" stroke="#1c1710" stroke-width="1.5" opacity="0.9"/>
+    <text x="89" y="91" font-family="Noto Sans Thai, sans-serif" font-size="11" fill="#8a2040" font-weight="700" text-anchor="middle" opacity="0.9">ใจ</text>
+    <text x="89" y="103" font-family="sans-serif" font-size="7" fill="#2a6640" font-style="italic" text-anchor="middle" opacity="0.8">jai = heart</text>
+
+    <!-- burst star -->
+    <text x="30" y="130" font-family="Bangers, cursive" font-size="22" fill="#b87820" opacity="0.35" transform="rotate(-12 30 130)">WOW!</text>
+  </svg>
+
+  <div class="h-inner">
+    <div class="vol-tag">🥊 Language Exchange · Vol. 4 · Comic Edition</div>
+    <h1>English <i>↔</i> Thai<br>More Learning Together</h1>
+    <p class="sub">Going further · Getting real · Now with comic strips!</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span class="leg-eng">English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span class="leg-eng">ภาษาไทย Thai Script</span></div>
+      <div class="leg"><div class="lsq lr"></div><span class="leg-eng">Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('emotions')">😤 Emotions</button>
+  <button class="tab" onclick="sw('transport')">🚕 Transport</button>
+  <button class="tab" onclick="sw('culture')">🙏 Thai Culture</button>
+  <button class="tab" onclick="sw('describe')">🗣️ Describing People</button>
+  <button class="tab" onclick="sw('teaching')">📱 Teaching &amp; Online</button>
+  <button class="tab" onclick="sw('location')">📍 Location &amp; Direction</button>
+</nav>
+
+<div class="content">
+
+  <!-- ════ EMOTIONS ════ -->
+  <div id="emotions" class="section active">
+
+    <!-- SCENE BANNER -->
+    <div class="scene-banner">
+      <div class="scene-banner-art">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <!-- frustrated face -->
+          <circle cx="28" cy="28" r="22" fill="#f2ede4" stroke="#faf7f2" stroke-width="2"/>
+          <path d="M18 22 Q22 18 26 22" stroke="#1c1710" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M30 22 Q34 18 38 22" stroke="#1c1710" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M20 36 Q28 31 36 36" stroke="#1c1710" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <circle cx="21" cy="26" r="3" fill="#1c1710"/>
+          <circle cx="35" cy="26" r="3" fill="#1c1710"/>
+          <!-- steam lines -->
+          <path d="M10 14 Q8 10 10 6" stroke="#c05828" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <path d="M46 14 Q48 10 46 6" stroke="#c05828" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+      <div class="scene-banner-text">
+        <div class="scene-banner-title">EMOTIONS &amp; FEELINGS</div>
+        <div class="scene-banner-sub">Thai hides emotion inside the word ใจ (heart) — and it's beautiful</div>
+      </div>
+      <div style="font-family:'Bangers',cursive;font-size:2rem;color:rgba(250,247,242,0.12);position:absolute;right:1rem;">ใจ</div>
+    </div>
+
+    <!-- ── 3-PANEL COMIC STRIP ── -->
+    <div class="comic-strip">
+
+      <!-- Panel 1 -->
+      <div class="panel">
+        <div class="panel-num">1</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.5rem;">
+          <!-- student looking frustrated -->
+          <svg width="70" height="80" viewBox="0 0 70 80" fill="none">
+            <!-- body -->
+            <rect x="20" y="42" width="30" height="26" rx="5" fill="#2a5c8a"/>
+            <!-- head -->
+            <circle cx="35" cy="34" r="14" fill="#d4a870"/>
+            <!-- frown -->
+            <path d="M28 40 Q35 36 42 40" stroke="#1c1710" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <!-- eyes (frustrated) -->
+            <path d="M28 30 Q30 27 33 30" stroke="#1c1710" stroke-width="1.5" fill="none"/>
+            <path d="M37 30 Q40 27 42 30" stroke="#1c1710" stroke-width="1.5" fill="none"/>
+            <circle cx="30" cy="32" r="2" fill="#1c1710"/>
+            <circle cx="40" cy="32" r="2" fill="#1c1710"/>
+            <!-- steam -->
+            <path d="M20 20 Q18 15 20 10" stroke="#c05828" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <path d="M50 20 Q52 15 50 10" stroke="#c05828" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <!-- legs -->
+            <rect x="23" y="66" width="9" height="12" rx="3" fill="#1c3a5c"/>
+            <rect x="38" y="66" width="9" height="12" rx="3" fill="#1c3a5c"/>
+          </svg>
+          <div class="speech left" style="font-size:0.68rem;max-width:130px;">I feel so... <br><em style="color:var(--muted)">what's the word?</em></div>
+        </div>
+        <div class="panel-caption" style="font-size:0.7rem;color:var(--muted);">Sora after a tough training session 😤</div>
+      </div>
+
+      <!-- Panel 2 -->
+      <div class="panel">
+        <div class="panel-num">2</div>
+        <div class="panel-scene" style="flex-direction:column; gap:0.6rem; background:#fff8f0;">
+          <!-- Big ใจ reveal -->
+          <div style="font-family:'Noto Sans Thai',sans-serif;font-size:2.2rem;font-weight:700;color:var(--thai);line-height:1;text-align:center;">ใจ</div>
+          <div style="font-family:'Bangers',cursive;font-size:0.9rem;color:var(--accent);letter-spacing:0.1em;">= HEART / MIND</div>
+          <div style="font-size:0.66rem;color:var(--muted);text-align:center;line-height:1.4;">The secret inside<br>every Thai emotion</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.7rem;color:var(--ink);">Kru reveals the pattern 💡</div>
+      </div>
+
+      <!-- Panel 3 -->
+      <div class="panel">
+        <div class="panel-num">3</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.4rem;padding-top:1rem;">
+          <!-- kru figure smiling -->
+          <svg width="60" height="72" viewBox="0 0 60 72" fill="none">
+            <rect x="15" y="38" width="30" height="24" rx="5" fill="#c05828"/>
+            <circle cx="30" cy="30" r="12" fill="#d4a870"/>
+            <!-- smile -->
+            <path d="M24 36 Q30 41 36 36" stroke="#1c1710" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <!-- eyes happy -->
+            <path d="M24 27 Q27 25 30 27" stroke="#1c1710" stroke-width="1.5" fill="none"/>
+            <path d="M30 27 Q33 25 36 27" stroke="#1c1710" stroke-width="1.5" fill="none"/>
+            <!-- arm up (teaching) -->
+            <line x1="45" y1="45" x2="55" y2="38" stroke="#d4a870" stroke-width="4" stroke-linecap="round"/>
+            <rect x="17" y="60" width="8" height="10" rx="3" fill="#2a1c0e"/>
+            <rect x="35" y="60" width="8" height="10" rx="3" fill="#2a1c0e"/>
+          </svg>
+          <div class="speech right" style="font-size:0.66rem;max-width:130px;">
+            ดีใจ · เสียใจ<br>ภูมิใจ · โล่งใจ<br>
+            <span style="color:var(--roman);font-style:italic;font-size:0.6rem;">all use ใจ!</span>
+          </div>
+        </div>
+        <div class="panel-caption" style="font-size:0.7rem;color:var(--roman);">Once you see it — it's everywhere!</div>
+      </div>
+
+    </div><!-- /comic-strip -->
+
+    <p class="intro">
+      <strong>Kru learns:</strong> How to name and talk about emotions in English — useful when students are frustrated, nervous, or overwhelmed.<br>
+      <strong>Sora learns:</strong> Thai emotional vocabulary — expressing how you feel in Thai is deeply tied to the word <span class="sticker heart">ใจ jai</span> (heart/mind).
+    </p>
+
+    <div class="grp">Naming Feelings</div>
+
+    <div class="hbox">
+      <div class="hbox-label">🌟 Key insight — ใจ (jai) = heart / mind</div>
+      <p>Thai embeds emotions in the word <b>ใจ (jai)</b>. Once you see the pattern, they're unforgettable. <span class="sticker star">⭐ Pattern power</span></p>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>Feeling</th><th>ภาษาไทย</th><th>Romanized</th><th>Literal meaning</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Happy / Glad</td><td class="tt">ดีใจ</td><td class="tr2">dii jai</td><td class="tn2">good heart</td></tr>
+        <tr><td class="te">Sad</td><td class="tt">เสียใจ</td><td class="tr2">sǐa jai</td><td class="tn2">lost/broken heart</td></tr>
+        <tr><td class="te">Proud</td><td class="tt">ภูมิใจ</td><td class="tr2">phuum jai</td><td class="tn2">elevated heart</td></tr>
+        <tr><td class="te">Nervous / Anxious</td><td class="tt">ใจหาย / กังวล</td><td class="tr2">jai hǎai / gang-won</td><td class="tn2">heart disappears</td></tr>
+        <tr><td class="te">Excited</td><td class="tt">ตื่นเต้น</td><td class="tr2">tùen-tên</td><td class="tn2">awake + jump</td></tr>
+        <tr><td class="te">Frustrated / Fed up</td><td class="tt">หงุดหงิด</td><td class="tr2">ngùt-ngìt</td><td class="tn2">onomatopoeia of irritation</td></tr>
+        <tr><td class="te">Relieved</td><td class="tt">โล่งใจ</td><td class="tr2">lôong jai</td><td class="tn2">open/clear heart</td></tr>
+        <tr><td class="te">Stressed</td><td class="tt">เครียด</td><td class="tr2">khrîat</td><td class="tn2">very common word</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Using Emotions in Conversation</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">You seem a bit frustrated today — is everything okay?</div>
+      <div class="t">วันนี้ดูหงุดหงิดนิดหน่อย — ทุกอย่างโอเคไหม?</div>
+      <div class="r">wan níi duu ngùt-ngìt nít-nàwy — thúk yàang oh-khee mǎi?</div>
+      <div class="note"><span class="ke">Kru:</span> "You seem..." is gentler than "You are..." — it opens a conversation without making assumptions.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">It's okay to feel nervous — everyone does before a fight.</div>
+      <div class="t">โอเคนะถ้ากังวล — ทุกคนรู้สึกแบบนี้ก่อนชก</div>
+      <div class="r">oh-khee ná thâa gang-won — thúk khon rúu-sùek bàaep níi gàawn chók</div>
+      <div class="note"><span class="ke">Kru:</span> Normalising emotions is one of the most powerful things a coach can say. <span class="sticker check">✓ Coach tip</span><br><span class="ks">Sora:</span> กังวล (gang-won) = worried/anxious · ทุกคน (thúk khon) = everyone</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">I'm really proud of you.</div>
+      <div class="t">ภูมิใจในตัวคุณมากเลย</div>
+      <div class="r">phuum-jai nai tua khun mâak looei</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">I feel much better after training.</div>
+      <div class="t">รู้สึกดีขึ้นมากหลังจากฝึก</div>
+      <div class="r">rúu-sùek dii khûen mâak lǎng-jàak fùek</div>
+      <div class="note"><span class="ks">Sora:</span> หลังจาก (lǎng-jàak) = after · ก่อน (gàawn) = before. Two connectors you'll use constantly.</div>
+    </div>
+
+  </div><!-- /emotions -->
+
+
+  <!-- ════ TRANSPORT ════ -->
+  <div id="transport" class="section">
+
+    <div class="scene-banner">
+      <div class="scene-banner-art">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <!-- tuk-tuk -->
+          <rect x="8" y="22" width="40" height="22" rx="6" fill="#f4c842" stroke="#faf7f2" stroke-width="1.5"/>
+          <rect x="14" y="14" width="28" height="14" rx="4" fill="#f4c842" stroke="#faf7f2" stroke-width="1.5"/>
+          <circle cx="16" cy="44" r="6" fill="#1c1710"/>
+          <circle cx="16" cy="44" r="3" fill="#888"/>
+          <circle cx="40" cy="44" r="6" fill="#1c1710"/>
+          <circle cx="40" cy="44" r="3" fill="#888"/>
+          <!-- speed lines -->
+          <line x1="2" y1="30" x2="8" y2="30" stroke="#faf7f2" stroke-width="1.5" stroke-dasharray="2,1" opacity="0.5"/>
+          <line x1="2" y1="35" x2="6" y2="35" stroke="#faf7f2" stroke-width="1" stroke-dasharray="2,1" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="scene-banner-text">
+        <div class="scene-banner-title">TRANSPORT &amp; GETTING AROUND</div>
+        <div class="scene-banner-sub">Bangkok taxis, BTS, tuk-tuks, and that essential meter phrase</div>
+      </div>
+    </div>
+
+    <!-- 3-PANEL STRIP -->
+    <div class="comic-strip">
+      <div class="panel">
+        <div class="panel-num">1</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.5rem;">
+          <svg width="80" height="72" viewBox="0 0 80 72" fill="none">
+            <!-- taxi -->
+            <rect x="10" y="30" width="60" height="28" rx="6" fill="#f4c842"/>
+            <rect x="18" y="20" width="44" height="16" rx="4" fill="#f4c842"/>
+            <circle cx="22" cy="58" r="7" fill="#1c1710"/>
+            <circle cx="22" cy="58" r="3.5" fill="#666"/>
+            <circle cx="58" cy="58" r="7" fill="#1c1710"/>
+            <circle cx="58" cy="58" r="3.5" fill="#666"/>
+            <!-- driver silhouette -->
+            <circle cx="32" cy="28" r="5" fill="#d4a870"/>
+          </svg>
+          <div class="speech" style="font-size:0.68rem;">🙏 No meter?!</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--muted);">Sora gets in a Bangkok taxi 🚕</div>
+      </div>
+      <div class="panel">
+        <div class="panel-num">2</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.6rem;background:#fff8f0;">
+          <div style="font-family:'Noto Sans Thai',sans-serif;font-size:1.3rem;font-weight:700;color:var(--thai);">เปิดมิเตอร์</div>
+          <div style="font-size:0.7rem;color:var(--roman);font-style:italic;">bpòet mí-dtôe</div>
+          <div style="font-size:0.62rem;color:var(--muted);">Turn on the meter!</div>
+          <div class="burst big" style="margin-top:0.2rem;">ALWAYS!</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--ink);">The most important Bangkok phrase 🚨</div>
+      </div>
+      <div class="panel">
+        <div class="panel-num">3</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.5rem;">
+          <div style="font-size:2rem;">✅</div>
+          <div class="speech" style="font-size:0.68rem;max-width:120px;">
+            <span class="thai">โอเคค่ะ!</span>
+            <span class="roman">oh-khee khâ!</span>
+          </div>
+          <div style="font-size:0.62rem;color:var(--muted);text-align:center;">Meter on. Mission complete.</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--roman);">Sora: 1 · Taxi driver: 0 😄</div>
+      </div>
+    </div>
+
+    <p class="intro">
+      <strong>Kru learns:</strong> English for helping students navigate Singapore transport.<br>
+      <strong>Sora learns:</strong> Thai transport vocabulary — taxis, BTS, Grab, and that essential meter phrase.
+    </p>
+
+    <div class="grp">Getting Around Bangkok</div>
+
+    <div class="hbox">
+      <div class="hbox-label">🚇 Bangkok transport at a glance</div>
+      <p><b>BTS Skytrain</b> (รถไฟฟ้า) · <b>MRT</b> (รถไฟใต้ดิน) · <b>Grab</b> (แกร็บ) · <b>Taxi</b> (แท็กซี่) · <b>Tuk-tuk</b> (ตุ๊กตุ๊ก) · <b>Boat</b> (เรือ). Grab avoids bargaining entirely. <span class="sticker fire">🔥 Pro tip</span></p>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Where is the nearest BTS station?</div>
+      <div class="t">สถานีรถไฟฟ้า BTS ที่ใกล้ที่สุดอยู่ที่ไหน?</div>
+      <div class="r">sà-thǎa-nii rót-fai-fáa BTS thîi glâi thîi-sùt yùu thîi nǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> ที่ใกล้ที่สุด = the nearest. ที่สุด = superlative suffix. ใหญ่ที่สุด = biggest. ดีที่สุด = best.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Turn on the meter, please.</div>
+      <div class="t">เปิดมิเตอร์ด้วยนะคะ</div>
+      <div class="r">bpòet mí-dtôe dûay ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> Essential in Bangkok. Some drivers try to negotiate a flat fare — always ask for the meter. <span class="sticker fire">🔥 Remember this!</span></div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Stop here, please.</div>
+      <div class="t">จอดตรงนี้เลยนะคะ</div>
+      <div class="r">jàwt trong níi looei ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> จอด (jàwt) = to park/stop a vehicle · ตรงนี้ (trong níi) = right here</div>
+    </div>
+
+    <div class="grp">Directions</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Turn left</td><td class="tt">เลี้ยวซ้าย</td><td class="tr2">líao sáai</td></tr>
+        <tr><td class="te">Turn right</td><td class="tt">เลี้ยวขวา</td><td class="tr2">líao khwǎa</td></tr>
+        <tr><td class="te">Go straight</td><td class="tt">ตรงไป</td><td class="tr2">trong bpai</td></tr>
+        <tr><td class="te">At the traffic lights</td><td class="tt">ที่ไฟแดง</td><td class="tr2">thîi fai daeng</td></tr>
+        <tr><td class="te">Near / Next to</td><td class="tt">ใกล้ๆ / ข้างๆ</td><td class="tr2">glâi-glâi / khâang-khâang</td></tr>
+      </tbody>
+    </table></div>
+
+  </div><!-- /transport -->
+
+
+  <!-- ════ THAI CULTURE ════ -->
+  <div id="culture" class="section">
+
+    <div class="scene-banner">
+      <div class="scene-banner-art">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <!-- temple / wat silhouette -->
+          <rect x="16" y="28" width="24" height="18" fill="#f2ede4" stroke="#faf7f2" stroke-width="1.5"/>
+          <polygon points="28,8 10,28 46,28" fill="#c05828" stroke="#faf7f2" stroke-width="1.5"/>
+          <polygon points="28,2 18,14 38,14" fill="#b87820" stroke="#faf7f2" stroke-width="1.5"/>
+          <rect x="24" y="36" width="8" height="10" fill="#2a1c0e"/>
+          <!-- lotus dots -->
+          <circle cx="8" cy="40" r="2.5" fill="#d4509a" opacity="0.7"/>
+          <circle cx="48" cy="40" r="2.5" fill="#d4509a" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="scene-banner-text">
+        <div class="scene-banner-title">THAI CULTURE</div>
+        <div class="scene-banner-sub">สนุก · เกรงใจ · ใจเย็น — the words that explain Thai life</div>
+      </div>
+    </div>
+
+    <!-- 3-PANEL STRIP -->
+    <div class="comic-strip">
+      <div class="panel">
+        <div class="panel-num">1</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.5rem;background:#fff8f0;">
+          <div style="font-size:1.8rem;">🙏</div>
+          <div class="speech" style="font-size:0.66rem;max-width:120px;">
+            What does it mean<br>to <em>wai</em>?
+          </div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--muted);">New student, first day 🤔</div>
+      </div>
+      <div class="panel">
+        <div class="panel-num">2</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.4rem;">
+          <!-- wai gesture figure -->
+          <svg width="64" height="72" viewBox="0 0 64 72" fill="none">
+            <rect x="18" y="36" width="28" height="26" rx="5" fill="#c05828"/>
+            <circle cx="32" cy="28" r="12" fill="#d4a870"/>
+            <path d="M26 34 Q32 38 38 34" stroke="#1c1710" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- praying hands -->
+            <rect x="26" y="42" width="12" height="16" rx="3" fill="#d4a870"/>
+            <path d="M29 42 L29 58 M32 40 L32 58 M35 42 L35 58" stroke="#c9966a" stroke-width="0.8"/>
+            <rect x="18" y="62" width="9" height="10" rx="3" fill="#2a1c0e"/>
+            <rect x="37" y="62" width="9" height="10" rx="3" fill="#2a1c0e"/>
+          </svg>
+          <div style="font-family:'Noto Sans Thai',sans-serif;font-size:1.1rem;font-weight:700;color:var(--thai);">ไหว้</div>
+          <div style="font-size:0.62rem;color:var(--roman);font-style:italic;">wâi</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--ink);">Kru demonstrates the wai 🙏</div>
+      </div>
+      <div class="panel">
+        <div class="panel-num">3</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.5rem;background:#fff8f0;">
+          <div style="font-size:1.6rem;">✨</div>
+          <div style="font-size:0.66rem;color:var(--ink);text-align:center;line-height:1.5;">Higher hands =<br>More respect</div>
+          <div class="burst gold">สวยมาก!</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--roman);">Student nails it on first try! 🌟</div>
+      </div>
+    </div>
+
+    <p class="intro">
+      <strong>Kru learns:</strong> Cultural context to explain to international students — what makes Thai culture distinct and what to respect.<br>
+      <strong>Sora learns:</strong> Key cultural concepts in Thai — understanding the language behind the customs.
+    </p>
+
+    <div class="grp">The Wai — ไหว้</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">In Thailand, we greet with a wai — hands pressed together.</div>
+      <div class="t">ในไทย เราทักทายด้วยการไหว้ — พนมมือ</div>
+      <div class="r">nai thai — rao thák-thaai dûay gaan wâi — phá-nom mue</div>
+      <div class="note"><span class="ke">Kru:</span> Teaching students the wai early builds enormous goodwill.<br><span class="ks">Sora:</span> ไหว้ (wâi) = the wai · พนมมือ (phá-nom mue) = pressing palms together</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Sanuk — Thai people believe everything should have some fun in it.</div>
+      <div class="t">สนุก — คนไทยเชื่อว่าทุกอย่างควรจะมีความสนุกอยู่ด้วย</div>
+      <div class="r">sà-nùk — khon thai chûea wâa thúk yàang khuan jà mii khwaam sà-nùk yùu dûay</div>
+      <div class="note"><span class="ks">Sora:</span> สนุก (sà-nùk) = fun. This explains why Thai training camps have such good energy — fun is not frivolous in Thai culture, it's important. <span class="sticker star">⭐ Culture key</span></div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Kreng jai — not wanting to impose or cause trouble for others.</div>
+      <div class="t">เกรงใจ — ไม่อยากทำให้คนอื่นลำบาก</div>
+      <div class="r">greng-jai — mâi yàak tham hâi khon ùen lam-bàak</div>
+      <div class="note"><span class="ks">Sora:</span> เกรงใจ (greng-jai) is untranslatable but essential. It's why students won't complain about pain even when they should.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Never touch someone's head — it's considered sacred.</div>
+      <div class="t">อย่าแตะหัวคนอื่นเด็ดขาด — ถือว่าศักดิ์สิทธิ์</div>
+      <div class="r">yàa tàe hǔa khon ùen dèt-khàat — thǔe wâa sàk-sìt</div>
+      <div class="note"><span class="ke">Kru:</span> Important to share with international students — playfully ruffling someone's hair is offensive in Thai culture. <span class="sticker fire">🔥 Must know</span></div>
+    </div>
+
+  </div><!-- /culture -->
+
+
+  <!-- ════ DESCRIBING PEOPLE ════ -->
+  <div id="describe" class="section">
+
+    <div class="scene-banner">
+      <div class="scene-banner-art">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <!-- two figures talking -->
+          <circle cx="18" cy="20" r="9" fill="#d4a870" stroke="#faf7f2" stroke-width="1.5"/>
+          <rect x="10" y="28" width="16" height="18" rx="4" fill="#2a5c8a" opacity="0.8"/>
+          <circle cx="38" cy="20" r="9" fill="#d4a870" stroke="#faf7f2" stroke-width="1.5"/>
+          <rect x="30" y="28" width="16" height="18" rx="4" fill="#c05828" opacity="0.8"/>
+          <!-- speech arrows between -->
+          <path d="M28 22 L30 22" stroke="#faf7f2" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M26 26 L30 26" stroke="#faf7f2" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="scene-banner-text">
+        <div class="scene-banner-title">DESCRIBING PEOPLE</div>
+        <div class="scene-banner-sub">ขยัน · ใจดี · มั่นใจ — personality in Thai</div>
+      </div>
+    </div>
+
+    <!-- 3-PANEL STRIP -->
+    <div class="comic-strip">
+      <div class="panel">
+        <div class="panel-num">1</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.5rem;">
+          <div style="font-size:1.5rem;">🤔</div>
+          <div class="speech" style="font-size:0.66rem;max-width:120px;">How do I say "she is very hardworking"?</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--muted);">Sora wants to compliment a friend</div>
+      </div>
+      <div class="panel">
+        <div class="panel-num">2</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.45rem;background:#fff8f0;">
+          <div style="font-family:'Noto Sans Thai',sans-serif;font-size:1.5rem;font-weight:700;color:var(--thai);">ขยัน</div>
+          <div style="font-size:0.7rem;color:var(--roman);font-style:italic;">khà-yan</div>
+          <div style="font-size:0.62rem;color:var(--muted);text-align:center;">= hardworking</div>
+          <div style="font-size:0.6rem;color:var(--ink);text-align:center;border-top:1px dashed var(--border);padding-top:0.3rem;margin-top:0.2rem;">One of the highest<br>compliments in Thai!</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--ink);">Kru teaches the vocab 📖</div>
+      </div>
+      <div class="panel">
+        <div class="panel-num">3</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.5rem;background:#fff8f0;">
+          <div class="speech" style="font-size:0.68rem;max-width:130px;">
+            <span class="thai">เธอขยันมากเลย!</span>
+            <span class="roman">thooe khà-yan mâak!</span>
+          </div>
+          <div style="font-size:1.5rem;margin-top:0.3rem;">🥰</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--roman);">Friend is very happy! 😊</div>
+      </div>
+    </div>
+
+    <p class="intro">
+      <strong>Kru learns:</strong> English for describing personality, character, and physical traits.<br>
+      <strong>Sora learns:</strong> How Thai people describe others — personality vocab and compliments.
+    </p>
+
+    <div class="grp">Personality Vocabulary</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Hardworking</td><td class="tt">ขยัน</td><td class="tr2">khà-yan</td><td class="tn2">highest compliment 🌟</td></tr>
+        <tr><td class="te">Kind / Gentle</td><td class="tt">ใจดี</td><td class="tr2">jai dii</td><td class="tn2">good heart — jai again!</td></tr>
+        <tr><td class="te">Brave</td><td class="tt">กล้า</td><td class="tr2">glâa</td><td class="tn2">—</td></tr>
+        <tr><td class="te">Confident</td><td class="tt">มั่นใจ</td><td class="tr2">mân-jai</td><td class="tn2">certain/firm heart</td></tr>
+        <tr><td class="te">Humble</td><td class="tt">ถ่อมตัว</td><td class="tr2">thàwm-tua</td><td class="tn2">literally "humble body"</td></tr>
+        <tr><td class="te">Patient</td><td class="tt">อดทน</td><td class="tr2">òt-thon</td><td class="tn2">—</td></tr>
+        <tr><td class="te">Lazy</td><td class="tt">ขี้เกียจ</td><td class="tr2">khîi-gìat</td><td class="tn2">the ขี้ prefix!</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Talking About Someone</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">He's one of my most dedicated students.</div>
+      <div class="t">เขาเป็นนักเรียนที่ทุ่มเทที่สุดคนหนึ่งของฉัน</div>
+      <div class="r">khǎo bpen nák-rian thîi thûm-thée thîi-sùt khon nùeng khǎawng chǎn</div>
+      <div class="note"><span class="ks">Sora:</span> ทุ่มเท (thûm-thée) = dedicated · คนหนึ่ง (khon nùeng) = one of (a person)</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">What's she like as a person?</div>
+      <div class="t">เธอเป็นคนยังไงบ้าง?</div>
+      <div class="r">thooe bpen khon yang-ngai bâang?</div>
+      <div class="note"><span class="ks">Sora:</span> เป็นคนยังไง (bpen khon yang-ngai) = "what kind of person is..." — great for getting to know people! <span class="sticker check">✓ Useful</span></div>
+    </div>
+
+  </div><!-- /describe -->
+
+
+  <!-- ════ TEACHING & ONLINE ════ -->
+  <div id="teaching" class="section">
+
+    <div class="scene-banner">
+      <div class="scene-banner-art">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <!-- phone -->
+          <rect x="18" y="8" width="20" height="36" rx="5" fill="#f2ede4" stroke="#faf7f2" stroke-width="1.5"/>
+          <rect x="21" y="14" width="14" height="20" rx="2" fill="#2a5c8a" opacity="0.7"/>
+          <circle cx="28" cy="40" r="2.5" fill="#8a7d6a"/>
+          <!-- notification bubble -->
+          <circle cx="38" cy="12" r="6" fill="#c05828"/>
+          <text x="38" y="16" font-size="8" fill="white" text-anchor="middle" font-weight="bold">3</text>
+        </svg>
+      </div>
+      <div class="scene-banner-text">
+        <div class="scene-banner-title">TEACHING &amp; ONLINE</div>
+        <div class="scene-banner-sub">WhatsApp · Social media · Digital Thai life</div>
+      </div>
+    </div>
+
+    <!-- 3-PANEL STRIP -->
+    <div class="comic-strip">
+      <div class="panel">
+        <div class="panel-num">1</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.5rem;background:#fff8f0;">
+          <div style="font-size:1.5rem;">📱</div>
+          <div style="font-size:0.66rem;color:var(--ink);text-align:center;">Kru wants to<br>message a student...</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--muted);">But doesn't know how to say it 😅</div>
+      </div>
+      <div class="panel">
+        <div class="panel-num">2</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.45rem;">
+          <div class="speech" style="font-size:0.68rem;max-width:130px;">Just checking in — how's training going?</div>
+          <div style="font-size:0.62rem;color:var(--muted);text-align:center;margin-top:0.3rem;">Natural English ✓<br>Warm tone ✓<br>Opens conversation ✓</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--ink);">Sora teaches kru the phrase 🎓</div>
+      </div>
+      <div class="panel">
+        <div class="panel-num">3</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.45rem;background:#fff8f0;">
+          <div style="font-size:1.5rem;">💬</div>
+          <div class="speech" style="font-size:0.66rem;max-width:120px;">
+            <span class="thai">ทักมาได้เลย</span>
+            <span class="roman">thák maa dâai looei</span>
+          </div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--roman);">Thai social media = ทักมา 📲</div>
+      </div>
+    </div>
+
+    <p class="intro">
+      <strong>Kru learns:</strong> English for online communication — WhatsApp, bookings, social media.<br>
+      <strong>Sora learns:</strong> Thai phrases for digital communication — how to write naturally in Thai messages.
+    </p>
+
+    <div class="grp">WhatsApp / Messaging</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Just checking in — how's the training going?</div>
+      <div class="t">แค่แวะมาถามไถ่ — การฝึกเป็นยังไงบ้าง?</div>
+      <div class="r">khâe wâe maa thǎam-thâi — gaan fùek bpen yang-ngai bâang?</div>
+      <div class="note"><span class="ke">Kru:</span> "Just checking in" is the most natural opener for a casual follow-up message. Warmer than "How are you?"</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">DM me to book a session or ask any questions.</div>
+      <div class="t">ทักมาได้เลยถ้าอยากจองเซสชัน</div>
+      <div class="r">thák maa dâai looei thâa yàak jawng set-chân</div>
+      <div class="note"><span class="ks">Sora:</span> ทักมา (thák maa) = to message/reach out. Very common in Thai social media. <span class="sticker star">⭐ Social media Thai</span></div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Sorry, I need to reschedule — are you free on Friday instead?</div>
+      <div class="t">ขอโทษนะ ต้องเลื่อนนัด — วันศุกร์ว่างไหม?</div>
+      <div class="r">khǎaw-thôot ná — tâwng lûean nát — wan sùk wâang mǎi?</div>
+    </div>
+
+  </div><!-- /teaching -->
+
+
+  <!-- ════ LOCATION ════ -->
+  <div id="location" class="section">
+
+    <div class="scene-banner">
+      <div class="scene-banner-art">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <!-- map pin -->
+          <circle cx="28" cy="22" r="12" fill="#c05828" stroke="#faf7f2" stroke-width="1.5"/>
+          <circle cx="28" cy="22" r="5" fill="#faf7f2"/>
+          <path d="M28 34 L22 48 L28 44 L34 48 Z" fill="#c05828"/>
+        </svg>
+      </div>
+      <div class="scene-banner-text">
+        <div class="scene-banner-title">LOCATION &amp; DIRECTION</div>
+        <div class="scene-banner-sub">อยู่ (yùu) — the word that places everything in Thai</div>
+      </div>
+    </div>
+
+    <!-- 3-PANEL STRIP -->
+    <div class="comic-strip">
+      <div class="panel">
+        <div class="panel-num">1</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.5rem;background:#fff8f0;">
+          <div style="font-size:0.66rem;color:var(--ink);text-align:center;font-style:italic;">"The gym is..."<br>"I am at..."<br>"He's inside..."</div>
+          <div style="font-size:1.2rem;">🤔</div>
+          <div style="font-size:0.6rem;color:var(--muted);text-align:center;">Which "is" word?!</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--muted);">Sora confused by location Thai 😵</div>
+      </div>
+      <div class="panel">
+        <div class="panel-num">2</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.4rem;">
+          <div style="font-family:'Noto Sans Thai',sans-serif;font-size:2rem;font-weight:700;color:var(--thai);">อยู่</div>
+          <div style="font-size:0.7rem;color:var(--roman);font-style:italic;">yùu</div>
+          <div style="font-size:0.62rem;color:var(--ink);text-align:center;line-height:1.4;border-top:1px dashed var(--border);padding-top:0.3rem;margin-top:0.2rem;">Does the job of<br>"is/am/are AT"<br>for ALL locations</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--ink);">One word rules them all! 👑</div>
+      </div>
+      <div class="panel">
+        <div class="panel-num">3</div>
+        <div class="panel-scene" style="flex-direction:column;gap:0.35rem;background:#fff8f0;padding:0.8rem;">
+          <div style="font-size:0.68rem;color:var(--situation);">The gym is on the left.</div>
+          <div style="font-family:'Noto Sans Thai',sans-serif;font-size:0.9rem;font-weight:700;color:var(--thai);">ยิมอยู่ทางซ้าย</div>
+          <div style="font-family:'Noto Sans Thai',sans-serif;font-size:0.9rem;font-weight:700;color:var(--thai);margin-top:0.2rem;">ฉันอยู่ที่บ้าน</div>
+          <div style="font-size:0.68rem;color:var(--situation);">I'm at home.</div>
+        </div>
+        <div class="panel-caption" style="font-size:0.68rem;color:var(--roman);">อยู่ everywhere! <span style="color:var(--accent)">🎯</span></div>
+      </div>
+    </div>
+
+    <p class="intro">
+      <strong>Kru learns:</strong> Prepositions of place in English — a common challenge for Thai speakers.<br>
+      <strong>Sora learns:</strong> How Thai expresses location using <span class="sticker star">อยู่ yùu</span>.
+    </p>
+
+    <div class="grp">Position Words</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th></tr></thead>
+      <tbody>
+        <tr><td class="te">In front of</td><td class="tt">ข้างหน้า</td><td class="tr2">khâang-nâa</td></tr>
+        <tr><td class="te">Behind</td><td class="tt">ข้างหลัง</td><td class="tr2">khâang-lǎng</td></tr>
+        <tr><td class="te">Next to</td><td class="tt">ข้างๆ / ติดกับ</td><td class="tr2">khâang-khâang / tìt gàp</td></tr>
+        <tr><td class="te">Inside</td><td class="tt">ข้างใน</td><td class="tr2">khâang nai</td></tr>
+        <tr><td class="te">Outside</td><td class="tt">ข้างนอก</td><td class="tr2">khâang nâawk</td></tr>
+        <tr><td class="te">Between</td><td class="tt">ระหว่าง</td><td class="tr2">rá-wàang</td></tr>
+        <tr><td class="te">Opposite</td><td class="tt">ตรงข้ามกับ</td><td class="tr2">trong-khâam gàp</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Location in the Gym</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Stand in front of the bag.</div>
+      <div class="t">ยืนข้างหน้ากระสอบ</div>
+      <div class="r">yuen khâang-nâa grà-sàwp</div>
+      <div class="note"><span class="ks">Sora:</span> กระสอบ (grà-sàwp) = heavy bag · ถุงมือ (thǔng-mue) = boxing gloves</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Move to the centre of the ring.</div>
+      <div class="t">เคลื่อนมาตรงกลางเวที</div>
+      <div class="r">khlûean maa trong-glaang we-thii</div>
+      <div class="note"><span class="ks">Sora:</span> เวที (we-thii) = ring/stage · ตรงกลาง (trong-glaang) = centre/middle</div>
+    </div>
+
+  </div><!-- /location -->
+
+</div><!-- /content -->
+
+<footer>
+  Click any card to expand · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Vol. 4 · Comic Edition ✨
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
