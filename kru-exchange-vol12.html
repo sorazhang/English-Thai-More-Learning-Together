@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Vol. 12</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Pacifico&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0f8ff;
+    --bg2: #e0f0f8;
+    --bg3: #c8e4f4;
+    --ink: #0a1e2e;
+    --muted: #5a7a8a;
+    --border: rgba(10,30,46,0.1);
+    --eng: #0a5a9a;
+    --thai: #9a2050;
+    --roman: #0a7a5a;
+    --gold: #d4900a;
+    --gold2: #f0b020;
+    --accent: #0a7aaa;
+    --sea: #0a9aa0;
+    --sand: #d4a060;
+    --coral: #e06050;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Nunito', sans-serif; min-height: 100vh; }
+
+  header {
+    background: linear-gradient(160deg, #0a4a7a 0%, #0a8aaa 60%, #0aa090 100%);
+    padding: 2.8rem 2rem 2.2rem;
+    position: relative; overflow: hidden;
+  }
+
+  header::before {
+    content: '🌊';
+    position: absolute; right: 2rem; top: 50%;
+    transform: translateY(-50%);
+    font-size: 8rem; opacity: 0.1; pointer-events: none;
+  }
+
+  .h-inner { max-width: 880px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .vol-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 0.6rem; display: block; }
+
+  h1 { font-family: 'Pacifico', cursive; font-size: clamp(1.7rem, 5vw, 3rem); line-height: 1.1; color: #fff; margin-bottom: 0.25rem; }
+  h1 span { color: var(--gold2); }
+
+  .sub { font-size: 0.82rem; color: rgba(255,255,255,0.55); margin-bottom: 1.3rem; }
+  .legend { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 600; }
+  .lsq { width: 9px; height: 9px; border-radius: 50%; }
+  .le { background: #70c0ff; } .lt { background: #ff90b0; } .lr { background: #70e8b8; }
+  .leg span { color: rgba(255,255,255,0.5); }
+
+  .tabs { display: flex; overflow-x: auto; background: var(--bg2); border-bottom: 2px solid var(--bg3); padding: 0 1.2rem; scrollbar-width: thin; scrollbar-color: var(--accent) transparent; -webkit-overflow-scrolling: touch; }
+  .tab { padding: 0.9rem 1.05rem; font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--muted); cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; background: none; border-top: none; border-left: none; border-right: none; }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .content { max-width: 880px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+  .section { display: none; } .section.active { display: block; }
+
+  .intro { font-size: 0.83rem; line-height: 1.72; color: var(--muted); padding: 0.9rem 1.1rem; margin-bottom: 1.8rem; border-left: 3px solid var(--sea); background: rgba(10,154,160,0.07); border-radius: 0 6px 6px 0; }
+  .intro strong { color: var(--ink); }
+
+  .grp { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin: 2.2rem 0 0.9rem; display: flex; align-items: center; gap: 0.8rem; }
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  .card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.3rem; margin-bottom: 0.65rem; cursor: pointer; transition: all 0.18s; position: relative; }
+  .card:hover { border-color: rgba(10,122,170,0.35); box-shadow: 0 3px 14px rgba(0,0,0,0.08); transform: translateY(-1px); }
+  .card.on { border-color: var(--accent); background: #f8fdff; }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-size: 0.65rem; color: rgba(10,30,46,0.2); font-weight: 700; }
+
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 600; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.28rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+
+  .note { margin-top: 0.62rem; padding-top: 0.58rem; border-top: 1px dashed var(--border); font-size: 0.76rem; color: var(--muted); line-height: 1.6; }
+  .note b { color: var(--gold); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  .tw { overflow-x: auto; margin-bottom: 0.8rem; }
+  table { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 0.85rem; }
+  thead tr { background: linear-gradient(90deg, #0a4a7a, #0a8aaa); }
+  thead th { padding: 0.6rem 1rem; text-align: left; font-size: 0.67rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.8); }
+  tbody tr { border-bottom: 1px solid var(--border); } tbody tr:last-child { border-bottom: none; } tbody tr:hover { background: var(--bg); }
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 600; } .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; } .tr2 { color: var(--roman); font-style: italic; } .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  .ibox { background: rgba(10,122,170,0.06); border: 1px solid rgba(10,122,170,0.2); border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--accent); }
+  .ibox-label { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+  .ibox p { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+  .ibox p b { color: var(--ink); }
+
+  /* ISLAND CARDS */
+  .island { background: white; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 0.8rem; cursor: pointer; transition: all 0.2s; }
+  .island:hover { border-color: rgba(10,154,160,0.4); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .island.on { border-color: var(--sea); }
+
+  .island-top { display: grid; grid-template-columns: 64px 1fr; align-items: stretch; }
+  .island-emoji { background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 2rem; padding: 0.8rem; border-right: 1px solid var(--border); }
+  .island-main { padding: 0.85rem 1.1rem; }
+  .island-name { font-family: 'Pacifico', cursive; font-size: 1rem; color: var(--sea); margin-bottom: 0.15rem; }
+  .island-thai { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.1rem; line-height: 1.6; }
+  .island-roman { color: var(--roman); font-size: 0.82rem; font-style: italic; }
+  .island-body { padding: 0.85rem 1.1rem; border-top: 1px dashed var(--border); font-size: 0.8rem; color: var(--muted); line-height: 1.65; }
+  .island-body b { color: var(--ink); }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  @media (max-width: 520px) { .island-top { grid-template-columns: 54px 1fr; } .island-emoji { font-size: 1.5rem; } }
+
+  
+  /* ══ FLOATING PILL NAV ══ */
+  .pill-btn {
+    position: fixed; bottom: 1.6rem; right: 1.6rem;
+    display: flex; align-items: center; gap: 0.45rem;
+    background: #1c1710; color: rgba(244,238,216,0.8);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 99px;
+    padding: 0.55rem 1.05rem 0.55rem 0.75rem;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+    cursor: pointer; z-index: 300;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+    transition: all 0.2s; white-space: nowrap;
+    font-family: inherit; border-style: solid;
+  }
+  .pill-btn:hover {
+    background: #2a1e12; border-color: rgba(200,74,16,0.5);
+    color: #f4eed8; box-shadow: 0 6px 28px rgba(0,0,0,0.55);
+    transform: translateY(-2px);
+  }
+  .pill-btn.pactive { background: #b83010; border-color: #b83010; color: white; }
+  .pill-icon { font-size: 0.88rem; }
+  .pill-arrow { font-size: 0.56rem; opacity: 0.6; transition: transform 0.2s; margin-left: 0.1rem; }
+  .pill-btn.pactive .pill-arrow { transform: rotate(180deg); }
+
+  .pill-pop {
+    position: fixed; bottom: 4.8rem; right: 1.6rem;
+    width: min(320px, calc(100vw - 3.2rem));
+    background: #0f0c09; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; z-index: 299; display: none;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.65);
+    transform-origin: bottom right;
+    animation: pillPop 0.18s cubic-bezier(0.34,1.56,0.64,1) both;
+    overflow: hidden;
+  }
+  @keyframes pillPop {
+    from { opacity:0; transform:scale(0.88); }
+    to   { opacity:1; transform:scale(1); }
+  }
+  .pill-pop.popen { display: block; }
+  .pp-head {
+    background: #1c1710; padding: 0.65rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .pp-title { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(244,238,216,0.35); }
+  .pp-home { font-size: 0.68rem; font-weight: 700; color: rgba(244,238,216,0.55); text-decoration: none; transition: color 0.15s; font-family: inherit; }
+  .pp-home:hover { color: rgba(244,238,216,0.9); }
+  .pp-body { max-height: 380px; overflow-y: auto; padding: 0.7rem 0 0.5rem; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+  .pp-cat { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.45rem 1rem 0.25rem; display: block; }
+  .pp-cat.muay   { color: rgba(200,74,16,0.75); }
+  .pp-cat.lang   { color: rgba(180,140,20,0.75); }
+  .pp-cat.travel { color: rgba(40,168,112,0.75); }
+  .pp-lnk { display: flex; align-items: center; gap: 0.65rem; padding: 0.42rem 1rem; text-decoration: none; transition: background 0.12s; font-family: inherit; }
+  .pp-lnk:hover { background: rgba(255,255,255,0.045); }
+  .pp-lnk.here  { background: rgba(200,74,16,0.1); pointer-events: none; }
+  .pp-n { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(244,238,216,0.22); min-width: 20px; flex-shrink: 0; text-align: right; }
+  .pp-nm { font-size: 0.76rem; font-weight: 600; color: rgba(244,238,216,0.52); flex: 1; transition: color 0.12s; }
+  .pp-lnk:hover .pp-nm { color: rgba(244,238,216,0.9); }
+  .pp-lnk.here  .pp-nm { color: #b83010; }
+  .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
+  .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-inner">
+    <span class="vol-tag">🥊 Language Exchange · Vol. 12</span>
+    <h1>English <span>↔</span> Thai<br>More Learning Together</h1>
+    <p class="sub">Phuket · The Islands · Beach Life · Southern Escapes</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span>English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span>ภาษาไทย</span></div>
+      <div class="leg"><div class="lsq lr"></div><span>Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('phuket')">🏙️ Phuket</button>
+  <button class="tab" onclick="sw('islands')">🏝️ Islands</button>
+  <button class="tab" onclick="sw('beach')">🏖️ Beach Life</button>
+  <button class="tab" onclick="sw('boats')">⛵ Boats & Getting Around</button>
+  <button class="tab" onclick="sw('practical')">💬 Practical Phrases</button>
+</nav>
+
+<div class="content">
+
+  <!-- PHUKET -->
+  <div id="phuket" class="section active">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> Phuket (ภูเก็ต — phuu-gèt) is Thailand's largest island and the gateway to the south. It's cosmopolitan, beautiful, and has fantastic food — both tourist-facing and deeply local. Knowing some Thai here goes a very long way.
+    </p>
+
+    <div class="ibox">
+      <div class="ibox-label">📍 Phuket at a glance</div>
+      <p><b>Phuket Town</b> (เมืองภูเก็ต) = the old town with Sino-Portuguese architecture, the best local food, and far fewer tourists than the beaches. <b>Patong</b> (ป่าตอง) = the busiest beach — loud, fun, chaotic. <b>Kata & Karon</b> = quieter, good surf in monsoon season. <b>Getting there:</b> fly from Bangkok (~90 min) or bus (~12 hours — not recommended!). Phuket has its own airport — สนามบินภูเก็ต (sà-nǎam bin phuu-gèt).</p>
+    </div>
+
+    <div class="grp">Arriving & Getting Around Phuket</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">How far is it to Patong Beach from the airport?</div>
+      <div class="t">จากสนามบินไปหาดป่าตองไกลแค่ไหน?</div>
+      <div class="r">jàak sà-nǎam-bin bpai hàat bpàa-tawng glai khâe nǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> หาด (hàat) = beach. สนามบิน (sà-nǎam-bin) = airport. The journey is about 45 minutes — always agree on a price before getting in a taxi at Phuket airport.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">I want to rent a scooter — where can I do that?</div>
+      <div class="t">อยากเช่ามอเตอร์ไซค์ — เช่าได้ที่ไหน?</div>
+      <div class="r">yàak châo máw-dtôe-sai — châo dâai thîi nǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> เช่า (châo) = to rent. มอเตอร์ไซค์ (máw-dtôe-sai) = motorbike/scooter. Renting a scooter is the best way to explore Phuket — just drive on the left!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">What time is low tide / high tide today?</div>
+      <div class="t">วันนี้น้ำลงกี่โมง / น้ำขึ้นกี่โมง?</div>
+      <div class="r">wan níi nám long gìi moong / nám khûen gìi moong?</div>
+      <div class="note"><span class="ks">Sora:</span> น้ำลง (nám long) = low tide (water goes down). น้ำขึ้น (nám khûen) = high tide (water rises). Essential for beach and island planning!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Is it safe to swim here?</div>
+      <div class="t">ว่ายน้ำที่นี่ปลอดภัยไหม?</div>
+      <div class="r">wâai-nám thîi-nîi bplàwt-phai mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> ปลอดภัย (bplàwt-phai) = safe. ว่ายน้ำ (wâai-nám) = to swim. During monsoon season (May–Oct) some beaches have red flags — อย่าลงน้ำ (yàa long nám) = do not enter the water.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">Phuket Old Town is my favourite part — so much history.</div>
+      <div class="t">เมืองเก่าภูเก็ตเป็นส่วนที่ชอบที่สุด — มีประวัติศาสตร์มาก</div>
+      <div class="r">mueang-gào phuu-gèt bpen sùan thîi châwp thîi-sùt — mii bprà-wàt-sàat mâak</div>
+      <div class="note"><span class="ks">Sora:</span> เมืองเก่า (mueang-gào) = old town. ประวัติศาสตร์ (bprà-wàt-sàat) = history.</div>
+    </div>
+
+    <div class="grp">Phuket Neighbourhoods Quick Reference</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Area</th><th>ภาษาไทย</th><th>Vibe</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Phuket Town</td><td class="tt">เมืองภูเก็ต</td><td class="tn2">Old town, local food, cafés, Sino-Portuguese shophouses</td></tr>
+          <tr><td class="te">Patong</td><td class="tt">ป่าตอง</td><td class="tn2">Biggest beach, nightlife, busy — the tourist heart</td></tr>
+          <tr><td class="te">Kata Beach</td><td class="tt">หาดกะตะ</td><td class="tn2">Quieter, surf, great food scene</td></tr>
+          <tr><td class="te">Kamala</td><td class="tt">กมลา</td><td class="tn2">Low key, long-stayers, relaxed Muslim village</td></tr>
+          <tr><td class="te">Rawai / Nai Harn</td><td class="tt">ราไวย์ / ในหาน</td><td class="tn2">Southern tip — local fishing village, beautiful bay</td></tr>
+          <tr><td class="te">Ao Bang Tao</td><td class="tt">อ่าวบางเทา</td><td class="tn2">Long beach, luxury resorts, Laguna area</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div><!-- /phuket -->
+
+
+  <!-- ISLANDS -->
+  <div id="islands" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> The islands around Phuket and Krabi are among the most beautiful places on earth. Each one has a different character — know which to pick for what you want.
+    </p>
+
+    <div class="grp">The Famous Islands</div>
+
+    <div class="island" onclick="this.classList.toggle('on')">
+      <div class="island-top">
+        <div class="island-emoji">🏝️</div>
+        <div class="island-main">
+          <div class="island-name">Koh Phi Phi</div>
+          <div class="island-thai">เกาะพีพี</div>
+          <div class="island-roman">gòw phii-phii</div>
+        </div>
+      </div>
+      <div class="island-body">
+        <b>The most famous — and busiest.</b> Two islands connected by a narrow strip of beach. The views are extraordinary — sheer limestone cliffs, turquoise water. Phi Phi Don (the big one) has accommodation and bars. Phi Phi Leh is where The Beach was filmed. <b>Go early morning to Maya Bay to beat the crowds.</b><br><br>
+        <b>How to get there:</b> Ferry from Phuket (~90 min) or Krabi (~45 min).
+      </div>
+    </div>
+
+    <div class="island" onclick="this.classList.toggle('on')">
+      <div class="island-top">
+        <div class="island-emoji">🪸</div>
+        <div class="island-main">
+          <div class="island-name">Koh Lanta</div>
+          <div class="island-thai">เกาะลันตา</div>
+          <div class="island-roman">gòw lan-dtaa</div>
+        </div>
+      </div>
+      <div class="island-body">
+        <b>Long, quiet, and beautiful.</b> Koh Lanta is a large, laid-back island south of Krabi. Long stretches of beach, excellent snorkelling, and a wonderful old Muslim town (Ban Ko Lanta) at the south. Less crowded than Phi Phi. Great for a few days of proper rest.<br><br>
+        <b>Best for:</b> Families, couples, slow travel, good food.
+      </div>
+    </div>
+
+    <div class="island" onclick="this.classList.toggle('on')">
+      <div class="island-top">
+        <div class="island-emoji">🌅</div>
+        <div class="island-main">
+          <div class="island-name">Koh Yao Noi</div>
+          <div class="island-thai">เกาะยาวน้อย</div>
+          <div class="island-roman">gòw yao nóoi</div>
+        </div>
+      </div>
+      <div class="island-body">
+        <b>The secret island.</b> Sits right between Phuket and Krabi in Phang Nga Bay — 30 minutes by boat from either. Quiet Muslim fishing community, rubber plantations, no party scene. The views of the bay's limestone karsts are spectacular. Almost no one goes here — which is exactly the point.<br><br>
+        <b>Best for:</b> Authentic Thailand, cycling, sea kayaking, total peace.
+      </div>
+    </div>
+
+    <div class="island" onclick="this.classList.toggle('on')">
+      <div class="island-top">
+        <div class="island-emoji">🏄</div>
+        <div class="island-main">
+          <div class="island-name">Koh Samui</div>
+          <div class="island-thai">เกาะสมุย</div>
+          <div class="island-roman">gòw sà-mui</div>
+        </div>
+      </div>
+      <div class="island-body">
+        <b>The Gulf coast alternative.</b> On the other side of the peninsula — the Gulf of Thailand. Bigger and more developed than most islands. Chaweng beach is the busy heart. Great for full moon parties nearby at Koh Pha Ngan. Has its own airport — flights from Bangkok (~70 min).<br><br>
+        <b>Best for:</b> First-timers, those who want resort amenities, nightlife.
+      </div>
+    </div>
+
+    <div class="grp">Island Vocabulary</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Island</td><td class="tt">เกาะ</td><td class="tr2">gòw</td></tr>
+          <tr><td class="te">Beach</td><td class="tt">หาด / ชายหาด</td><td class="tr2">hàat / chaai-hàat</td></tr>
+          <tr><td class="te">Bay / Cove</td><td class="tt">อ่าว</td><td class="tr2">àao</td></tr>
+          <tr><td class="te">Coral reef</td><td class="tt">แนวปะการัง</td><td class="tr2">naeo bprà-gaa-rang</td></tr>
+          <tr><td class="te">Snorkelling</td><td class="tt">ดำน้ำตื้น</td><td class="tr2">dam nám dtùen</td></tr>
+          <tr><td class="te">Scuba diving</td><td class="tt">ดำน้ำลึก</td><td class="tr2">dam nám lûek</td></tr>
+          <tr><td class="te">Longtail boat</td><td class="tt">เรือหางยาว</td><td class="tr2">ruea hǎang yaao</td></tr>
+          <tr><td class="te">Speedboat</td><td class="tt">เรือสปีดโบ๊ท</td><td class="tr2">ruea sà-pìit bôot</td></tr>
+          <tr><td class="te">Ferry</td><td class="tt">เรือเฟอร์รี่</td><td class="tr2">ruea foer-rîi</td></tr>
+          <tr><td class="te">Pier / Jetty</td><td class="tt">ท่าเรือ</td><td class="tr2">thâa ruea</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div><!-- /islands -->
+
+
+  <!-- BEACH LIFE -->
+  <div id="beach" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> The beach is the main event in southern Thailand. Here's how to talk about it, navigate it, and get the most out of every beach day.
+    </p>
+
+    <div class="grp">At the Beach</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Can I rent a sunbed and umbrella?</div>
+      <div class="t">เช่าเตียงอาบแดดกับร่มได้ไหมคะ?</div>
+      <div class="r">châo dtiang àap-daet gàp rôm dâai mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> อาบแดด (àap-daet) = to sunbathe. Literally "bathe in sun." ร่ม (rôm) = umbrella — same word as a regular umbrella!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">The sea is so clear today!</div>
+      <div class="t">ทะเลใสมากวันนี้!</div>
+      <div class="r">thá-lee sài mâak wan níi!</div>
+      <div class="note"><span class="ks">Sora:</span> ทะเล (thá-lee) = sea/ocean. ใส (sài) = clear/transparent. ใสมาก = so clear.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">There's a red flag — we can't swim today.</div>
+      <div class="t">มีธงแดงอยู่ — วันนี้ว่ายน้ำไม่ได้</div>
+      <div class="r">mii thong daeng yùu — wan níi wâai-nám mâi dâai</div>
+      <div class="note"><span class="ks">Sora:</span> ธงแดง (thong daeng) = red flag. Thailand uses the same beach flag system as international standards. Always respect the flags — the rip currents here are powerful.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Can you take a photo of us with the sea in the background?</div>
+      <div class="t">ช่วยถ่ายรูปพวกเราโดยมีทะเลอยู่ด้านหลังได้ไหมคะ?</div>
+      <div class="r">chûay thàai-rûup phûak-rao dooi mii thá-lee yùu dâan-lǎng dâai mǎi khâ?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">What time does the sun set here?</div>
+      <div class="t">ที่นี่พระอาทิตย์ตกกี่โมง?</div>
+      <div class="r">thîi-nîi phrá-aa-thít tòk gìi moong?</div>
+      <div class="note"><span class="ks">Sora:</span> พระอาทิตย์ตก (phrá-aa-thít tòk) = sunset. Literally "sun falls." พระอาทิตย์ขึ้น (phrá-aa-thít khûen) = sunrise — "sun rises." Beautiful phrases.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">I got sunburned — do you have any aloe vera?</div>
+      <div class="t">โดนแดดเผา — มีว่านหางจระเข้ไหมคะ?</div>
+      <div class="r">doon daet phao — mii wâan-hǎang-jà-rà-khêe mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> โดนแดดเผา (doon daet phao) = got sunburned. ว่านหางจระเข้ (wâan-hǎang-jà-rà-khêe) = aloe vera. Literally "crocodile tail plant" — what a name!</div>
+    </div>
+  </div><!-- /beach -->
+
+
+  <!-- BOATS -->
+  <div id="boats" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> The south runs on boats. Knowing how to navigate ferries, longtails, and speedboats is essential for island hopping. Always check the weather before booking — monsoon season can cancel boats for days.
+    </p>
+
+    <div class="grp">Taking Boats</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">What time is the last ferry to Koh Phi Phi?</div>
+      <div class="t">เรือเฟอร์รี่เที่ยวสุดท้ายไปเกาะพีพีกี่โมง?</div>
+      <div class="r">ruea foer-rîi thîao sùt-tháai bpai gòw phii-phii gìi moong?</div>
+      <div class="note"><span class="ks">Sora:</span> เที่ยว (thîao) = trip/journey (for transport). เที่ยวสุดท้าย = last trip/last service.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Is there a boat going to Koh Yao Noi today?</div>
+      <div class="t">วันนี้มีเรือไปเกาะยาวน้อยไหม?</div>
+      <div class="r">wan níi mii ruea bpai gòw yao nóoi mǎi?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">How long is the boat ride?</div>
+      <div class="t">นั่งเรือนานแค่ไหน?</div>
+      <div class="r">nâng ruea naan khâe nǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> นั่งเรือ (nâng ruea) = to take a boat. นาน (naan) = long time. นานแค่ไหน = how long?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">I get seasick — do you have medicine?</div>
+      <div class="t">ฉันเมาเรือ — มียาไหมคะ?</div>
+      <div class="r">chǎn mao ruea — mii yaa mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> เมาเรือ (mao ruea) = seasick. เมา (mao) = drunk/dizzy from motion. เมารถ (mao rót) = carsick. เมาเครื่องบิน (mao khrûeang-bin) = airsick. Same pattern!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">Can we hire a longtail boat for the day?</div>
+      <div class="t">เช่าเรือหางยาวเหมาทั้งวันได้ไหมคะ?</div>
+      <div class="r">châo ruea-hǎang-yaao mao tháng wan dâai mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> เหมา (mao) = to hire exclusively / charter. Not the same as เมา (drunk)! เหมาทั้งวัน = charter for the whole day.</div>
+    </div>
+  </div><!-- /boats -->
+
+
+  <!-- PRACTICAL -->
+  <div id="practical" class="section">
+    <p class="intro">
+      <strong>Sora & Kru:</strong> The everyday practical phrases for travel in southern Thailand — checking in, dealing with guesthouses, staying safe, and getting help when you need it.
+    </p>
+
+    <div class="grp">Accommodation</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Do you have a room available tonight?</div>
+      <div class="t">คืนนี้มีห้องว่างไหมคะ?</div>
+      <div class="r">khuen níi mii hâwng wâang mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> ห้องว่าง (hâwng wâang) = available room. ว่าง (wâang) = free/available/empty — same word you use to ask if someone is free to meet.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Can I see the room first?</div>
+      <div class="t">ขอดูห้องก่อนได้ไหมคะ?</div>
+      <div class="r">khǎaw duu hâwng gàawn dâai mǎi khâ?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">The air conditioning isn't working.</div>
+      <div class="t">แอร์ไม่ทำงาน</div>
+      <div class="r">ae mâi tham-ngaan</div>
+      <div class="note"><span class="ks">Sora:</span> แอร์ (ae) = air conditioning. ไม่ทำงาน (mâi tham-ngaan) = not working. Also useful: น้ำร้อนไม่ออก (nám ráwn mâi àawk) = no hot water.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Can I have a late checkout — until 2pm?</div>
+      <div class="t">เช็กเอาท์ช้าได้ไหมคะ — ถึงบ่ายสองโมง?</div>
+      <div class="r">chék-ao châa dâai mǎi khâ — thǔeng bàai sǎawng moong?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">Can you recommend a good local restaurant nearby?</div>
+      <div class="t">แนะนำร้านอาหารพื้นเมืองแถวนี้ได้ไหมคะ?</div>
+      <div class="r">náe-nam ráan aa-hǎan phúen-mueang thǎaeo níi dâai mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> พื้นเมือง (phúen-mueang) = local/indigenous. แถวนี้ (thǎaeo níi) = around here/nearby.</div>
+    </div>
+
+    <div class="grp">Safety & Emergencies</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">06</div>
+      <div class="e">Help! / I need help!</div>
+      <div class="t">ช่วยด้วย!</div>
+      <div class="r">chûay dûay!</div>
+      <div class="note"><span class="ks">Sora:</span> The most important phrase for any emergency. ช่วย (chûay) = to help. Shout this and Thais will come running.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">07</div>
+      <div class="e">Please call an ambulance.</div>
+      <div class="t">กรุณาโทรเรียกรถพยาบาลด้วยนะคะ</div>
+      <div class="r">gà-rú-naa thoo rîak rót phá-yaa-baan dûay ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> Emergency number in Thailand: <b>1669</b> (ambulance) · <b>191</b> (police) · <b>1155</b> (tourist police — English-speaking).</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">08</div>
+      <div class="e">I lost my passport.</div>
+      <div class="t">ฉันทำพาสปอร์ตหาย</div>
+      <div class="r">chǎn tham phâat-bpàwt hǎai</div>
+      <div class="note"><span class="ks">Sora:</span> ทำ...หาย (tham...hǎai) = to lose something. Literally "make it lost." ทำกุญแจหาย = lost the key. ทำโทรศัพท์หาย = lost the phone.</div>
+    </div>
+  </div><!-- /practical -->
+
+</div>
+<footer>
+  Click any card to expand · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Vol. 12 · Phuket & The Islands 🏝️
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+
+
+<!-- ══ FLOATING PILL NAV ══ -->
+<button class="pill-btn" id="pill-btn" onclick="pillToggle()">
+  <span class="pill-icon">🥊</span>
+  Volumes
+  <span class="pill-arrow">▲</span>
+</button>
+
+<div class="pill-pop" id="pill-pop">
+  <div class="pp-head">
+    <div class="pp-title">Language Exchange Collection</div>
+    <a class="pp-home" href="index.html">← Index</a>
+  </div>
+  <div class="pp-body">
+
+    <span class="pp-cat muay">🥊 Muay Thai</span>
+    <a class="pp-lnk" href="kru-exchange-vol6.html">
+      <span class="pp-n">06</span>
+      <span class="pp-nm">Competition Preparation</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol8.html">
+      <span class="pp-n">08</span>
+      <span class="pp-nm">Fight Night · Lumpinee</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat lang">🗣️ Thai Language</span>
+    <a class="pp-lnk" href="kru-language-exchange.html">
+      <span class="pp-n">01</span>
+      <span class="pp-nm">Corrections & Encouragement</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol2.html">
+      <span class="pp-n">02</span>
+      <span class="pp-nm">Goals, Body & Fight Day</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol3.html">
+      <span class="pp-n">03</span>
+      <span class="pp-nm">Daily Life & Grammar</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol4.html">
+      <span class="pp-n">04</span>
+      <span class="pp-nm">Emotions & Culture</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol5.html">
+      <span class="pp-n">05</span>
+      <span class="pp-nm">Health & Plans</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol7.html">
+      <span class="pp-n">07</span>
+      <span class="pp-nm">Thai Culture Deep Dive</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat lang">🍜 Food</span>
+    <a class="pp-lnk" href="kru-exchange-vol9.html">
+      <span class="pp-n">09</span>
+      <span class="pp-nm">Northern Thai Food</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol21.html">
+      <span class="pp-n">21</span>
+      <span class="pp-nm">Bangkok Street Food</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol22.html">
+      <span class="pp-n">22</span>
+      <span class="pp-nm">Southern Thai Food</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat travel">✈️ Travel</span>
+    <a class="pp-lnk here" href="#">
+      <span class="pp-n">12</span>
+      <span class="pp-nm">Phuket & The Islands</span>
+      <span class="pp-tag">here</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol13.html">
+      <span class="pp-n">13</span>
+      <span class="pp-nm">Bangkok Neighbourhoods</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol14.html">
+      <span class="pp-n">14</span>
+      <span class="pp-nm">Getting Around Thailand</span>
+    </a>
+
+  </div>
+</div>
+
+<script>
+  function pillToggle() {
+    var pop = document.getElementById('pill-pop');
+    var btn = document.getElementById('pill-btn');
+    if (pop.classList.contains('popen')) {
+      pop.classList.remove('popen'); btn.classList.remove('pactive');
+    } else {
+      pop.classList.add('popen'); btn.classList.add('pactive');
+    }
+  }
+  document.addEventListener('click', function(e) {
+    var pop = document.getElementById('pill-pop');
+    var btn = document.getElementById('pill-btn');
+    if (!pop.contains(e.target) && !btn.contains(e.target)) {
+      pop.classList.remove('popen'); btn.classList.remove('pactive');
+    }
+  });
+</script>
+
+</body>
+</html>

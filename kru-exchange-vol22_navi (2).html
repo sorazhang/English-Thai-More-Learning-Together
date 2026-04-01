@@ -274,70 +274,443 @@
     header::after { display: none; }
   }
 
-  
-  /* ══ FLOATING PILL NAV ══ */
-  .pill-btn {
-    position: fixed; bottom: 1.6rem; right: 1.6rem;
-    display: flex; align-items: center; gap: 0.45rem;
-    background: #1c1710; color: rgba(244,238,216,0.8);
-    border: 1px solid rgba(255,255,255,0.12); border-radius: 99px;
-    padding: 0.55rem 1.05rem 0.55rem 0.75rem;
-    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
-    cursor: pointer; z-index: 300;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.45);
-    transition: all 0.2s; white-space: nowrap;
-    font-family: inherit; border-style: solid;
-  }
-  .pill-btn:hover {
-    background: #2a1e12; border-color: rgba(200,74,16,0.5);
-    color: #f4eed8; box-shadow: 0 6px 28px rgba(0,0,0,0.55);
-    transform: translateY(-2px);
-  }
-  .pill-btn.pactive { background: #b83010; border-color: #b83010; color: white; }
-  .pill-icon { font-size: 0.88rem; }
-  .pill-arrow { font-size: 0.56rem; opacity: 0.6; transition: transform 0.2s; margin-left: 0.1rem; }
-  .pill-btn.pactive .pill-arrow { transform: rotate(180deg); }
+  /* ══════════════════════════════════════
+     SITE NAVIGATION
+  ══════════════════════════════════════ */
 
-  .pill-pop {
-    position: fixed; bottom: 4.8rem; right: 1.6rem;
-    width: min(320px, calc(100vw - 3.2rem));
-    background: #0f0c09; border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px; z-index: 299; display: none;
-    box-shadow: 0 16px 48px rgba(0,0,0,0.65);
-    transform-origin: bottom right;
-    animation: pillPop 0.18s cubic-bezier(0.34,1.56,0.64,1) both;
-    overflow: hidden;
+  /* wrapper needed so dropdown anchors correctly */
+  .nav-wrapper {
+    position: relative;
+    z-index: 200;
   }
-  @keyframes pillPop {
-    from { opacity:0; transform:scale(0.88); }
-    to   { opacity:1; transform:scale(1); }
-  }
-  .pill-pop.popen { display: block; }
-  .pp-head {
-    background: #1c1710; padding: 0.65rem 1rem;
-    display: flex; align-items: center; justify-content: space-between;
+
+  .site-nav {
+    background: var(--ink);
+    padding: 0 1.4rem;
+    display: flex; align-items: center;
+    gap: 0;
+    position: sticky; top: 0;
     border-bottom: 1px solid rgba(255,255,255,0.07);
   }
-  .pp-title { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(244,238,216,0.35); }
-  .pp-home { font-size: 0.68rem; font-weight: 700; color: rgba(244,238,216,0.55); text-decoration: none; transition: color 0.15s; font-family: inherit; }
-  .pp-home:hover { color: rgba(244,238,216,0.9); }
-  .pp-body { max-height: 380px; overflow-y: auto; padding: 0.7rem 0 0.5rem; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
-  .pp-cat { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.45rem 1rem 0.25rem; display: block; }
-  .pp-cat.muay   { color: rgba(200,74,16,0.75); }
-  .pp-cat.lang   { color: rgba(180,140,20,0.75); }
-  .pp-cat.travel { color: rgba(40,168,112,0.75); }
-  .pp-lnk { display: flex; align-items: center; gap: 0.65rem; padding: 0.42rem 1rem; text-decoration: none; transition: background 0.12s; font-family: inherit; }
-  .pp-lnk:hover { background: rgba(255,255,255,0.045); }
-  .pp-lnk.here  { background: rgba(200,74,16,0.1); pointer-events: none; }
-  .pp-n { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(244,238,216,0.22); min-width: 20px; flex-shrink: 0; text-align: right; }
-  .pp-nm { font-size: 0.76rem; font-weight: 600; color: rgba(244,238,216,0.52); flex: 1; transition: color 0.12s; }
-  .pp-lnk:hover .pp-nm { color: rgba(244,238,216,0.9); }
-  .pp-lnk.here  .pp-nm { color: #b83010; }
-  .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
-  .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+
+  .sn-home {
+    display: flex; align-items: center; gap: 0.45rem;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+    color: rgba(244,238,216,0.8); text-decoration: none;
+    padding: 0.72rem 1rem 0.72rem 0;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    margin-right: 0.85rem; white-space: nowrap;
+    transition: color 0.15s;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .sn-home:hover { color: #f4eed8; }
+
+  .sn-current {
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent);
+    padding: 0.16rem 0.5rem;
+    border: 1px solid rgba(200,74,16,0.35);
+    border-radius: 3px; white-space: nowrap;
+    background: rgba(200,74,16,0.08);
+  }
+
+  .sn-spacer { flex: 1; }
+
+  /* Browse-all toggle — opens the centred dropdown */
+  .sn-browse-btn {
+    display: flex; align-items: center; gap: 0.38rem;
+    font-size: 0.67rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(244,238,216,0.42);
+    background: none; border: none; cursor: pointer;
+    padding: 0.72rem 0 0.72rem 0.85rem;
+    font-family: 'Nunito', sans-serif;
+    transition: color 0.15s;
+    border-left: 1px solid rgba(255,255,255,0.08);
+    margin-left: 0.85rem;
+  }
+
+  .sn-browse-btn:hover { color: rgba(244,238,216,0.88); }
+
+  .sn-arrow {
+    font-size: 0.58rem; transition: transform 0.2s; display: inline-block;
+  }
+
+  .sn-browse-btn.open .sn-arrow { transform: rotate(180deg); }
+
+  /* Sidebar toggle button */
+  .sn-sidebar-btn {
+    display: flex; align-items: center; gap: 0.38rem;
+    font-size: 0.67rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(244,238,216,0.42);
+    background: none; border: none; cursor: pointer;
+    padding: 0.72rem 0 0.72rem 0.85rem;
+    font-family: 'Nunito', sans-serif;
+    transition: color 0.15s;
+  }
+
+  .sn-sidebar-btn:hover { color: rgba(244,238,216,0.88); }
+
+  /* ── CENTRED DROPDOWN ── properly anchored */
+  .sn-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 2px); /* just below the sticky nav */
+    left: 50%; transform: translateX(-50%);
+    width: min(640px, 94vw);
+    background: #13100c;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+    animation: dropDown 0.18s ease both;
+  }
+
+  @keyframes dropDown {
+    from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  .sn-dropdown.open { display: block; }
+
+  .sn-drop-inner { padding: 1.1rem 1.3rem 1.2rem; }
+
+  .sn-drop-title {
+    font-size: 0.57rem; font-weight: 700; letter-spacing: 0.24em;
+    text-transform: uppercase; color: rgba(244,238,216,0.22);
+    margin-bottom: 0.9rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+
+  .sn-drop-title::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
+
+  .sn-cat { margin-bottom: 0.85rem; }
+  .sn-cat:last-child { margin-bottom: 0; }
+
+  .sn-cat-lbl {
+    font-size: 0.57rem; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; margin-bottom: 0.4rem;
+  }
+
+  .sn-cat-lbl.muay   { color: rgba(200,74,16,0.8); }
+  .sn-cat-lbl.lang   { color: rgba(180,140,20,0.8); }
+  .sn-cat-lbl.travel { color: rgba(40,168,112,0.8); }
+
+  .sn-pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+  .sn-pill {
+    font-size: 0.68rem; font-weight: 600;
+    color: rgba(244,238,216,0.48); text-decoration: none;
+    padding: 0.22rem 0.6rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px; background: rgba(255,255,255,0.03);
+    transition: all 0.15s; white-space: nowrap;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .sn-pill:hover {
+    color: rgba(244,238,216,0.9);
+    border-color: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.07);
+  }
+
+  .sn-pill.here {
+    color: var(--accent);
+    border-color: rgba(200,74,16,0.45);
+    background: rgba(200,74,16,0.1);
+    pointer-events: none;
+  }
+
+  .sn-pill-num { font-size: 0.54rem; opacity: 0.45; margin-right: 0.1rem; }
+
+  /* ── LEFT SIDEBAR ── */
+  .sidebar-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 300;
+    backdrop-filter: blur(2px);
+  }
+
+  .sidebar-overlay.open { display: block; }
+
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: 280px;
+    background: #0e0b08;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    z-index: 301;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sidebar.open { transform: translateX(0); }
+
+  .sb-head {
+    background: var(--ink);
+    padding: 1rem 1.1rem 0.9rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    flex-shrink: 0;
+  }
+
+  .sb-title {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(244,238,216,0.5);
+  }
+
+  .sb-close {
+    background: none; border: none; cursor: pointer;
+    color: rgba(244,238,216,0.4); font-size: 1rem; line-height: 1;
+    padding: 0.2rem 0.3rem; transition: color 0.15s;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .sb-close:hover { color: rgba(244,238,216,0.9); }
+
+  .sb-body {
+    flex: 1; overflow-y: auto; padding: 1rem 0;
+    scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.12) transparent;
+  }
+
+  .sb-section { margin-bottom: 0.4rem; }
+
+  .sb-section-label {
+    font-size: 0.57rem; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; padding: 0.5rem 1.1rem 0.3rem;
+  }
+
+  .sb-section-label.muay   { color: rgba(200,74,16,0.75); }
+  .sb-section-label.lang   { color: rgba(180,140,20,0.75); }
+  .sb-section-label.travel { color: rgba(40,168,112,0.75); }
+
+  .sb-link {
+    display: flex; align-items: baseline; gap: 0.55rem;
+    padding: 0.5rem 1.1rem;
+    text-decoration: none; transition: background 0.15s;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .sb-link:hover { background: rgba(255,255,255,0.04); }
+
+  .sb-link.here {
+    background: rgba(200,74,16,0.1);
+    border-right: 2px solid var(--accent);
+    pointer-events: none;
+  }
+
+  .sb-link-num {
+    font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em;
+    color: rgba(244,238,216,0.25); min-width: 24px; flex-shrink: 0;
+  }
+
+  .sb-link-name {
+    font-size: 0.78rem; font-weight: 600;
+    color: rgba(244,238,216,0.55); line-height: 1.35;
+  }
+
+  .sb-link:hover .sb-link-name { color: rgba(244,238,216,0.9); }
+  .sb-link.here .sb-link-name { color: var(--accent); }
+
+  .sb-link-sub {
+    font-size: 0.65rem; font-weight: 400;
+    color: rgba(244,238,216,0.25); display: block; margin-top: 0.1rem;
+  }
+
+  .sb-divider {
+    height: 1px; background: rgba(255,255,255,0.05);
+    margin: 0.4rem 1.1rem;
+  }
+
+  .sb-index-link {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.7rem 1.1rem; margin-top: 0.4rem;
+    text-decoration: none; border-top: 1px solid rgba(255,255,255,0.07);
+    font-family: 'Nunito', sans-serif;
+    transition: background 0.15s;
+  }
+
+  .sb-index-link:hover { background: rgba(255,255,255,0.04); }
+
+  .sb-index-link span {
+    font-size: 0.74rem; font-weight: 700;
+    color: rgba(244,238,216,0.45); transition: color 0.15s;
+  }
+
+  .sb-index-link:hover span { color: rgba(244,238,216,0.85); }
 </style>
 </head>
 <body>
+
+<!-- ── SIDEBAR OVERLAY ── -->
+<div class="sidebar-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+
+<!-- ── LEFT SIDEBAR ── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <div class="sb-title">All Volumes</div>
+    <button class="sb-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <div class="sb-body">
+
+    <div class="sb-section">
+      <div class="sb-section-label muay">🥊 Muay Thai</div>
+      <a class="sb-link" href="wisdom-index.html">
+        <span class="sb-link-num">★</span>
+        <div><span class="sb-link-name">Champion's Wisdom</span><span class="sb-link-sub">Timing · Distance · Corner talk</span></div>
+      </a>
+      <a class="sb-link" href="kru-combinations.html">
+        <span class="sb-link-num">★</span>
+        <div><span class="sb-link-name">Kru's Combinations</span><span class="sb-link-sub">8 combos with the reason behind them</span></div>
+      </a>
+      <a class="sb-link" href="kru-exchange-vol6.html">
+        <span class="sb-link-num">06</span>
+        <div><span class="sb-link-name">Competition Preparation</span><span class="sb-link-sub">Camp · Weight cut · Fight week</span></div>
+      </a>
+      <a class="sb-link" href="kru-exchange-vol8.html">
+        <span class="sb-link-num">08</span>
+        <div><span class="sb-link-name">Fight Night · Lumpinee</span><span class="sb-link-sub">Tickets · Crowd phrases · Scoring</span></div>
+      </a>
+    </div>
+
+    <div class="sb-divider"></div>
+
+    <div class="sb-section">
+      <div class="sb-section-label lang">🗣️ Thai Language</div>
+      <a class="sb-link" href="kru-language-exchange.html">
+        <span class="sb-link-num">01</span>
+        <div><span class="sb-link-name">Corrections & Encouragement</span><span class="sb-link-sub">Where it all begins</span></div>
+      </a>
+      <a class="sb-link" href="kru-exchange-vol2.html">
+        <span class="sb-link-num">02</span>
+        <div><span class="sb-link-name">Goals, Body & Fight Day</span><span class="sb-link-sub">Going further</span></div>
+      </a>
+      <a class="sb-link" href="kru-exchange-vol3.html">
+        <span class="sb-link-num">03</span>
+        <div><span class="sb-link-name">Daily Life & Grammar</span><span class="sb-link-sub">Structure · Numbers · Compliments</span></div>
+      </a>
+      <a class="sb-link" href="kru-exchange-vol4.html">
+        <span class="sb-link-num">04</span>
+        <div><span class="sb-link-name">Emotions & Culture</span><span class="sb-link-sub">ใจ · Transport · Describing people</span></div>
+      </a>
+      <a class="sb-link" href="kru-exchange-vol5.html">
+        <span class="sb-link-num">05</span>
+        <div><span class="sb-link-name">Health, Shopping & Plans</span><span class="sb-link-sub">Body · Markets · Making plans</span></div>
+      </a>
+      <a class="sb-link" href="kru-exchange-vol7.html">
+        <span class="sb-link-num">07</span>
+        <div><span class="sb-link-name">Thai Culture Deep Dive</span><span class="sb-link-sub">สนุก · เกรงใจ · Buddhism · Festivals</span></div>
+      </a>
+    </div>
+
+    <div class="sb-divider"></div>
+
+    <div class="sb-section">
+      <div class="sb-section-label lang">🍜 Food</div>
+      <a class="sb-link" href="kru-exchange-vol9.html">
+        <span class="sb-link-num">09</span>
+        <div><span class="sb-link-name">Northern Thai Food</span><span class="sb-link-sub">Khao Soi · Night Bazaar · Kham Mueang</span></div>
+      </a>
+      <a class="sb-link" href="kru-exchange-vol21.html">
+        <span class="sb-link-num">21</span>
+        <div><span class="sb-link-name">Bangkok Street Food</span><span class="sb-link-sub">Pad Thai · Boat noodles · Grilled</span></div>
+      </a>
+      <a class="sb-link here" href="#">
+        <span class="sb-link-num">22</span>
+        <div><span class="sb-link-name">Southern Thai Food</span><span class="sb-link-sub">Khua Kling · Massaman · Seafood</span></div>
+      </a>
+    </div>
+
+    <div class="sb-divider"></div>
+
+    <div class="sb-section">
+      <div class="sb-section-label travel">✈️ Thailand Travel</div>
+      <a class="sb-link" href="kru-exchange-vol12.html">
+        <span class="sb-link-num">12</span>
+        <div><span class="sb-link-name">Phuket & The Islands</span><span class="sb-link-sub">Beach life · Boats · Island profiles</span></div>
+      </a>
+      <a class="sb-link" href="kru-exchange-vol13.html">
+        <span class="sb-link-num">13</span>
+        <div><span class="sb-link-name">Bangkok Neighbourhoods</span><span class="sb-link-sub">Chatuchak · Chinatown · Sukhumvit</span></div>
+      </a>
+      <a class="sb-link" href="kru-exchange-vol14.html">
+        <span class="sb-link-num">14</span>
+        <div><span class="sb-link-name">Getting Around Thailand</span><span class="sb-link-sub">Trains · Buses · Overnight sleepers</span></div>
+      </a>
+    </div>
+
+    <a class="sb-index-link" href="index.html">
+      <span>🥊 Back to Collection Index →</span>
+    </a>
+
+  </div>
+</aside>
+
+<!-- ── TOP NAV WRAPPER — position:relative anchors dropdown ── -->
+<div class="nav-wrapper">
+
+  <nav class="site-nav">
+    <a class="sn-home" href="index.html">🥊 Collection</a>
+    <span class="sn-current">Vol. 22 · Southern Food</span>
+    <div class="sn-spacer"></div>
+    <button class="sn-browse-btn" id="sn-btn" onclick="toggleDropdown()">
+      Browse all <span class="sn-arrow">▼</span>
+    </button>
+    <button class="sn-sidebar-btn" onclick="openSidebar()" title="Open volume list">☰</button>
+  </nav>
+
+  <!-- ── CENTRED DROPDOWN ── -->
+  <div class="sn-dropdown" id="sn-dropdown">
+    <div class="sn-drop-inner">
+      <div class="sn-drop-title">Jump to a volume</div>
+
+      <div class="sn-cat">
+        <div class="sn-cat-lbl muay">🥊 Muay Thai</div>
+        <div class="sn-pills">
+          <a class="sn-pill" href="wisdom-index.html"><span class="sn-pill-num">★</span>Champion's Wisdom</a>
+          <a class="sn-pill" href="kru-combinations.html"><span class="sn-pill-num">★</span>Combinations</a>
+          <a class="sn-pill" href="kru-exchange-vol6.html"><span class="sn-pill-num">06</span>Competition Prep</a>
+          <a class="sn-pill" href="kru-exchange-vol8.html"><span class="sn-pill-num">08</span>Lumpinee</a>
+        </div>
+      </div>
+
+      <div class="sn-cat">
+        <div class="sn-cat-lbl lang">🗣️ Thai Language</div>
+        <div class="sn-pills">
+          <a class="sn-pill" href="kru-language-exchange.html"><span class="sn-pill-num">01</span>Corrections</a>
+          <a class="sn-pill" href="kru-exchange-vol2.html"><span class="sn-pill-num">02</span>Goals & Fight Day</a>
+          <a class="sn-pill" href="kru-exchange-vol3.html"><span class="sn-pill-num">03</span>Daily Life</a>
+          <a class="sn-pill" href="kru-exchange-vol4.html"><span class="sn-pill-num">04</span>Emotions</a>
+          <a class="sn-pill" href="kru-exchange-vol5.html"><span class="sn-pill-num">05</span>Health & Plans</a>
+          <a class="sn-pill" href="kru-exchange-vol7.html"><span class="sn-pill-num">07</span>Culture Deep</a>
+        </div>
+      </div>
+
+      <div class="sn-cat">
+        <div class="sn-cat-lbl lang">🍜 Food</div>
+        <div class="sn-pills">
+          <a class="sn-pill" href="kru-exchange-vol9.html"><span class="sn-pill-num">09</span>Northern Food</a>
+          <a class="sn-pill" href="kru-exchange-vol21.html"><span class="sn-pill-num">21</span>Bangkok Street Food</a>
+          <a class="sn-pill here" href="#"><span class="sn-pill-num">22</span>Southern Food ← here</a>
+        </div>
+      </div>
+
+      <div class="sn-cat">
+        <div class="sn-cat-lbl travel">✈️ Travel</div>
+        <div class="sn-pills">
+          <a class="sn-pill" href="kru-exchange-vol12.html"><span class="sn-pill-num">12</span>Phuket & Islands</a>
+          <a class="sn-pill" href="kru-exchange-vol13.html"><span class="sn-pill-num">13</span>Bangkok</a>
+          <a class="sn-pill" href="kru-exchange-vol14.html"><span class="sn-pill-num">14</span>Getting Around</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /nav-wrapper -->
 
 <header>
   <div class="h-inner">
@@ -758,118 +1131,50 @@
 </footer>
 
 <script>
+  /* ── TAB SWITCHING ── */
   function sw(id) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     event.target.classList.add('active');
+    closeDropdown();
   }
-</script>
 
-
-<!-- ══ FLOATING PILL NAV ══ -->
-<button class="pill-btn" id="pill-btn" onclick="pillToggle()">
-  <span class="pill-icon">🥊</span>
-  Volumes
-  <span class="pill-arrow">▲</span>
-</button>
-
-<div class="pill-pop" id="pill-pop">
-  <div class="pp-head">
-    <div class="pp-title">Language Exchange Collection</div>
-    <a class="pp-home" href="index.html">← Index</a>
-  </div>
-  <div class="pp-body">
-
-    <span class="pp-cat muay">🥊 Muay Thai</span>
-    <a class="pp-lnk" href="kru-exchange-vol6.html">
-      <span class="pp-n">06</span>
-      <span class="pp-nm">Competition Preparation</span>
-    </a>
-    <a class="pp-lnk" href="kru-exchange-vol8.html">
-      <span class="pp-n">08</span>
-      <span class="pp-nm">Fight Night · Lumpinee</span>
-    </a>
-
-    <div class="pp-div"></div>
-    <span class="pp-cat lang">🗣️ Thai Language</span>
-    <a class="pp-lnk" href="kru-language-exchange.html">
-      <span class="pp-n">01</span>
-      <span class="pp-nm">Corrections & Encouragement</span>
-    </a>
-    <a class="pp-lnk" href="kru-exchange-vol2.html">
-      <span class="pp-n">02</span>
-      <span class="pp-nm">Goals, Body & Fight Day</span>
-    </a>
-    <a class="pp-lnk" href="kru-exchange-vol3.html">
-      <span class="pp-n">03</span>
-      <span class="pp-nm">Daily Life & Grammar</span>
-    </a>
-    <a class="pp-lnk" href="kru-exchange-vol4.html">
-      <span class="pp-n">04</span>
-      <span class="pp-nm">Emotions & Culture</span>
-    </a>
-    <a class="pp-lnk" href="kru-exchange-vol5.html">
-      <span class="pp-n">05</span>
-      <span class="pp-nm">Health & Plans</span>
-    </a>
-    <a class="pp-lnk" href="kru-exchange-vol7.html">
-      <span class="pp-n">07</span>
-      <span class="pp-nm">Thai Culture Deep Dive</span>
-    </a>
-
-    <div class="pp-div"></div>
-    <span class="pp-cat lang">🍜 Food</span>
-    <a class="pp-lnk" href="kru-exchange-vol9.html">
-      <span class="pp-n">09</span>
-      <span class="pp-nm">Northern Thai Food</span>
-    </a>
-    <a class="pp-lnk" href="kru-exchange-vol21.html">
-      <span class="pp-n">21</span>
-      <span class="pp-nm">Bangkok Street Food</span>
-    </a>
-    <a class="pp-lnk here" href="#">
-      <span class="pp-n">22</span>
-      <span class="pp-nm">Southern Thai Food</span>
-      <span class="pp-tag">here</span>
-    </a>
-
-    <div class="pp-div"></div>
-    <span class="pp-cat travel">✈️ Travel</span>
-    <a class="pp-lnk" href="kru-exchange-vol12.html">
-      <span class="pp-n">12</span>
-      <span class="pp-nm">Phuket & The Islands</span>
-    </a>
-    <a class="pp-lnk" href="kru-exchange-vol13.html">
-      <span class="pp-n">13</span>
-      <span class="pp-nm">Bangkok Neighbourhoods</span>
-    </a>
-    <a class="pp-lnk" href="kru-exchange-vol14.html">
-      <span class="pp-n">14</span>
-      <span class="pp-nm">Getting Around Thailand</span>
-    </a>
-
-  </div>
-</div>
-
-<script>
-  function pillToggle() {
-    var pop = document.getElementById('pill-pop');
-    var btn = document.getElementById('pill-btn');
-    if (pop.classList.contains('popen')) {
-      pop.classList.remove('popen'); btn.classList.remove('pactive');
-    } else {
-      pop.classList.add('popen'); btn.classList.add('pactive');
+  /* ── CENTRED DROPDOWN ── */
+  function toggleDropdown() {
+    const dd = document.getElementById('sn-dropdown');
+    const btn = document.getElementById('sn-btn');
+    const isOpen = dd.classList.contains('open');
+    if (isOpen) { closeDropdown(); } else {
+      dd.classList.add('open');
+      btn.classList.add('open');
     }
   }
+
+  function closeDropdown() {
+    document.getElementById('sn-dropdown').classList.remove('open');
+    document.getElementById('sn-btn').classList.remove('open');
+  }
+
+  /* ── LEFT SIDEBAR ── */
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sb-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    closeDropdown();
+  }
+
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sb-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* close dropdown on outside click */
   document.addEventListener('click', function(e) {
-    var pop = document.getElementById('pill-pop');
-    var btn = document.getElementById('pill-btn');
-    if (!pop.contains(e.target) && !btn.contains(e.target)) {
-      pop.classList.remove('popen'); btn.classList.remove('pactive');
-    }
+    const wrapper = document.querySelector('.nav-wrapper');
+    if (wrapper && !wrapper.contains(e.target)) closeDropdown();
   });
 </script>
-
 </body>
 </html>

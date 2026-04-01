@@ -305,6 +305,68 @@
     .dlg-ln { grid-template-columns: 44px 1fr; }
     .cc-top { grid-template-columns: 50px 1fr; }
   }
+
+  
+  /* ══ FLOATING PILL NAV ══ */
+  .pill-btn {
+    position: fixed; bottom: 1.6rem; right: 1.6rem;
+    display: flex; align-items: center; gap: 0.45rem;
+    background: #1c1710; color: rgba(244,238,216,0.8);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 99px;
+    padding: 0.55rem 1.05rem 0.55rem 0.75rem;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+    cursor: pointer; z-index: 300;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+    transition: all 0.2s; white-space: nowrap;
+    font-family: inherit; border-style: solid;
+  }
+  .pill-btn:hover {
+    background: #2a1e12; border-color: rgba(200,74,16,0.5);
+    color: #f4eed8; box-shadow: 0 6px 28px rgba(0,0,0,0.55);
+    transform: translateY(-2px);
+  }
+  .pill-btn.pactive { background: #b83010; border-color: #b83010; color: white; }
+  .pill-icon { font-size: 0.88rem; }
+  .pill-arrow { font-size: 0.56rem; opacity: 0.6; transition: transform 0.2s; margin-left: 0.1rem; }
+  .pill-btn.pactive .pill-arrow { transform: rotate(180deg); }
+
+  .pill-pop {
+    position: fixed; bottom: 4.8rem; right: 1.6rem;
+    width: min(320px, calc(100vw - 3.2rem));
+    background: #0f0c09; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; z-index: 299; display: none;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.65);
+    transform-origin: bottom right;
+    animation: pillPop 0.18s cubic-bezier(0.34,1.56,0.64,1) both;
+    overflow: hidden;
+  }
+  @keyframes pillPop {
+    from { opacity:0; transform:scale(0.88); }
+    to   { opacity:1; transform:scale(1); }
+  }
+  .pill-pop.popen { display: block; }
+  .pp-head {
+    background: #1c1710; padding: 0.65rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .pp-title { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(244,238,216,0.35); }
+  .pp-home { font-size: 0.68rem; font-weight: 700; color: rgba(244,238,216,0.55); text-decoration: none; transition: color 0.15s; font-family: inherit; }
+  .pp-home:hover { color: rgba(244,238,216,0.9); }
+  .pp-body { max-height: 380px; overflow-y: auto; padding: 0.7rem 0 0.5rem; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+  .pp-cat { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.45rem 1rem 0.25rem; display: block; }
+  .pp-cat.muay   { color: rgba(200,74,16,0.75); }
+  .pp-cat.lang   { color: rgba(180,140,20,0.75); }
+  .pp-cat.travel { color: rgba(40,168,112,0.75); }
+  .pp-lnk { display: flex; align-items: center; gap: 0.65rem; padding: 0.42rem 1rem; text-decoration: none; transition: background 0.12s; font-family: inherit; }
+  .pp-lnk:hover { background: rgba(255,255,255,0.045); }
+  .pp-lnk.here  { background: rgba(200,74,16,0.1); pointer-events: none; }
+  .pp-n { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(244,238,216,0.22); min-width: 20px; flex-shrink: 0; text-align: right; }
+  .pp-nm { font-size: 0.76rem; font-weight: 600; color: rgba(244,238,216,0.52); flex: 1; transition: color 0.12s; }
+  .pp-lnk:hover .pp-nm { color: rgba(244,238,216,0.9); }
+  .pp-lnk.here  .pp-nm { color: #b83010; }
+  .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
+  .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
 </style>
 </head>
 <body>
@@ -840,5 +902,111 @@
     event.target.classList.add('active');
   }
 </script>
+
+
+<!-- ══ FLOATING PILL NAV ══ -->
+<button class="pill-btn" id="pill-btn" onclick="pillToggle()">
+  <span class="pill-icon">🥊</span>
+  Volumes
+  <span class="pill-arrow">▲</span>
+</button>
+
+<div class="pill-pop" id="pill-pop">
+  <div class="pp-head">
+    <div class="pp-title">Language Exchange Collection</div>
+    <a class="pp-home" href="index.html">← Index</a>
+  </div>
+  <div class="pp-body">
+
+    <span class="pp-cat muay">🥊 Muay Thai</span>
+    <a class="pp-lnk" href="kru-exchange-vol6.html">
+      <span class="pp-n">06</span>
+      <span class="pp-nm">Competition Preparation</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol8.html">
+      <span class="pp-n">08</span>
+      <span class="pp-nm">Fight Night · Lumpinee</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat lang">🗣️ Thai Language</span>
+    <a class="pp-lnk" href="kru-language-exchange.html">
+      <span class="pp-n">01</span>
+      <span class="pp-nm">Corrections & Encouragement</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol2.html">
+      <span class="pp-n">02</span>
+      <span class="pp-nm">Goals, Body & Fight Day</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol3.html">
+      <span class="pp-n">03</span>
+      <span class="pp-nm">Daily Life & Grammar</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol4.html">
+      <span class="pp-n">04</span>
+      <span class="pp-nm">Emotions & Culture</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol5.html">
+      <span class="pp-n">05</span>
+      <span class="pp-nm">Health & Plans</span>
+    </a>
+    <a class="pp-lnk here" href="#">
+      <span class="pp-n">07</span>
+      <span class="pp-nm">Thai Culture Deep Dive</span>
+      <span class="pp-tag">here</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat lang">🍜 Food</span>
+    <a class="pp-lnk" href="kru-exchange-vol9.html">
+      <span class="pp-n">09</span>
+      <span class="pp-nm">Northern Thai Food</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol21.html">
+      <span class="pp-n">21</span>
+      <span class="pp-nm">Bangkok Street Food</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol22.html">
+      <span class="pp-n">22</span>
+      <span class="pp-nm">Southern Thai Food</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat travel">✈️ Travel</span>
+    <a class="pp-lnk" href="kru-exchange-vol12.html">
+      <span class="pp-n">12</span>
+      <span class="pp-nm">Phuket & The Islands</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol13.html">
+      <span class="pp-n">13</span>
+      <span class="pp-nm">Bangkok Neighbourhoods</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol14.html">
+      <span class="pp-n">14</span>
+      <span class="pp-nm">Getting Around Thailand</span>
+    </a>
+
+  </div>
+</div>
+
+<script>
+  function pillToggle() {
+    var pop = document.getElementById('pill-pop');
+    var btn = document.getElementById('pill-btn');
+    if (pop.classList.contains('popen')) {
+      pop.classList.remove('popen'); btn.classList.remove('pactive');
+    } else {
+      pop.classList.add('popen'); btn.classList.add('pactive');
+    }
+  }
+  document.addEventListener('click', function(e) {
+    var pop = document.getElementById('pill-pop');
+    var btn = document.getElementById('pill-btn');
+    if (!pop.contains(e.target) && !btn.contains(e.target)) {
+      pop.classList.remove('popen'); btn.classList.remove('pactive');
+    }
+  });
+</script>
+
 </body>
 </html>
