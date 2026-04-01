@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Vol. 17 · Thai Wellness & Massage</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f9f4;
+    --bg2: #e8f0e8;
+    --bg3: #d8e8d8;
+    --ink: #0e1a10;
+    --muted: #6a7a6a;
+    --border: rgba(14,26,16,0.1);
+    --eng: #1a5c7a;
+    --thai: #5a2040;
+    --roman: #1a6a3a;
+    --gold: #8a7820;
+    --accent: #1a7a5a;
+    --accent2: #5a2890;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Outfit', sans-serif; min-height: 100vh; }
+
+  header { background: var(--ink); padding: 3rem 2rem 2.2rem; position: relative; overflow: hidden; }
+  header::before { content: 'XVII'; position: absolute; right: 1.5rem; bottom: -1rem; font-family: 'Fraunces', serif; font-size: 8rem; font-weight: 900; color: rgba(255,255,255,0.04); line-height: 1; pointer-events: none; letter-spacing: -0.05em; }
+
+  .h-inner { max-width: 900px; margin: 0 auto; }
+  .vol-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #60d0a0; margin-bottom: 0.7rem; }
+  h1 { font-family: 'Fraunces', serif; font-size: clamp(1.6rem, 4.5vw, 2.8rem); font-weight: 700; line-height: 1.1; color: #f4f9f4; margin-bottom: 0.3rem; }
+  h1 i { font-style: italic; color: #60d0a0; }
+  .sub { font-size: 0.82rem; color: rgba(244,249,244,0.4); font-weight: 300; margin-bottom: 1.4rem; }
+
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; font-weight: 500; }
+  .lsq { width: 10px; height: 10px; border-radius: 2px; }
+  .le { background: var(--eng); } .lt { background: var(--thai); } .lr { background: var(--roman); }
+  .leg-eng { color: rgba(244,249,244,0.7); }
+
+  .tabs { display: flex; overflow-x: auto; background: var(--bg2); border-bottom: 2px solid var(--bg3); padding: 0 1.2rem; scrollbar-width: thin; scrollbar-color: var(--accent) transparent; -webkit-overflow-scrolling: touch; }
+  .tab { padding: 0.9rem 1.1rem; font-size: 0.79rem; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; letter-spacing: 0.02em; background: none; border-top: none; border-left: none; border-right: none; font-family: 'Outfit', sans-serif; }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .content { max-width: 900px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro { font-size: 0.82rem; line-height: 1.72; color: var(--muted); padding: 0.85rem 1.1rem; margin-bottom: 1.8rem; border-left: 3px solid var(--accent); background: rgba(26,122,90,0.06); border-radius: 0 4px 4px 0; }
+  .intro strong { color: var(--ink); }
+
+  .grp { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin: 2.2rem 0 0.9rem; display: flex; align-items: center; gap: 0.8rem; }
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  .card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.3rem; margin-bottom: 0.65rem; cursor: pointer; transition: all 0.18s; position: relative; }
+  .card:hover { border-color: rgba(26,122,90,0.3); box-shadow: 0 3px 14px rgba(0,0,0,0.07); transform: translateY(-1px); }
+  .card.on { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(26,122,90,0.15); background: #f4fff8; }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-size: 0.65rem; color: var(--border); font-weight: 700; }
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 500; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.25rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+  .note { margin-top: 0.62rem; padding-top: 0.58rem; border-top: 1px dashed var(--border); font-size: 0.76rem; color: var(--muted); line-height: 1.6; }
+  .note b { color: var(--gold); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  .hbox { background: rgba(26,122,90,0.06); border: 1px solid rgba(26,122,90,0.18); border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.7rem; }
+  .hbox-label { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+  .hbox p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+  .hbox p b { color: var(--ink); }
+
+  .tw { overflow-x: auto; margin-bottom: 0.7rem; }
+  table { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 0.85rem; }
+  thead tr { background: var(--ink); }
+  thead th { padding: 0.6rem 1rem; text-align: left; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(244,249,244,0.7); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 500; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr2 { color: var(--roman); font-style: italic; }
+  .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  /* ══ FLOATING PILL NAV ══ */
+  .pill-btn {
+    position: fixed; bottom: 1.6rem; right: 1.6rem;
+    display: flex; align-items: center; gap: 0.45rem;
+    background: #1c1710; color: rgba(244,238,216,0.8);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 99px;
+    padding: 0.55rem 1.05rem 0.55rem 0.75rem;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+    cursor: pointer; z-index: 300;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+    transition: all 0.2s; white-space: nowrap;
+    font-family: inherit; border-style: solid;
+  }
+  .pill-btn:hover {
+    background: #2a1e12; border-color: rgba(200,74,16,0.5);
+    color: #f4eed8; box-shadow: 0 6px 28px rgba(0,0,0,0.55);
+    transform: translateY(-2px);
+  }
+  .pill-btn.pactive { background: #b83010; border-color: #b83010; color: white; }
+  .pill-icon { font-size: 0.88rem; }
+  .pill-arrow { font-size: 0.56rem; opacity: 0.6; transition: transform 0.2s; margin-left: 0.1rem; }
+  .pill-btn.pactive .pill-arrow { transform: rotate(180deg); }
+
+  .pill-pop {
+    position: fixed; bottom: 4.8rem; right: 1.6rem;
+    width: min(320px, calc(100vw - 3.2rem));
+    background: #0f0c09; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; z-index: 299; display: none;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.65);
+    transform-origin: bottom right;
+    animation: pillPop 0.18s cubic-bezier(0.34,1.56,0.64,1) both;
+    overflow: hidden;
+  }
+  @keyframes pillPop {
+    from { opacity:0; transform:scale(0.88); }
+    to   { opacity:1; transform:scale(1); }
+  }
+  .pill-pop.popen { display: block; }
+  .pp-head {
+    background: #1c1710; padding: 0.65rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .pp-title { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(244,238,216,0.35); }
+  .pp-home { font-size: 0.68rem; font-weight: 700; color: rgba(244,238,216,0.55); text-decoration: none; transition: color 0.15s; font-family: inherit; }
+  .pp-home:hover { color: rgba(244,238,216,0.9); }
+  .pp-body { max-height: 380px; overflow-y: auto; padding: 0.7rem 0 0.5rem; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+  .pp-cat { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.45rem 1rem 0.25rem; display: block; }
+  .pp-cat.muay   { color: rgba(200,74,16,0.75); }
+  .pp-cat.lang   { color: rgba(180,140,20,0.75); }
+  .pp-cat.travel { color: rgba(40,168,112,0.75); }
+  .pp-lnk { display: flex; align-items: center; gap: 0.65rem; padding: 0.42rem 1rem; text-decoration: none; transition: background 0.12s; font-family: inherit; }
+  .pp-lnk:hover { background: rgba(255,255,255,0.045); }
+  .pp-lnk.here  { background: rgba(200,74,16,0.1); pointer-events: none; }
+  .pp-n { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(244,238,216,0.22); min-width: 20px; flex-shrink: 0; text-align: right; }
+  .pp-nm { font-size: 0.76rem; font-weight: 600; color: rgba(244,238,216,0.52); flex: 1; transition: color 0.12s; }
+  .pp-lnk:hover .pp-nm { color: rgba(244,238,216,0.9); }
+  .pp-lnk.here  .pp-nm { color: #b83010; }
+  .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
+  .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-inner">
+    <div class="vol-tag">🌿 Language Exchange · Vol. 17</div>
+    <h1>Thai Wellness, <i>Massage</i><br>&amp; Traditional Medicine</h1>
+    <p class="sub">Nuad Thai · Herbal remedies · Body language · Recovery culture</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span class="leg-eng">English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span class="leg-eng">ภาษาไทย Thai Script</span></div>
+      <div class="leg"><div class="lsq lr"></div><span class="leg-eng">Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('massage')">🙌 Thai Massage</button>
+  <button class="tab" onclick="sw('body')">💪 Body & Pain</button>
+  <button class="tab" onclick="sw('herbs')">🌿 Herbs & Remedies</button>
+  <button class="tab" onclick="sw('recovery')">🛌 Recovery</button>
+  <button class="tab" onclick="sw('spa')">🧴 Spa & Wellness</button>
+</nav>
+
+<div class="content">
+
+  <!-- MASSAGE -->
+  <div id="massage" class="section active">
+    <p class="intro">
+      <strong>Kru learns:</strong> English for the massage and wellness context — useful when international clients ask about Thai massage after training.<br>
+      <strong>Sora learns:</strong> The vocabulary of Thai massage — one of Thailand's most important cultural exports, and deeply connected to Muay Thai recovery.
+    </p>
+
+    <div class="hbox">
+      <div class="hbox-label">🌿 Nuad Thai — UNESCO heritage since 2019</div>
+      <p>Thai massage (นวดไทย — nûat thai) was added to UNESCO's Intangible Cultural Heritage list in 2019. It's not just relaxation — it's a medical system rooted in <b>Sen lines</b> (เส้น — sên), the energy pathways of the body. Muay Thai fighters have used it for recovery for centuries.</p>
+    </div>
+
+    <div class="grp">Massage Vocabulary</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Thai massage</td><td class="tt">นวดไทย</td><td class="tr2">nûat thai</td><td class="tn2">Traditional dry massage — no oil</td></tr>
+        <tr><td class="te">Oil massage</td><td class="tt">นวดน้ำมัน</td><td class="tr2">nûat nám-man</td><td class="tn2">More relaxing, less therapeutic</td></tr>
+        <tr><td class="te">Foot massage</td><td class="tt">นวดเท้า</td><td class="tr2">nûat tháo</td><td class="tn2">Extremely popular in Thailand</td></tr>
+        <tr><td class="te">To stretch</td><td class="tt">ยืด</td><td class="tr2">yûet</td><td class="tn2">Thai massage involves full-body stretching</td></tr>
+        <tr><td class="te">Sen lines (energy lines)</td><td class="tt">เส้น</td><td class="tr2">sên</td><td class="tn2">The energy pathways Thai massage works on</td></tr>
+        <tr><td class="te">Pressure point</td><td class="tt">จุดกด</td><td class="tr2">jùt gòt</td><td class="tn2">จุด = point · กด = press</td></tr>
+        <tr><td class="te">Softer / lighter pressure</td><td class="tt">เบาๆ</td><td class="tr2">bao-bao</td><td class="tn2">Tell the masseuse this!</td></tr>
+        <tr><td class="te">Harder / more pressure</td><td class="tt">แรงขึ้น</td><td class="tr2">raeng khûen</td><td class="tn2">Or: กดแรงๆ (gòt raeng-raeng)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">At the Massage Shop</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">I'd like a one-hour Thai massage, please.</div>
+      <div class="t">ขอนวดไทยหนึ่งชั่วโมงค่ะ</div>
+      <div class="r">khǎaw nûat thai nùeng chûa-moong khâ</div>
+      <div class="note"><span class="ks">Sora:</span> This is your complete booking sentence. Just change the time: ครึ่งชั่วโมง (khûeng chûa-moong) = 30 minutes · สองชั่วโมง (sǎawng chûa-moong) = 2 hours.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Please focus on my lower back — it's very tight.</div>
+      <div class="t">ช่วยเน้นที่หลังส่วนล่างหน่อยนะคะ — ตึงมาก</div>
+      <div class="r">chûay nên thîi lǎng sùan lâang nàwy ná khâ — tueng mâak</div>
+      <div class="note"><span class="ks">Sora:</span> ตึง (tueng) = tight/stiff/tense. หลัง (lǎng) = back. หลังส่วนล่าง (lǎng sùan lâang) = lower back. หลังส่วนบน (lǎng sùan bon) = upper back.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">That's a bit too strong — can you go lighter?</div>
+      <div class="t">แรงไปนิดนึง — เบาลงได้ไหมคะ?</div>
+      <div class="r">raeng bpai nít-nueng — bao long dâai mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> ...ไปนิดนึง (...bpai nít-nueng) = a little too... This pattern works for everything: เผ็ดไปนิดนึง = a bit too spicy · เร็วไปนิดนึง = a bit too fast.</div>
+    </div>
+  </div>
+
+  <!-- BODY & PAIN -->
+  <div id="body" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> English body vocabulary for training — how to describe pain, stiffness, and injuries clearly.<br>
+      <strong>Sora learns:</strong> How to describe physical discomfort in Thai — essential for the gym, the massage table, and the doctor.
+    </p>
+
+    <div class="tw"><table>
+      <thead><tr><th>Body part</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Head</td><td class="tt">หัว / ศีรษะ</td><td class="tr2">hǔa / sǐi-sà</td><td class="tn2">หัว = casual · ศีรษะ = formal (sacred!)</td></tr>
+        <tr><td class="te">Neck</td><td class="tt">คอ</td><td class="tr2">khaw</td><td class="tn2">—</td></tr>
+        <tr><td class="te">Shoulder</td><td class="tt">ไหล่</td><td class="tr2">lài</td><td class="tn2">—</td></tr>
+        <tr><td class="te">Back</td><td class="tt">หลัง</td><td class="tr2">lǎng</td><td class="tn2">Also means "after" / "behind"</td></tr>
+        <tr><td class="te">Hip</td><td class="tt">สะโพก</td><td class="tr2">sà-phôok</td><td class="tn2">Important for kicks — หมุนสะโพก = rotate hips</td></tr>
+        <tr><td class="te">Knee</td><td class="tt">เข่า</td><td class="tr2">khào</td><td class="tn2">Also the Muay Thai technique</td></tr>
+        <tr><td class="te">Shin</td><td class="tt">แข้ง</td><td class="tr2">khâaeng</td><td class="tn2">The primary Muay Thai kicking weapon</td></tr>
+        <tr><td class="te">Ankle</td><td class="tt">ข้อเท้า</td><td class="tr2">khâw-tháo</td><td class="tn2">—</td></tr>
+        <tr><td class="te">Elbow</td><td class="tt">ศอก</td><td class="tr2">sàawk</td><td class="tn2">Also the Muay Thai technique</td></tr>
+        <tr><td class="te">Wrist</td><td class="tt">ข้อมือ</td><td class="tr2">khâw-mue</td><td class="tn2">—</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Describing Pain & Discomfort</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>Sensation</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">It hurts / painful</td><td class="tt">เจ็บ / ปวด</td><td class="tr2">jèp / bpùat</td><td class="tn2">เจ็บ = sharp/acute pain · ปวด = aching pain</td></tr>
+        <tr><td class="te">Stiff / tight</td><td class="tt">ตึง</td><td class="tr2">tueng</td><td class="tn2">Muscles after training</td></tr>
+        <tr><td class="te">Sore (after exercise)</td><td class="tt">เมื่อยล้า</td><td class="tr2">mûeay-láa</td><td class="tn2">The good kind of pain — muscle fatigue</td></tr>
+        <tr><td class="te">Bruised</td><td class="tt">ช้ำ</td><td class="tr2">chám</td><td class="tn2">Very common in Muay Thai!</td></tr>
+        <tr><td class="te">Swollen</td><td class="tt">บวม</td><td class="tr2">buam</td><td class="tn2">—</td></tr>
+        <tr><td class="te">Numb / tingling</td><td class="tt">ชา</td><td class="tr2">chaa</td><td class="tn2">—</td></tr>
+        <tr><td class="te">Sprained</td><td class="tt">ข้อเคลื่อน / แพลง</td><td class="tr2">khâw-khlûean / phlaeng</td><td class="tn2">แพลง = to sprain</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">My shins are really sore from training — in a good way.</div>
+      <div class="t">แข้งเมื่อยล้ามากหลังจากฝึก — แต่เป็นความเมื่อยที่ดี</div>
+      <div class="r">khâaeng mûeay-láa mâak lǎng-jàak fùek — tàae bpen khwaam mûeay thîi dii</div>
+      <div class="note"><span class="ks">Sora:</span> เมื่อยล้า (mûeay-láa) = fatigue/soreness from effort. Different from เจ็บ (jèp) which is sharp pain from injury. Knowing the difference helps you communicate clearly with kru.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">My knee is a bit swollen — I'll put ice on it.</div>
+      <div class="t">เข่าบวมนิดหน่อย — จะเอาน้ำแข็งประคบ</div>
+      <div class="r">khào buam nít-nàwy — jà ao nám-khǎaeng bprà-khóp</div>
+      <div class="note"><span class="ks">Sora:</span> ประคบ (bprà-khóp) = to apply compress (hot or cold). น้ำแข็ง (nám-khǎaeng) = ice. A word every Muay Thai student needs.</div>
+    </div>
+  </div>
+
+  <!-- HERBS -->
+  <div id="herbs" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> English names for Thai herbs and remedies — useful when explaining traditional treatments to students.<br>
+      <strong>Sora learns:</strong> The herbal vocabulary of Thai traditional medicine — the pharmacy that grows in Thai gardens and markets.
+    </p>
+
+    <div class="hbox">
+      <div class="hbox-label">🌿 ยาแผนไทย — Thai traditional medicine</div>
+      <p>Thai traditional medicine (ยาแผนไทย — yaa phǎaen thai) has been practiced for over 1,000 years, influenced by Ayurveda and Chinese medicine. Many Muay Thai camps still use herbal compresses (ลูกประคบ — lûuk bprà-khóp) and herbal steam baths for recovery.</p>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Lemongrass</td><td class="tt">ตะไคร้</td><td class="tr2">dtà-khráai</td><td class="tn2">Digestion, inflammation, cooking</td></tr>
+        <tr><td class="te">Galangal (Thai ginger)</td><td class="tt">ข่า</td><td class="tr2">khàa</td><td class="tn2">Anti-inflammatory, respiratory</td></tr>
+        <tr><td class="te">Turmeric</td><td class="tt">ขมิ้น</td><td class="tr2">khà-mîn</td><td class="tn2">Anti-inflammatory — used in Muay Thai liniment</td></tr>
+        <tr><td class="te">Kaffir lime leaf</td><td class="tt">ใบมะกรูด</td><td class="tr2">bai mà-grùut</td><td class="tn2">Calming, used in steam baths</td></tr>
+        <tr><td class="te">Camphor</td><td class="tt">การบูร</td><td class="tr2">gaan-buuran</td><td class="tn2">In liniments and balms</td></tr>
+        <tr><td class="te">Tiger Balm / herbal balm</td><td class="tt">ยานวด</td><td class="tr2">yaa nûat</td><td class="tn2">General term for topical pain relief</td></tr>
+        <tr><td class="te">Herbal compress ball</td><td class="tt">ลูกประคบ</td><td class="tr2">lûuk bprà-khóp</td><td class="tn2">Steamed herb bundle — Muay Thai recovery tool</td></tr>
+        <tr><td class="te">Herbal steam bath</td><td class="tt">อบสมุนไพร</td><td class="tr2">òp sà-mǔn-phrai</td><td class="tn2">Used for muscle recovery</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">The herbal compress feels amazing on sore muscles after training.</div>
+      <div class="t">ลูกประคบสมุนไพรช่วยได้มากสำหรับกล้ามเนื้อที่เมื่อยหลังซ้อม</div>
+      <div class="r">lûuk bprà-khóp sà-mǔn-phrai chûay dâai mâak sǎm-ràp glâam-núea thîi mûeay lǎng sôm</div>
+      <div class="note"><span class="ks">Sora:</span> กล้ามเนื้อ (glâam-núea) = muscle. A good word to know — you'll use it a lot in training context. กล้ามแขน = arm muscles · กล้ามขา = leg muscles.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Do you have anything for bruising?</div>
+      <div class="t">มียาอะไรสำหรับรอยช้ำบ้างไหม?</div>
+      <div class="r">mii yaa à-rai sǎm-ràp roi chám bâang mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> ยา (yaa) = medicine / remedy. รอยช้ำ (roi chám) = bruise (literally: bruise-mark). สำหรับ (sǎm-ràp) = for / in the case of.</div>
+    </div>
+  </div>
+
+  <!-- RECOVERY -->
+  <div id="recovery" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> English for rest, recovery, and the training-rest balance.<br>
+      <strong>Sora learns:</strong> Thai recovery vocabulary — and why Thai training culture takes rest and body maintenance seriously.
+    </p>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Rest / recover</td><td class="tt">พักผ่อน / ฟื้นฟู</td><td class="tr2">phák-phàwn / fûen-fuu</td><td class="tn2">พักผ่อน = rest · ฟื้นฟู = rehabilitate/recover</td></tr>
+        <tr><td class="te">Rest day</td><td class="tt">วันพัก</td><td class="tr2">wan phák</td><td class="tn2">—</td></tr>
+        <tr><td class="te">To apply ice</td><td class="tt">ประคบน้ำแข็ง</td><td class="tr2">bprà-khóp nám-khǎaeng</td><td class="tn2">Standard post-training treatment</td></tr>
+        <tr><td class="te">To stretch (post-training)</td><td class="tt">ยืดเหยียด</td><td class="tr2">yûet-yìat</td><td class="tn2">Cool-down stretching</td></tr>
+        <tr><td class="te">Sleep well</td><td class="tt">นอนหลับสนิท</td><td class="tr2">nawn-làp sà-nìt</td><td class="tn2">สนิท = deep / solid</td></tr>
+        <tr><td class="te">Overtraining</td><td class="tt">ซ้อมหนักเกินไป</td><td class="tr2">sôm nàk goen bpai</td><td class="tn2">เกินไป = too much / excessive</td></tr>
+        <tr><td class="te">Listen to your body</td><td class="tt">ฟังร่างกาย</td><td class="tr2">fang râang-gaai</td><td class="tn2">Important coaching phrase</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Recovery Conversations</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Your body needs rest as much as it needs training.</div>
+      <div class="t">ร่างกายต้องการพักผ่อนมากพอๆ กับที่ต้องการซ้อม</div>
+      <div class="r">râang-gaai tâwng-gaan phák-phàwn mâak phaw-phaw gàp thîi tâwng-gaan sôm</div>
+      <div class="note"><span class="ke">Kru:</span> มากพอๆ กับ (mâak phaw-phaw gàp) = as much as. A grammatically useful comparison pattern: A มากพอๆ กับ B = A as much as B.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">I'm skipping training today — my body is telling me to rest.</div>
+      <div class="t">วันนี้ขอพักจากการซ้อม — ร่างกายบอกให้พัก</div>
+      <div class="r">wan níi khǎaw phák jàak gaan sôm — râang-gaai bàawk hâi phák</div>
+      <div class="note"><span class="ks">Sora:</span> ร่างกายบอกให้พัก (râang-gaai bàawk hâi phák) = my body is telling me to rest. A beautifully literal Thai expression — the body speaks and you listen.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Sleep is when the training actually happens — your muscles repair while you rest.</div>
+      <div class="t">การนอนหลับคือตอนที่การฝึกเกิดขึ้นจริงๆ — กล้ามเนื้อซ่อมแซมตัวเองขณะพักผ่อน</div>
+      <div class="r">gaan nawn-làp khue tawn thîi gaan fùek gòet khûen jing-jing — glâam-núea sâwm-saaem tua-eeng khà-nà phák-phàwn</div>
+      <div class="note"><span class="ke">Kru:</span> ซ่อมแซม (sâwm-saaem) = to repair. This is one of the most important things I tell students — they think training is the work. Recovery is the work.</div>
+    </div>
+  </div>
+
+  <!-- SPA -->
+  <div id="spa" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> English for the spa and wellness context — helpful when recommending recovery treatments to students.<br>
+      <strong>Sora learns:</strong> Spa and wellness vocabulary — Thailand has some of the best and most affordable wellness facilities in the world.
+    </p>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Spa</td><td class="tt">สปา</td><td class="tr2">sà-bpaa</td><td class="tn2">From English — widely used</td></tr>
+        <tr><td class="te">Facial</td><td class="tt">ทำหน้า</td><td class="tr2">tham nâa</td><td class="tn2">Literally: do the face</td></tr>
+        <tr><td class="te">Body scrub</td><td class="tt">ขัดผิว</td><td class="tr2">khàt phǐu</td><td class="tn2">ขัด = to scrub/polish</td></tr>
+        <tr><td class="te">Aromatherapy</td><td class="tt">อโรมาเทอราพี</td><td class="tr2">à-roo-maa-thoe-raa-phii</td><td class="tn2">Loanword</td></tr>
+        <tr><td class="te">Sauna</td><td class="tt">ซาวน่า</td><td class="tr2">saao-nâa</td><td class="tn2">Or: ห้องอบไอน้ำ (steam room)</td></tr>
+        <tr><td class="te">To relax</td><td class="tt">ผ่อนคลาย</td><td class="tr2">phàwn-klaai</td><td class="tn2">Very common phrase</td></tr>
+        <tr><td class="te">Comfortable / relaxed</td><td class="tt">สบาย</td><td class="tr2">sà-baai</td><td class="tn2">สบายดี = feeling fine / how are you?</td></tr>
+        <tr><td class="te">Treatment / procedure</td><td class="tt">การรักษา / ทรีตเมนต์</td><td class="tr2">gaan rák-sǎa / thrîit-ment</td><td class="tn2">Both used in modern Thai spas</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">I feel so much better — completely relaxed.</div>
+      <div class="t">รู้สึกดีขึ้นมากเลย — ผ่อนคลายสุดๆ</div>
+      <div class="r">rúu-sùek dii khûen mâak looei — phàwn-klaai sùt-sùt</div>
+      <div class="note"><span class="ks">Sora:</span> สุดๆ (sùt-sùt) = extremely / to the max. ดีสุดๆ = the best · อร่อยสุดๆ = incredibly delicious. A very casual, expressive intensifier.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">An hour of Thai massage after a week of hard training — there's nothing like it.</div>
+      <div class="t">นวดไทยหนึ่งชั่วโมงหลังจากซ้อมหนักมาทั้งสัปดาห์ — ไม่มีอะไรเทียบได้</div>
+      <div class="r">nûat thai nùeng chûa-moong lǎng-jàak sôm nàk maa tháng sàp-daa — mâi mii à-rai thîap dâai</div>
+      <div class="note"><span class="ke">Kru:</span> ไม่มีอะไรเทียบได้ (mâi mii à-rai thîap dâai) = nothing compares. เทียบ (thîap) = to compare. One of the most satisfying sentences in Thai.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Click any card to expand · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Vol. 17 · Thai Wellness & Massage 🌿
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+
+<!-- ══ FLOATING PILL NAV ══ -->
+<button class="pill-btn" id="pill-btn" onclick="pillToggle()">
+  <span class="pill-icon">🥊</span>
+  Volumes
+  <span class="pill-arrow">▲</span>
+</button>
+
+<div class="pill-pop" id="pill-pop">
+  <div class="pp-head">
+    <div class="pp-title">Language Exchange Collection</div>
+    <a class="pp-home" href="index.html">← Index</a>
+  </div>
+  <div class="pp-body">
+
+    <span class="pp-cat muay">🥊 Muay Thai</span>
+    <a class="pp-lnk" href="kru-exchange-vol6.html">
+      <span class="pp-n">06</span>
+      <span class="pp-nm">Competition Preparation</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol8.html">
+      <span class="pp-n">08</span>
+      <span class="pp-nm">Fight Night · Lumpinee</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat lang">🗣️ Thai Language</span>
+    <a class="pp-lnk" href="kru-language-exchange.html">
+      <span class="pp-n">01</span>
+      <span class="pp-nm">Corrections & Encouragement</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol2.html">
+      <span class="pp-n">02</span>
+      <span class="pp-nm">Goals, Body & Fight Day</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol3.html">
+      <span class="pp-n">03</span>
+      <span class="pp-nm">Daily Life & Grammar</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol4.html">
+      <span class="pp-n">04</span>
+      <span class="pp-nm">Emotions & Culture</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol5.html">
+      <span class="pp-n">05</span>
+      <span class="pp-nm">Health & Plans</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol7.html">
+      <span class="pp-n">07</span>
+      <span class="pp-nm">Thai Culture Deep Dive</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol15.html">
+      <span class="pp-n">15</span>
+      <span class="pp-nm">Thai Festivals & Celebrations</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol16.html">
+      <span class="pp-n">16</span>
+      <span class="pp-nm">Love, Family & Relationships</span>
+    </a>
+    <a class="pp-lnk here" href="#">
+      <span class="pp-n">17</span>
+      <span class="pp-nm">Thai Wellness & Massage</span>
+      <span class="pp-tag">here</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat lang">🍜 Food</span>
+    <a class="pp-lnk" href="kru-exchange-vol9.html">
+      <span class="pp-n">09</span>
+      <span class="pp-nm">Northern Thai Food</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol21.html">
+      <span class="pp-n">21</span>
+      <span class="pp-nm">Bangkok Street Food</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol22.html">
+      <span class="pp-n">22</span>
+      <span class="pp-nm">Southern Thai Food</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat travel">✈️ Travel</span>
+    <a class="pp-lnk" href="kru-exchange-vol12.html">
+      <span class="pp-n">12</span>
+      <span class="pp-nm">Phuket & The Islands</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol13.html">
+      <span class="pp-n">13</span>
+      <span class="pp-nm">Bangkok Neighbourhoods</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol14.html">
+      <span class="pp-n">14</span>
+      <span class="pp-nm">Getting Around Thailand</span>
+    </a>
+
+  </div>
+</div>
+
+<script>
+  function pillToggle() {
+    var pop = document.getElementById('pill-pop');
+    var btn = document.getElementById('pill-btn');
+    if (pop.classList.contains('popen')) {
+      pop.classList.remove('popen'); btn.classList.remove('pactive');
+    } else {
+      pop.classList.add('popen'); btn.classList.add('pactive');
+    }
+  }
+  document.addEventListener('click', function(e) {
+    var pop = document.getElementById('pill-pop');
+    var btn = document.getElementById('pill-btn');
+    if (!pop.contains(e.target) && !btn.contains(e.target)) {
+      pop.classList.remove('popen'); btn.classList.remove('pactive');
+    }
+  });
+</script>
+
+</body>
+</html>

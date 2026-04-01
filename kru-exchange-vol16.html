@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Vol. 16 · Love, Family & Relationships</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --bg2: #f2ede4;
+    --bg3: #e8e0d2;
+    --ink: #1c1710;
+    --muted: #8a7d6a;
+    --border: rgba(28,23,16,0.1);
+    --eng: #2a5c8a;
+    --thai: #8a2040;
+    --roman: #2a6640;
+    --gold: #b87820;
+    --accent: #a02060;
+    --accent2: #c05828;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Outfit', sans-serif; min-height: 100vh; }
+
+  header { background: var(--ink); padding: 3rem 2rem 2.2rem; position: relative; overflow: hidden; }
+  header::before { content: 'XVI'; position: absolute; right: 1.5rem; bottom: -1rem; font-family: 'Fraunces', serif; font-size: 10rem; font-weight: 900; color: rgba(255,255,255,0.04); line-height: 1; pointer-events: none; letter-spacing: -0.05em; }
+
+  .h-inner { max-width: 900px; margin: 0 auto; }
+  .vol-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #e080a0; margin-bottom: 0.7rem; }
+  h1 { font-family: 'Fraunces', serif; font-size: clamp(1.6rem, 4.5vw, 2.8rem); font-weight: 700; line-height: 1.1; color: #faf7f2; margin-bottom: 0.3rem; }
+  h1 i { font-style: italic; color: #e080a0; }
+  .sub { font-size: 0.82rem; color: rgba(250,247,242,0.4); font-weight: 300; margin-bottom: 1.4rem; }
+
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; font-weight: 500; }
+  .lsq { width: 10px; height: 10px; border-radius: 2px; }
+  .le { background: var(--eng); } .lt { background: var(--thai); } .lr { background: var(--roman); }
+  .leg-eng { color: rgba(250,247,242,0.7); }
+
+  .tabs { display: flex; overflow-x: auto; background: var(--bg2); border-bottom: 2px solid var(--bg3); padding: 0 1.2rem; scrollbar-width: thin; scrollbar-color: var(--accent) transparent; -webkit-overflow-scrolling: touch; }
+  .tab { padding: 0.9rem 1.1rem; font-size: 0.79rem; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; letter-spacing: 0.02em; background: none; border-top: none; border-left: none; border-right: none; font-family: 'Outfit', sans-serif; }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .content { max-width: 900px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro { font-size: 0.82rem; line-height: 1.72; color: var(--muted); padding: 0.85rem 1.1rem; margin-bottom: 1.8rem; border-left: 3px solid var(--accent); background: rgba(160,32,96,0.05); border-radius: 0 4px 4px 0; }
+  .intro strong { color: var(--ink); }
+
+  .grp { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin: 2.2rem 0 0.9rem; display: flex; align-items: center; gap: 0.8rem; }
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  .card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.3rem; margin-bottom: 0.65rem; cursor: pointer; transition: all 0.18s; position: relative; }
+  .card:hover { border-color: rgba(160,32,96,0.3); box-shadow: 0 3px 14px rgba(0,0,0,0.07); transform: translateY(-1px); }
+  .card.on { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(160,32,96,0.15); background: #fff8fc; }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-size: 0.65rem; color: var(--border); font-weight: 700; }
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 500; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.25rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+  .note { margin-top: 0.62rem; padding-top: 0.58rem; border-top: 1px dashed var(--border); font-size: 0.76rem; color: var(--muted); line-height: 1.6; }
+  .note b { color: var(--gold); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  .hbox { background: rgba(160,32,96,0.06); border: 1px solid rgba(160,32,96,0.18); border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.7rem; }
+  .hbox-label { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+  .hbox p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+  .hbox p b { color: var(--ink); }
+
+  .tw { overflow-x: auto; margin-bottom: 0.7rem; }
+  table { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 0.85rem; }
+  thead tr { background: var(--ink); }
+  thead th { padding: 0.6rem 1rem; text-align: left; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(250,247,242,0.7); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 500; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr2 { color: var(--roman); font-style: italic; }
+  .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  /* ══ FLOATING PILL NAV ══ */
+  .pill-btn {
+    position: fixed; bottom: 1.6rem; right: 1.6rem;
+    display: flex; align-items: center; gap: 0.45rem;
+    background: #1c1710; color: rgba(244,238,216,0.8);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 99px;
+    padding: 0.55rem 1.05rem 0.55rem 0.75rem;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+    cursor: pointer; z-index: 300;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+    transition: all 0.2s; white-space: nowrap;
+    font-family: inherit; border-style: solid;
+  }
+  .pill-btn:hover {
+    background: #2a1e12; border-color: rgba(200,74,16,0.5);
+    color: #f4eed8; box-shadow: 0 6px 28px rgba(0,0,0,0.55);
+    transform: translateY(-2px);
+  }
+  .pill-btn.pactive { background: #b83010; border-color: #b83010; color: white; }
+  .pill-icon { font-size: 0.88rem; }
+  .pill-arrow { font-size: 0.56rem; opacity: 0.6; transition: transform 0.2s; margin-left: 0.1rem; }
+  .pill-btn.pactive .pill-arrow { transform: rotate(180deg); }
+
+  .pill-pop {
+    position: fixed; bottom: 4.8rem; right: 1.6rem;
+    width: min(320px, calc(100vw - 3.2rem));
+    background: #0f0c09; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; z-index: 299; display: none;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.65);
+    transform-origin: bottom right;
+    animation: pillPop 0.18s cubic-bezier(0.34,1.56,0.64,1) both;
+    overflow: hidden;
+  }
+  @keyframes pillPop {
+    from { opacity:0; transform:scale(0.88); }
+    to   { opacity:1; transform:scale(1); }
+  }
+  .pill-pop.popen { display: block; }
+  .pp-head {
+    background: #1c1710; padding: 0.65rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .pp-title { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(244,238,216,0.35); }
+  .pp-home { font-size: 0.68rem; font-weight: 700; color: rgba(244,238,216,0.55); text-decoration: none; transition: color 0.15s; font-family: inherit; }
+  .pp-home:hover { color: rgba(244,238,216,0.9); }
+  .pp-body { max-height: 380px; overflow-y: auto; padding: 0.7rem 0 0.5rem; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+  .pp-cat { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.45rem 1rem 0.25rem; display: block; }
+  .pp-cat.muay   { color: rgba(200,74,16,0.75); }
+  .pp-cat.lang   { color: rgba(180,140,20,0.75); }
+  .pp-cat.travel { color: rgba(40,168,112,0.75); }
+  .pp-lnk { display: flex; align-items: center; gap: 0.65rem; padding: 0.42rem 1rem; text-decoration: none; transition: background 0.12s; font-family: inherit; }
+  .pp-lnk:hover { background: rgba(255,255,255,0.045); }
+  .pp-lnk.here  { background: rgba(200,74,16,0.1); pointer-events: none; }
+  .pp-n { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(244,238,216,0.22); min-width: 20px; flex-shrink: 0; text-align: right; }
+  .pp-nm { font-size: 0.76rem; font-weight: 600; color: rgba(244,238,216,0.52); flex: 1; transition: color 0.12s; }
+  .pp-lnk:hover .pp-nm { color: rgba(244,238,216,0.9); }
+  .pp-lnk.here  .pp-nm { color: #b83010; }
+  .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
+  .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-inner">
+    <div class="vol-tag">💕 Language Exchange · Vol. 16</div>
+    <h1>Love, Family <i>&</i> Relationships</h1>
+    <p class="sub">Family · Romance · Friendship · The social language of Thai life</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span class="leg-eng">English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span class="leg-eng">ภาษาไทย Thai Script</span></div>
+      <div class="leg"><div class="lsq lr"></div><span class="leg-eng">Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('family')">👨‍👩‍👧 Family</button>
+  <button class="tab" onclick="sw('romance')">💕 Romance</button>
+  <button class="tab" onclick="sw('friendship')">🤝 Friendship</button>
+  <button class="tab" onclick="sw('pronouns')">🗣️ Pronouns & Address</button>
+  <button class="tab" onclick="sw('social')">☕ Social Situations</button>
+</nav>
+
+<div class="content">
+
+  <!-- FAMILY -->
+  <div id="family" class="section active">
+    <p class="intro">
+      <strong>Kru learns:</strong> English family vocabulary — for talking about relatives, family background, and home life.<br>
+      <strong>Sora learns:</strong> Thai family terms — which are much more specific than English, with different words for older/younger siblings, maternal/paternal grandparents, and more.
+    </p>
+
+    <div class="hbox">
+      <div class="hbox-label">🌟 Thai family terms — older vs younger matters</div>
+      <p>Thai doesn't have one word for "sibling." You must specify: <b>พี่ (phîi)</b> = older sibling, <b>น้อง (nâawng)</b> = younger sibling. The same applies to cousins, and many other relatives. Age hierarchy is built into the vocabulary itself.</p>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Father</td><td class="tt">พ่อ</td><td class="tr2">phâaw</td><td class="tn2">Informal. Formal: บิดา (bì-daa)</td></tr>
+        <tr><td class="te">Mother</td><td class="tt">แม่</td><td class="tr2">mâae</td><td class="tn2">Informal. Formal: มารดา (maan-daa)</td></tr>
+        <tr><td class="te">Older sibling</td><td class="tt">พี่</td><td class="tr2">phîi</td><td class="tn2">Used as title too: พี่ + name</td></tr>
+        <tr><td class="te">Younger sibling</td><td class="tt">น้อง</td><td class="tr2">nâawng</td><td class="tn2">Used as title: น้อง + name</td></tr>
+        <tr><td class="te">Older brother specifically</td><td class="tt">พี่ชาย</td><td class="tr2">phîi-chaai</td><td class="tn2">ชาย = male</td></tr>
+        <tr><td class="te">Older sister specifically</td><td class="tt">พี่สาว</td><td class="tr2">phîi-sǎao</td><td class="tn2">สาว = female</td></tr>
+        <tr><td class="te">Grandpa (maternal)</td><td class="tt">ตา</td><td class="tr2">dtaa</td><td class="tn2">Mother's father</td></tr>
+        <tr><td class="te">Grandma (maternal)</td><td class="tt">ยาย</td><td class="tr2">yaai</td><td class="tn2">Mother's mother</td></tr>
+        <tr><td class="te">Grandpa (paternal)</td><td class="tt">ปู่</td><td class="tr2">bpùu</td><td class="tn2">Father's father</td></tr>
+        <tr><td class="te">Grandma (paternal)</td><td class="tt">ย่า</td><td class="tr2">yâa</td><td class="tn2">Father's mother</td></tr>
+        <tr><td class="te">Aunt / Uncle (older than parent)</td><td class="tt">ลุง / ป้า</td><td class="tr2">lung / bpâa</td><td class="tn2">Older than your parent</td></tr>
+        <tr><td class="te">Aunt / Uncle (younger than parent)</td><td class="tt">น้า / อา</td><td class="tr2">náa / aa</td><td class="tn2">Younger than your parent</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Family Conversations</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">How many people are in your family?</div>
+      <div class="t">ครอบครัวมีกี่คน?</div>
+      <div class="r">khrâawp-khrua mii gìi khon?</div>
+      <div class="note"><span class="ks">Sora:</span> ครอบครัว (khrâawp-khrua) = family. กี่ (gìi) = how many. กี่คน = how many people.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">I'm the oldest of three — two younger sisters.</div>
+      <div class="t">ฉันเป็นลูกคนโตในสามคน — มีน้องสาวสองคน</div>
+      <div class="r">chǎn bpen lûuk khon dtoo nai sǎam khon — mii nâawng-sǎao sǎawng khon</div>
+      <div class="note"><span class="ks">Sora:</span> ลูกคนโต (lûuk khon dtoo) = the oldest child. ลูกคนเล็ก (lûuk khon lék) = the youngest child. ลูกคนกลาง (lûuk khon glaang) = the middle child.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">In Thai culture, taking care of your parents when they're older is very important.</div>
+      <div class="t">ในวัฒนธรรมไทย การดูแลพ่อแม่ตอนแก่สำคัญมาก</div>
+      <div class="r">nai wát-thá-na-tham thai — gaan duu-lae phâaw-mâae tawn gàe sǎm-khan mâak</div>
+      <div class="note"><span class="ke">Kru:</span> This is a deeply held value. Many Thai adults support their parents financially and physically into old age. Understanding this explains a lot about how Thais prioritise family over personal goals.</div>
+    </div>
+  </div>
+
+  <!-- ROMANCE -->
+  <div id="romance" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> Romantic English — for understanding students who talk about relationships.<br>
+      <strong>Sora learns:</strong> Thai romantic vocabulary and how Thai people express affection (often indirectly).
+    </p>
+
+    <div class="hbox">
+      <div class="hbox-label">💕 Thai romance — indirect and sweet</div>
+      <p>Thais tend to express love less directly than Western cultures. <b>แอบชอบ</b> (secretly like someone) is extremely common. Public declarations are less typical. Understanding this makes Thai romance vocabulary more meaningful — and funnier.</p>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">To like (romantically)</td><td class="tt">ชอบ</td><td class="tr2">châawp</td><td class="tn2">Also used for general liking</td></tr>
+        <tr><td class="te">To love</td><td class="tt">รัก</td><td class="tr2">rák</td><td class="tn2">Stronger — I love you = ฉันรักคุณ</td></tr>
+        <tr><td class="te">To secretly like someone</td><td class="tt">แอบชอบ</td><td class="tr2">àaep châawp</td><td class="tn2">แอบ = secretly. Very commonly used!</td></tr>
+        <tr><td class="te">Boyfriend / Girlfriend</td><td class="tt">แฟน</td><td class="tr2">faaen</td><td class="tn2">Same word for both genders</td></tr>
+        <tr><td class="te">To date / go out with</td><td class="tt">คบ</td><td class="tr2">khóp</td><td class="tn2">คบกัน = to be in a relationship</td></tr>
+        <tr><td class="te">To break up</td><td class="tt">เลิกกัน</td><td class="tr2">lôek gan</td><td class="tn2">เลิก = to stop/quit</td></tr>
+        <tr><td class="te">I miss you</td><td class="tt">คิดถึง</td><td class="tr2">khít-thǔeng</td><td class="tn2">Literally: think of / miss</td></tr>
+        <tr><td class="te">Cute / adorable</td><td class="tt">น่ารัก</td><td class="tr2">nâa-rák</td><td class="tn2">One of the most used Thai compliments</td></tr>
+        <tr><td class="te">Handsome / good-looking</td><td class="tt">หล่อ</td><td class="tr2">làw</td><td class="tn2">For men</td></tr>
+        <tr><td class="te">Beautiful / pretty</td><td class="tt">สวย</td><td class="tr2">sǔay</td><td class="tn2">For women — also means "beautiful" technique in Muay Thai!</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Romantic Phrases</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">I think I have a crush on someone.</div>
+      <div class="t">ฉันแอบชอบใครบางคนอยู่</div>
+      <div class="r">chǎn àaep châawp khrai baang khon yùu</div>
+      <div class="note"><span class="ks">Sora:</span> แอบ (àaep) = secretly/sneakily. It's in แอบชอบ, แอบดู (secretly watch), แอบหัวเราะ (secretly laugh). A very useful prefix for slightly hidden feelings!</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">I've missed you so much.</div>
+      <div class="t">คิดถึงมากเลย</div>
+      <div class="r">khít-thǔeng mâak looei</div>
+      <div class="note"><span class="ks">Sora:</span> คิดถึง (khít-thǔeng) covers both missing people AND places. คิดถึงบ้าน = homesick (literally: miss home). No separate word needed.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Are you seeing anyone at the moment?</div>
+      <div class="t">ตอนนี้มีแฟนหรือเปล่า?</div>
+      <div class="r">tawn níi mii faaen rǔe bplào?</div>
+      <div class="note"><span class="ks">Sora:</span> รึเปล่า / หรือเปล่า (rǔe bplào) = or not? A gentle yes/no question tag. มีแฟนไหม also works but รึเปล่า feels slightly softer.</div>
+    </div>
+  </div>
+
+  <!-- FRIENDSHIP -->
+  <div id="friendship" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> English for talking about friendship — trust, loyalty, shared history.<br>
+      <strong>Sora learns:</strong> Thai friendship vocabulary — and the concept of เพื่อน (phûean), which goes deeper than "friend."
+    </p>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Friend</td><td class="tt">เพื่อน</td><td class="tr2">phûean</td><td class="tn2">Deeper than casual acquaintance</td></tr>
+        <tr><td class="te">Best friend</td><td class="tt">เพื่อนสนิท</td><td class="tr2">phûean sà-nìt</td><td class="tn2">สนิท = close/intimate</td></tr>
+        <tr><td class="te">Classmate</td><td class="tt">เพื่อนร่วมชั้น</td><td class="tr2">phûean rûam chán</td><td class="tn2">—</td></tr>
+        <tr><td class="te">Colleague / workmate</td><td class="tt">เพื่อนร่วมงาน</td><td class="tr2">phûean rûam ngaan</td><td class="tn2">—</td></tr>
+        <tr><td class="te">Acquaintance</td><td class="tt">คนรู้จัก</td><td class="tr2">khon rúu-jàk</td><td class="tn2">Someone you know (not close)</td></tr>
+        <tr><td class="te">To get along well with</td><td class="tt">ถูกกัน</td><td class="tr2">thùuk gan</td><td class="tn2">Literally: click/match with each other</td></tr>
+        <tr><td class="te">To trust</td><td class="tt">ไว้ใจ</td><td class="tr2">wâi-jai</td><td class="tn2">ไว้ = to place + ใจ = heart</td></tr>
+        <tr><td class="te">Loyal / faithful</td><td class="tt">ซื่อสัตย์</td><td class="tr2">sûea-sàt</td><td class="tn2">Highly valued quality in Thai friendships</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Friendship Conversations</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">We've been friends since we were kids.</div>
+      <div class="t">เราเป็นเพื่อนกันมาตั้งแต่เด็กเลย</div>
+      <div class="r">rao bpen phûean gan maa dtâng-tàae dèk looei</div>
+      <div class="note"><span class="ks">Sora:</span> ตั้งแต่ (dtâng-tàae) = since / from (a point in time). ตั้งแต่เด็ก = since childhood. ตั้งแต่มหาลัย = since university.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">She's someone I can really trust.</div>
+      <div class="t">เธอเป็นคนที่ฉันไว้ใจได้จริงๆ</div>
+      <div class="r">thooe bpen khon thîi chǎn wâi-jai dâai jing-jing</div>
+      <div class="note"><span class="ks">Sora:</span> ไว้ใจได้ (wâi-jai dâai) = can be trusted. ได้ (dâai) after a verb = can / able to. จริงๆ (jing-jing) = really / truly.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Training with the same people for years — those become real bonds.</div>
+      <div class="t">ซ้อมกับคนเดิมมาหลายปี — กลายเป็นความผูกพันที่แท้จริง</div>
+      <div class="r">sôm gàp khon derm maa lǎai bpii — glaai bpen khwaam phùuk-phan thîi tâae-jing</div>
+      <div class="note"><span class="ke">Kru:</span> ความผูกพัน (khwaam phùuk-phan) = bonds / deep connection. This is the invisible thing training together builds — shared sweat creates trust faster than almost anything else.</div>
+    </div>
+  </div>
+
+  <!-- PRONOUNS -->
+  <div id="pronouns" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> Why Thai speakers sometimes struggle with English pronouns — and what's behind it.<br>
+      <strong>Sora learns:</strong> Thai pronouns and how the right one signals your relationship with someone.
+    </p>
+
+    <div class="hbox">
+      <div class="hbox-label">🌟 Thai pronouns — relationship is built in</div>
+      <p>Thai doesn't have just "I" and "you." Which pronoun you use signals your <b>gender, status, and relationship</b> to the person you're speaking with. Using the wrong one is socially meaningful — choosing the right one is a mark of fluency.</p>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>Pronoun</th><th>Thai</th><th>Romanized</th><th>Used by / when</th></tr></thead>
+      <tbody>
+        <tr><td class="te">I (polite, female)</td><td class="tt">ฉัน</td><td class="tr2">chǎn</td><td class="tn2">Women in formal/polite contexts — Sora's default</td></tr>
+        <tr><td class="te">I (polite, male)</td><td class="tt">ผม</td><td class="tr2">phǒm</td><td class="tn2">Men in polite contexts</td></tr>
+        <tr><td class="te">I (informal, female)</td><td class="tt">หนู</td><td class="tr2">nǔu</td><td class="tn2">Women speaking to elders or seniors (endearing)</td></tr>
+        <tr><td class="te">I (very casual)</td><td class="tt">เรา</td><td class="tr2">rao</td><td class="tn2">Among close friends — also means "we"</td></tr>
+        <tr><td class="te">You (polite)</td><td class="tt">คุณ</td><td class="tr2">khun</td><td class="tn2">Safe default for strangers and colleagues</td></tr>
+        <tr><td class="te">You (to elder/respected)</td><td class="tt">ท่าน</td><td class="tr2">thâan</td><td class="tn2">Very formal — monks, royalty, bosses</td></tr>
+        <tr><td class="te">You (casual, to close friend)</td><td class="tt">แก / มึง</td><td class="tr2">gae / mueng</td><td class="tn2">Very casual — only with close friends</td></tr>
+        <tr><td class="te">He / She / They</td><td class="tt">เขา</td><td class="tr2">khǎo</td><td class="tn2">Same word for all genders</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Addressing People by Relationship</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Thais often address people by their role — "teacher," "older sibling," "boss" — rather than their name.</div>
+      <div class="t">คนไทยมักเรียกคนด้วยบทบาท — ครู พี่ เจ้านาย — แทนที่จะใช้ชื่อ</div>
+      <div class="r">khon thai mák rîak khon dûay bòt-bàat — khruu — phîi — jâo-naai — thaen thîi jà chái chûe</div>
+      <div class="note"><span class="ke">Kru:</span> This is why students call me "Kru" — it's a title of respect for teacher/trainer, not just a name. Understanding this helps international students use Thai social address correctly from day one.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">I use หนู (nǔu) with kru because it shows I respect the relationship.</div>
+      <div class="t">หนูใช้ "หนู" กับครูเพราะมันแสดงความเคารพในความสัมพันธ์</div>
+      <div class="r">nǔu chái "nǔu" gàp khruu phrâw man sà-daeng khwaam khao-róp nai khwaam sǎm-phan</div>
+      <div class="note"><span class="ks">Sora:</span> หนู (nǔu) = literally "mouse/rat" — used as a humble first-person pronoun by women speaking to elders or respected figures. It's warm, respectful, and natural. Not infantile — it's appropriate.</div>
+    </div>
+  </div>
+
+  <!-- SOCIAL SITUATIONS -->
+  <div id="social" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> English for everyday social moments — meeting people, making plans, being a good guest.<br>
+      <strong>Sora learns:</strong> Thai social phrases for real life — inviting, declining politely, keeping in touch.
+    </p>
+
+    <div class="grp">Making Plans</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Are you free this weekend? Want to get something to eat?</div>
+      <div class="t">สุดสัปดาห์นี้ว่างไหม? ไปกินข้าวกันไหม?</div>
+      <div class="r">sùt-sàp-daa níi wâang mǎi? bpai gin khâao gan mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> ไปกินข้าว (bpai gin khâao) = go eat rice / go have a meal. This is how Thais invite people out for any meal — not just rice. It's the universal social invitation.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Sorry, I already have plans — maybe next time?</div>
+      <div class="t">ขอโทษนะ ติดธุระแล้ว — ครั้งหน้าได้ไหม?</div>
+      <div class="r">khǎaw-thôot ná — tìt thú-rá láaew — khráng nâa dâai mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> ติดธุระ (tìt thú-rá) = have something on / prior commitment. More natural than just "busy." ครั้งหน้า (khráng nâa) = next time.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Let's keep in touch!</div>
+      <div class="t">ติดต่อกันด้วยนะ!</div>
+      <div class="r">tìt-tàw gan dûay ná!</div>
+      <div class="note"><span class="ks">Sora:</span> ติดต่อ (tìt-tàw) = to contact / stay in touch. ทักมาได้เลย (thák maa dâai looei) = feel free to message me anytime — even more casual and warm.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">You're always welcome at our gym.</div>
+      <div class="t">ยินดีต้อนรับเสมอที่ยิมของเรา</div>
+      <div class="r">yin-dii tâwn-ráp sà-mǒe thîi yim khǎawng rao</div>
+      <div class="note"><span class="ke">Kru:</span> ยินดีต้อนรับ (yin-dii tâwn-ráp) = welcome (literally: happy to receive). เสมอ (sà-mǒe) = always. A warm phrase for international students visiting a Thai gym.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Click any card to expand · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Vol. 16 · Love, Family & Relationships 💕
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+
+<!-- ══ FLOATING PILL NAV ══ -->
+<button class="pill-btn" id="pill-btn" onclick="pillToggle()">
+  <span class="pill-icon">🥊</span>
+  Volumes
+  <span class="pill-arrow">▲</span>
+</button>
+
+<div class="pill-pop" id="pill-pop">
+  <div class="pp-head">
+    <div class="pp-title">Language Exchange Collection</div>
+    <a class="pp-home" href="index.html">← Index</a>
+  </div>
+  <div class="pp-body">
+
+    <span class="pp-cat muay">🥊 Muay Thai</span>
+    <a class="pp-lnk" href="kru-exchange-vol6.html">
+      <span class="pp-n">06</span>
+      <span class="pp-nm">Competition Preparation</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol8.html">
+      <span class="pp-n">08</span>
+      <span class="pp-nm">Fight Night · Lumpinee</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat lang">🗣️ Thai Language</span>
+    <a class="pp-lnk" href="kru-language-exchange.html">
+      <span class="pp-n">01</span>
+      <span class="pp-nm">Corrections & Encouragement</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol2.html">
+      <span class="pp-n">02</span>
+      <span class="pp-nm">Goals, Body & Fight Day</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol3.html">
+      <span class="pp-n">03</span>
+      <span class="pp-nm">Daily Life & Grammar</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol4.html">
+      <span class="pp-n">04</span>
+      <span class="pp-nm">Emotions & Culture</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol5.html">
+      <span class="pp-n">05</span>
+      <span class="pp-nm">Health & Plans</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol7.html">
+      <span class="pp-n">07</span>
+      <span class="pp-nm">Thai Culture Deep Dive</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol15.html">
+      <span class="pp-n">15</span>
+      <span class="pp-nm">Thai Festivals & Celebrations</span>
+    </a>
+    <a class="pp-lnk here" href="#">
+      <span class="pp-n">16</span>
+      <span class="pp-nm">Love, Family & Relationships</span>
+      <span class="pp-tag">here</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol17.html">
+      <span class="pp-n">17</span>
+      <span class="pp-nm">Thai Wellness & Massage</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat lang">🍜 Food</span>
+    <a class="pp-lnk" href="kru-exchange-vol9.html">
+      <span class="pp-n">09</span>
+      <span class="pp-nm">Northern Thai Food</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol21.html">
+      <span class="pp-n">21</span>
+      <span class="pp-nm">Bangkok Street Food</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol22.html">
+      <span class="pp-n">22</span>
+      <span class="pp-nm">Southern Thai Food</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat travel">✈️ Travel</span>
+    <a class="pp-lnk" href="kru-exchange-vol12.html">
+      <span class="pp-n">12</span>
+      <span class="pp-nm">Phuket & The Islands</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol13.html">
+      <span class="pp-n">13</span>
+      <span class="pp-nm">Bangkok Neighbourhoods</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol14.html">
+      <span class="pp-n">14</span>
+      <span class="pp-nm">Getting Around Thailand</span>
+    </a>
+
+  </div>
+</div>
+
+<script>
+  function pillToggle() {
+    var pop = document.getElementById('pill-pop');
+    var btn = document.getElementById('pill-btn');
+    if (pop.classList.contains('popen')) {
+      pop.classList.remove('popen'); btn.classList.remove('pactive');
+    } else {
+      pop.classList.add('popen'); btn.classList.add('pactive');
+    }
+  }
+  document.addEventListener('click', function(e) {
+    var pop = document.getElementById('pill-pop');
+    var btn = document.getElementById('pill-btn');
+    if (!pop.contains(e.target) && !btn.contains(e.target)) {
+      pop.classList.remove('popen'); btn.classList.remove('pactive');
+    }
+  });
+</script>
+
+</body>
+</html>

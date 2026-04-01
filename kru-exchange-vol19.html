@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Vol. 19 · Time, Days & Months</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --bg2: #f2ede4;
+    --bg3: #e8e0d2;
+    --ink: #1c1710;
+    --muted: #8a7d6a;
+    --border: rgba(28,23,16,0.1);
+    --eng: #2a5c8a;
+    --thai: #8a2040;
+    --roman: #2a6640;
+    --gold: #b87820;
+    --accent: #1a6a9a;
+    --accent2: #7a4898;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Outfit', sans-serif; min-height: 100vh; }
+
+  header {
+    background: var(--ink);
+    padding: 3rem 2rem 2.2rem;
+    position: relative; overflow: hidden;
+  }
+
+  header::before {
+    content: 'XIX';
+    position: absolute; right: 1.5rem; bottom: -1rem;
+    font-family: 'Fraunces', serif;
+    font-size: 8.5rem; font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    line-height: 1; pointer-events: none;
+    letter-spacing: -0.05em;
+  }
+
+  .h-inner { max-width: 900px; margin: 0 auto; }
+
+  .vol-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: #60a8d8;
+    margin-bottom: 0.7rem;
+  }
+
+  h1 { font-family: 'Fraunces', serif; font-size: clamp(1.6rem, 4.5vw, 2.8rem); font-weight: 700; line-height: 1.1; color: #faf7f2; margin-bottom: 0.3rem; }
+  h1 i { font-style: italic; color: #60a8d8; }
+  .sub { font-size: 0.82rem; color: rgba(250,247,242,0.4); font-weight: 300; margin-bottom: 1.4rem; }
+
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; font-weight: 500; }
+  .lsq { width: 10px; height: 10px; border-radius: 2px; }
+  .le { background: var(--eng); } .lt { background: var(--thai); } .lr { background: var(--roman); }
+  .leg-eng { color: rgba(250,247,242,0.7); }
+
+  .tabs { display: flex; overflow-x: auto; background: var(--bg2); border-bottom: 2px solid var(--bg3); padding: 0 1.2rem; scrollbar-width: thin; scrollbar-color: var(--accent) transparent; -webkit-overflow-scrolling: touch; }
+  .tab { padding: 0.9rem 1.1rem; font-size: 0.79rem; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; letter-spacing: 0.02em; background: none; border-top: none; border-left: none; border-right: none; font-family: 'Outfit', sans-serif; }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .content { max-width: 900px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro { font-size: 0.82rem; line-height: 1.72; color: var(--muted); padding: 0.85rem 1.1rem; margin-bottom: 1.8rem; border-left: 3px solid var(--accent); background: rgba(26,106,154,0.05); border-radius: 0 4px 4px 0; }
+  .intro strong { color: var(--ink); }
+
+  .grp { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin: 2.2rem 0 0.9rem; display: flex; align-items: center; gap: 0.8rem; }
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  .card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.3rem; margin-bottom: 0.65rem; cursor: pointer; transition: all 0.18s; position: relative; }
+  .card:hover { border-color: rgba(26,106,154,0.3); box-shadow: 0 3px 14px rgba(0,0,0,0.07); transform: translateY(-1px); }
+  .card.on { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(26,106,154,0.15); background: #f8fcff; }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-size: 0.65rem; color: var(--border); font-weight: 700; }
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 500; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.25rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+  .note { margin-top: 0.62rem; padding-top: 0.58rem; border-top: 1px dashed var(--border); font-size: 0.76rem; color: var(--muted); line-height: 1.6; }
+  .note b { color: var(--gold); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  .hbox { background: rgba(122,72,152,0.07); border: 1px solid rgba(122,72,152,0.2); border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.7rem; }
+  .hbox-label { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.6rem; }
+  .hbox p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+  .hbox p b { color: var(--ink); }
+
+  .tw { overflow-x: auto; margin-bottom: 0.7rem; }
+  table { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 0.85rem; }
+  thead tr { background: var(--ink); }
+  thead th { padding: 0.6rem 1rem; text-align: left; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(250,247,242,0.7); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 500; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr2 { color: var(--roman); font-style: italic; }
+  .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  /* colour-coded day rows */
+  .day-mon { background: rgba(42,92,138,0.04); }
+  .day-tue { background: rgba(138,32,64,0.04); }
+  .day-wed { background: rgba(42,102,64,0.04); }
+  .day-thu { background: rgba(122,72,152,0.04); }
+  .day-fri { background: rgba(26,106,154,0.05); }
+  .day-sat { background: rgba(26,26,100,0.04); }
+  .day-sun { background: rgba(184,48,16,0.04); }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  @media (max-width: 560px) { header::before { display: none; } }
+
+  /* ══ FLOATING PILL NAV ══ */
+  .pill-btn {
+    position: fixed; bottom: 1.6rem; right: 1.6rem;
+    display: flex; align-items: center; gap: 0.45rem;
+    background: #1c1710; color: rgba(244,238,216,0.8);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 99px;
+    padding: 0.55rem 1.05rem 0.55rem 0.75rem;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+    cursor: pointer; z-index: 300;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+    transition: all 0.2s; white-space: nowrap;
+    font-family: inherit; border-style: solid;
+  }
+  .pill-btn:hover {
+    background: #2a1e12; border-color: rgba(200,74,16,0.5);
+    color: #f4eed8; box-shadow: 0 6px 28px rgba(0,0,0,0.55);
+    transform: translateY(-2px);
+  }
+  .pill-btn.pactive { background: #b83010; border-color: #b83010; color: white; }
+  .pill-icon { font-size: 0.88rem; }
+  .pill-arrow { font-size: 0.56rem; opacity: 0.6; transition: transform 0.2s; margin-left: 0.1rem; }
+  .pill-btn.pactive .pill-arrow { transform: rotate(180deg); }
+
+  .pill-pop {
+    position: fixed; bottom: 4.8rem; right: 1.6rem;
+    width: min(320px, calc(100vw - 3.2rem));
+    background: #0f0c09; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; z-index: 299; display: none;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.65);
+    transform-origin: bottom right;
+    animation: pillPop 0.18s cubic-bezier(0.34,1.56,0.64,1) both;
+    overflow: hidden;
+  }
+  @keyframes pillPop {
+    from { opacity:0; transform:scale(0.88); }
+    to   { opacity:1; transform:scale(1); }
+  }
+  .pill-pop.popen { display: block; }
+  .pp-head {
+    background: #1c1710; padding: 0.65rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .pp-title { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(244,238,216,0.35); }
+  .pp-home { font-size: 0.68rem; font-weight: 700; color: rgba(244,238,216,0.55); text-decoration: none; transition: color 0.15s; font-family: inherit; }
+  .pp-home:hover { color: rgba(244,238,216,0.9); }
+  .pp-body { max-height: 380px; overflow-y: auto; padding: 0.7rem 0 0.5rem; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+  .pp-cat { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.45rem 1rem 0.25rem; display: block; }
+  .pp-cat.muay   { color: rgba(200,74,16,0.75); }
+  .pp-cat.lang   { color: rgba(180,140,20,0.75); }
+  .pp-cat.travel { color: rgba(40,168,112,0.75); }
+  .pp-lnk { display: flex; align-items: center; gap: 0.65rem; padding: 0.42rem 1rem; text-decoration: none; transition: background 0.12s; font-family: inherit; }
+  .pp-lnk:hover { background: rgba(255,255,255,0.045); }
+  .pp-lnk.here  { background: rgba(200,74,16,0.1); pointer-events: none; }
+  .pp-n { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(244,238,216,0.22); min-width: 20px; flex-shrink: 0; text-align: right; }
+  .pp-nm { font-size: 0.76rem; font-weight: 600; color: rgba(244,238,216,0.52); flex: 1; transition: color 0.12s; }
+  .pp-lnk:hover .pp-nm { color: rgba(244,238,216,0.9); }
+  .pp-lnk.here  .pp-nm { color: #b83010; }
+  .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
+  .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-inner">
+    <div class="vol-tag">⏰ Language Exchange · Vol. 19</div>
+    <h1>Time, Days, Weeks <i>&</i> Months</h1>
+    <p class="sub">Telling the time · Days of the week · Months · Thai time expressions</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span class="leg-eng">English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span class="leg-eng">ภาษาไทย Thai Script</span></div>
+      <div class="leg"><div class="lsq lr"></div><span class="leg-eng">Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('time')">🕐 Telling Time</button>
+  <button class="tab" onclick="sw('days')">📅 Days of the Week</button>
+  <button class="tab" onclick="sw('months')">🗓️ Months</button>
+  <button class="tab" onclick="sw('relative')">⏳ Relative Time</button>
+  <button class="tab" onclick="sw('scheduling')">📆 Scheduling & Plans</button>
+</nav>
+
+<div class="content">
+
+  <!-- TELLING TIME -->
+  <div id="time" class="section active">
+    <p class="intro">
+      <strong>Kru learns:</strong> How to discuss training schedules, session times, and appointments in natural English.<br>
+      <strong>Sora learns:</strong> The Thai time system — which is unique. Thailand uses a <em>six-hour clock cycle</em> that divides the day into four parts. It sounds complicated but becomes logical fast.
+    </p>
+
+    <div class="hbox">
+      <div class="hbox-label">🌟 The Thai time system — four cycles of six hours</div>
+      <p>Standard Thai tells time in <b>four blocks of six hours</b>, not one 12-hour cycle. Each block has its own name:<br><br>
+      <b>ตี (dtii)</b> = 1am–5am (midnight block) · <b>เช้า (cháo)</b> = 6am–11am (morning) ·
+      <b>บ่าย (bàai)</b> = 1pm–4pm (afternoon) · <b>เย็น/ทุ่ม (yen/thûm)</b> = 5pm–11pm (evening/night)<br><br>
+      Noon = <b>เที่ยง (thîang)</b> · Midnight = <b>เที่ยงคืน (thîang-khuen)</b>.<br>
+      Modern Thais also use the <b>24-hour system</b> for schedules, transport, and official contexts.</p>
+    </div>
+
+    <div class="grp">The Traditional Six-Hour System</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English time</th><th>Thai (traditional)</th><th>Romanized</th><th>Block name</th></tr></thead>
+      <tbody>
+        <tr><td class="te">1 am</td><td class="tt">ตีหนึ่ง</td><td class="tr2">dtii nùeng</td><td class="tn2">ตี — midnight block (1am–5am)</td></tr>
+        <tr><td class="te">2 am</td><td class="tt">ตีสอง</td><td class="tr2">dtii sǎawng</td><td class="tn2">ตี</td></tr>
+        <tr><td class="te">3 am</td><td class="tt">ตีสาม</td><td class="tr2">dtii sǎam</td><td class="tn2">ตี</td></tr>
+        <tr><td class="te">6 am</td><td class="tt">หกโมงเช้า</td><td class="tr2">hòk moong cháo</td><td class="tn2">เช้า — morning (6am–11am)</td></tr>
+        <tr><td class="te">9 am</td><td class="tt">เก้าโมงเช้า</td><td class="tr2">gâo moong cháo</td><td class="tn2">เช้า</td></tr>
+        <tr><td class="te">12 noon</td><td class="tt">เที่ยงวัน</td><td class="tr2">thîang wan</td><td class="tn2">เที่ยง — noon (exact)</td></tr>
+        <tr><td class="te">1 pm</td><td class="tt">บ่ายโมง</td><td class="tr2">bàai moong</td><td class="tn2">บ่าย — afternoon (1pm–4pm)</td></tr>
+        <tr><td class="te">3 pm</td><td class="tt">บ่ายสามโมง</td><td class="tr2">bàai sǎam moong</td><td class="tn2">บ่าย</td></tr>
+        <tr><td class="te">5 pm</td><td class="tt">ห้าโมงเย็น</td><td class="tr2">hâa moong yen</td><td class="tn2">เย็น — evening starts here</td></tr>
+        <tr><td class="te">7 pm</td><td class="tt">หนึ่งทุ่ม</td><td class="tr2">nùeng thûm</td><td class="tn2">ทุ่ม — night block (7pm=1 thum)</td></tr>
+        <tr><td class="te">9 pm</td><td class="tt">สามทุ่ม</td><td class="tr2">sǎam thûm</td><td class="tn2">ทุ่ม (9pm = 3 thum)</td></tr>
+        <tr><td class="te">Midnight</td><td class="tt">เที่ยงคืน</td><td class="tr2">thîang-khuen</td><td class="tn2">เที่ยงคืน — exact midnight</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">The 24-Hour System (modern / official)</div>
+
+    <div class="hbox">
+      <div class="hbox-label">📱 When to use the 24-hour system</div>
+      <p>Trains, buses, flights, hospitals, offices and most apps use the <b>24-hour system</b> in Thailand. It's also how younger Thais often talk casually to avoid confusion. <b>เวลา + number + นาฬิกา</b> = the time in 24-hour format. <br>e.g. เวลา 14:00 นาฬิกา = 14:00 / 2pm.</p>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">What time is it?</td><td class="tt">กี่โมงแล้ว?</td><td class="tr2">gìi moong láaew?</td><td class="tn2">Most common casual question</td></tr>
+        <tr><td class="te">What time is it? (formal)</td><td class="tt">เวลาเท่าไหร่?</td><td class="tr2">wee-laa thâo-rài?</td><td class="tn2">More formal / official</td></tr>
+        <tr><td class="te">It's 10 o'clock</td><td class="tt">สิบโมง</td><td class="tr2">sìp moong</td><td class="tn2">โมง = o'clock (daytime)</td></tr>
+        <tr><td class="te">Half past / 30 minutes</td><td class="tt">ครึ่ง</td><td class="tr2">khûeng</td><td class="tn2">สิบโมงครึ่ง = 10:30</td></tr>
+        <tr><td class="te">Quarter past / 15 min</td><td class="tt">สิบห้านาที</td><td class="tr2">sìp-hâa naa-thii</td><td class="tn2">สิบโมงสิบห้านาที = 10:15</td></tr>
+        <tr><td class="te">Minutes</td><td class="tt">นาที</td><td class="tr2">naa-thii</td><td class="tn2">20 minutes = ยี่สิบนาที</td></tr>
+        <tr><td class="te">Hours</td><td class="tt">ชั่วโมง</td><td class="tr2">chûa-moong</td><td class="tn2">2 hours = สองชั่วโมง</td></tr>
+        <tr><td class="te">On time / punctual</td><td class="tt">ตรงเวลา</td><td class="tr2">trong wee-laa</td><td class="tn2">ตรง = straight/exact</td></tr>
+        <tr><td class="te">Late</td><td class="tt">สาย</td><td class="tr2">sǎai</td><td class="tn2">มาสาย = arrive late</td></tr>
+        <tr><td class="te">Early</td><td class="tt">เร็ว / มาก่อน</td><td class="tr2">reo / maa gàawn</td><td class="tn2">มาก่อน = come early / before time</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Time in conversation</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">What time does training start?</div>
+      <div class="t">การซ้อมเริ่มกี่โมง?</div>
+      <div class="r">gaan sôm rôem gìi moong?</div>
+      <div class="note"><span class="ks">Sora:</span> เริ่ม (rôem) = to start/begin. This is your essential gym scheduling question. กี่โมง (gìi moong) = what time (literally: how many o'clock).</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Training starts at 6 in the morning and finishes around 8.</div>
+      <div class="t">การซ้อมเริ่มหกโมงเช้า เสร็จประมาณแปดโมง</div>
+      <div class="r">gaan sôm rôem hòk moong cháo — sèt bprà-maan bpàaet moong</div>
+      <div class="note"><span class="ks">Sora:</span> เสร็จ (sèt) = finished/done. ประมาณ (bprà-maan) = approximately/around. Two words you'll use constantly for time.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Sorry I'm late — the traffic was terrible.</div>
+      <div class="t">ขอโทษที่มาสาย — การจราจรแย่มาก</div>
+      <div class="r">khǎaw-thôot thîi maa sǎai — gaan jà-raa-jon yâae mâak</div>
+      <div class="note"><span class="ks">Sora:</span> การจราจร (gaan jà-raa-jon) = traffic. This is Bangkok's most relatable sentence. รถติด (rót dtìt) = traffic jam — literally "stuck car" — is shorter and what Thais actually say: รถติดมาก = terrible traffic.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">I'll be there in about 20 minutes.</div>
+      <div class="t">ประมาณยี่สิบนาทีจะถึง</div>
+      <div class="r">bprà-maan yîi-sìp naa-thii jà thǔeng</div>
+      <div class="note"><span class="ks">Sora:</span> ถึง (thǔeng) = to arrive / reach. จะถึง = will arrive. A very useful message to send when you're on your way. Add already? แล้ว at the end to say you've arrived: ถึงแล้ว (thǔeng láaew) = I'm here!</div>
+    </div>
+  </div><!-- /time -->
+
+
+  <!-- DAYS OF THE WEEK -->
+  <div id="days" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> The days of the week in Thai — useful for scheduling sessions and understanding why Thai people associate colours with days.<br>
+      <strong>Sora learns:</strong> Thai days of the week come from Sanskrit names for planets — and each day has a <em>traditional colour</em>. Once you know the planet, the day sticks forever.
+    </p>
+
+    <div class="hbox">
+      <div class="hbox-label">🌟 Days, planets & colours — the Thai system</div>
+      <p>Each Thai day is named after a planet (from Sanskrit/Hindu tradition) and has a <b>traditional lucky colour</b>. The King of Thailand was born on a Monday — yellow became associated with the monarchy. The late King Bhumibol was born on Monday, hence Thais wearing yellow on Mondays. <b>This isn't superstition — it's living cultural history.</b></p>
+    </div>
+
+    <div class="grp">Days of the Week</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Planet / Colour</th></tr></thead>
+      <tbody>
+        <tr class="day-mon"><td class="te">Monday</td><td class="tt">วันจันทร์</td><td class="tr2">wan jan</td><td class="tn2">Moon / Yellow 🟡</td></tr>
+        <tr class="day-tue"><td class="te">Tuesday</td><td class="tt">วันอังคาร</td><td class="tr2">wan ang-khaan</td><td class="tn2">Mars / Pink 🩷</td></tr>
+        <tr class="day-wed"><td class="te">Wednesday</td><td class="tt">วันพุธ</td><td class="tr2">wan phút</td><td class="tn2">Mercury / Green 💚</td></tr>
+        <tr class="day-thu"><td class="te">Thursday</td><td class="tt">วันพฤหัสบดี</td><td class="tr2">wan phá-rúe-hàt-sà-baw-dii</td><td class="tn2">Jupiter / Orange 🟠</td></tr>
+        <tr class="day-fri"><td class="te">Friday</td><td class="tt">วันศุกร์</td><td class="tr2">wan sùk</td><td class="tn2">Venus / Light blue 🩵</td></tr>
+        <tr class="day-sat"><td class="te">Saturday</td><td class="tt">วันเสาร์</td><td class="tr2">wan sǎo</td><td class="tn2">Saturn / Purple 💜</td></tr>
+        <tr class="day-sun"><td class="te">Sunday</td><td class="tt">วันอาทิตย์</td><td class="tr2">wan aa-thít</td><td class="tn2">Sun / Red ❤️</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="hbox">
+      <div class="hbox-label">💡 Memory shortcut</div>
+      <p>Thai shortens long day names in conversation: วันพฤหัสบดี → <b>วันพฤหัส</b> or just <b>พฤหัส</b>. วันอาทิตย์ → <b>อาทิตย์</b>. In casual speech you often drop วัน entirely: <b>เจอกันเสาร์นะ</b> = "see you Saturday."</p>
+    </div>
+
+    <div class="grp">Day vocabulary</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Today</td><td class="tt">วันนี้</td><td class="tr2">wan níi</td><td class="tn2">One of the most-used words in daily Thai</td></tr>
+        <tr><td class="te">Tomorrow</td><td class="tt">พรุ่งนี้</td><td class="tr2">phrûng níi</td><td class="tn2">—</td></tr>
+        <tr><td class="te">Yesterday</td><td class="tt">เมื่อวาน</td><td class="tr2">mûea waan</td><td class="tn2">—</td></tr>
+        <tr><td class="te">The day after tomorrow</td><td class="tt">มะรืนนี้</td><td class="tr2">má-ruuen níi</td><td class="tn2">Thai has a specific word for this!</td></tr>
+        <tr><td class="te">The day before yesterday</td><td class="tt">เมื่อวานซืน</td><td class="tr2">mûea-waan-suuen</td><td class="tn2">Also a specific word — Thai is precise about near-past days</td></tr>
+        <tr><td class="te">Weekday</td><td class="tt">วันธรรมดา</td><td class="tr2">wan tham-má-daa</td><td class="tn2">Literally: ordinary day</td></tr>
+        <tr><td class="te">Weekend</td><td class="tt">วันหยุดสุดสัปดาห์</td><td class="tr2">wan yùt sùt sàp-daa</td><td class="tn2">Or just: เสาร์-อาทิตย์ (Saturday-Sunday)</td></tr>
+        <tr><td class="te">Public holiday</td><td class="tt">วันหยุดราชการ</td><td class="tr2">wan yùt râat-chá-gaan</td><td class="tn2">วันหยุด = day off / holiday</td></tr>
+        <tr><td class="te">Every day</td><td class="tt">ทุกวัน</td><td class="tr2">thúk wan</td><td class="tn2">ทุก = every. ทุกวัน = every day, ทุกอาทิตย์ = every week</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Days in conversation</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">See you at training on Thursday!</div>
+      <div class="t">เจอกันที่ซ้อมวันพฤหัสนะ!</div>
+      <div class="r">jooe gan thîi sôm wan phá-rúe-hàt ná!</div>
+      <div class="note"><span class="ks">Sora:</span> เจอกัน (jooe gan) = see you / meet each other. นะ at the end makes it warm — not a command, just a friendly confirmation.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">I train every day except Sunday.</div>
+      <div class="t">ซ้อมทุกวันยกเว้นวันอาทิตย์</div>
+      <div class="r">sôm thúk wan yók wên wan aa-thít</div>
+      <div class="note"><span class="ks">Sora:</span> ยกเว้น (yók wên) = except / excluding. A very useful word: ทุกวันยกเว้นวันหยุด = every day except holidays.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">What day is it today?</div>
+      <div class="t">วันนี้วันอะไร?</div>
+      <div class="r">wan níi wan à-rai?</div>
+      <div class="note"><span class="ks">Sora:</span> Simple and essential. The answer: วันนี้วันจันทร์ (it's Monday today). Notice Thai repeats วัน twice — the first is "today", the second is part of the day name.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Are you free on the weekend?</div>
+      <div class="t">สุดสัปดาห์ว่างไหม?</div>
+      <div class="r">sùt sàp-daa wâang mǎi?</div>
+      <div class="note"><span class="ke">Kru:</span> สุดสัปดาห์ (sùt sàp-daa) = end of the week / weekend. ว่าง (wâang) = free / available. ว่างไหม = are you free? — essential for making plans.</div>
+    </div>
+  </div><!-- /days -->
+
+
+  <!-- MONTHS -->
+  <div id="months" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> The Thai months — and why Thai dates can show two different years at the same time.<br>
+      <strong>Sora learns:</strong> Thai month names come from Sanskrit signs of the zodiac — and Thailand uses the <em>Buddhist Era (BE)</em> calendar, which is 543 years ahead of the Gregorian calendar.
+    </p>
+
+    <div class="hbox">
+      <div class="hbox-label">🌟 Thai calendar — BE vs CE, two years at once</div>
+      <p>Thailand officially uses the <b>Buddhist Era (พุทธศักราช — phút-thà-sàk-gà-ràat)</b>, abbreviated <b>พ.ศ. (pháw sǎaw)</b>. The year 2025 CE = <b>2568 BE</b>. You'll see both on official documents, tickets, and dates. The Gregorian year is <b>ค.ศ. (khaw sǎaw)</b>. Add 543 to convert CE → BE.</p>
+    </div>
+
+    <div class="grp">The Twelve Months</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Zodiac root</th></tr></thead>
+      <tbody>
+        <tr><td class="te">January</td><td class="tt">มกราคม</td><td class="tr2">mók-gà-raa-khom</td><td class="tn2">Capricorn (มกร)</td></tr>
+        <tr><td class="te">February</td><td class="tt">กุมภาพันธ์</td><td class="tr2">gum-phaa-phan</td><td class="tn2">Aquarius (กุมภ)</td></tr>
+        <tr><td class="te">March</td><td class="tt">มีนาคม</td><td class="tr2">mii-naa-khom</td><td class="tn2">Pisces (มีน)</td></tr>
+        <tr><td class="te">April</td><td class="tt">เมษายน</td><td class="tr2">mee-sǎa-yon</td><td class="tn2">Aries (เมษ) — Songkran month!</td></tr>
+        <tr><td class="te">May</td><td class="tt">พฤษภาคม</td><td class="tr2">phrút-sà-phaa-khom</td><td class="tn2">Taurus (พฤษภ)</td></tr>
+        <tr><td class="te">June</td><td class="tt">มิถุนายน</td><td class="tr2">mí-thù-naa-yon</td><td class="tn2">Gemini (มิถุน)</td></tr>
+        <tr><td class="te">July</td><td class="tt">กรกฎาคม</td><td class="tr2">gà-rák-gà-daa-khom</td><td class="tn2">Cancer (กรกฎ) — Buddhist Lent starts</td></tr>
+        <tr><td class="te">August</td><td class="tt">สิงหาคม</td><td class="tr2">sǐng-hǎa-khom</td><td class="tn2">Leo (สิงห) — Lion month</td></tr>
+        <tr><td class="te">September</td><td class="tt">กันยายน</td><td class="tr2">gan-yaa-yon</td><td class="tn2">Virgo (กันย)</td></tr>
+        <tr><td class="te">October</td><td class="tt">ตุลาคม</td><td class="tr2">dtù-laa-khom</td><td class="tn2">Libra (ตุล) — End of Lent</td></tr>
+        <tr><td class="te">November</td><td class="tt">พฤศจิกายน</td><td class="tr2">phrút-sà-jì-gaa-yon</td><td class="tn2">Scorpio (พฤศจิก) — Loy Krathong month</td></tr>
+        <tr><td class="te">December</td><td class="tt">ธันวาคม</td><td class="tr2">than-waa-khom</td><td class="tn2">Sagittarius (ธนู)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="hbox">
+      <div class="hbox-label">💡 Memory shortcut — the endings</div>
+      <p>Months ending in <b>-คม (-khom)</b> have 31 days (mostly). Months ending in <b>-ยน (-yon)</b> have 30 days. กุมภาพันธ์ (February) ends in <b>-พันธ์</b> and is the 28/29-day exception. Not a perfect rule, but helpful!</p>
+    </div>
+
+    <div class="grp">Month vocabulary</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">This month</td><td class="tt">เดือนนี้</td><td class="tr2">duean níi</td><td class="tn2">เดือน = month</td></tr>
+        <tr><td class="te">Next month</td><td class="tt">เดือนหน้า</td><td class="tr2">duean nâa</td><td class="tn2">หน้า = next (front)</td></tr>
+        <tr><td class="te">Last month</td><td class="tt">เดือนที่แล้ว</td><td class="tr2">duean thîi láaew</td><td class="tn2">ที่แล้ว = previous / the one that passed</td></tr>
+        <tr><td class="te">Every month</td><td class="tt">ทุกเดือน</td><td class="tr2">thúk duean</td><td class="tn2">ทุก + time word = every ___</td></tr>
+        <tr><td class="te">Date (of the month)</td><td class="tt">วันที่</td><td class="tr2">wan thîi</td><td class="tn2">วันที่ 15 = the 15th</td></tr>
+        <tr><td class="te">Beginning of the month</td><td class="tt">ต้นเดือน</td><td class="tr2">dtôn duean</td><td class="tn2">ต้น = start/beginning</td></tr>
+        <tr><td class="te">End of the month</td><td class="tt">ปลายเดือน</td><td class="tr2">bplaai duean</td><td class="tn2">ปลาย = end/tail</td></tr>
+        <tr><td class="te">Mid-month</td><td class="tt">กลางเดือน</td><td class="tr2">glaang duean</td><td class="tn2">กลาง = middle</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Months in conversation</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">The fight is on the 15th of next month.</div>
+      <div class="t">การชกอยู่วันที่ 15 เดือนหน้า</div>
+      <div class="r">gaan chók yùu wan thîi sìp-hâa duean nâa</div>
+      <div class="note"><span class="ks">Sora:</span> วันที่ (wan thîi) = the date. Thai writes dates as วันที่ + number. วันที่ 15 มีนาคม = 15 March. The order is day → month, same as British English.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">I'm coming to Thailand in April — Songkran time!</div>
+      <div class="t">จะมาไทยเดือนเมษายน — ช่วงสงกรานต์เลย!</div>
+      <div class="r">jà maa thai duean mee-sǎa-yon — chûang sǒng-graan looei!</div>
+      <div class="note"><span class="ks">Sora:</span> ช่วง (chûang) = during / period of time. ช่วงสงกรานต์ = during Songkran. ช่วงนี้ = during this period / these days. A beautifully versatile word.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">What year is it in the Thai calendar?</div>
+      <div class="t">ปีนี้ พ.ศ. อะไร?</div>
+      <div class="r">bpii níi pháw sǎaw à-rai?</div>
+      <div class="note"><span class="ks">Sora:</span> พ.ศ. (pháw sǎaw) = พุทธศักราช = Buddhist Era year. The answer in 2025: พ.ศ. สองพันห้าร้อยหกสิบแปด (2568). Thais use พ.ศ. for official documents, legal dates, history.</div>
+    </div>
+  </div><!-- /months -->
+
+
+  <!-- RELATIVE TIME -->
+  <div id="relative" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> Natural English time expressions — "in a bit", "not long now", "ages ago."<br>
+      <strong>Sora learns:</strong> How Thai expresses near, far, past and future time — including some beautifully precise words that English doesn't have.
+    </p>
+
+    <div class="grp">Time words — past, present, future</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Now / right now</td><td class="tt">ตอนนี้ / เดี๋ยวนี้</td><td class="tr2">tawn níi / dǐao níi</td><td class="tn2">ตอนนี้ = this moment · เดี๋ยวนี้ = right this second</td></tr>
+        <tr><td class="te">Soon / in a moment</td><td class="tt">เดี๋ยว / อีกแป๊บเดียว</td><td class="tr2">dǐao / ìik bpáep diao</td><td class="tn2">อีกแป๊บเดียว = just a little more — very casual</td></tr>
+        <tr><td class="te">Already</td><td class="tt">แล้ว</td><td class="tr2">láaew</td><td class="tn2">Placed at end of sentence — กินแล้ว = already eaten</td></tr>
+        <tr><td class="te">Not yet</td><td class="tt">ยัง (ไม่...)</td><td class="tr2">yang (mâi...)</td><td class="tn2">ยังไม่ได้กิน = haven't eaten yet</td></tr>
+        <tr><td class="te">Just now / just did</td><td class="tt">เพิ่ง</td><td class="tr2">phôeng</td><td class="tn2">เพิ่งกิน = just ate. เพิ่ง = just completed</td></tr>
+        <tr><td class="te">A long time ago</td><td class="tt">นานมาแล้ว</td><td class="tr2">naan maa láaew</td><td class="tn2">นาน = long time</td></tr>
+        <tr><td class="te">A while ago / earlier</td><td class="tt">เมื่อกี้</td><td class="tr2">mûea-gîi</td><td class="tn2">เมื่อกี้ = just before, a short while ago</td></tr>
+        <tr><td class="te">Later / after a while</td><td class="tt">ทีหลัง / ภายหลัง</td><td class="tr2">thii lǎng / phaai lǎng</td><td class="tn2">ทีหลัง = casually later · ภายหลัง = more formally afterward</td></tr>
+        <tr><td class="te">Eventually / in the future</td><td class="tt">ในอนาคต</td><td class="tr2">nai à-naa-khót</td><td class="tn2">อนาคต = the future</td></tr>
+        <tr><td class="te">In the past</td><td class="tt">ในอดีต</td><td class="tr2">nai à-diit</td><td class="tn2">อดีต = the past</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Year &amp; week expressions</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">This year</td><td class="tt">ปีนี้</td><td class="tr2">bpii níi</td><td class="tn2">ปี = year</td></tr>
+        <tr><td class="te">Next year</td><td class="tt">ปีหน้า</td><td class="tr2">bpii nâa</td><td class="tn2">หน้า = next</td></tr>
+        <tr><td class="te">Last year</td><td class="tt">ปีที่แล้ว</td><td class="tr2">bpii thîi láaew</td><td class="tn2">—</td></tr>
+        <tr><td class="te">This week</td><td class="tt">อาทิตย์นี้ / สัปดาห์นี้</td><td class="tr2">aa-thít níi / sàp-daa níi</td><td class="tn2">อาทิตย์ = week (also = Sunday)</td></tr>
+        <tr><td class="te">Next week</td><td class="tt">อาทิตย์หน้า</td><td class="tr2">aa-thít nâa</td><td class="tn2">—</td></tr>
+        <tr><td class="te">Last week</td><td class="tt">อาทิตย์ที่แล้ว</td><td class="tr2">aa-thít thîi láaew</td><td class="tn2">—</td></tr>
+        <tr><td class="te">How long?</td><td class="tt">นานแค่ไหน?</td><td class="tr2">naan khâe nǎi?</td><td class="tn2">นาน = long time · แค่ไหน = how much</td></tr>
+        <tr><td class="te">How long have you been...?</td><td class="tt">...มานานแค่ไหนแล้ว?</td><td class="tr2">...maa naan khâe nǎi láaew?</td><td class="tn2">ซ้อมมานานแค่ไหนแล้ว = how long have you been training?</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">I just finished training — I'm exhausted.</div>
+      <div class="t">เพิ่งซ้อมเสร็จ — เหนื่อยมากเลย</div>
+      <div class="r">phôeng sôm sèt — nùeay mâak looei</div>
+      <div class="note"><span class="ks">Sora:</span> เพิ่ง (phôeng) = just did something. เพิ่ง + verb = just completed that verb. เพิ่งกิน = just ate · เพิ่งตื่น = just woke up · เพิ่งถึง = just arrived. One of the most useful time words in Thai.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Haven't been to Thailand in ages — I really miss it.</div>
+      <div class="t">ไม่ได้ไปไทยนานมาแล้ว — คิดถึงมากเลย</div>
+      <div class="r">mâi dâai bpai thai naan maa láaew — khít-thǔeng mâak looei</div>
+      <div class="note"><span class="ks">Sora:</span> ไม่ได้ + verb = haven't done something. ไม่ได้กิน = haven't eaten · ไม่ได้คุย = haven't talked. นานมาแล้ว = for a long time already.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">How long have you been training Muay Thai?</div>
+      <div class="t">ซ้อมมวยไทยมานานแค่ไหนแล้ว?</div>
+      <div class="r">sôm muay thai maa naan khâe nǎi láaew?</div>
+      <div class="note"><span class="ke">Kru:</span> มา (maa) in the middle of a time expression signals a duration: ซ้อมมา 3 ปีแล้ว = have been training for 3 years already. The structure: verb + มา + duration + แล้ว.</div>
+    </div>
+  </div><!-- /relative -->
+
+
+  <!-- SCHEDULING & PLANS -->
+  <div id="scheduling" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> English for scheduling sessions, rescheduling, and confirming appointments with students.<br>
+      <strong>Sora learns:</strong> How to talk about plans, confirm times, and handle scheduling in Thai — essential for anyone training, travelling, or living in Thailand.
+    </p>
+
+    <div class="grp">Making and Confirming Plans</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Are you free on Saturday morning?</div>
+      <div class="t">เช้าวันเสาร์ว่างไหม?</div>
+      <div class="r">cháo wan sǎo wâang mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> เช้า = morning · บ่าย = afternoon · เย็น = evening. Placed before the day: เช้าวันจันทร์ = Monday morning · เย็นวันศุกร์ = Friday evening. Simple and flexible.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Let's meet at the gym at 7am on Wednesday.</div>
+      <div class="t">นัดเจอกันที่ยิมเจ็ดโมงเช้าวันพุธนะ</div>
+      <div class="r">nát jooe gan thîi yim jèt moong cháo wan phút ná</div>
+      <div class="note"><span class="ks">Sora:</span> นัด (nát) = to make an appointment / meet by arrangement. นัดหมาย (nát-mǎai) = appointment (more formal). เจอกัน = meet each other. นัดเจอกัน = arrange to meet.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">I need to reschedule — can we move it to Thursday instead?</div>
+      <div class="t">ต้องเลื่อนนัด — ย้ายไปวันพฤหัสได้ไหม?</div>
+      <div class="r">tâwng lûean nát — yáai bpai wan phá-rúe-hàt dâai mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> เลื่อน (lûean) = to postpone / push back a time. ย้าย (yáai) = to move / shift. Both useful for scheduling: เลื่อนออกไป = push it later · ย้ายวัน = change the day.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">Can you confirm the time? I want to make sure I'm not late.</div>
+      <div class="t">ยืนยันเวลาให้หน่อยได้ไหม? กลัวมาสาย</div>
+      <div class="r">yuuen-yan wee-laa hâi nàwy dâai mǎi? — glua maa sǎai</div>
+      <div class="note"><span class="ks">Sora:</span> ยืนยัน (yuuen-yan) = to confirm. กลัว (glua) = to be afraid / worried about something. กลัวมาสาย = worried about being late — a very Thai way to say "I don't want to be late."</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">05</div>
+      <div class="e">I'll be there — see you then!</div>
+      <div class="t">ไปแน่นอน — เจอกันนะ!</div>
+      <div class="r">bpai nâae-nawn — jooe gan ná!</div>
+      <div class="note"><span class="ks">Sora:</span> แน่นอน (nâae-nawn) = definitely / for sure. ไปแน่นอน = definitely going. A confident, warm confirmation. เจอกันนะ = see you then — the perfect message to send before any meetup.</div>
+    </div>
+
+    <div class="grp">Thai time vocabulary quick-reference</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Second</td><td class="tt">วินาที</td><td class="tr2">wí-naa-thii</td></tr>
+        <tr><td class="te">Minute</td><td class="tt">นาที</td><td class="tr2">naa-thii</td></tr>
+        <tr><td class="te">Hour</td><td class="tt">ชั่วโมง</td><td class="tr2">chûa-moong</td></tr>
+        <tr><td class="te">Day</td><td class="tt">วัน</td><td class="tr2">wan</td></tr>
+        <tr><td class="te">Week</td><td class="tt">อาทิตย์ / สัปดาห์</td><td class="tr2">aa-thít / sàp-daa</td></tr>
+        <tr><td class="te">Month</td><td class="tt">เดือน</td><td class="tr2">duean</td></tr>
+        <tr><td class="te">Year</td><td class="tt">ปี</td><td class="tr2">bpii</td></tr>
+        <tr><td class="te">Morning</td><td class="tt">เช้า</td><td class="tr2">cháo</td></tr>
+        <tr><td class="te">Afternoon</td><td class="tt">บ่าย</td><td class="tr2">bàai</td></tr>
+        <tr><td class="te">Evening</td><td class="tt">เย็น</td><td class="tr2">yen</td></tr>
+        <tr><td class="te">Night</td><td class="tt">กลางคืน</td><td class="tr2">glaang-khuen</td></tr>
+        <tr><td class="te">Midnight</td><td class="tt">เที่ยงคืน</td><td class="tr2">thîang-khuen</td></tr>
+      </tbody>
+    </table></div>
+  </div><!-- /scheduling -->
+
+</div><!-- /content -->
+
+<footer>
+  Click any card to expand · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Vol. 19 · Time, Days &amp; Months ⏰
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+
+<!-- ══ FLOATING PILL NAV ══ -->
+<button class="pill-btn" id="pill-btn" onclick="pillToggle()">
+  <span class="pill-icon">🥊</span>
+  Volumes
+  <span class="pill-arrow">▲</span>
+</button>
+<div class="pill-pop" id="pill-pop">
+  <div class="pp-head">
+    <div class="pp-title">Language Exchange Collection</div>
+    <a class="pp-home" href="index.html">← Index</a>
+  </div>
+  <div class="pp-body">
+    <span class="pp-cat muay">🥊 Muay Thai</span>
+    <a class="pp-lnk" href="kru-exchange-vol6.html">
+      <span class="pp-n">06</span>
+      <span class="pp-nm">Competition Preparation</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol8.html">
+      <span class="pp-n">08</span>
+      <span class="pp-nm">Fight Night · Lumpinee</span>
+    </a>
+    <div class="pp-div"></div>
+    <span class="pp-cat lang">🗣️ Thai Language</span>
+    <a class="pp-lnk" href="kru-language-exchange.html">
+      <span class="pp-n">01</span>
+      <span class="pp-nm">Corrections & Encouragement</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol2.html">
+      <span class="pp-n">02</span>
+      <span class="pp-nm">Goals, Body & Fight Day</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol3.html">
+      <span class="pp-n">03</span>
+      <span class="pp-nm">Daily Life & Grammar</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol4.html">
+      <span class="pp-n">04</span>
+      <span class="pp-nm">Emotions & Culture</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol5.html">
+      <span class="pp-n">05</span>
+      <span class="pp-nm">Health & Plans</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol7.html">
+      <span class="pp-n">07</span>
+      <span class="pp-nm">Thai Culture Deep Dive</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol15.html">
+      <span class="pp-n">15</span>
+      <span class="pp-nm">Thai Festivals & Celebrations</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol16.html">
+      <span class="pp-n">16</span>
+      <span class="pp-nm">Love, Family & Relationships</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol17.html">
+      <span class="pp-n">17</span>
+      <span class="pp-nm">Thai Wellness & Massage</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol18.html">
+      <span class="pp-n">18</span>
+      <span class="pp-nm">Humour, Slang & Internet Thai</span>
+    </a>
+    <a class="pp-lnk here" href="#">
+      <span class="pp-n">19</span>
+      <span class="pp-nm">Time, Days, Weeks & Months</span>
+      <span class="pp-tag">here</span>
+    </a>
+    <div class="pp-div"></div>
+    <span class="pp-cat lang">🍜 Food</span>
+    <a class="pp-lnk" href="kru-exchange-vol9.html">
+      <span class="pp-n">09</span>
+      <span class="pp-nm">Northern Thai Food</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol21.html">
+      <span class="pp-n">21</span>
+      <span class="pp-nm">Bangkok Street Food</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol22.html">
+      <span class="pp-n">22</span>
+      <span class="pp-nm">Southern Thai Food</span>
+    </a>
+    <div class="pp-div"></div>
+    <span class="pp-cat travel">✈️ Travel</span>
+    <a class="pp-lnk" href="kru-exchange-vol12.html">
+      <span class="pp-n">12</span>
+      <span class="pp-nm">Phuket & The Islands</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol13.html">
+      <span class="pp-n">13</span>
+      <span class="pp-nm">Bangkok Neighbourhoods</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol14.html">
+      <span class="pp-n">14</span>
+      <span class="pp-nm">Getting Around Thailand</span>
+    </a>
+  </div>
+</div>
+<script>
+  function pillToggle() {
+    var pop = document.getElementById('pill-pop');
+    var btn = document.getElementById('pill-btn');
+    if (pop.classList.contains('popen')) { pop.classList.remove('popen'); btn.classList.remove('pactive'); }
+    else { pop.classList.add('popen'); btn.classList.add('pactive'); }
+  }
+  document.addEventListener('click', function(e) {
+    var pop = document.getElementById('pill-pop');
+    var btn = document.getElementById('pill-btn');
+    if (!pop.contains(e.target) && !btn.contains(e.target)) { pop.classList.remove('popen'); btn.classList.remove('pactive'); }
+  });
+</script>
+
+</body>
+</html>

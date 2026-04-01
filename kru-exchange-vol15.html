@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Vol. 15 · Thai Festivals</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --bg2: #f2ede4;
+    --bg3: #e8e0d2;
+    --ink: #1c1710;
+    --muted: #8a7d6a;
+    --border: rgba(28,23,16,0.1);
+    --eng: #2a5c8a;
+    --thai: #8a2040;
+    --roman: #2a6640;
+    --gold: #b87820;
+    --accent: #8a20a0;
+    --accent2: #c05828;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Outfit', sans-serif; min-height: 100vh; }
+
+  header {
+    background: var(--ink);
+    padding: 3rem 2rem 2.2rem;
+    position: relative; overflow: hidden;
+  }
+
+  header::before {
+    content: 'XV';
+    position: absolute; right: 1.5rem; bottom: -1rem;
+    font-family: 'Fraunces', serif;
+    font-size: 10rem; font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    line-height: 1; pointer-events: none;
+    letter-spacing: -0.05em;
+  }
+
+  .h-inner { max-width: 900px; margin: 0 auto; }
+
+  .vol-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: #c080e0;
+    margin-bottom: 0.7rem;
+  }
+
+  h1 { font-family: 'Fraunces', serif; font-size: clamp(1.6rem, 4.5vw, 2.8rem); font-weight: 700; line-height: 1.1; color: #faf7f2; margin-bottom: 0.3rem; }
+  h1 i { font-style: italic; color: #c080e0; }
+  .sub { font-size: 0.82rem; color: rgba(250,247,242,0.4); font-weight: 300; margin-bottom: 1.4rem; }
+
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; font-weight: 500; }
+  .lsq { width: 10px; height: 10px; border-radius: 2px; }
+  .le { background: var(--eng); } .lt { background: var(--thai); } .lr { background: var(--roman); }
+  .leg-eng { color: rgba(250,247,242,0.7); }
+
+  .tabs { display: flex; overflow-x: auto; background: var(--bg2); border-bottom: 2px solid var(--bg3); padding: 0 1.2rem; scrollbar-width: thin; scrollbar-color: var(--accent) transparent; -webkit-overflow-scrolling: touch; }
+  .tab { padding: 0.9rem 1.1rem; font-size: 0.79rem; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; letter-spacing: 0.02em; background: none; border-top: none; border-left: none; border-right: none; font-family: 'Outfit', sans-serif; }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .content { max-width: 900px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro { font-size: 0.82rem; line-height: 1.72; color: var(--muted); padding: 0.85rem 1.1rem; margin-bottom: 1.8rem; border-left: 3px solid var(--accent); background: rgba(138,32,160,0.05); border-radius: 0 4px 4px 0; }
+  .intro strong { color: var(--ink); }
+
+  .grp { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin: 2.2rem 0 0.9rem; display: flex; align-items: center; gap: 0.8rem; }
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  .card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.3rem; margin-bottom: 0.65rem; cursor: pointer; transition: all 0.18s; position: relative; }
+  .card:hover { border-color: rgba(138,32,160,0.3); box-shadow: 0 3px 14px rgba(0,0,0,0.07); transform: translateY(-1px); }
+  .card.on { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(138,32,160,0.15); background: #fef8ff; }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-size: 0.65rem; color: var(--border); font-weight: 700; }
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 500; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 2.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.25rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+  .note { margin-top: 0.62rem; padding-top: 0.58rem; border-top: 1px dashed var(--border); font-size: 0.76rem; color: var(--muted); line-height: 1.6; }
+  .note b { color: var(--gold); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  .hbox { background: rgba(138,32,160,0.06); border: 1px solid rgba(138,32,160,0.18); border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.7rem; }
+  .hbox-label { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+  .hbox p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+  .hbox p b { color: var(--ink); }
+
+  .tw { overflow-x: auto; margin-bottom: 0.7rem; }
+  table { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 0.85rem; }
+  thead tr { background: var(--ink); }
+  thead th { padding: 0.6rem 1rem; text-align: left; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(250,247,242,0.7); }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 500; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr2 { color: var(--roman); font-style: italic; }
+  .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  footer { text-align: center; padding: 1.5rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  /* ══ FLOATING PILL NAV ══ */
+  .pill-btn {
+    position: fixed; bottom: 1.6rem; right: 1.6rem;
+    display: flex; align-items: center; gap: 0.45rem;
+    background: #1c1710; color: rgba(244,238,216,0.8);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 99px;
+    padding: 0.55rem 1.05rem 0.55rem 0.75rem;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+    cursor: pointer; z-index: 300;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+    transition: all 0.2s; white-space: nowrap;
+    font-family: inherit; border-style: solid;
+  }
+  .pill-btn:hover {
+    background: #2a1e12; border-color: rgba(200,74,16,0.5);
+    color: #f4eed8; box-shadow: 0 6px 28px rgba(0,0,0,0.55);
+    transform: translateY(-2px);
+  }
+  .pill-btn.pactive { background: #b83010; border-color: #b83010; color: white; }
+  .pill-icon { font-size: 0.88rem; }
+  .pill-arrow { font-size: 0.56rem; opacity: 0.6; transition: transform 0.2s; margin-left: 0.1rem; }
+  .pill-btn.pactive .pill-arrow { transform: rotate(180deg); }
+
+  .pill-pop {
+    position: fixed; bottom: 4.8rem; right: 1.6rem;
+    width: min(320px, calc(100vw - 3.2rem));
+    background: #0f0c09; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; z-index: 299; display: none;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.65);
+    transform-origin: bottom right;
+    animation: pillPop 0.18s cubic-bezier(0.34,1.56,0.64,1) both;
+    overflow: hidden;
+  }
+  @keyframes pillPop {
+    from { opacity:0; transform:scale(0.88); }
+    to   { opacity:1; transform:scale(1); }
+  }
+  .pill-pop.popen { display: block; }
+  .pp-head {
+    background: #1c1710; padding: 0.65rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .pp-title { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(244,238,216,0.35); }
+  .pp-home { font-size: 0.68rem; font-weight: 700; color: rgba(244,238,216,0.55); text-decoration: none; transition: color 0.15s; font-family: inherit; }
+  .pp-home:hover { color: rgba(244,238,216,0.9); }
+  .pp-body { max-height: 380px; overflow-y: auto; padding: 0.7rem 0 0.5rem; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+  .pp-cat { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.45rem 1rem 0.25rem; display: block; }
+  .pp-cat.muay   { color: rgba(200,74,16,0.75); }
+  .pp-cat.lang   { color: rgba(180,140,20,0.75); }
+  .pp-cat.travel { color: rgba(40,168,112,0.75); }
+  .pp-lnk { display: flex; align-items: center; gap: 0.65rem; padding: 0.42rem 1rem; text-decoration: none; transition: background 0.12s; font-family: inherit; }
+  .pp-lnk:hover { background: rgba(255,255,255,0.045); }
+  .pp-lnk.here  { background: rgba(200,74,16,0.1); pointer-events: none; }
+  .pp-n { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(244,238,216,0.22); min-width: 20px; flex-shrink: 0; text-align: right; }
+  .pp-nm { font-size: 0.76rem; font-weight: 600; color: rgba(244,238,216,0.52); flex: 1; transition: color 0.12s; }
+  .pp-lnk:hover .pp-nm { color: rgba(244,238,216,0.9); }
+  .pp-lnk.here  .pp-nm { color: #b83010; }
+  .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
+  .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-inner">
+    <div class="vol-tag">🎉 Language Exchange · Vol. 15</div>
+    <h1>Thai Festivals <i>&</i> Celebrations</h1>
+    <p class="sub">Songkran · Loy Krathong · Thai New Year · The calendar that shapes Thai life</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span class="leg-eng">English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span class="leg-eng">ภาษาไทย Thai Script</span></div>
+      <div class="leg"><div class="lsq lr"></div><span class="leg-eng">Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="sw('songkran')">💦 Songkran</button>
+  <button class="tab" onclick="sw('loykrathong')">🪔 Loy Krathong</button>
+  <button class="tab" onclick="sw('newyear')">🎊 Thai New Year</button>
+  <button class="tab" onclick="sw('festivals')">📅 Festival Calendar</button>
+  <button class="tab" onclick="sw('wishes')">🙏 Wishes & Greetings</button>
+</nav>
+
+<div class="content">
+
+  <!-- SONGKRAN -->
+  <div id="songkran" class="section active">
+    <p class="intro">
+      <strong>Kru learns:</strong> How to explain Songkran to international students — and why it matters beyond just water fights.<br>
+      <strong>Sora learns:</strong> The language of Songkran — what people say, what they do, and what it really means.
+    </p>
+
+    <div class="hbox">
+      <div class="hbox-label">💦 What Songkran actually is</div>
+      <p>Songkran (13–15 April) is the traditional Thai New Year, marking the sun's passage into Aries. Water is a symbol of cleansing and good fortune — <b>washing away the old year</b>. The elder blessing ceremony (รดน้ำดำหัว) is the heart of it. The water fights came later.</p>
+    </div>
+
+    <div class="grp">Core Vocabulary</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Songkran festival</td><td class="tt">เทศกาลสงกรานต์</td><td class="tr2">thêet-sà-gaan sǒng-graan</td><td class="tn2">Thai New Year water festival</td></tr>
+        <tr><td class="te">Water blessing ceremony</td><td class="tt">รดน้ำดำหัว</td><td class="tr2">rót nám dam hǔa</td><td class="tn2">Pouring water on elders for blessings</td></tr>
+        <tr><td class="te">To pour / splash water</td><td class="tt">สาดน้ำ</td><td class="tr2">sàat nám</td><td class="tn2">สาด = to splash/throw</td></tr>
+        <tr><td class="te">To play Songkran</td><td class="tt">เล่นสงกรานต์</td><td class="tr2">lên sǒng-graan</td><td class="tn2">เล่น = to play</td></tr>
+        <tr><td class="te">Temple</td><td class="tt">วัด</td><td class="tr2">wát</td><td class="tn2">Always visited during Songkran</td></tr>
+        <tr><td class="te">Sand pagoda</td><td class="tt">ก่อพระเจดีย์ทราย</td><td class="tr2">gàw phrá jà-dii saai</td><td class="tn2">Built at temples during Songkran</td></tr>
+        <tr><td class="te">Scented water</td><td class="tt">น้ำอบ</td><td class="tr2">nám òp</td><td class="tn2">Perfumed water used in blessing ceremony</td></tr>
+        <tr><td class="te">New Year gift</td><td class="tt">ของขวัญปีใหม่</td><td class="tr2">khǎawng-khwǎn bpii-mài</td><td class="tn2">Given to elders</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Conversations</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Are you going back home for Songkran?</div>
+      <div class="t">กลับบ้านเล่นสงกรานต์ไหม?</div>
+      <div class="r">glàp bâan lên sǒng-graan mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> กลับบ้าน (glàp bâan) = go back home. One of the most common questions during April — Thais travel home for Songkran the way other cultures travel for Christmas.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">I got soaked from head to toe — it was amazing.</div>
+      <div class="t">โดนสาดน้ำเปียกหมดเลย — สนุกมาก</div>
+      <div class="r">doon sàat nám bpìak mòt looei — sà-nùk mâak</div>
+      <div class="note"><span class="ks">Sora:</span> โดน (doon) = to get/receive something (often unintentional). เปียก (bpìak) = wet. เปียกหมดเลย = completely soaked.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">During Songkran, we pour water on our elders' hands to ask for their blessing.</div>
+      <div class="t">ในสงกรานต์ เราจะรดน้ำมือผู้ใหญ่เพื่อขอพร</div>
+      <div class="r">nai sǒng-graan — rao jà rót nám mue phûu-yài phûea khǎaw phoon</div>
+      <div class="note"><span class="ke">Kru:</span> This is the cultural heart of Songkran. The water fight is the fun part — but the blessing ceremony is what makes it meaningful. Teaching this to students builds real respect for Thai culture.<br><span class="ks">Sora:</span> ขอพร (khǎaw phoon) = ask for a blessing.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">04</div>
+      <div class="e">No camera? Everything is going to get wet!</div>
+      <div class="t">ไม่มีกล้องเหรอ? ทุกอย่างจะเปียกหมดแน่นอน!</div>
+      <div class="r">mâi mii glâawng rǒe? thúk yàang jà bpìak mòt nâae-nawn!</div>
+      <div class="note"><span class="ks">Sora:</span> แน่นอน (nâae-nawn) = definitely / of course. Essential Songkran advice — waterproof bag everything!</div>
+    </div>
+  </div>
+
+  <!-- LOY KRATHONG -->
+  <div id="loykrathong" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> How to describe the magic of Loy Krathong to someone who has never seen it.<br>
+      <strong>Sora learns:</strong> The language of this beautiful festival — water, light, wishes, and letting go.
+    </p>
+
+    <div class="hbox">
+      <div class="hbox-label">🪔 What Loy Krathong is</div>
+      <p>On the full moon of the 12th lunar month (usually November), Thais float small decorated baskets (กระทง) on water — <b>releasing bad luck, paying respect to the water goddess, and making wishes</b>. Sky lanterns (โคมลอย) are released at the same time in Chiang Mai, where it becomes Yi Peng festival.</p>
+    </div>
+
+    <div class="grp">Core Vocabulary</div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Loy Krathong festival</td><td class="tt">เทศกาลลอยกระทง</td><td class="tr2">thêet-sà-gaan loi grà-thong</td><td class="tn2">ลอย = to float</td></tr>
+        <tr><td class="te">Krathong (floating basket)</td><td class="tt">กระทง</td><td class="tr2">grà-thong</td><td class="tn2">Made of banana leaves, flowers, candles</td></tr>
+        <tr><td class="te">To float / release</td><td class="tt">ลอย</td><td class="tr2">loi</td><td class="tn2">ลอยกระทง = to float the krathong</td></tr>
+        <tr><td class="te">Sky lantern</td><td class="tt">โคมลอย</td><td class="tr2">khoom loi</td><td class="tn2">Release in Chiang Mai (Yi Peng)</td></tr>
+        <tr><td class="te">To make a wish</td><td class="tt">อธิษฐาน</td><td class="tr2">à-thít-thǎan</td><td class="tn2">Said while floating the krathong</td></tr>
+        <tr><td class="te">Full moon</td><td class="tt">พระจันทร์เต็มดวง</td><td class="tr2">phrá-jan tem duang</td><td class="tn2">The night of the festival</td></tr>
+        <tr><td class="te">River / body of water</td><td class="tt">แม่น้ำ / แหล่งน้ำ</td><td class="tr2">mâae-nám / làaeng nám</td><td class="tn2">Where krathong are released</td></tr>
+        <tr><td class="te">Yi Peng (Chiang Mai)</td><td class="tt">เทศกาลยี่เป็ง</td><td class="tr2">thêet-sà-gaan yîi-bpeng</td><td class="tn2">Northern Thai sky lantern festival</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Conversations</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Have you ever floated a krathong before?</div>
+      <div class="t">เคยลอยกระทงไหม?</div>
+      <div class="r">khoei loi grà-thong mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> เคย...ไหม (khoei...mǎi) = have you ever...? A beautiful question structure. เคยไปไหม = have you ever been? เคยกินไหม = have you ever eaten?</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">The moment you release the lantern and watch it rise — it's impossible to describe.</div>
+      <div class="t">ตอนที่ปล่อยโคมลอยแล้วดูมันลอยขึ้น — บอกไม่ถูกเลย</div>
+      <div class="r">tawn thîi bplàwy khoom loi láaew duu man loi khûen — bàawk mâi thùuk looei</div>
+      <div class="note"><span class="ks">Sora:</span> บอกไม่ถูก (bàawk mâi thùuk) = can't describe / words can't do it justice. A wonderfully expressive phrase.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">What do you wish for when you float the krathong?</div>
+      <div class="t">ตอนลอยกระทงอธิษฐานขออะไร?</div>
+      <div class="r">tawn loi grà-thong à-thít-thǎan khǎaw à-rai?</div>
+      <div class="note"><span class="ks">Sora:</span> ขออะไร (khǎaw à-rai) = what do you wish for / ask for? ขอ (khǎaw) = to ask for / wish for.</div>
+    </div>
+  </div>
+
+  <!-- THAI NEW YEAR -->
+  <div id="newyear" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> The difference between Thai New Year (Songkran, April) and the calendar New Year (January 1st) — and how to talk about both.<br>
+      <strong>Sora learns:</strong> New Year greetings and celebration phrases in Thai.
+    </p>
+
+    <div class="tw"><table>
+      <thead><tr><th>Occasion</th><th>ภาษาไทย</th><th>Romanized</th><th>When</th></tr></thead>
+      <tbody>
+        <tr><td class="te">Thai New Year (Songkran)</td><td class="tt">ปีใหม่ไทย / สงกรานต์</td><td class="tr2">bpii-mài thai / sǒng-graan</td><td class="tn2">13–15 April</td></tr>
+        <tr><td class="te">International New Year</td><td class="tt">ปีใหม่สากล</td><td class="tr2">bpii-mài sǎa-gon</td><td class="tn2">1 January</td></tr>
+        <tr><td class="te">Chinese New Year</td><td class="tt">ตรุษจีน</td><td class="tr2">trùt-jiin</td><td class="tn2">Widely celebrated in Thailand</td></tr>
+        <tr><td class="te">Happy New Year!</td><td class="tt">สวัสดีปีใหม่!</td><td class="tr2">sà-wàt-dii bpii-mài!</td><td class="tn2">The standard greeting</td></tr>
+        <tr><td class="te">Wishing you happiness</td><td class="tt">ขอให้มีความสุข</td><td class="tr2">khǎaw hâi mii khwaam-sùk</td><td class="tn2">Common new year wish</td></tr>
+        <tr><td class="te">Wishing you good health</td><td class="tt">ขอให้มีสุขภาพแข็งแรง</td><td class="tr2">khǎaw hâi mii sùk-khà-phâap khǎeng-raeng</td><td class="tn2">—</td></tr>
+        <tr><td class="te">Counting down</td><td class="tt">นับถอยหลัง</td><td class="tr2">náp thǎwy lǎng</td><td class="tn2">Countdown to midnight</td></tr>
+        <tr><td class="te">Fireworks</td><td class="tt">花火 / พลุ</td><td class="tr2">phá-lú</td><td class="tn2">—</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">New Year Conversations</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Happy New Year! Wishing you health, happiness, and success.</div>
+      <div class="t">สวัสดีปีใหม่! ขอให้มีสุขภาพดี มีความสุข และประสบความสำเร็จ</div>
+      <div class="r">sà-wàt-dii bpii-mài! khǎaw hâi mii sùk-khà-phâap dii — mii khwaam-sùk — láe bprà-sòp khwaam-sǎm-rèt</div>
+      <div class="note"><span class="ks">Sora:</span> ประสบความสำเร็จ (bprà-sòp khwaam-sǎm-rèt) = achieve success. This three-part wish (health + happiness + success) is the classic Thai New Year greeting format.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">What are your plans for New Year?</div>
+      <div class="t">ปีใหม่นี้มีแผนอะไรบ้าง?</div>
+      <div class="r">bpii-mài níi mii phǎaen à-rai bâang?</div>
+      <div class="note"><span class="ks">Sora:</span> มีแผน (mii phǎaen) = have plans. บ้าง (bâang) softens the question — it's asking "any plans at all?" rather than demanding a specific answer.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">In Thailand, we actually celebrate New Year three times — January, Chinese New Year, and Songkran.</div>
+      <div class="t">ในไทย เราฉลองปีใหม่ถึงสามครั้ง — มกราคม ตรุษจีน และสงกรานต์</div>
+      <div class="r">nai thai — rao chà-lawng bpii-mài thǔeng sǎam khráng — mók-graa-khom — trùt-jiin — láe sǒng-graan</div>
+      <div class="note"><span class="ke">Kru:</span> This always surprises international students. Thailand's multicultural calendar means three full New Year celebrations — and Thais take all three seriously.</div>
+    </div>
+  </div>
+
+  <!-- FESTIVAL CALENDAR -->
+  <div id="festivals" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> The Thai festival calendar — so you can explain to students why training camps are quiet, or why everyone disappears for a week.<br>
+      <strong>Sora learns:</strong> The Thai year through its celebrations.
+    </p>
+
+    <div class="tw"><table>
+      <thead><tr><th>Festival</th><th>ภาษาไทย</th><th>Month</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td class="te">New Year's Day</td><td class="tt">วันปีใหม่</td><td class="tr2">January</td><td class="tn2">wan bpii-mài — International calendar</td></tr>
+        <tr><td class="te">Chinese New Year</td><td class="tt">ตรุษจีน</td><td class="tr2">Jan–Feb</td><td class="tn2">trùt-jiin — Big in Bangkok's Chinatown</td></tr>
+        <tr><td class="te">Makha Bucha</td><td class="tt">วันมาฆบูชา</td><td class="tr2">Feb–Mar</td><td class="tn2">wan maa-khà-buu-chaa — Buddhist holy day</td></tr>
+        <tr><td class="te">Songkran</td><td class="tt">สงกรานต์</td><td class="tr2">April</td><td class="tn2">sǒng-graan — Thai New Year water festival</td></tr>
+        <tr><td class="te">Visakha Bucha</td><td class="tt">วันวิสาขบูชา</td><td class="tr2">May–Jun</td><td class="tn2">wan wí-sǎa-khà-buu-chaa — Buddha's birth/enlightenment/death</td></tr>
+        <tr><td class="te">Khao Phansa (Buddhist Lent)</td><td class="tt">เข้าพรรษา</td><td class="tr2">July</td><td class="tn2">khâo phan-sǎa — Monks stay in temples for 3 months</td></tr>
+        <tr><td class="te">Ok Phansa (End of Lent)</td><td class="tt">ออกพรรษา</td><td class="tr2">October</td><td class="tn2">àawk phan-sǎa — Boat racing festivals</td></tr>
+        <tr><td class="te">Loy Krathong / Yi Peng</td><td class="tt">ลอยกระทง / ยี่เป็ง</td><td class="tr2">November</td><td class="tn2">loi grà-thong / yîi-bpeng — Floating lights</td></tr>
+        <tr><td class="te">King's Birthday</td><td class="tt">วันชาติ</td><td class="tr2">December</td><td class="tn2">wan châat — National holiday with celebrations</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="hbox">
+      <div class="hbox-label">🌟 Key note for Sora — alcohol ban days</div>
+      <p>On <b>Buddhist holy days</b> (วันพระ / wan phrá), alcohol sales are banned in Thailand. These include Makha Bucha, Visakha Bucha, Asanha Bucha, and Khao/Ok Phansa. Good to know before planning a night out!</p>
+    </div>
+  </div>
+
+  <!-- WISHES -->
+  <div id="wishes" class="section">
+    <p class="intro">
+      <strong>Kru learns:</strong> How to give and receive wishes and greetings for Thai occasions in English.<br>
+      <strong>Sora learns:</strong> The ขอให้ (khǎaw hâi) pattern — the key to blessing someone in Thai.
+    </p>
+
+    <div class="hbox">
+      <div class="hbox-label">🌟 Grammar pattern — ขอให้ (khǎaw hâi)</div>
+      <p>ขอให้ (khǎaw hâi) = "May you have..." / "I wish you..." — this is how you bless someone in Thai. <b>ขอให้ + what you wish for</b>. It's used for festivals, birthdays, New Year, before fights — any occasion.</p>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>English wish</th><th>ภาษาไทย</th><th>Romanized</th></tr></thead>
+      <tbody>
+        <tr><td class="te">May you have happiness</td><td class="tt">ขอให้มีความสุข</td><td class="tr2">khǎaw hâi mii khwaam-sùk</td></tr>
+        <tr><td class="te">May you have good health</td><td class="tt">ขอให้มีสุขภาพแข็งแรง</td><td class="tr2">khǎaw hâi mii sùk-khà-phâap khǎeng-raeng</td></tr>
+        <tr><td class="te">May you have good luck</td><td class="tt">ขอให้โชคดี</td><td class="tr2">khǎaw hâi chôok dii</td></tr>
+        <tr><td class="te">May all your wishes come true</td><td class="tt">ขอให้สมหวังทุกอย่าง</td><td class="tr2">khǎaw hâi sǒm-wǎng thúk yàang</td></tr>
+        <tr><td class="te">May you succeed in everything</td><td class="tt">ขอให้ประสบความสำเร็จ</td><td class="tr2">khǎaw hâi bprà-sòp khwaam-sǎm-rèt</td></tr>
+        <tr><td class="te">May you win!</td><td class="tt">ขอให้ชนะ!</td><td class="tr2">khǎaw hâi chá-ná!</td></tr>
+        <tr><td class="te">May you be safe</td><td class="tt">ขอให้ปลอดภัย</td><td class="tr2">khǎaw hâi bplàawt-phai</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grp">Using wishes in conversation</div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">01</div>
+      <div class="e">Have a safe trip — take care of yourself!</div>
+      <div class="t">ขอให้เดินทางปลอดภัยนะ — ดูแลตัวเองด้วย!</div>
+      <div class="r">khǎaw hâi doen-thaang bplàawt-phai ná — duu-lae tua-eeng dûay!</div>
+      <div class="note"><span class="ke">Kru:</span> This is one of the most used departing phrases in Thai — always said to someone leaving for a journey. ดูแลตัวเอง (duu-lae tua-eeng) = take care of yourself.</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">02</div>
+      <div class="e">Happy birthday — may all your wishes come true.</div>
+      <div class="t">สุขสันต์วันเกิด — ขอให้สมหวังทุกอย่าง</div>
+      <div class="r">sùk-sǎn wan gòet — khǎaw hâi sǒm-wǎng thúk yàang</td></tr>
+      <div class="note"><span class="ks">Sora:</span> สุขสันต์วันเกิด (sùk-sǎn wan gòet) = happy birthday. สมหวัง (sǒm-wǎng) = to have wishes fulfilled — from สม (fitting/matching) + หวัง (hope).</div>
+    </div>
+
+    <div class="card" onclick="this.classList.toggle('on')">
+      <div class="num">03</div>
+      <div class="e">Good luck in the fight — I'm rooting for you!</div>
+      <div class="t">ขอให้ชนะนะ — เชียร์อยู่เลย!</div>
+      <div class="r">khǎaw hâi chá-ná ná — chiia yùu looei!</div>
+      <div class="note"><span class="ks">Sora:</span> เชียร์ (chiia) = to cheer / root for someone. From English "cheer" — one of many English loan words in Thai sports culture.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Click any card to expand · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Vol. 15 · Thai Festivals 🎉
+</footer>
+
+<script>
+  function sw(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+
+<!-- ══ FLOATING PILL NAV ══ -->
+<button class="pill-btn" id="pill-btn" onclick="pillToggle()">
+  <span class="pill-icon">🥊</span>
+  Volumes
+  <span class="pill-arrow">▲</span>
+</button>
+
+<div class="pill-pop" id="pill-pop">
+  <div class="pp-head">
+    <div class="pp-title">Language Exchange Collection</div>
+    <a class="pp-home" href="index.html">← Index</a>
+  </div>
+  <div class="pp-body">
+
+    <span class="pp-cat muay">🥊 Muay Thai</span>
+    <a class="pp-lnk" href="kru-exchange-vol6.html">
+      <span class="pp-n">06</span>
+      <span class="pp-nm">Competition Preparation</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol8.html">
+      <span class="pp-n">08</span>
+      <span class="pp-nm">Fight Night · Lumpinee</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat lang">🗣️ Thai Language</span>
+    <a class="pp-lnk" href="kru-language-exchange.html">
+      <span class="pp-n">01</span>
+      <span class="pp-nm">Corrections & Encouragement</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol2.html">
+      <span class="pp-n">02</span>
+      <span class="pp-nm">Goals, Body & Fight Day</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol3.html">
+      <span class="pp-n">03</span>
+      <span class="pp-nm">Daily Life & Grammar</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol4.html">
+      <span class="pp-n">04</span>
+      <span class="pp-nm">Emotions & Culture</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol5.html">
+      <span class="pp-n">05</span>
+      <span class="pp-nm">Health & Plans</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol7.html">
+      <span class="pp-n">07</span>
+      <span class="pp-nm">Thai Culture Deep Dive</span>
+    </a>
+    <a class="pp-lnk here" href="#">
+      <span class="pp-n">15</span>
+      <span class="pp-nm">Thai Festivals & Celebrations</span>
+      <span class="pp-tag">here</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol16.html">
+      <span class="pp-n">16</span>
+      <span class="pp-nm">Love, Family & Relationships</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol17.html">
+      <span class="pp-n">17</span>
+      <span class="pp-nm">Thai Wellness & Massage</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat lang">🍜 Food</span>
+    <a class="pp-lnk" href="kru-exchange-vol9.html">
+      <span class="pp-n">09</span>
+      <span class="pp-nm">Northern Thai Food</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol21.html">
+      <span class="pp-n">21</span>
+      <span class="pp-nm">Bangkok Street Food</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol22.html">
+      <span class="pp-n">22</span>
+      <span class="pp-nm">Southern Thai Food</span>
+    </a>
+
+    <div class="pp-div"></div>
+    <span class="pp-cat travel">✈️ Travel</span>
+    <a class="pp-lnk" href="kru-exchange-vol12.html">
+      <span class="pp-n">12</span>
+      <span class="pp-nm">Phuket & The Islands</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol13.html">
+      <span class="pp-n">13</span>
+      <span class="pp-nm">Bangkok Neighbourhoods</span>
+    </a>
+    <a class="pp-lnk" href="kru-exchange-vol14.html">
+      <span class="pp-n">14</span>
+      <span class="pp-nm">Getting Around Thailand</span>
+    </a>
+
+  </div>
+</div>
+
+<script>
+  function pillToggle() {
+    var pop = document.getElementById('pill-pop');
+    var btn = document.getElementById('pill-btn');
+    if (pop.classList.contains('popen')) {
+      pop.classList.remove('popen'); btn.classList.remove('pactive');
+    } else {
+      pop.classList.add('popen'); btn.classList.add('pactive');
+    }
+  }
+  document.addEventListener('click', function(e) {
+    var pop = document.getElementById('pill-pop');
+    var btn = document.getElementById('pill-btn');
+    if (!pop.contains(e.target) && !btn.contains(e.target)) {
+      pop.classList.remove('popen'); btn.classList.remove('pactive');
+    }
+  });
+</script>
+
+</body>
+</html>

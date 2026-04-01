@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Language Exchange Collection</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0906;
+    --bg2: #131109;
+    --bg3: #1c1810;
+    --gold: #c8943a;
+    --gold2: #e6b45a;
+    --gold-dim: rgba(200,148,58,0.15);
+    --cream: #f0e8d8;
+    --cream2: #d8cdb8;
+    --muted: #7a7060;
+    --border: rgba(200,148,58,0.18);
+    --border2: rgba(200,148,58,0.08);
+    --red: #b83428;
+    --eng: #5a9acc;
+    --thai: #cc5a7a;
+    --roman: #5aaa80;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.5;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 4rem 2rem 3rem;
+    position: relative;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,148,58,0.1) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 80%, rgba(90,154,204,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 70%, rgba(204,90,122,0.05) 0%, transparent 60%);
+  }
+
+  /* decorative Thai script watermark */
+  .hero::before {
+    content: 'ภาษาไทย';
+    position: absolute;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Noto Sans Thai', sans-serif;
+    font-size: clamp(5rem, 20vw, 16rem);
+    font-weight: 700;
+    color: rgba(200,148,58,0.04);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--gold);
+    border: 1px solid var(--border); padding: 0.35rem 1rem;
+    border-radius: 2px; margin-bottom: 2.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-gloves { font-size: 1.1rem; }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 9vw, 7rem);
+    font-weight: 600; line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    margin-bottom: 0.2rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold2);
+  }
+
+  .hero-thai {
+    font-family: 'Noto Sans Thai', sans-serif;
+    font-size: clamp(1.2rem, 4vw, 2.8rem);
+    font-weight: 300; color: var(--thai);
+    letter-spacing: 0.1em; margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-sub {
+    font-size: clamp(0.82rem, 2vw, 1rem);
+    color: var(--muted); font-weight: 300;
+    letter-spacing: 0.08em; margin-bottom: 3rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .legend-row {
+    display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .leg-item {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+
+  .leg-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .ld-e { background: var(--eng); }
+  .ld-t { background: var(--thai); }
+  .ld-r { background: var(--roman); }
+
+  .scroll-hint {
+    position: absolute; bottom: 2.5rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+    color: var(--muted); font-size: 0.68rem; letter-spacing: 0.2em;
+    text-transform: uppercase; animation: fadeUp 1s 0.8s ease both;
+  }
+
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex; align-items: center; gap: 1.5rem;
+    max-width: 1100px; margin: 0 auto 3rem;
+    padding: 0 2rem;
+  }
+
+  .div-line { flex: 1; height: 1px; background: var(--border2); }
+
+  .div-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); opacity: 0.7;
+    white-space: nowrap;
+  }
+
+  /* ── VOLUMES SECTION ── */
+  .volumes-section {
+    padding: 4rem 2rem 6rem;
+    max-width: 1100px; margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+
+  .section-heading {
+    text-align: center; margin-bottom: 3.5rem;
+  }
+
+  .section-heading h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 600; color: var(--cream);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+  }
+
+  .section-heading p {
+    font-size: 0.82rem; color: var(--muted);
+    font-weight: 300; letter-spacing: 0.06em;
+  }
+
+  /* ── VOL GRID ── */
+  .vol-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.2rem;
+  }
+
+  /* Featured first card — spans 2 cols on large screens */
+  .vol-card {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+    transition: all 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .vol-card:nth-child(1) { animation-delay: 0.05s; }
+  .vol-card:nth-child(2) { animation-delay: 0.12s; }
+  .vol-card:nth-child(3) { animation-delay: 0.19s; }
+  .vol-card:nth-child(4) { animation-delay: 0.26s; }
+  .vol-card:nth-child(5) { animation-delay: 0.33s; }
+
+  .vol-card:hover {
+    border-color: rgba(200,148,58,0.45);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(200,148,58,0.12);
+  }
+
+  .vol-card:hover .card-arrow { transform: translateX(4px); opacity: 1; }
+  .vol-card:hover .vol-bg-num { opacity: 0.09; }
+
+  /* colour strip top */
+  .vol-strip {
+    height: 3px;
+    width: 100%;
+  }
+
+  .s1 { background: linear-gradient(90deg, #2a5c8a, #5aaa80); }
+  .s2 { background: linear-gradient(90deg, #8a2010, #c05828); }
+  .s3 { background: linear-gradient(90deg, #7c6af7, #a888ff); }
+  .s4 { background: linear-gradient(90deg, #c05828, #b87820); }
+  .s5 { background: linear-gradient(90deg, #a888ff, #ff8fab); }
+
+  .vol-card-inner {
+    padding: 1.6rem 1.8rem 1.4rem;
+    position: relative; z-index: 1;
+  }
+
+  /* big translucent vol number background */
+  .vol-bg-num {
+    position: absolute;
+    right: -0.5rem; bottom: -1rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9rem; font-weight: 700;
+    color: var(--gold); opacity: 0.05;
+    line-height: 1; pointer-events: none;
+    letter-spacing: -0.05em;
+    transition: opacity 0.28s;
+    z-index: 0;
+  }
+
+  .vol-num-badge {
+    display: inline-block;
+    font-size: 0.64rem; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    background: rgba(200,148,58,0.1); border: 1px solid var(--border);
+    padding: 0.18rem 0.6rem; border-radius: 2px;
+    margin-bottom: 0.9rem;
+  }
+
+  .vol-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.55rem; font-weight: 600;
+    color: var(--cream); line-height: 1.15;
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.01em;
+  }
+
+  .vol-subtitle {
+    font-size: 0.76rem; color: var(--muted);
+    font-weight: 300; margin-bottom: 1.1rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* tab pills */
+  .vol-tabs {
+    display: flex; flex-wrap: wrap; gap: 0.35rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .vol-tab-pill {
+    font-size: 0.68rem; font-weight: 500;
+    padding: 0.2rem 0.55rem; border-radius: 20px;
+    border: 1px solid var(--border2); color: var(--muted);
+    letter-spacing: 0.02em;
+    transition: all 0.15s;
+  }
+
+  .vol-card:hover .vol-tab-pill {
+    border-color: rgba(200,148,58,0.25);
+    color: var(--cream2);
+  }
+
+  /* open button */
+  .vol-open {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--gold);
+    margin-top: 0.4rem;
+  }
+
+  .card-arrow {
+    display: inline-block;
+    transition: all 0.22s; opacity: 0.6;
+  }
+
+  /* ── STATS ROW ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border2);
+    border: 1px solid var(--border2);
+    border-radius: 8px; overflow: hidden;
+    margin: 3.5rem auto 0;
+    max-width: 600px;
+  }
+
+  .stat {
+    background: var(--bg2);
+    padding: 1.4rem 1rem; text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; font-weight: 600;
+    color: var(--gold2); line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.7rem; color: var(--muted);
+    font-weight: 400; letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2.5rem 2rem;
+    border-top: 1px solid var(--border2);
+    position: relative; z-index: 1;
+  }
+
+  .footer-thai {
+    font-family: 'Noto Sans Thai', sans-serif;
+    font-size: 1.4rem; font-weight: 600;
+    color: rgba(200,148,58,0.3); margin-bottom: 0.6rem;
+    letter-spacing: 0.1em;
+  }
+
+  .footer-text {
+    font-size: 0.74rem; color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .footer-legend {
+    display: flex; justify-content: center; gap: 1.2rem;
+    flex-wrap: wrap; margin-top: 1rem;
+    font-size: 0.72rem; color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    .vol-grid { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .hero::before { font-size: 5rem; bottom: 5rem; }
+  }
+
+  /* PIXEL FIGHTER */
+  .pixel-fighter {
+    position: relative;
+    margin: 2rem auto 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+
+  .pixel-fighter img {
+    width: clamp(100px, 18vw, 180px);
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    filter: drop-shadow(0 0 18px rgba(200,148,58,0.35));
+    transition: filter 0.3s;
+    animation: fighterBob 3s ease-in-out infinite;
+  }
+
+  .pixel-fighter img:hover {
+    filter: drop-shadow(0 0 28px rgba(200,148,58,0.65));
+  }
+
+  @keyframes fighterBob {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-tag">
+    <span class="hero-gloves">🥊</span>
+    Language Exchange Collection
+  </div>
+
+  <h1>English <em>↔</em> Thai</h1>
+  <div class="hero-thai">เรียนรู้ด้วยกัน</div>
+  <p class="hero-sub">More Learning Together · 14 Volumes · 950+ Phrases</p>
+
+  <div class="legend-row">
+    <div class="leg-item"><div class="leg-dot ld-e"></div>English</div>
+    <div class="leg-item"><div class="leg-dot ld-t"></div>ภาษาไทย Thai Script</div>
+    <div class="leg-item"><div class="leg-dot ld-r"></div>Romanized with tone marks</div>
+  </div>
+
+
+  <div class="pixel-fighter">
+    <img src="data:image/png;base64,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" alt="Muay Thai pixel fighter" />
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Browse volumes</span>
+  </div>
+</section>
+
+<!-- ── VOLUMES ── -->
+<section class="volumes-section">
+
+  <div class="divider">
+    <div class="div-line"></div>
+    <div class="div-text">The Collection</div>
+    <div class="div-line"></div>
+  </div>
+
+  <div class="vol-grid">
+
+<a class="vol-card" href="kru-language-exchange.html">
+      <div class="vol-strip s1"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">I</div>
+        <div class="vol-num-badge">Vol. 01</div>
+        <div class="vol-title">Corrections &<br>Encouragement</div>
+        <div class="vol-subtitle">Where it all begins · Foundations</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🎯 Corrections</span>
+          <span class="vol-tab-pill">💪 Encouragement</span>
+          <span class="vol-tab-pill">☕ Small Talk</span>
+          <span class="vol-tab-pill">🔄 Clarifying</span>
+          <span class="vol-tab-pill">🔗 Connectors</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol2.html">
+      <div class="vol-strip s2"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">II</div>
+        <div class="vol-num-badge">Vol. 02</div>
+        <div class="vol-title">Goals, Body<br>& Fight Day</div>
+        <div class="vol-subtitle">Getting real · Going further</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🎯 Goals & Plans</span>
+          <span class="vol-tab-pill">🩹 Body & Feelings</span>
+          <span class="vol-tab-pill">🍜 Food & Eating</span>
+          <span class="vol-tab-pill">🏆 Fight Day</span>
+          <span class="vol-tab-pill">💬 Opinions</span>
+          <span class="vol-tab-pill">🌿 Thai Idioms</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol3.html">
+      <div class="vol-strip s3"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">III</div>
+        <div class="vol-num-badge">Vol. 03</div>
+        <div class="vol-title">Daily Life &<br>Grammar Patterns</div>
+        <div class="vol-subtitle">Going deeper · Getting structural</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🌅 Daily Life</span>
+          <span class="vol-tab-pill">🕐 Time & Scheduling</span>
+          <span class="vol-tab-pill">🥋 Muay Thai Deep</span>
+          <span class="vol-tab-pill">💰 Numbers & Money</span>
+          <span class="vol-tab-pill">🌸 Compliments</span>
+          <span class="vol-tab-pill">📐 Grammar</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol4.html">
+      <div class="vol-strip s4"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">IV</div>
+        <div class="vol-num-badge">Vol. 04</div>
+        <div class="vol-title">Emotions, Culture<br>& Transport</div>
+        <div class="vol-subtitle">Heart language · Real world skills</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">😤 Emotions</span>
+          <span class="vol-tab-pill">🚕 Transport</span>
+          <span class="vol-tab-pill">🙏 Thai Culture</span>
+          <span class="vol-tab-pill">🗣️ Describing People</span>
+          <span class="vol-tab-pill">📱 Teaching & Online</span>
+          <span class="vol-tab-pill">📍 Location</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol5.html">
+      <div class="vol-strip s5"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">V</div>
+        <div class="vol-num-badge">Vol. 05</div>
+        <div class="vol-title">Proverbs, Markets<br>& Sentence Building</div>
+        <div class="vol-subtitle">Sharper still · Build your own sentences</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🙏 Apologising</span>
+          <span class="vol-tab-pill">🌿 Health & Wellness</span>
+          <span class="vol-tab-pill">🛒 Market & Shopping</span>
+          <span class="vol-tab-pill">📜 Thai Proverbs</span>
+          <span class="vol-tab-pill">📅 Making Plans</span>
+          <span class="vol-tab-pill">🏗️ Sentence Builder</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol6.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #e05c20, #dca03c);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">VI</div>
+        <div class="vol-num-badge">Vol. 06</div>
+        <div class="vol-title">Competition<br>Preparation</div>
+        <div class="vol-subtitle">Fight camp · Fight week · The big day</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🏕️ Camp Life</span>
+          <span class="vol-tab-pill">⚖️ Weight & Nutrition</span>
+          <span class="vol-tab-pill">🧠 Mental Prep</span>
+          <span class="vol-tab-pill">📅 Fight Week</span>
+          <span class="vol-tab-pill">🎙️ Ringside</span>
+          <span class="vol-tab-pill">🏅 Win or Lose</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol7.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #8c2a0a, #d49020);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">VII</div>
+        <div class="vol-num-badge">Vol. 07</div>
+        <div class="vol-title">Thai Culture<br>Deep Dive</div>
+        <div class="vol-subtitle">Festivals · Buddhism · Spirits & Customs</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🌸 Core Concepts</span>
+          <span class="vol-tab-pill">🙏 Buddhism</span>
+          <span class="vol-tab-pill">🎊 Festivals</span>
+          <span class="vol-tab-pill">👑 Royalty & Respect</span>
+          <span class="vol-tab-pill">🍛 Food Culture</span>
+          <span class="vol-tab-pill">🪬 Spirits & Beliefs</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol8.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #e03020, #f0c840);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">VIII</div>
+        <div class="vol-num-badge">Vol. 08</div>
+        <div class="vol-title">Fight Night at<br>Lumpinee Stadium</div>
+        <div class="vol-subtitle">Tickets · Crowd · Scoring · The real deal</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🏟️ The Stadium</span>
+          <span class="vol-tab-pill">🎟️ Tickets</span>
+          <span class="vol-tab-pill">👀 Watching the Fight</span>
+          <span class="vol-tab-pill">📣 Crowd Phrases</span>
+          <span class="vol-tab-pill">📊 Scoring</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol9.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #e06820, #e8a830);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">IX</div>
+        <div class="vol-num-badge">Vol. 09</div>
+        <div class="vol-title">Food in<br>Northern Thailand</div>
+        <div class="vol-subtitle">Chiang Mai · Lanna Cuisine · Market Life</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🍜 Must-Eat Dishes</span>
+          <span class="vol-tab-pill">🍛 Khao Soi Deep</span>
+          <span class="vol-tab-pill">🌅 Night Bazaar</span>
+          <span class="vol-tab-pill">🗣️ Ordering Thai</span>
+          <span class="vol-tab-pill">📖 Food Vocab</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol12.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #0a7aaa, #0aa090);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">XII</div>
+        <div class="vol-num-badge">Vol. 12</div>
+        <div class="vol-title">Phuket &<br>The Islands</div>
+        <div class="vol-subtitle">Beach life · Island hopping · Southern escapes</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🏙️ Phuket</span>
+          <span class="vol-tab-pill">🏝️ Islands</span>
+          <span class="vol-tab-pill">🏖️ Beach Life</span>
+          <span class="vol-tab-pill">⛵ Boats</span>
+          <span class="vol-tab-pill">💬 Practical Phrases</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol13.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #ff4080, #a080ff);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">XIII</div>
+        <div class="vol-num-badge">Vol. 13</div>
+        <div class="vol-title">Bangkok<br>Neighbourhood Guide</div>
+        <div class="vol-subtitle">Chatuchak · Chinatown · Sukhumvit · Khao San</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🏘️ Neighbourhoods</span>
+          <span class="vol-tab-pill">🛍️ Chatuchak</span>
+          <span class="vol-tab-pill">🏮 Chinatown</span>
+          <span class="vol-tab-pill">🌃 Sukhumvit</span>
+          <span class="vol-tab-pill">🎒 Khao San</span>
+          <span class="vol-tab-pill">🚈 BTS</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol14.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #3888d8, #38c890);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">XIV</div>
+        <div class="vol-num-badge">Vol. 14</div>
+        <div class="vol-title">Getting Around<br>Thailand</div>
+        <div class="vol-subtitle">Trains · Buses · Flights · Overnight sleepers</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🗺️ Overview</span>
+          <span class="vol-tab-pill">🚂 Train</span>
+          <span class="vol-tab-pill">🚌 Bus</span>
+          <span class="vol-tab-pill">✈️ Flights</span>
+          <span class="vol-tab-pill">🌙 Overnight</span>
+          <span class="vol-tab-pill">🛺 Local Transport</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol15.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #8a20a0, #c080e0);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">15</div>
+        <div class="vol-num-badge">Vol. 15</div>
+        <div class="vol-title">Thai Festivals<br>&amp; Celebrations</div>
+        <div class="vol-subtitle">Songkran · Loy Krathong · New Year · Wishes</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">💦 Songkran</span>
+          <span class="vol-tab-pill">🪔 Loy Krathong</span>
+          <span class="vol-tab-pill">🎊 Thai New Year</span>
+          <span class="vol-tab-pill">📅 Festival Calendar</span>
+          <span class="vol-tab-pill">🙏 Wishes & Greetings</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol16.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #a02060, #e080a0);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">16</div>
+        <div class="vol-num-badge">Vol. 16</div>
+        <div class="vol-title">Love, Family<br>&amp; Relationships</div>
+        <div class="vol-subtitle">Family terms · Romance · Thai pronouns</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">👨‍👩‍👧 Family</span>
+          <span class="vol-tab-pill">💕 Romance</span>
+          <span class="vol-tab-pill">🤝 Friendship</span>
+          <span class="vol-tab-pill">🗣️ Pronouns</span>
+          <span class="vol-tab-pill">☕ Social Situations</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol17.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #1a7a5a, #60d0a0);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">17</div>
+        <div class="vol-num-badge">Vol. 17</div>
+        <div class="vol-title">Thai Wellness<br>&amp; Massage</div>
+        <div class="vol-subtitle">Nuad Thai · Herbs · Recovery culture</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🙌 Thai Massage</span>
+          <span class="vol-tab-pill">💪 Body & Pain</span>
+          <span class="vol-tab-pill">🌿 Herbs & Remedies</span>
+          <span class="vol-tab-pill">🛌 Recovery</span>
+          <span class="vol-tab-pill">🧴 Spa & Wellness</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol18.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #c05828, #5828c0);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">18</div>
+        <div class="vol-num-badge">Vol. 18</div>
+        <div class="vol-title">Thai Humour,<br>Slang &amp; Internet</div>
+        <div class="vol-subtitle">วะ · 555 · ปัง · The Thai textbooks never teach</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🗣️ Particles & Vibes</span>
+          <span class="vol-tab-pill">🔥 Street Slang</span>
+          <span class="vol-tab-pill">📱 Internet Thai</span>
+          <span class="vol-tab-pill">😂 Thai Humour</span>
+          <span class="vol-tab-pill">🌍 English in Thai</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+    <a class="vol-card" href="kru-exchange-vol19.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #1a6a9a, #60a8d8);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">19</div>
+        <div class="vol-num-badge">Vol. 19</div>
+        <div class="vol-title">Time, Days,<br>Weeks &amp; Months</div>
+        <div class="vol-subtitle">Thai clock · Days with colours · Buddhist calendar</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🕐 Telling Time</span>
+          <span class="vol-tab-pill">📅 Days of the Week</span>
+          <span class="vol-tab-pill">🗓️ Months</span>
+          <span class="vol-tab-pill">⏳ Relative Time</span>
+          <span class="vol-tab-pill">📆 Scheduling</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol21.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #ff6030, #a070ff);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">21</div>
+        <div class="vol-num-badge">Vol. 21</div>
+        <div class="vol-title">Bangkok<br>Street Food</div>
+        <div class="vol-subtitle">Night markets · Roadside classics · Wok smoke</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🍜 Noodles</span>
+          <span class="vol-tab-pill">🍚 Rice Dishes</span>
+          <span class="vol-tab-pill">🔥 Grilled & Fried</span>
+          <span class="vol-tab-pill">🧆 Snacks & Sweets</span>
+          <span class="vol-tab-pill">🧃 Drinks</span>
+          <span class="vol-tab-pill">🗣️ Street Phrases</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+<a class="vol-card" href="kru-exchange-vol22.html">
+      <div class="vol-strip" style="background: linear-gradient(90deg, #0a7a6a, #c84a10);"></div>
+      <div class="vol-card-inner">
+        <div class="vol-bg-num">22</div>
+        <div class="vol-num-badge">Vol. 22</div>
+        <div class="vol-title">Southern<br>Thai Food</div>
+        <div class="vol-subtitle">Massaman · Phuket · Hat Yai · Seafood</div>
+        <div class="vol-tabs">
+          <span class="vol-tab-pill">🌶️ Southern Flavours</span>
+          <span class="vol-tab-pill">🍛 Curries</span>
+          <span class="vol-tab-pill">🦐 Seafood</span>
+          <span class="vol-tab-pill">🫓 Muslim South</span>
+          <span class="vol-tab-pill">📖 South Vocab</span>
+        </div>
+        <div class="vol-open">Open Volume <span class="card-arrow">→</span></div>
+      </div>
+    </a>
+
+  </div>
+
+    <!-- VOL 22 -->
+
+    <!-- VOL 15 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">19</div>
+      <div class="stat-label">Volumes</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">95</div>
+      <div class="stat-label">Topic Tabs</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">950<span style="font-size:1.5rem">+</span></div>
+      <div class="stat-label">Phrases</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-thai">เรียนรู้ด้วยกัน</div>
+  <div class="footer-text">
+    English ↔ Thai · Language Exchange Collection 🥊<br>
+    Tone marks: à = low · â = falling · á = high · ǎ = rising · a = mid
+  </div>
+  <div class="footer-legend">
+    <span>🔵 English</span>
+    <span>🔴 ภาษาไทย Thai Script</span>
+    <span>🟢 Romanized</span>
+  </div>
+</footer>
+
+</body>
+</html>
