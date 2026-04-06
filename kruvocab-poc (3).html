@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KruVocab — Thai·English Dictionary</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,600;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#faf7f2; --bg2:#f2ede4; --bg3:#e8e0d2;
+  --ink:#1c1710; --muted:#8a7d6a; --border:rgba(28,23,16,0.1);
+  --eng:#2a5c8a; --thai:#8a2040; --roman:#2a6640;
+  --gold:#b87820; --accent:#c05828; --sidebar:#17130e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* LOGIN */
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--ink);position:relative;overflow:hidden;}
+#login-screen::before{content:'กรุ';position:absolute;right:-2rem;top:50%;transform:translateY(-50%);font-family:'Noto Sans Thai',sans-serif;font-size:28rem;font-weight:700;color:rgba(255,255,255,0.02);line-height:1;pointer-events:none;}
+.login-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:3rem 2.5rem;width:100%;max-width:420px;position:relative;z-index:1;animation:fadeUp 0.5s ease;}
+.login-logo{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:700;color:white;margin-bottom:0.2rem;line-height:1;}
+.login-logo span{color:var(--accent);font-style:italic;}
+.login-tagline{font-size:0.78rem;color:rgba(255,255,255,0.35);margin-bottom:2rem;font-weight:300;}
+.login-label{font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:0.5rem;display:block;}
+.login-input{width:100%;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.12);border-radius:8px;padding:0.85rem 1.1rem;font-family:'Outfit',sans-serif;font-size:0.95rem;color:white;outline:none;margin-bottom:1rem;transition:border-color 0.15s;}
+.login-input::placeholder{color:rgba(255,255,255,0.2);}
+.login-input:focus{border-color:rgba(192,88,40,0.6);}
+.login-input.error{border-color:rgba(192,88,40,0.9);}
+.login-key-hint{font-size:0.68rem;color:rgba(255,255,255,0.22);margin:-0.6rem 0 1rem;line-height:1.55;}
+.login-key-hint a{color:rgba(192,88,40,0.65);text-decoration:none;}
+.role-row{display:flex;gap:0.6rem;margin-bottom:1.5rem;}
+.role-btn{flex:1;padding:0.7rem;border-radius:8px;border:1.5px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.4);font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:center;}
+.role-btn.active{background:rgba(192,88,40,0.2);border-color:var(--accent);color:white;}
+.login-btn{width:100%;background:var(--accent);color:white;border:none;border-radius:8px;padding:0.9rem;font-family:'Outfit',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;letter-spacing:0.04em;transition:opacity 0.15s;}
+.login-btn:hover{opacity:0.88;}
+.login-error{font-size:0.73rem;color:rgba(255,120,80,0.9);margin-bottom:0.8rem;display:none;}
+.login-note{font-size:0.7rem;color:rgba(255,255,255,0.18);text-align:center;margin-top:1.2rem;line-height:1.6;}
+
+/* APP SHELL */
+#app{display:none;height:100vh;flex-direction:row;}
+#app.visible{display:flex;}
+
+/* SIDEBAR */
+.sidebar{width:220px;flex-shrink:0;background:var(--sidebar);display:flex;flex-direction:column;padding:1.6rem 0;overflow:hidden;}
+.sb-logo{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;color:white;padding:0 1.4rem;margin-bottom:0.2rem;}
+.sb-logo span{color:var(--accent);font-style:italic;}
+.sb-tagline{font-size:0.65rem;color:rgba(255,255,255,0.25);padding:0 1.4rem;margin-bottom:2rem;}
+.sb-section{font-size:0.58rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);padding:0 1.4rem;margin-bottom:0.5rem;}
+.sb-item{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 1.4rem;font-size:0.82rem;font-weight:500;color:rgba(255,255,255,0.4);cursor:pointer;border-left:3px solid transparent;transition:all 0.15s;}
+.sb-item:hover{color:white;background:rgba(255,255,255,0.04);}
+.sb-item.active{color:white;background:rgba(192,88,40,0.15);border-left-color:var(--accent);}
+.sb-icon{font-size:0.95rem;width:18px;text-align:center;}
+.sb-spacer{flex:1;}
+.sb-user{padding:1rem 1.4rem;border-top:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:0.75rem;}
+.sb-avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:white;flex-shrink:0;}
+.sb-user-name{font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.7);}
+.sb-user-role{font-size:0.65rem;color:rgba(255,255,255,0.3);}
+.sb-logout{font-size:0.68rem;color:rgba(255,255,255,0.2);cursor:pointer;margin-left:auto;transition:color 0.15s;}
+.sb-logout:hover{color:var(--accent);}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0;}
+.topbar{background:white;border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:10;}
+.topbar-title{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;color:var(--ink);white-space:nowrap;}
+.search-wrap{flex:1;position:relative;max-width:520px;}
+.search-icon{position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);font-size:0.85rem;color:var(--muted);pointer-events:none;}
+#search-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:0.65rem 3rem 0.65rem 2.4rem;font-family:'Outfit',sans-serif;font-size:0.88rem;color:var(--ink);outline:none;transition:border-color 0.15s,box-shadow 0.15s;}
+#search-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(192,88,40,0.08);background:white;}
+#search-input::placeholder{color:var(--muted);opacity:0.6;}
+.search-hint{position:absolute;right:0.8rem;top:50%;transform:translateY(-50%);font-size:0.65rem;color:var(--muted);pointer-events:none;background:var(--bg2);padding:0.15rem 0.4rem;border-radius:4px;}
+.add-word-btn{background:var(--accent);color:white;border:none;border-radius:8px;padding:0.65rem 1.2rem;font-family:'Outfit',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:0.4rem;transition:opacity 0.15s;}
+.add-word-btn:hover{opacity:0.88;}
+
+/* PAGE */
+.page{flex:1;padding:1.8rem 2rem 4rem;}
+
+/* TABS */
+.dict-tabs{display:flex;margin-bottom:1.6rem;border-bottom:2px solid var(--border);}
+.dict-tab{padding:0.7rem 1.2rem;font-size:0.8rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif;}
+.dict-tab:hover{color:var(--ink);}
+.dict-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+/* TAG FILTER */
+.tag-filter{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.4rem;align-items:center;}
+.tf-label{font-size:0.63rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-right:0.2rem;}
+.tf-pill{padding:0.25rem 0.7rem;border-radius:50px;font-size:0.71rem;font-weight:600;border:1.5px solid var(--border);background:var(--bg2);color:var(--muted);cursor:pointer;transition:all 0.15s;user-select:none;}
+.tf-pill:hover{border-color:var(--muted);color:var(--ink);}
+.tf-pill.active{color:white;border-color:transparent;}
+.tf-pill[data-tag="all"].active{background:var(--ink);}
+.tf-pill[data-tag="emotions"].active{background:#7a4898;}
+.tf-pill[data-tag="gym"].active{background:var(--accent);}
+.tf-pill[data-tag="food"].active{background:var(--roman);}
+.tf-pill[data-tag="daily"].active{background:var(--eng);}
+.tf-pill[data-tag="travel"].active{background:#8a5c2a;}
+.tf-pill[data-tag="culture"].active{background:var(--thai);}
+.tf-pill[data-tag="journal"].active{background:#4a7a60;}
+.tf-pill[data-tag="other"].active{background:var(--muted);}
+
+/* RESULTS */
+.results-hd{display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem;}
+.results-count{font-size:0.7rem;color:var(--muted);font-weight:500;}
+.results-divider{flex:1;height:1px;background:var(--border);}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0.85rem;}
+
+/* STATS */
+.stats-bar{display:flex;gap:1.5rem;margin-bottom:1.6rem;padding:1rem 1.2rem;background:white;border-radius:10px;border:1px solid var(--border);}
+.stat{display:flex;flex-direction:column;gap:0.15rem;}
+.stat-val{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:700;color:var(--ink);line-height:1;}
+.stat-val.accent{color:var(--accent);}
+.stat-lbl{font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.stat-div{width:1px;background:var(--border);}
+
+/* CARD */
+.wcard{background:white;border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.2rem 1rem;position:relative;transition:box-shadow 0.18s,transform 0.18s;animation:fadeUp 0.25s ease;cursor:pointer;}
+.wcard:hover{box-shadow:0 4px 18px rgba(0,0,0,0.08);transform:translateY(-1px);}
+.wcard.mine{border-color:rgba(192,88,40,0.25);background:#fffcfa;}
+.wcard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:0.55rem;}
+.wcard-tag{display:inline-flex;padding:0.15rem 0.6rem;border-radius:50px;font-size:0.62rem;font-weight:700;color:white;}
+.wcard-tag[data-tag="emotions"]{background:#7a4898;}
+.wcard-tag[data-tag="gym"]{background:var(--accent);}
+.wcard-tag[data-tag="food"]{background:var(--roman);}
+.wcard-tag[data-tag="daily"]{background:var(--eng);}
+.wcard-tag[data-tag="travel"]{background:#8a5c2a;}
+.wcard-tag[data-tag="culture"]{background:var(--thai);}
+.wcard-tag[data-tag="journal"]{background:#4a7a60;}
+.wcard-tag[data-tag="other"]{background:var(--muted);}
+.wcard-meta{display:flex;align-items:center;gap:0.5rem;}
+.wcard-by{font-size:0.62rem;color:var(--muted);}
+.speak-btn{width:26px;height:26px;border-radius:50%;background:rgba(138,32,64,0.08);border:1.5px solid rgba(138,32,64,0.18);color:var(--thai);cursor:pointer;font-size:0.75rem;display:inline-flex;align-items:center;justify-content:center;transition:all 0.15s;padding:0;}
+.speak-btn:hover{background:rgba(138,32,64,0.15);border-color:var(--thai);}
+.speak-btn.speaking{background:var(--thai);color:white;animation:pulse 0.6s ease infinite alternate;}
+.wcard-eng{color:var(--eng);font-size:0.97rem;font-weight:600;margin-bottom:0.25rem;}
+.wcard-pos{font-size:0.67rem;color:var(--muted);font-style:italic;margin-left:0.35rem;font-weight:400;}
+.wcard-thai{font-family:'Noto Sans Thai',sans-serif;color:var(--thai);font-size:1.15rem;font-weight:700;line-height:1.65;margin-bottom:0.1rem;}
+.wcard-roman{color:var(--roman);font-size:0.82rem;font-style:italic;letter-spacing:0.02em;}
+.wcard-divider{border:none;border-top:1px dashed var(--border);margin:0.65rem 0;}
+.wcard-examples{display:none;}
+.wcard.expanded .wcard-examples{display:block;}
+.ex-label{font-size:0.6rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;}
+.ex-block{margin-bottom:0.65rem;}
+.ex-block:last-child{margin-bottom:0;}
+.ex-en{color:var(--eng);font-size:0.82rem;font-weight:500;margin-bottom:0.15rem;}
+.ex-th{font-family:'Noto Sans Thai',sans-serif;color:var(--thai);font-size:0.9rem;font-weight:600;line-height:1.65;margin-bottom:0.1rem;}
+.ex-ro{color:var(--roman);font-size:0.75rem;font-style:italic;}
+.wcard-note{margin-top:0.6rem;padding:0.5rem 0.7rem;background:rgba(184,120,32,0.06);border-radius:5px;border-left:2px solid var(--gold);font-size:0.76rem;color:var(--muted);line-height:1.6;}
+.expand-hint{font-size:0.65rem;color:var(--muted);text-align:center;margin-top:0.6rem;opacity:0.5;}
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--muted);}
+.empty-state .big{font-family:'Fraunces',serif;font-size:3rem;margin-bottom:0.5rem;opacity:0.2;}
+.empty-state p{font-size:0.85rem;line-height:1.7;}
+
+/* PANEL */
+.panel-overlay{display:none;position:fixed;inset:0;background:rgba(28,23,16,0.45);z-index:50;align-items:flex-start;justify-content:flex-end;}
+.panel-overlay.visible{display:flex;}
+.panel{width:100%;max-width:440px;height:100vh;background:white;overflow-y:auto;display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,0.15);animation:slideIn 0.25s ease;}
+.panel-hd{background:var(--ink);padding:1.5rem 1.6rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.panel-title{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;color:white;}
+.panel-close{background:none;border:none;color:rgba(255,255,255,0.4);font-size:1.1rem;cursor:pointer;padding:0.2rem;transition:color 0.15s;}
+.panel-close:hover{color:white;}
+.panel-body{padding:1.6rem;flex:1;display:flex;flex-direction:column;gap:1rem;}
+.field-label{font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;display:block;}
+.field-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:0.75rem 1rem;font-family:'Outfit',sans-serif;font-size:0.9rem;color:var(--ink);outline:none;transition:border-color 0.15s;}
+.field-input:focus{border-color:var(--accent);background:white;}
+.field-input::placeholder{color:var(--muted);opacity:0.6;}
+.field-select{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:0.75rem 2.5rem 0.75rem 1rem;font-family:'Outfit',sans-serif;font-size:0.88rem;color:var(--ink);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a7d6a'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;background-color:var(--bg);}
+.field-select:focus{border-color:var(--accent);}
+.field-textarea{width:100%;min-height:72px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:0.75rem 1rem;font-family:'Outfit',sans-serif;font-size:0.85rem;color:var(--ink);outline:none;resize:vertical;line-height:1.6;transition:border-color 0.15s;}
+.field-textarea:focus{border-color:var(--gold);background:white;}
+.field-textarea::placeholder{color:var(--muted);opacity:0.6;font-style:italic;}
+.lookup-btn{width:100%;background:white;border:1.5px solid rgba(192,88,40,0.3);border-radius:8px;padding:0.75rem 1rem;font-family:'Outfit',sans-serif;font-size:0.88rem;color:var(--accent);font-weight:600;cursor:pointer;text-align:left;transition:all 0.15s;}
+.lookup-btn:hover{background:rgba(192,88,40,0.05);border-color:var(--accent);}
+.lookup-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.panel-loading{display:none;align-items:center;gap:0.7rem;font-size:0.82rem;color:var(--muted);padding:0.3rem 0;}
+.panel-loading.visible{display:flex;}
+.spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0;}
+.preview-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1rem 1.1rem;display:none;animation:fadeUp 0.2s ease;}
+.preview-box.visible{display:block;}
+.preview-eng{color:var(--eng);font-size:0.95rem;font-weight:600;margin-bottom:0.25rem;}
+.preview-thai{font-family:'Noto Sans Thai',sans-serif;color:var(--thai);font-size:1.1rem;font-weight:700;line-height:1.65;margin-bottom:0.1rem;}
+.preview-roman{color:var(--roman);font-size:0.82rem;font-style:italic;}
+.preview-label{font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:0.6rem 0 0.4rem;}
+.preview-ex{font-size:0.78rem;color:var(--muted);line-height:1.6;}
+.panel-error{font-size:0.76rem;color:var(--accent);display:none;padding:0.5rem 0;}
+.panel-error.visible{display:block;}
+.panel-actions{margin-top:auto;padding-top:1rem;border-top:1px solid var(--border);}
+.save-btn{width:100%;background:var(--accent);color:white;border:none;border-radius:8px;padding:0.85rem;font-family:'Outfit',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;transition:opacity 0.15s;}
+.save-btn:hover:not(:disabled){opacity:0.88;}
+.save-btn:disabled{opacity:0.35;cursor:not-allowed;}
+.panel-hint{font-size:0.72rem;color:var(--muted);line-height:1.65;padding:0.7rem 1rem;background:rgba(192,88,40,0.05);border-left:3px solid var(--accent);border-radius:0 5px 5px 0;}
+.panel-hint strong{color:var(--ink);}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:white;padding:0.7rem 1.4rem;border-radius:50px;font-size:0.8rem;font-weight:500;opacity:0;transition:all 0.3s;z-index:200;white-space:nowrap;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@media(max-width:700px){.sidebar{display:none;}.cards-grid{grid-template-columns:1fr;}.topbar{padding:0.8rem 1rem;}.page{padding:1rem 1rem 4rem;}.stats-bar{gap:1rem;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slideIn{from{transform:translateX(100%);}to{transform:translateX(0);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes pulse{from{opacity:1;}to{opacity:0.55;}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Kru<span>Vocab</span></div>
+    <p class="login-tagline">Thai · English shared vocabulary platform</p>
+
+    <label class="login-label" for="login-name">Your name</label>
+    <input class="login-input" id="login-name" placeholder="e.g. Sora, Kru Lek, Jollyn..." />
+
+    <label class="login-label" for="login-apikey">Anthropic API Key</label>
+    <input class="login-input" id="login-apikey" type="password" placeholder="Paste your API key here..." />
+    <p class="login-key-hint">Get your key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys. Your key never leaves this browser.</p>
+
+    <label class="login-label">I am a</label>
+    <div class="role-row">
+      <div class="role-btn active" data-role="student" onclick="selectRole(this)">🥊 Student</div>
+      <div class="role-btn" data-role="teacher" onclick="selectRole(this)">📖 Teacher / Kru</div>
+    </div>
+
+    <p class="login-error" id="login-error"></p>
+    <button class="login-btn" id="login-btn">Enter KruVocab →</button>
+    <p class="login-note">Demo only — no real account created. Data lives in this session.</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <aside class="sidebar">
+    <div class="sb-logo">Kru<span>Vocab</span></div>
+    <p class="sb-tagline">Thai · English dictionary</p>
+    <p class="sb-section">Menu</p>
+    <div class="sb-item active" onclick="showPage('dictionary',this)"><span class="sb-icon">🔍</span>Dictionary</div>
+    <div class="sb-item" onclick="showPage('mywords',this)"><span class="sb-icon">📋</span>My Words</div>
+    <div class="sb-spacer"></div>
+    <div class="sb-user">
+      <div class="sb-avatar" id="sb-avatar">S</div>
+      <div><div class="sb-user-name" id="sb-name">Sora</div><div class="sb-user-role" id="sb-role">Student</div></div>
+      <span class="sb-logout" onclick="doLogout()" title="Log out">⏏</span>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Dictionary</div>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input id="search-input" type="text" placeholder="Search English, ภาษาไทย, or romanized..." autocomplete="off" spellcheck="false" />
+        <span class="search-hint">any script</span>
+      </div>
+      <button class="add-word-btn" id="add-word-btn">＋ Add Word</button>
+    </div>
+
+    <div class="page" id="page-dictionary">
+      <div class="stats-bar">
+        <div class="stat"><div class="stat-val accent" id="stat-total">0</div><div class="stat-lbl">Total Words</div></div>
+        <div class="stat-div"></div>
+        <div class="stat"><div class="stat-val" id="stat-mine">0</div><div class="stat-lbl">My Contributions</div></div>
+        <div class="stat-div"></div>
+        <div class="stat"><div class="stat-val" id="stat-contributors">0</div><div class="stat-lbl">Contributors</div></div>
+        <div class="stat-div"></div>
+        <div class="stat"><div class="stat-val" id="stat-tags">0</div><div class="stat-lbl">Categories</div></div>
+      </div>
+
+      <div class="dict-tabs">
+        <button class="dict-tab active" id="tab-community" onclick="switchTab('community',this)">🌐 Community Dictionary</button>
+        <button class="dict-tab" id="tab-mine" onclick="switchTab('mine',this)">👤 My Words</button>
+      </div>
+
+      <div class="tag-filter">
+        <span class="tf-label">Filter</span>
+        <span class="tf-pill active" data-tag="all">All</span>
+        <span class="tf-pill" data-tag="emotions">😤 Emotions</span>
+        <span class="tf-pill" data-tag="gym">🥊 Gym</span>
+        <span class="tf-pill" data-tag="food">🍜 Food</span>
+        <span class="tf-pill" data-tag="daily">💬 Daily</span>
+        <span class="tf-pill" data-tag="travel">✈️ Travel</span>
+        <span class="tf-pill" data-tag="culture">🙏 Culture</span>
+        <span class="tf-pill" data-tag="journal">📓 Journal</span>
+        <span class="tf-pill" data-tag="other">📌 Other</span>
+      </div>
+
+      <div class="results-hd">
+        <span class="results-count" id="results-count"></span>
+        <div class="results-divider"></div>
+      </div>
+      <div class="cards-grid" id="cards-container"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD WORD PANEL -->
+<div class="panel-overlay" id="panel-overlay">
+  <div class="panel">
+    <div class="panel-hd">
+      <div class="panel-title">Add New Word</div>
+      <button class="panel-close" id="panel-close-btn">✕</button>
+    </div>
+    <div class="panel-body">
+      <p class="panel-hint">Type a word in <strong>English or Thai</strong>. AI generates the full entry — then it's saved to the shared dictionary.</p>
+
+      <div>
+        <label class="field-label">Word or phrase</label>
+        <input class="field-input" id="panel-word" placeholder="e.g. nervous · เร็ว · to shake off..." autocomplete="off" spellcheck="false" />
+      </div>
+
+      <div>
+        <label class="field-label">Category</label>
+        <select class="field-select" id="panel-tag">
+          <option value="emotions">😤 Emotions</option>
+          <option value="gym">🥊 Gym</option>
+          <option value="food">🍜 Food</option>
+          <option value="daily">💬 Daily</option>
+          <option value="travel">✈️ Travel</option>
+          <option value="culture">🙏 Culture</option>
+          <option value="journal">📓 Journal</option>
+          <option value="other">📌 Other</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="field-label">Your notes (optional)</label>
+        <textarea class="field-textarea" id="panel-note" placeholder="e.g. Kru says this is more casual · remember falling tone · used when frustrated…"></textarea>
+      </div>
+
+      <button class="lookup-btn" id="lookup-btn">🔍 Look up with AI →</button>
+
+      <div class="panel-loading" id="panel-loading">
+        <div class="spinner"></div>
+        <span id="panel-loading-text">Looking up…</span>
+      </div>
+
+      <p class="panel-error" id="panel-error"></p>
+
+      <div class="preview-box" id="preview-box">
+        <div class="preview-eng" id="pv-eng"></div>
+        <div class="preview-thai" id="pv-thai"></div>
+        <div class="preview-roman" id="pv-roman"></div>
+        <div class="preview-label">Example sentences</div>
+        <div class="preview-ex" id="pv-examples"></div>
+      </div>
+
+      <div class="panel-actions">
+        <button class="save-btn" id="save-btn" disabled>Save to Dictionary</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var SYSTEM_PROMPT = 'You are a Thai language teacher. Given a word or phrase in English or Thai, return ONLY a JSON object with no markdown and no extra text: {"english":"English word/phrase","thai":"Thai script","romanized":"romanized with tone marks (a\u0300=low a\u0302=falling a\u0301=high a\u030c=rising a=mid)","partOfSpeech":"noun/verb/adjective/phrase/etc","examples":[{"english":"sentence","thai":"Thai script","romanized":"romanized"},{"english":"sentence","thai":"Thai script","romanized":"romanized"}]}. Make examples practical and conversational. Muay Thai context welcome.';
+
+var TAG_LABELS = {emotions:'😤 Emotions',gym:'🥊 Gym',food:'🍜 Food',daily:'💬 Daily',travel:'✈️ Travel',culture:'🙏 Culture',journal:'📓 Journal',other:'📌 Other'};
+
+var SEED = [
+  {id:1,english:'Happy',thai:'ดีใจ',romanized:'dii jai',partOfSpeech:'adjective',tag:'emotions',addedBy:'Kru Lek',note:'Literally "good heart". Same \u0e43\u0e08 pattern as many emotion words.',examples:[{english:"I'm so happy you came to training today.",thai:'ดีใจ\u0e21\u0e32\u0e01\u0e17\u0e35\u0e48\u0e21\u0e32\u0e1d\u0e36\u0e01\u0e27\u0e31\u0e19\u0e19\u0e35\u0e49',romanized:'dii jai m\u00e2ak th\u00eei maa f\u00f9ek wan n\u00edii'},{english:'She looked happy after her first sparring.',thai:'\u0e40\u0e18\u0e2d\u0e14\u0e39ดีใจ\u0e2b\u0e25\u0e31\u0e07\u0e08\u0e32\u0e01\u0e0b\u0e49\u0e2d\u0e21\u0e0a\u0e01\u0e04\u0e23\u0e31\u0e49\u0e07\u0e41\u0e23\u0e01',romanized:'thooe dùu dii jai l\u01cengjàak s\u00e1awm ch\u00f3k khr\u00e1ang r\u00e2aaek'}]},
+  {id:2,english:'Hardworking',thai:'ขยัน',romanized:'kh\u00e0-yan',partOfSpeech:'adjective',tag:'daily',addedBy:'Kru Lek',note:'One of the highest compliments in Thai culture.',examples:[{english:'You are very hardworking — I can see the improvement.',thai:'\u0e04\u0e38\u0e13ขยัน\u0e21\u0e32\u0e01 \u0e40\u0e2b\u0e47\u0e19\u0e04\u0e27\u0e32\u0e21\u0e01\u0e49\u0e32\u0e27\u0e2b\u0e19\u0e49\u0e32\u0e0a\u0e31\u0e14\u0e40\u0e25\u0e22',romanized:'khun kh\u00e0-yan m\u00e2ak — h\u011cn khwaam g\u00e2ao-n\u00e2a ch\u00e1t looei'},{english:'Hardworking students always improve faster.',thai:'\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19\u0e17\u0e35\u0e48ขยัน\u0e08\u0e30\u0e1e\u0e31\u0e12\u0e19\u0e32เร็ว\u0e01\u0e27\u0e48\u0e32\u0e40\u0e2a\u0e21\u0e2d',romanized:'n\u00e1k-rian th\u00eei kh\u00e0-yan j\u00e0 ph\u00e1t-th\u00e1-naa reo gw\u00e0a s\u00e0-m\u01ce'}]},
+  {id:3,english:'Milk tea',thai:'ชานม',romanized:'chaa nom',partOfSpeech:'noun',tag:'food',addedBy:'Sora',note:'Thai iced milk tea (\u0e0a\u0e32\u0e44\u0e17\u0e22) is the classic orange one with condensed milk.',examples:[{english:'After training I always want milk tea.',thai:'\u0e2b\u0e25\u0e31\u0e07\u0e1d\u0e36\u0e01\u0e09\u0e31\u0e19\u0e2d\u0e22\u0e32\u0e01\u0e14\u0e37\u0e48\u0e21ชานม\u0e17\u0e38\u0e01\u0e04\u0e23\u0e31\u0e49\u0e07\u0e40\u0e25\u0e22',romanized:'l\u01ceng f\u00f9ek ch\u01cen y\u00e0ak d\u00f9em chaa nom th\u00fak khr\u00e1ang looei'},{english:'This milk tea near the gym is really good.',thai:'ชานม\u0e41\u0e16\u0e27\u0e22\u0e34\u0e21\u0e19\u0e35\u0e49\u0e2d\u0e23\u0e48\u0e2d\u0e22\u0e21\u0e32\u0e01\u0e40\u0e25\u0e22',romanized:'chaa nom th\u01cenao yim n\u00edii \u00e0-r\u00e0wy m\u00e2ak looei'}]},
+  {id:4,english:'Fast',thai:'เร็ว',romanized:'reo',partOfSpeech:'adjective/adverb',tag:'gym',addedBy:'Kru Lek',note:'For speed of movement — punches, footwork, combinations.',examples:[{english:'Your hands are fast but your guard drops.',thai:'\u0e21\u0e37\u0e2dเร็ว\u0e14\u0e35\u0e41\u0e15\u0e48\u0e01\u0e32\u0e23\u0e4c\u0e14\u0e15\u0e01',romanized:'mue reo dii t\u00e0ae gaard t\u00f3k'},{english:'Train fast, recover smart.',thai:'\u0e1d\u0e36\u0e01\u0e43\u0e2b\u0e49เร็ว \u0e1e\u0e31\u0e01\u0e43\u0e2b\u0e49\u0e09\u0e25\u0e32\u0e14',romanized:'f\u00f9ek h\u00e2ai reo — ph\u00e1k h\u00e2ai ch\u00e0-l\u00e0at'}]},
+  {id:5,english:'Wai (greeting)',thai:'ไหว้',romanized:'wâi',partOfSpeech:'verb/noun',tag:'culture',addedBy:'Kru Lek',note:'Hands pressed together. Higher = more respect.',examples:[{english:'Students wai to their kru before and after training.',thai:'\u0e19\u0e31\u0e01\u0e40\u0e23\u0e35\u0e22\u0e19ไหว้\u0e04\u0e23\u0e39\u0e01\u0e48\u0e2d\u0e19\u0e41\u0e25\u0e30\u0e2b\u0e25\u0e31\u0e07\u0e1d\u0e36\u0e01',romanized:'n\u00e1k-rian wâi khrùu gàawn l\u00e1e l\u01ceng f\u00f9ek'},{english:'When you enter the gym, wai to show respect.',thai:'\u0e15\u0e2d\u0e19\u0e40\u0e02\u0e49\u0e32\u0e22\u0e34\u0e21 ไหว้\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e41\u0e2a\u0e14\u0e07\u0e04\u0e27\u0e32\u0e21\u0e40\u0e04\u0e32\u0e23\u0e1e',romanized:'tawn kh\u00e2o yim — wâi ph\u00fbea s\u00e0-daeng khwaam khao-r\u00f3p'}]},
+  {id:6,english:'Relieved',thai:'โล่งใจ',romanized:'l\u00f4ong jai',partOfSpeech:'adjective',tag:'emotions',addedBy:'Sora',note:'Literally "open/clear heart".',examples:[{english:'I felt so relieved after passing my grading.',thai:'\u0e09\u0e31\u0e19\u0e23\u0e39\u0e49\u0e2a\u0e36\u0e01โล่งใจ\u0e21\u0e32\u0e01\u0e2b\u0e25\u0e31\u0e07\u0e08\u0e32\u0e01\u0e2a\u0e2d\u0e1a\u0e1c\u0e48\u0e32\u0e19',romanized:'ch\u01cen r\u00f9u-s\u00f9ek l\u00f4ong jai m\u00e2ak l\u01ceng j\u00e0ak s\u00e0awp ph\u00e0an'},{english:'You should feel relieved — you trained so well.',thai:'\u0e04\u0e27\u0e23\u0e08\u0e30โล่งใจ\u0e44\u0e14\u0e49 \u0e1d\u0e36\u0e01\u0e21\u0e32\u0e14\u0e35\u0e21\u0e32\u0e01\u0e41\u0e25\u0e49\u0e27',romanized:'khuan j\u00e0 l\u00f4ong jai d\u00e2ai — f\u00f9ek maa dii m\u00e2ak l\u00e1aeo'}]}
+];
+
+var currentUser = null;
+var currentRole = 'student';
+var currentApiKey = '';
+var dictionary = JSON.parse(JSON.stringify(SEED));
+var nextId = SEED.length + 1;
+var activeTab = 'community';
+var activeTag = 'all';
+var searchQuery = '';
+var pendingWord = null;
+var thaiVoice = null;
+
+// VOICES
+function initVoices() {
+  var v = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  thaiVoice = v.filter(function(x){return x.lang==='th-TH';})[0] || v.filter(function(x){return x.lang.startsWith('th');})[0];
+}
+if (window.speechSynthesis) { speechSynthesis.onvoiceschanged = initVoices; initVoices(); }
+
+function speak(text, btn) {
+  if (!window.speechSynthesis) return;
+  document.querySelectorAll('.speak-btn.speaking').forEach(function(b){b.classList.remove('speaking');});
+  if (speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
+  btn.classList.add('speaking');
+  setTimeout(function() {
+    var voices = speechSynthesis.getVoices();
+    var voice = voices.filter(function(v){return v.lang==='th-TH';})[0] || voices.filter(function(v){return v.lang.startsWith('th');})[0];
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'th-TH'; utt.rate = 0.85; utt.volume = 1;
+    if (voice) utt.voice = voice;
+    utt.onend = utt.onerror = function(){ btn.classList.remove('speaking'); };
+    speechSynthesis.speak(utt);
+  }, 200);
+}
+
+// LOGIN
+function selectRole(el) {
+  document.querySelectorAll('.role-btn').forEach(function(b){b.classList.remove('active');});
+  el.classList.add('active');
+  currentRole = el.dataset.role;
+}
+
+function showLoginError(msg) {
+  var el = document.getElementById('login-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function doLogin() {
+  var name = document.getElementById('login-name').value.trim();
+  var apiKey = document.getElementById('login-apikey').value.trim();
+  if (!name) {
+    document.getElementById('login-name').classList.add('error');
+    document.getElementById('login-name').focus();
+    showLoginError('Please enter your name.');
+    return;
+  }
+  // Strip ALL whitespace including newlines, zero-width spaces, smart quotes
+  apiKey = apiKey.replace(/[\s\u200B\u200C\u200D\uFEFF]/g, '').replace(/[\u2018\u2019\u201C\u201D]/g, '');
+  if (!apiKey) {
+    document.getElementById('login-apikey').classList.add('error');
+    document.getElementById('login-apikey').focus();
+    showLoginError('Please paste your Anthropic API key.');
+    return;
+  }
+  currentApiKey = apiKey;
+  currentUser = name;
+  document.getElementById('sb-avatar').textContent = name[0].toUpperCase();
+  document.getElementById('sb-name').textContent = name;
+  document.getElementById('sb-role').textContent = currentRole === 'teacher' ? 'Teacher / Kru' : 'Student';
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  renderCards();
+  updateStats();
+}
+
+function doLogout() {
+  currentUser = null; currentApiKey = '';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('login-name').value = '';
+  document.getElementById('login-apikey').value = '';
+  document.getElementById('login-error').style.display = 'none';
+}
+
+// NAVIGATION
+function showPage(id, el) {
+  document.querySelectorAll('.sb-item').forEach(function(i){i.classList.remove('active');});
+  el.classList.add('active');
+  document.getElementById('topbar-title').textContent = id === 'dictionary' ? 'Dictionary' : 'My Words';
+}
+
+function switchTab(tab, el) {
+  activeTab = tab;
+  document.querySelectorAll('.dict-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  renderCards();
+}
+
+function setTagFilter(el) {
+  activeTag = el.dataset.tag;
+  document.querySelectorAll('.tf-pill').forEach(function(p){p.classList.remove('active');});
+  el.classList.add('active');
+  renderCards();
+}
+
+function matchesSearch(word, q) {
+  if (!q) return true;
+  return word.english.toLowerCase().indexOf(q) > -1 ||
+         word.thai.indexOf(q) > -1 ||
+         word.romanized.toLowerCase().indexOf(q) > -1;
+}
+
+function renderCards() {
+  var container = document.getElementById('cards-container');
+  var words = dictionary.filter(function(w) {
+    if (activeTab === 'mine' && w.addedBy !== currentUser) return false;
+    if (activeTag !== 'all' && w.tag !== activeTag) return false;
+    if (!matchesSearch(w, searchQuery)) return false;
+    return true;
+  });
+
+  var countEl = document.getElementById('results-count');
+  countEl.textContent = words.length + ' word' + (words.length !== 1 ? 's' : '') +
+    (searchQuery ? ' matching "' + searchQuery + '"' : '') +
+    (activeTag !== 'all' ? ' in ' + (TAG_LABELS[activeTag]||activeTag) : '');
+
+  if (words.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="big">🔍</div><p>No words found.<br><span style="font-size:0.78rem">Try a different search or add a new word.</span></p></div>';
+    return;
+  }
+
+  container.innerHTML = '';
+  words.forEach(function(w){ container.appendChild(buildCard(w)); });
+  updateStats();
+}
+
+function buildCard(w) {
+  var div = document.createElement('div');
+  div.className = 'wcard' + (w.addedBy === currentUser ? ' mine' : '');
+
+  var exHtml = (w.examples || []).map(function(ex) {
+    return '<div class="ex-block"><div class="ex-en">'+esc(ex.english)+'</div><div class="ex-th">'+esc(ex.thai)+'</div><div class="ex-ro">'+esc(ex.romanized)+'</div></div>';
+  }).join('');
+
+  var noteHtml = w.note ? '<div class="wcard-note">📝 ' + esc(w.note) + '</div>' : '';
+
+  div.innerHTML =
+    '<div class="wcard-top">' +
+      '<div class="wcard-tag" data-tag="'+esc(w.tag)+'">'+(TAG_LABELS[w.tag]||w.tag)+'</div>' +
+      '<div class="wcard-meta"><span class="wcard-by">by '+esc(w.addedBy)+'</span><button class="speak-btn">🔊</button></div>' +
+    '</div>' +
+    '<div class="wcard-eng">'+esc(w.english)+'<span class="wcard-pos">'+esc(w.partOfSpeech||'')+'</span></div>' +
+    '<div class="wcard-thai">'+esc(w.thai)+'</div>' +
+    '<div class="wcard-roman">'+esc(w.romanized)+'</div>' +
+    '<hr class="wcard-divider">' +
+    '<div class="wcard-examples"><div class="ex-label">Examples</div>'+exHtml+noteHtml+'</div>' +
+    '<div class="expand-hint">tap to see examples ↓</div>';
+
+  div.querySelector('.speak-btn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    speak(w.thai, e.currentTarget);
+  });
+
+  div.addEventListener('click', function() {
+    var expanded = div.classList.toggle('expanded');
+    div.querySelector('.expand-hint').style.display = expanded ? 'none' : '';
+  });
+
+  return div;
+}
+
+function updateStats() {
+  document.getElementById('stat-total').textContent = dictionary.length;
+  document.getElementById('stat-mine').textContent = dictionary.filter(function(w){return w.addedBy===currentUser;}).length;
+  var contributors = {};
+  dictionary.forEach(function(w){contributors[w.addedBy]=1;});
+  document.getElementById('stat-contributors').textContent = Object.keys(contributors).length;
+  var tags = {};
+  dictionary.forEach(function(w){tags[w.tag]=1;});
+  document.getElementById('stat-tags').textContent = Object.keys(tags).length;
+}
+
+// PANEL
+function openPanel() {
+  document.getElementById('panel-overlay').classList.add('visible');
+  document.getElementById('panel-word').focus();
+  pendingWord = null;
+  document.getElementById('save-btn').disabled = true;
+  document.getElementById('preview-box').classList.remove('visible');
+  document.getElementById('panel-loading').classList.remove('visible');
+  document.getElementById('panel-error').classList.remove('visible');
+  document.getElementById('panel-word').value = '';
+  document.getElementById('panel-note').value = '';
+}
+
+function closePanel() {
+  document.getElementById('panel-overlay').classList.remove('visible');
+}
+
+async function lookupWord() {
+  var word = document.getElementById('panel-word').value.trim();
+  if (!word) {
+    document.getElementById('panel-word').focus();
+    return;
+  }
+
+  var existing = dictionary.filter(function(w) {
+    return w.english.toLowerCase() === word.toLowerCase() ||
+           w.thai === word ||
+           w.romanized.toLowerCase() === word.toLowerCase();
+  })[0];
+  if (existing) {
+    showToast('Already in the dictionary: ' + existing.english);
+    return;
+  }
+
+  document.getElementById('panel-loading').classList.add('visible');
+  document.getElementById('panel-loading-text').textContent = 'Looking up "' + word + '"…';
+  document.getElementById('preview-box').classList.remove('visible');
+  document.getElementById('panel-error').classList.remove('visible');
+  document.getElementById('save-btn').disabled = true;
+  document.getElementById('lookup-btn').disabled = true;
+
+  try {
+    var res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': currentApiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: [{role:'user',content:word}]
+      })
+    });
+
+    var data = await res.json();
+
+    if (data.error) {
+      throw new Error(data.error.message || 'API error');
+    }
+
+    var raw = (data.content || []).map(function(b){return b.text||'';}).join('');
+    var clean = raw.replace(/```json|```/g,'').trim();
+    pendingWord = JSON.parse(clean);
+
+    document.getElementById('pv-eng').textContent  = pendingWord.english + ' (' + (pendingWord.partOfSpeech||'') + ')';
+    document.getElementById('pv-thai').textContent = pendingWord.thai;
+    document.getElementById('pv-roman').textContent = pendingWord.romanized;
+    document.getElementById('pv-examples').innerHTML = (pendingWord.examples||[]).map(function(ex,i) {
+      return '<div style="margin-bottom:0.5rem"><b style="color:var(--gold)">'+(i+1)+'.</b> '+esc(ex.english)+'<br>' +
+             '<span style="font-family:Noto Sans Thai,sans-serif;color:var(--thai)">'+esc(ex.thai)+'</span><br>' +
+             '<span style="font-style:italic;color:var(--roman)">'+esc(ex.romanized)+'</span></div>';
+    }).join('');
+    document.getElementById('preview-box').classList.add('visible');
+    document.getElementById('save-btn').disabled = false;
+
+  } catch(err) {
+    var errEl = document.getElementById('panel-error');
+    errEl.textContent = '⚠ ' + (err.message || 'Could not look up word. Check your API key and try again.');
+    errEl.classList.add('visible');
+  } finally {
+    document.getElementById('panel-loading').classList.remove('visible');
+    document.getElementById('lookup-btn').disabled = false;
+  }
+}
+
+function saveWord() {
+  if (!pendingWord) return;
+  var note = document.getElementById('panel-note').value.trim();
+  var tag  = document.getElementById('panel-tag').value;
+  dictionary.unshift(Object.assign({}, pendingWord, {id:nextId++, tag:tag, note:note, addedBy:currentUser}));
+  closePanel();
+  renderCards();
+  updateStats();
+  showToast('✓ "' + pendingWord.english + '" added to the dictionary!');
+  pendingWord = null;
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+function esc(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// EVENT LISTENERS
+document.getElementById('login-btn').addEventListener('click', doLogin);
+document.getElementById('login-name').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+document.getElementById('login-apikey').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+document.getElementById('add-word-btn').addEventListener('click', openPanel);
+document.getElementById('panel-close-btn').addEventListener('click', closePanel);
+document.getElementById('lookup-btn').addEventListener('click', lookupWord);
+document.getElementById('panel-word').addEventListener('keydown', function(e){ if(e.key==='Enter') lookupWord(); });
+document.getElementById('save-btn').addEventListener('click', saveWord);
+document.getElementById('search-input').addEventListener('input', function() {
+  searchQuery = this.value.toLowerCase().trim();
+  renderCards();
+});
+document.getElementById('panel-overlay').addEventListener('click', function(e){
+  if (e.target === this) closePanel();
+});
+document.querySelectorAll('.tf-pill').forEach(function(p) {
+  p.addEventListener('click', function(){ setTagFilter(this); });
+});
+</script>
+</body>
+</html>
