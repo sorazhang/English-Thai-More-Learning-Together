@@ -1218,8 +1218,8 @@ ${clone.innerHTML}
   }
 
   function injectSpeakButtons() {
-    // English lines
-    document.querySelectorAll('.e').forEach(el => {
+    // English — cards and dialogue lines only
+    document.querySelectorAll('.card .e, .dt .e').forEach(el => {
       if (el.querySelector('.speak-btn')) return;
       const span = document.createElement('span');
       span.className = 'speak-text';
@@ -1228,8 +1228,8 @@ ${clone.innerHTML}
       el.appendChild(span);
       el.appendChild(createSpeakBtn('en-GB', 'eng'));
     });
-    // Thai script lines
-    document.querySelectorAll('.t').forEach(el => {
+    // Thai — cards and dialogue lines only
+    document.querySelectorAll('.card .t, .dt .t').forEach(el => {
       if (el.querySelector('.speak-btn')) return;
       const span = document.createElement('span');
       span.className = 'speak-text';
