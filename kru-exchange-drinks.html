@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Ordering Drinks</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --bg2: #f2ede4;
+    --bg3: #e8e0d2;
+    --ink: #1c1710;
+    --muted: #8a7d6a;
+    --border: rgba(28,23,16,0.1);
+    --eng: #2a5c8a;
+    --thai: #8a2040;
+    --roman: #2a6640;
+    --gold: #b87820;
+    --accent: #c05828;
+    --accent2: #7a4898;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--ink);
+    padding: 3rem 2rem 2.2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '🧋';
+    position: absolute;
+    right: 2rem; bottom: 0.5rem;
+    font-size: 8rem;
+    opacity: 0.06;
+    line-height: 1; pointer-events: none;
+  }
+
+  .h-inner { max-width: 900px; margin: 0 auto; }
+
+  .vol-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 0.7rem;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+    font-weight: 700; line-height: 1.1;
+    color: #faf7f2; margin-bottom: 0.3rem;
+  }
+
+  h1 i { font-style: italic; color: rgba(192,88,40,0.9); }
+
+  .sub { font-size: 0.82rem; color: rgba(250,247,242,0.4); font-weight: 300; margin-bottom: 1.4rem; }
+
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .leg { display: flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; font-weight: 500; }
+  .lsq { width: 10px; height: 10px; border-radius: 2px; }
+  .le { background: var(--eng); }
+  .lt { background: var(--thai); }
+  .lr { background: var(--roman); }
+  .leg-eng { color: rgba(250,247,242,0.7); }
+
+  /* TABS */
+  .tab-bar {
+    background: var(--bg2);
+    border-bottom: 2px solid var(--bg3);
+    display: flex;
+    align-items: stretch;
+  }
+
+  .tabs {
+    display: flex; overflow-x: auto; flex: 1;
+    padding: 0 1.2rem;
+    scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: 0.9rem 1.1rem;
+    font-size: 0.79rem; font-weight: 600; color: var(--muted);
+    cursor: pointer; white-space: nowrap;
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+    transition: all 0.15s; letter-spacing: 0.02em;
+    background: none; border-top: none; border-left: none; border-right: none;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* SHARE */
+  .share-zone {
+    display: flex; align-items: center;
+    padding: 0 1rem 0 0.9rem;
+    flex-shrink: 0;
+    border-left: 1px solid var(--border);
+  }
+
+  .btn-dl {
+    display: flex; align-items: center; gap: 0.4rem;
+    padding: 0.42rem 0.85rem;
+    background: var(--accent); color: white;
+    border: none; border-radius: 5px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+
+  .btn-dl:hover { background: #a8481f; transform: translateY(-1px); box-shadow: 0 3px 10px rgba(192,88,40,0.3); }
+  .btn-dl:active { transform: translateY(0); }
+  .btn-dl svg { width: 13px; height: 13px; }
+
+  .toast {
+    position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--ink); color: #faf7f2;
+    padding: 0.6rem 1.2rem; border-radius: 100px;
+    font-size: 0.78rem; font-weight: 500;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), opacity 0.28s;
+    opacity: 0; pointer-events: none; z-index: 999;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  /* CONTENT */
+  .content { max-width: 900px; margin: 0 auto; padding: 2rem 1.4rem 5rem; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .intro {
+    font-size: 0.82rem; line-height: 1.72; color: var(--muted);
+    padding: 0.85rem 1.1rem; margin-bottom: 1.8rem;
+    border-left: 3px solid var(--accent); background: rgba(192,88,40,0.05);
+    border-radius: 0 4px 4px 0;
+  }
+  .intro strong { color: var(--ink); }
+
+  .grp {
+    font-size: 0.67rem; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted);
+    margin: 2.2rem 0 0.9rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .grp::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .grp:first-of-type { margin-top: 0; }
+
+  /* CARDS */
+  .card {
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.1rem 1.3rem;
+    margin-bottom: 0.65rem; cursor: pointer;
+    transition: all 0.18s; position: relative;
+  }
+  .card:hover { border-color: rgba(192,88,40,0.3); box-shadow: 0 3px 14px rgba(0,0,0,0.07); transform: translateY(-1px); }
+  .card.on { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(192,88,40,0.15); background: #fffcfa; }
+
+  .num { position: absolute; top: 0.9rem; right: 1.1rem; font-size: 0.65rem; color: var(--border); font-weight: 700; }
+
+  .copy-btn {
+    position: absolute; top: 0.75rem; right: 2.8rem;
+    background: none; border: 1px solid var(--border);
+    border-radius: 4px; padding: 0.18rem 0.38rem;
+    cursor: pointer; opacity: 0; transition: opacity 0.15s, border-color 0.15s;
+    display: flex; align-items: center; gap: 0.25rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.62rem; font-weight: 600; color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .copy-btn svg { width: 10px; height: 10px; }
+  .card:hover .copy-btn { opacity: 1; }
+  .copy-btn:hover { border-color: var(--roman); color: var(--roman); }
+  .copy-btn.copied { border-color: var(--roman); color: var(--roman); opacity: 1; }
+
+  .e { color: var(--eng); font-size: 0.97rem; font-weight: 500; margin-bottom: 0.42rem; line-height: 1.45; padding-right: 5.5rem; }
+  .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1.07rem; font-weight: 600; margin-bottom: 0.25rem; line-height: 1.7; }
+  .r { color: var(--roman); font-size: 0.84rem; font-style: italic; letter-spacing: 0.02em; }
+
+  .note {
+    margin-top: 0.62rem; padding-top: 0.58rem;
+    border-top: 1px dashed var(--border);
+    font-size: 0.76rem; color: var(--muted); line-height: 1.6;
+  }
+  .note b { color: var(--gold); font-weight: 600; }
+  .note .ke { color: var(--eng); font-weight: 600; }
+  .note .ks { color: var(--roman); font-weight: 600; }
+
+  /* TABLE */
+  .tw { overflow-x: auto; margin-bottom: 0.7rem; }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; font-size: 0.85rem;
+  }
+  thead tr { background: var(--ink); }
+  thead th {
+    padding: 0.6rem 1rem; text-align: left;
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; color: rgba(250,247,242,0.7);
+  }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+  td { padding: 0.65rem 1rem; vertical-align: top; line-height: 1.5; }
+  .te { color: var(--eng); font-weight: 500; }
+  .tt { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.95rem; font-weight: 600; }
+  .tr2 { color: var(--roman); font-style: italic; }
+  .tn2 { color: var(--muted); font-size: 0.75rem; }
+
+  /* DIALOGUE */
+  .dlg {
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; margin-bottom: 0.8rem;
+  }
+  .dlg-hd {
+    background: var(--ink); padding: 0.5rem 1rem;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(250,247,242,0.6);
+  }
+  .dlg-ln {
+    padding: 0.8rem 1rem; border-bottom: 1px solid var(--border);
+    display: grid; grid-template-columns: 68px 1fr;
+    gap: 0.8rem; align-items: start;
+  }
+  .dlg-ln:last-child { border-bottom: none; }
+  .spk { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding-top: 0.15rem; }
+  .spk.staff { color: var(--eng); }
+  .spk.sora { color: var(--roman); }
+  .dt .e { font-size: 0.9rem; padding-right: 0; margin-bottom: 0.3rem; }
+  .dt .t { font-size: 0.97rem; margin-bottom: 0.18rem; }
+  .dt .r { font-size: 0.8rem; }
+
+  /* HIGHLIGHT BOX */
+  .hbox {
+    background: rgba(122,72,152,0.07);
+    border: 1px solid rgba(122,72,152,0.2);
+    border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.7rem;
+  }
+  .hbox-label {
+    font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--accent2); margin-bottom: 0.6rem;
+  }
+  .hbox p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+  .hbox p b { color: var(--ink); }
+  .hbox .t { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 1rem; font-weight: 600; line-height: 1.7; margin-bottom: 0.18rem; }
+  .hbox .r { color: var(--roman); font-size: 0.82rem; font-style: italic; }
+  .hbox .e { color: var(--eng); font-size: 0.9rem; font-weight: 500; margin-bottom: 0.3rem; }
+
+  /* ORDER BUILDER — visual cheat strip */
+  .order-strip {
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; margin-bottom: 1rem;
+  }
+  .order-strip-hd {
+    background: var(--gold); padding: 0.5rem 1rem;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: white;
+  }
+  .order-row {
+    display: grid; grid-template-columns: 130px 1fr;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.84rem;
+  }
+  .order-row:last-child { border-bottom: none; }
+  .order-label {
+    padding: 0.65rem 1rem; background: var(--bg);
+    font-weight: 600; font-size: 0.74rem; color: var(--muted);
+    letter-spacing: 0.04em; text-transform: uppercase;
+    display: flex; align-items: center;
+    border-right: 1px solid var(--border);
+  }
+  .order-opts {
+    padding: 0.55rem 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;
+  }
+  .opt {
+    display: inline-flex; flex-direction: column;
+    padding: 0.28rem 0.65rem; border-radius: 4px;
+    border: 1px solid var(--border);
+    font-size: 0.76rem;
+  }
+  .opt .oe { color: var(--eng); font-weight: 500; font-size: 0.72rem; }
+  .opt .ot { font-family: 'Noto Sans Thai', sans-serif; color: var(--thai); font-size: 0.88rem; font-weight: 600; line-height: 1.5; }
+  .opt .or { color: var(--roman); font-size: 0.68rem; font-style: italic; }
+
+  footer {
+    text-align: center; padding: 1.5rem;
+    font-size: 0.74rem; color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 560px) {
+    header::before { display: none; }
+    .dlg-ln { grid-template-columns: 50px 1fr; }
+    .btn-dl span { display: none; }
+    .btn-dl { padding: 0.42rem 0.6rem; }
+    .order-row { grid-template-columns: 90px 1fr; }
+    .order-label { font-size: 0.65rem; padding: 0.5rem 0.6rem; }
+  }
+
+  /* SPEAK BUTTONS */
+  .speak-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    border: none; background: transparent;
+    cursor: pointer; padding: 0;
+    opacity: 0.28; transition: opacity 0.15s, background 0.15s, transform 0.12s;
+    vertical-align: middle; margin-left: 0.3rem;
+    flex-shrink: 0; position: relative; top: -1px;
+  }
+  .speak-btn svg { width: 13px; height: 13px; display: block; }
+  .speak-btn:hover { opacity: 0.75; background: rgba(0,0,0,0.06); transform: scale(1.1); }
+  .speak-btn.eng-btn { color: var(--eng); }
+  .speak-btn.thai-btn { color: var(--thai); }
+  .speak-btn.speaking { opacity: 1; background: rgba(0,0,0,0.07); }
+  .speak-btn.speaking svg { animation: speaking-pulse 0.55s ease-in-out infinite alternate; }
+  .no-tts .speak-btn { display: none; }
+
+  @keyframes speaking-pulse {
+    from { transform: scale(0.88); opacity: 0.65; }
+    to   { transform: scale(1.18); opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-inner">
+    <div class="vol-tag">🥊 Language Exchange · Drinks Special</div>
+    <h1>สั่งเครื่องดื่ม<br><i>Ordering Drinks</i></h1>
+    <p class="sub">Milk tea · Hot & cold · Ice · Sugar · Take-away</p>
+    <div class="legend">
+      <div class="leg"><div class="lsq le"></div><span class="leg-eng">English</span></div>
+      <div class="leg"><div class="lsq lt"></div><span class="leg-eng">ภาษาไทย Thai Script</span></div>
+      <div class="leg"><div class="lsq lr"></div><span class="leg-eng">Romanized</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <nav class="tabs">
+    <button class="tab active" onclick="sw('order', this)">🧋 Ordering</button>
+    <button class="tab" onclick="sw('milktea', this)">🍵 Milk Tea</button>
+    <button class="tab" onclick="sw('ice', this)">🧊 Ice & Temp</button>
+    <button class="tab" onclick="sw('sugar', this)">🍬 Sweetness</button>
+    <button class="tab" onclick="sw('takeaway', this)">🛍️ Take-Away</button>
+    <button class="tab" onclick="sw('dialogue', this)">💬 Full Order</button>
+  </nav>
+  <div class="share-zone">
+    <button class="btn-dl" onclick="downloadTab()" title="Download this tab">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1"/>
+      </svg>
+      <span>Save tab</span>
+    </button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ORDERING BASICS -->
+  <div id="order" class="section active" data-label="🧋 Ordering Basics">
+    <p class="intro">
+      <strong>Kru learns:</strong> How to explain Thai drink ordering to international students — the logic is different from Western cafés.<br>
+      <strong>Sora learns:</strong> The core phrases to walk up to any Thai drink stall and order confidently. One magic word: <strong>ขอ (khǎaw)</strong>.
+    </p>
+
+    <div class="grp">The Magic Starter Words</div>
+
+    <div class="hbox">
+      <div class="hbox-label">🌟 Three ways to start an order</div>
+      <p>Thai has three natural openers for ordering. All work — pick your comfort level.</p>
+      <div style="margin-top:0.8rem; display:grid; grid-template-columns:1fr 1fr; gap:0.5rem 1.2rem; font-size:0.84rem;">
+        <div class="e" style="margin:0">Can I have... (polite, universal)</div><div class="t" style="margin:0">ขอ... ค่ะ/ครับ</div>
+        <div class="r" style="margin:0">khǎaw... khâ/khráp</div><div style="font-size:0.74rem;color:var(--muted);align-self:center">✅ use this one</div>
+        <div class="e" style="margin:0">I want... (direct, casual)</div><div class="t" style="margin:0">เอา...</div>
+        <div class="r" style="margin:0">ao...</div><div style="font-size:0.74rem;color:var(--muted);align-self:center">casual, street food</div>
+        <div class="e" style="margin:0">I'd like... (slightly softer)</div><div class="t" style="margin:0">อยากได้...</div>
+        <div class="r" style="margin:0">yàak dâai...</div><div style="font-size:0.74rem;color:var(--muted);align-self:center">more considered</div>
+      </div>
+    </div>
+
+    <div class="grp">Core Ordering Phrases</div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">01</div>
+      <div class="e">Can I have one milk tea, please?</div>
+      <div class="t">ขอชานมหนึ่งแก้วค่ะ</div>
+      <div class="r">khǎaw chaa-nom nùeng gâew khâ</div>
+      <div class="note"><span class="ks">Sora:</span> <b>ขอ (khǎaw)</b> = can I have / may I. <b>หนึ่งแก้ว (nùeng gâew)</b> = one glass/cup. แก้ว (gâew) is the classifier for drinks in cups — use it every time you count drinks.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">02</div>
+      <div class="e">Two cups, please.</div>
+      <div class="t">ขอสองแก้วค่ะ</div>
+      <div class="r">khǎaw sǎawng gâew khâ</div>
+      <div class="note"><span class="ks">Sora:</span> Counting cups — หนึ่งแก้ว · สองแก้ว · สามแก้ว · สี่แก้ว · ห้าแก้ว (1–5). The drink name goes before the count: ชานมสองแก้ว = two milk teas.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">03</div>
+      <div class="e">What size do you have?</div>
+      <div class="t">มีขนาดอะไรบ้างคะ?</div>
+      <div class="r">mii khà-nàat à-rai bâang khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> <b>มี...อะไรบ้าง (mii...à-rai bâang)</b> = what [thing] do you have? Incredibly useful frame — swap in anything: มีรสชาติอะไรบ้าง = what flavours do you have?</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">04</div>
+      <div class="e">I'll have the large size.</div>
+      <div class="t">เอาแก้วใหญ่ค่ะ</div>
+      <div class="r">ao gâew yài khâ</div>
+      <div class="note"><span class="ks">Sora:</span> Sizes — <b>แก้วเล็ก (gâew lék)</b> = small · <b>แก้วกลาง (gâew glaang)</b> = medium · <b>แก้วใหญ่ (gâew yài)</b> = large. At Thai street stalls there's often only one size — just point and smile.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">05</div>
+      <div class="e">How much is it?</div>
+      <div class="t">เท่าไหร่คะ?</div>
+      <div class="r">thâo-rài khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> The most essential question in any Thai transaction. Short, works everywhere. If they tell you a number you don't catch: <b>ขอใบเสร็จด้วยนะคะ (khǎaw bai-sèt dûay ná khâ)</b> = can I have a receipt? — then you can read the total.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">06</div>
+      <div class="e">Do you have a menu?</div>
+      <div class="t">มีเมนูไหมคะ?</div>
+      <div class="r">mii me-nuu mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> Thai street stalls often have menus on boards behind the counter — point freely! ไหม (mǎi) at the end turns any sentence into a yes/no question.</div>
+    </div>
+
+  </div><!-- /order -->
+
+
+  <!-- MILK TEA -->
+  <div id="milktea" class="section" data-label="🍵 Milk Tea">
+    <p class="intro">
+      <strong>Kru learns:</strong> The vocabulary of Thai drinks culture — great small talk to share with students visiting Thailand.<br>
+      <strong>Sora learns:</strong> The drink menu decoded — Thai tea culture is rich, and knowing what you're ordering makes Bangkok so much more fun.
+    </p>
+
+    <div class="grp">The Drinks — What to Order</div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Drink</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Thai milk tea (iced)</td><td class="tt">ชาไทย / ชาเย็น</td><td class="tr2">chaa thai / chaa yen</td><td class="tn2">orange, sweetened condensed milk — the classic</td></tr>
+          <tr><td class="te">Milk tea</td><td class="tt">ชานม</td><td class="tr2">chaa nom</td><td class="tn2">tea + milk (any variety)</td></tr>
+          <tr><td class="te">Hot Thai tea</td><td class="tt">ชาร้อน</td><td class="tr2">chaa ráawn</td><td class="tn2">the hot version of ชาเย็น</td></tr>
+          <tr><td class="te">Green tea (milk)</td><td class="tt">ชาเขียวนม</td><td class="tr2">chaa khǐao nom</td><td class="tn2">matcha-style, very popular</td></tr>
+          <tr><td class="te">Thai iced coffee</td><td class="tt">โอเลี้ยง</td><td class="tr2">oh-lîang</td><td class="tn2">strong black, no milk, very sweet — street classic</td></tr>
+          <tr><td class="te">Coffee with milk (iced)</td><td class="tt">กาแฟเย็น</td><td class="tr2">gaa-fae yen</td><td class="tn2">iced coffee with condensed milk</td></tr>
+          <tr><td class="te">Taro milk tea</td><td class="tt">ชานมเผือก</td><td class="tr2">chaa nom phùeak</td><td class="tn2">purple, earthy, slightly sweet</td></tr>
+          <tr><td class="te">Brown sugar milk tea</td><td class="tt">ชานมน้ำตาลทราย</td><td class="tr2">chaa nom náam-dtaan-saai</td><td class="tn2">the Tiger Sugar style</td></tr>
+          <tr><td class="te">Fresh milk</td><td class="tt">นมสด</td><td class="tr2">nom sòt</td><td class="tn2">สด = fresh/raw</td></tr>
+          <tr><td class="te">Condensed milk</td><td class="tt">นมข้น</td><td class="tr2">nom khôn</td><td class="tn2">the secret to Thai tea sweetness</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Milk Tea Key Phrases</div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">01</div>
+      <div class="e">Can I have one Thai iced tea, please?</div>
+      <div class="t">ขอชาเย็นหนึ่งแก้วค่ะ</div>
+      <div class="r">khǎaw chaa yen nùeng gâew khâ</div>
+      <div class="note"><span class="ks">Sora:</span> This is your go-to order at any Thai street stall. ชาเย็น (chaa yen) — literally "cold tea" — refers specifically to Thai orange tea with condensed milk over ice. It's ฿25–40 at most spots.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">02</div>
+      <div class="e">What kind of milk tea do you have?</div>
+      <div class="t">มีชานมแบบไหนบ้างคะ?</div>
+      <div class="r">mii chaa-nom bàaep nǎi bâang khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> <b>แบบไหน (bàaep nǎi)</b> = what kind/type. Swap ชานม for anything: มีกาแฟแบบไหนบ้าง = what kinds of coffee do you have?</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">03</div>
+      <div class="e">Does it come with condensed milk?</div>
+      <div class="t">ใส่นมข้นด้วยไหมคะ?</div>
+      <div class="r">sài nom khôn dûay mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> <b>ใส่ (sài)</b> = to put in / to add. This verb is key for customising orders — ใส่น้ำแข็ง = add ice · ใส่นม = add milk. Its opposite: <b>ไม่ใส่ (mâi sài)</b> = without / don't add.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">04</div>
+      <div class="e">Without condensed milk, please — just fresh milk.</div>
+      <div class="t">ไม่ใส่นมข้นนะคะ — ใส่นมสดแทนได้ไหม?</div>
+      <div class="r">mâi sài nom khôn ná khâ — sài nom sòt thaen dâai mǎi?</div>
+      <div class="note"><span class="ks">Sora:</span> <b>แทน (thaen)</b> = instead / as a substitute. <b>...ได้ไหม (...dâai mǎi)</b> = is it possible? / can you? A very polite way to make a special request.</div>
+    </div>
+
+  </div><!-- /milktea -->
+
+
+  <!-- ICE & TEMPERATURE -->
+  <div id="ice" class="section" data-label="🧊 Ice & Temperature">
+    <p class="intro">
+      <strong>Kru learns:</strong> Explaining the Thai approach to drink temperature — ice is default, hot is the exception, and customisation is expected.<br>
+      <strong>Sora learns:</strong> The most important customisation words at any Thai drink stall. น้ำแข็งน้อย (less ice) might be the phrase you use most in Bangkok.
+    </p>
+
+    <div class="grp">Temperature — ร้อน vs เย็น</div>
+
+    <div class="hbox">
+      <div class="hbox-label">🌟 Key insight — ร้อน and เย็น modify the drink name</div>
+      <p>In Thai, you swap the temperature word at the end of the drink name. <b>ชาร้อน</b> (hot tea) vs <b>ชาเย็น</b> (cold/iced tea). The same logic applies to coffee: <b>กาแฟร้อน</b> vs <b>กาแฟเย็น</b>. No extra words needed — it's elegant.</p>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Hot</td><td class="tt">ร้อน</td><td class="tr2">ráawn</td><td class="tn2">also means "spicy hot" (different context)</td></tr>
+          <tr><td class="te">Cold / Iced</td><td class="tt">เย็น</td><td class="tr2">yen</td><td class="tn2">also means "cool" (temperature/feeling)</td></tr>
+          <tr><td class="te">Warm</td><td class="tt">อุ่น</td><td class="tr2">ùn</td><td class="tn2">less common for drinks, but possible</td></tr>
+          <tr><td class="te">Room temperature</td><td class="tt">อุณหภูมิห้อง / ธรรมดา</td><td class="tr2">un-hà-phuum hâwng / tham-má-daa</td><td class="tn2">just say ธรรมดา = normal/plain</td></tr>
+          <tr><td class="te">With ice</td><td class="tt">ใส่น้ำแข็ง</td><td class="tr2">sài náam khǎeng</td><td class="tn2">default at most Thai stalls</td></tr>
+          <tr><td class="te">Less ice</td><td class="tt">น้ำแข็งน้อย</td><td class="tr2">náam khǎeng náwy</td><td class="tn2">⭐ use this often</td></tr>
+          <tr><td class="te">No ice</td><td class="tt">ไม่ใส่น้ำแข็ง</td><td class="tr2">mâi sài náam khǎeng</td><td class="tn2">or just: ไม่เอาน้ำแข็ง</td></tr>
+          <tr><td class="te">Extra ice</td><td class="tt">น้ำแข็งเยอะๆ</td><td class="tr2">náam khǎeng yóe-yóe</td><td class="tn2">เยอะ = a lot · the reduplication softens it</td></tr>
+          <tr><td class="te">Ice on the side</td><td class="tt">น้ำแข็งแยก</td><td class="tr2">náam khǎeng yâaek</td><td class="tn2">useful so drink doesn't dilute</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Using Temperature in Orders</div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">01</div>
+      <div class="e">Hot milk tea, please.</div>
+      <div class="t">ขอชานมร้อนค่ะ</div>
+      <div class="r">khǎaw chaa-nom ráawn khâ</div>
+      <div class="note"><span class="ks">Sora:</span> Simple — just add ร้อน after the drink name. Works for everything: กาแฟร้อน · ชาร้อน · โกโก้ร้อน (hot cocoa)</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">02</div>
+      <div class="e">Can I have less ice, please?</div>
+      <div class="t">น้ำแข็งน้อยหน่อยนะคะ</div>
+      <div class="r">náam khǎeng náwy nàwy ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> <b>น้อยหน่อย (náwy nàwy)</b> — "a little less" — adding หน่อย softens the request and sounds more natural and polite than just saying น้อย alone. A very Thai way of asking.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">03</div>
+      <div class="e">No ice, please.</div>
+      <div class="t">ไม่เอาน้ำแข็งนะคะ</div>
+      <div class="r">mâi ao náam khǎeng ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> <b>ไม่เอา (mâi ao)</b> = don't want / without. A shorter, more casual alternative to ไม่ใส่น้ำแข็ง — both work perfectly.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">04</div>
+      <div class="e">Ice on the side, please.</div>
+      <div class="t">น้ำแข็งแยกนะคะ</div>
+      <div class="r">náam khǎeng yâaek ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> <b>แยก (yâaek)</b> = separate. Useful when you want to control how much ice goes in — especially good for longer journeys so the drink doesn't dilute.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">05</div>
+      <div class="e">Can you make it hot instead?</div>
+      <div class="t">เปลี่ยนเป็นร้อนได้ไหมคะ?</div>
+      <div class="r">bplìan bpen ráawn dâai mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> <b>เปลี่ยนเป็น (bplìan bpen)</b> = change to / switch to. Works for many corrections: เปลี่ยนเป็นแก้วใหญ่ได้ไหม = can you change it to a large cup?</div>
+    </div>
+
+  </div><!-- /ice -->
+
+
+  <!-- SWEETNESS -->
+  <div id="sugar" class="section" data-label="🍬 Sweetness">
+    <p class="intro">
+      <strong>Kru learns:</strong> Why Thai drinks are so sweet — and how to explain this to students who find it overwhelming.<br>
+      <strong>Sora learns:</strong> The sugar vocabulary that will save your teeth in Bangkok. Thai drinks default to very sweet — these phrases put you in control.
+    </p>
+
+    <div class="grp">Sugar Levels</div>
+
+    <div class="hbox">
+      <div class="hbox-label">🌟 Key word — หวาน (wǎan) = sweet</div>
+      <p>Everything revolves around <b>หวาน (wǎan)</b>. Add <b>น้อย (náwy)</b> = less, <b>มาก (mâak)</b> = more, or <b>ไม่ (mâi)</b> = not. Modern Thai tea shops (like Cha Tra Mue, Gong Cha) now offer percentage sweetness levels — very handy.</p>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Sweet (normal)</td><td class="tt">หวานปกติ</td><td class="tr2">wǎan bpòk-gà-dtì</td><td class="tn2">standard — usually very sweet</td></tr>
+          <tr><td class="te">Less sweet / Less sugar</td><td class="tt">หวานน้อย</td><td class="tr2">wǎan náwy</td><td class="tn2">⭐ most useful</td></tr>
+          <tr><td class="te">Half sweet (50%)</td><td class="tt">หวานครึ่ง</td><td class="tr2">wǎan khrûeng</td><td class="tn2">khrûeng = half</td></tr>
+          <tr><td class="te">Not sweet / No sugar</td><td class="tt">ไม่หวาน</td><td class="tr2">mâi wǎan</td><td class="tn2">—</td></tr>
+          <tr><td class="te">Extra sweet</td><td class="tt">หวานมาก / หวานพิเศษ</td><td class="tr2">wǎan mâak / wǎan phí-sèet</td><td class="tn2">if you dare!</td></tr>
+          <tr><td class="te">No added sugar</td><td class="tt">ไม่ใส่น้ำตาล</td><td class="tr2">mâi sài náam-dtaan</td><td class="tn2">náam-dtaan = sugar</td></tr>
+          <tr><td class="te">Less sugar (specify)</td><td class="tt">น้ำตาลน้อย</td><td class="tr2">náam-dtaan náwy</td><td class="tn2">more specific than หวานน้อย</td></tr>
+          <tr><td class="te">25% sweet</td><td class="tt">หวาน 25%</td><td class="tr2">wǎan yîi-sìp-hâa booen-sén</td><td class="tn2">at chain shops like Gong Cha</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Using Sweetness in Orders</div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">01</div>
+      <div class="e">Less sweet, please.</div>
+      <div class="t">หวานน้อยหน่อยนะคะ</div>
+      <div class="r">wǎan náwy nàwy ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> Your most-used phrase in Thailand. Say it with every order until you calibrate what "normal" Thai sweet tastes like to you. Most vendors are very used to hearing this from foreigners.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">02</div>
+      <div class="e">Half sweet, no ice please.</div>
+      <div class="t">หวานครึ่ง ไม่เอาน้ำแข็งนะคะ</div>
+      <div class="r">wǎan khrûeng mâi ao náam khǎeng ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> This is a full customisation in one sentence — sweet level + ice level. Thai ordering is flexible; you can stack as many requests as you like. The vendor will usually confirm back to you.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">03</div>
+      <div class="e">No sugar please — I'm watching my sugar intake.</div>
+      <div class="t">ไม่ใส่น้ำตาลนะคะ — กำลังลดน้ำตาลอยู่</div>
+      <div class="r">mâi sài náam-dtaan ná khâ — gam-lang lót náam-dtaan yùu</div>
+      <div class="note"><span class="ks">Sora:</span> <b>กำลัง...อยู่ (gam-lang...yùu)</b> = currently doing something (present continuous). <b>ลด (lót)</b> = to reduce/cut. Useful beyond drinks: กำลังลดน้ำหนักอยู่ = I'm currently trying to lose weight.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">04</div>
+      <div class="e">Is it very sweet?</div>
+      <div class="t">หวานมากไหมคะ?</div>
+      <div class="r">wǎan mâak mǎi khâ?</div>
+      <div class="note"><span class="ke">Kru:</span> Thais often find it surprising when foreigners ask this — sweetness is considered a positive quality in Thai food culture. A gentle question rather than a complaint is always better received.<br><span class="ks">Sora:</span> The answer will likely be มีหวานนิดหน่อย (mii wǎan nít nàwy) = a little sweet — even when it's very sweet by outside standards!</div>
+    </div>
+
+  </div><!-- /sugar -->
+
+
+  <!-- TAKE-AWAY -->
+  <div id="takeaway" class="section" data-label="🛍️ Take-Away">
+    <p class="intro">
+      <strong>Kru learns:</strong> Useful English for packaging and service — great for explaining Thai café customs to international students.<br>
+      <strong>Sora learns:</strong> How to say take-away in Thai — and the vocabulary for bags, straws, and plastic cups that you'll need at every street stall.
+    </p>
+
+    <div class="grp">Take-Away Essentials</div>
+
+    <div class="hbox">
+      <div class="hbox-label">🌟 Key phrase — กลับบ้าน (glàp bâan)</div>
+      <p>The literal meaning is "go home" but Thais use <b>กลับบ้าน (glàp bâan)</b> to mean take-away — as in, you're taking it home with you. Alternatives you'll hear: <b>ห่อกลับ (hàw glàp)</b> = wrap to go, or just <b>เอากลับ (ao glàp)</b> = take away. All mean the same thing.</p>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>English</th><th>ภาษาไทย</th><th>Romanized</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td class="te">Take-away / To go</td><td class="tt">กลับบ้าน / เอากลับ</td><td class="tr2">glàp bâan / ao glàp</td><td class="tn2">most natural phrase</td></tr>
+          <tr><td class="te">Eat / Drink here</td><td class="tt">ทานที่นี่</td><td class="tr2">thaan thîi nîi</td><td class="tn2">ทาน = polite word for eat/drink</td></tr>
+          <tr><td class="te">Plastic bag</td><td class="tt">ถุงพลาสติก</td><td class="tr2">thǔng phlaas-dtìk</td><td class="tn2">drinks often tied in bags at stalls</td></tr>
+          <tr><td class="te">Cup with lid</td><td class="tt">แก้วมีฝาปิด</td><td class="tr2">gâew mii fǎa bpìt</td><td class="tn2">fǎa = lid/cover</td></tr>
+          <tr><td class="te">Straw</td><td class="tt">หลอด</td><td class="tr2">làwt</td><td class="tn2">—</td></tr>
+          <tr><td class="te">Paper straw</td><td class="tt">หลอดกระดาษ</td><td class="tr2">làwt grà-dàat</td><td class="tn2">increasingly common</td></tr>
+          <tr><td class="te">Carrier bag</td><td class="tt">ถุง</td><td class="tr2">thǔng</td><td class="tn2">general word for bag</td></tr>
+          <tr><td class="te">Receipt</td><td class="tt">ใบเสร็จ</td><td class="tr2">bai-sèt</td><td class="tn2">useful if you can't catch the price</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grp">Take-Away Phrases</div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">01</div>
+      <div class="e">Take-away, please.</div>
+      <div class="t">เอากลับนะคะ</div>
+      <div class="r">ao glàp ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> The shortest, most natural way to say take-away. You can also say กลับบ้านนะคะ and it means exactly the same thing. Most stalls will automatically put it in a bag with a straw.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">02</div>
+      <div class="e">I'll drink it here.</div>
+      <div class="t">ทานที่นี่ค่ะ</div>
+      <div class="r">thaan thîi nîi khâ</div>
+      <div class="note"><span class="ks">Sora:</span> <b>ทาน (thaan)</b> is the polite word used for both eating and drinking. กิน (gin) = eat/drink, but ทาน is more refined and appropriate in these situations.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">03</div>
+      <div class="e">Can I have a straw?</div>
+      <div class="t">ขอหลอดด้วยนะคะ</div>
+      <div class="r">khǎaw làwt dûay ná khâ</div>
+      <div class="note"><span class="ks">Sora:</span> <b>ด้วยนะ (dûay ná)</b> = also / as well please. Adding this to any ขอ request makes it sound like a small, considerate ask rather than a demand. Very useful particle combo.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">04</div>
+      <div class="e">Can you put it in a separate bag?</div>
+      <div class="t">ใส่ถุงแยกได้ไหมคะ?</div>
+      <div class="r">sài thǔng yâaek dâai mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> Useful if ordering multiple drinks for different people. แยก (yâaek) = separate — you already met this word with น้ำแข็งแยก (ice on the side).</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">05</div>
+      <div class="e">No plastic bag needed, thank you.</div>
+      <div class="t">ไม่เอาถุงพลาสติกนะคะ ขอบคุณค่ะ</div>
+      <div class="r">mâi ao thǔng phlaas-dtìk ná khâ — khàwp-khun khâ</div>
+      <div class="note"><span class="ks">Sora:</span> Thais appreciate eco-consciousness — this is a natural thing to say and won't surprise anyone. Bring your own cup to a chain café and you'll often get a small discount too.</div>
+    </div>
+
+  </div><!-- /takeaway -->
+
+
+  <!-- FULL ORDER DIALOGUE -->
+  <div id="dialogue" class="section" data-label="💬 Full Order">
+    <p class="intro">
+      <strong>Kru learns:</strong> A real ordering scenario from start to finish — good for drilling with students before a Thailand trip.<br>
+      <strong>Sora learns:</strong> What a real Bangkok drink stall conversation sounds like — with the customisations you actually need: less ice, less sweet, take-away.
+    </p>
+
+    <div class="grp">Quick Reference — Build Your Order</div>
+
+    <div class="order-strip">
+      <div class="order-strip-hd">⚡ Order Builder — combine one from each row</div>
+      <div class="order-row">
+        <div class="order-label">Drink</div>
+        <div class="order-opts">
+          <div class="opt"><span class="oe">Thai tea</span><span class="ot">ชาเย็น</span><span class="or">chaa yen</span></div>
+          <div class="opt"><span class="oe">Milk tea</span><span class="ot">ชานม</span><span class="or">chaa nom</span></div>
+          <div class="opt"><span class="oe">Green tea</span><span class="ot">ชาเขียว</span><span class="or">chaa khǐao</span></div>
+          <div class="opt"><span class="oe">Iced coffee</span><span class="ot">กาแฟเย็น</span><span class="or">gaa-fae yen</span></div>
+        </div>
+      </div>
+      <div class="order-row">
+        <div class="order-label">Temp</div>
+        <div class="order-opts">
+          <div class="opt"><span class="oe">Hot</span><span class="ot">ร้อน</span><span class="or">ráawn</span></div>
+          <div class="opt"><span class="oe">Iced</span><span class="ot">เย็น</span><span class="or">yen</span></div>
+        </div>
+      </div>
+      <div class="order-row">
+        <div class="order-label">Ice</div>
+        <div class="order-opts">
+          <div class="opt"><span class="oe">Normal</span><span class="ot">ปกติ</span><span class="or">bpòk-gà-dtì</span></div>
+          <div class="opt"><span class="oe">Less ice</span><span class="ot">น้ำแข็งน้อย</span><span class="or">náam khǎeng náwy</span></div>
+          <div class="opt"><span class="oe">No ice</span><span class="ot">ไม่เอาน้ำแข็ง</span><span class="or">mâi ao náam khǎeng</span></div>
+          <div class="opt"><span class="oe">Ice aside</span><span class="ot">น้ำแข็งแยก</span><span class="or">náam khǎeng yâaek</span></div>
+        </div>
+      </div>
+      <div class="order-row">
+        <div class="order-label">Sugar</div>
+        <div class="order-opts">
+          <div class="opt"><span class="oe">Normal</span><span class="ot">หวานปกติ</span><span class="or">wǎan bpòk-gà-dtì</span></div>
+          <div class="opt"><span class="oe">Less sweet</span><span class="ot">หวานน้อย</span><span class="or">wǎan náwy</span></div>
+          <div class="opt"><span class="oe">Half sweet</span><span class="ot">หวานครึ่ง</span><span class="or">wǎan khrûeng</span></div>
+          <div class="opt"><span class="oe">No sugar</span><span class="ot">ไม่หวาน</span><span class="or">mâi wǎan</span></div>
+        </div>
+      </div>
+      <div class="order-row">
+        <div class="order-label">Where</div>
+        <div class="order-opts">
+          <div class="opt"><span class="oe">Take-away</span><span class="ot">เอากลับ</span><span class="or">ao glàp</span></div>
+          <div class="opt"><span class="oe">Here</span><span class="ot">ทานที่นี่</span><span class="or">thaan thîi nîi</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">Scene — Street Stall in Bangkok</div>
+
+    <div class="dlg">
+      <div class="dlg-hd">🥤 Street Tea Stall · Sora orders ชาเย็น — less sweet, less ice, take-away</div>
+
+      <div class="dlg-ln">
+        <div class="spk staff">Staff</div>
+        <div class="dt">
+          <div class="e">Hello! What would you like?</div>
+          <div class="t">สวัสดีค่ะ! จะสั่งอะไรดีคะ?</div>
+          <div class="r">sà-wàt-dii khâ — jà sàng à-rai dii khâ?</div>
+        </div>
+      </div>
+
+      <div class="dlg-ln">
+        <div class="spk sora">Sora</div>
+        <div class="dt">
+          <div class="e">Can I have one Thai iced tea, less sweet, less ice, take-away please.</div>
+          <div class="t">ขอชาเย็นหนึ่งแก้วค่ะ หวานน้อย น้ำแข็งน้อย เอากลับนะคะ</div>
+          <div class="r">khǎaw chaa yen nùeng gâew khâ — wǎan náwy — náam khǎeng náwy — ao glàp ná khâ</div>
+        </div>
+      </div>
+
+      <div class="dlg-ln">
+        <div class="spk staff">Staff</div>
+        <div class="dt">
+          <div class="e">Got it — Thai tea, less sweet, less ice, take-away. Anything else?</div>
+          <div class="t">ได้เลยค่ะ — ชาเย็น หวานน้อย น้ำแข็งน้อย เอากลับ มีอะไรเพิ่มไหมคะ?</div>
+          <div class="r">dâai looei khâ — chaa yen wǎan náwy náam khǎeng náwy ao glàp — mii à-rai phôem mǎi khâ?</div>
+        </div>
+      </div>
+
+      <div class="dlg-ln">
+        <div class="spk sora">Sora</div>
+        <div class="dt">
+          <div class="e">That's all, thank you. How much is it?</div>
+          <div class="t">แค่นั้นค่ะ ขอบคุณค่ะ เท่าไหร่คะ?</div>
+          <div class="r">khâe nán khâ — khàwp-khun khâ — thâo-rài khâ?</div>
+        </div>
+      </div>
+
+      <div class="dlg-ln">
+        <div class="spk staff">Staff</div>
+        <div class="dt">
+          <div class="e">35 baht, please.</div>
+          <div class="t">สามสิบห้าบาทนะคะ</div>
+          <div class="r">sǎam-sìp hâa bàat ná khâ</div>
+        </div>
+      </div>
+
+      <div class="dlg-ln">
+        <div class="spk sora">Sora</div>
+        <div class="dt">
+          <div class="e">Here you go. Thank you so much!</div>
+          <div class="t">นี่เลยค่ะ ขอบคุณมากนะคะ</div>
+          <div class="r">nîi looei khâ — khàwp-khun mâak ná khâ</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">Scene — Chain Café (Percentage Sweetness)</div>
+
+    <div class="dlg">
+      <div class="dlg-hd">🧋 Chain café like Gong Cha · Sora orders matcha milk tea</div>
+
+      <div class="dlg-ln">
+        <div class="spk staff">Staff</div>
+        <div class="dt">
+          <div class="e">Welcome! What can I get you?</div>
+          <div class="t">ยินดีต้อนรับค่ะ! รับอะไรดีคะ?</div>
+          <div class="r">yin-dii tâwn-ráp khâ — ráp à-rai dii khâ?</div>
+        </div>
+      </div>
+
+      <div class="dlg-ln">
+        <div class="spk sora">Sora</div>
+        <div class="dt">
+          <div class="e">One matcha milk tea, large size, 25% sweet, no ice, take-away.</div>
+          <div class="t">ขอชาเขียวนมหนึ่งแก้ว แก้วใหญ่ หวาน 25% ไม่เอาน้ำแข็ง เอากลับนะคะ</div>
+          <div class="r">khǎaw chaa-khǐao-nom nùeng gâew — gâew yài — wǎan yîi-sìp-hâa booen-sén — mâi ao náam khǎeng — ao glàp ná khâ</div>
+        </div>
+      </div>
+
+      <div class="dlg-ln">
+        <div class="spk staff">Staff</div>
+        <div class="dt">
+          <div class="e">Your name for the order?</div>
+          <div class="t">ชื่ออะไรดีคะ?</div>
+          <div class="r">chûe à-rai dii khâ?</div>
+        </div>
+      </div>
+
+      <div class="dlg-ln">
+        <div class="spk sora">Sora</div>
+        <div class="dt">
+          <div class="e">Sora.</div>
+          <div class="t">โซระค่ะ</div>
+          <div class="r">soo-rá khâ</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grp">Handy Extras</div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">01</div>
+      <div class="e">What do you recommend?</div>
+      <div class="t">แนะนำอะไรดีคะ?</div>
+      <div class="r">náe-nam à-rai dii khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> <b>แนะนำ (náe-nam)</b> = to recommend. One of the most useful questions you can ask anywhere in Thailand — for food, drinks, tourist spots. Thais love making recommendations and will be delighted you asked.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">02</div>
+      <div class="e">I'm allergic to milk — do you have a dairy-free option?</div>
+      <div class="t">แพ้นมค่ะ — มีตัวเลือกที่ไม่มีนมไหมคะ?</div>
+      <div class="r">phâe nom khâ — mii tua-lûeak thîi mâi mii nom mǎi khâ?</div>
+      <div class="note"><span class="ks">Sora:</span> <b>แพ้ (phâe)</b> = to be allergic to. Critical word to know. แพ้ถั่ว = peanut allergy · แพ้กุ้ง = prawn allergy. Pair with อาหาร (aa-hǎan) = food for broader questions.</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <button class="copy-btn" onclick="copyCard(event, this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>copy
+      </button>
+      <div class="num">03</div>
+      <div class="e">This is delicious!</div>
+      <div class="t">อร่อยมากเลยค่ะ!</div>
+      <div class="r">à-ràwy mâak looei khâ!</div>
+      <div class="note"><span class="ks">Sora:</span> <b>อร่อย (à-ràwy)</b> = delicious. Adding มากเลย (mâak looei) = so much / really, makes it feel genuinely enthusiastic. The stall owner will beam. Always worth saying.</div>
+    </div>
+
+  </div><!-- /dialogue -->
+
+</div><!-- /content -->
+
+<footer>
+  Click any card to expand · Hover to copy phrase · Tone: à=low · â=falling · á=high · ǎ=rising · a=mid<br>
+  English ↔ Thai · Language Exchange 🥊 · Drinks Special
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  let activeId = 'order';
+
+  function sw(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    activeId = id;
+  }
+
+  function toggleCard(card) {
+    card.classList.toggle('on');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  function copyCard(e, btn) {
+    e.stopPropagation();
+    const card = btn.closest('.card');
+    const eng = card.querySelector('.e')?.innerText || '';
+    const thai = card.querySelector('.t')?.innerText || '';
+    const roman = card.querySelector('.r')?.innerText || '';
+    const text = [eng, thai, roman].filter(Boolean).join('\n');
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg> copied`;
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 011-1h8"/></svg> copy`;
+      }, 1800);
+    });
+  }
+
+  function downloadTab() {
+    const section = document.getElementById(activeId);
+    const label = section.dataset.label || activeId;
+
+    const clone = section.cloneNode(true);
+    clone.querySelectorAll('.card').forEach(c => c.classList.add('on'));
+    clone.querySelectorAll('.copy-btn').forEach(b => b.remove());
+    clone.style.display = 'block';
+
+    const styles = `
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+      <style>
+        :root{--bg:#faf7f2;--bg2:#f2ede4;--bg3:#e8e0d2;--ink:#1c1710;--muted:#8a7d6a;--border:rgba(28,23,16,0.1);--eng:#2a5c8a;--thai:#8a2040;--roman:#2a6640;--gold:#b87820;--accent:#c05828;--accent2:#7a4898;}
+        *{box-sizing:border-box;margin:0;padding:0;}
+        body{background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;padding:2rem 1.4rem 4rem;max-width:860px;margin:0 auto;}
+        .dl-header{margin-bottom:2rem;padding-bottom:1.2rem;border-bottom:2px solid var(--ink);}
+        .dl-header .vol{font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.3rem;}
+        .dl-header h2{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:700;color:var(--ink);line-height:1.1;}
+        .dl-header .sub{font-size:0.78rem;color:var(--muted);margin-top:0.3rem;}
+        .intro{font-size:0.82rem;line-height:1.72;color:var(--muted);padding:0.85rem 1.1rem;margin-bottom:1.8rem;border-left:3px solid var(--accent);background:rgba(192,88,40,0.05);border-radius:0 4px 4px 0;}
+        .intro strong{color:var(--ink);}
+        .grp{font-size:0.67rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin:2.2rem 0 0.9rem;display:flex;align-items:center;gap:0.8rem;}
+        .grp::after{content:'';flex:1;height:1px;background:var(--border);}
+        .grp:first-of-type{margin-top:0;}
+        .card{background:#fffcfa;border:1px solid var(--accent);box-shadow:0 0 0 1px rgba(192,88,40,0.15);border-radius:8px;padding:1.1rem 1.3rem;margin-bottom:0.65rem;position:relative;}
+        .num{position:absolute;top:0.9rem;right:1.1rem;font-size:0.65rem;color:var(--border);font-weight:700;}
+        .e{color:var(--eng);font-size:0.97rem;font-weight:500;margin-bottom:0.42rem;line-height:1.45;padding-right:2.5rem;}
+        .t{font-family:'Noto Sans Thai',sans-serif;color:var(--thai);font-size:1.07rem;font-weight:600;margin-bottom:0.25rem;line-height:1.7;}
+        .r{color:var(--roman);font-size:0.84rem;font-style:italic;letter-spacing:0.02em;}
+        .note{margin-top:0.62rem;padding-top:0.58rem;border-top:1px dashed var(--border);font-size:0.76rem;color:var(--muted);line-height:1.6;}
+        .note b{color:var(--gold);font-weight:600;}
+        .note .ke{color:var(--eng);font-weight:600;}
+        .note .ks{color:var(--roman);font-weight:600;}
+        .tw{overflow-x:auto;margin-bottom:0.7rem;}
+        table{width:100%;border-collapse:collapse;background:white;border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:0.85rem;}
+        thead tr{background:var(--ink);}
+        thead th{padding:0.6rem 1rem;text-align:left;font-size:0.65rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(250,247,242,0.7);}
+        tbody tr{border-bottom:1px solid var(--border);}
+        tbody tr:last-child{border-bottom:none;}
+        td{padding:0.65rem 1rem;vertical-align:top;line-height:1.5;}
+        .te{color:var(--eng);font-weight:500;}
+        .tt{font-family:'Noto Sans Thai',sans-serif;color:var(--thai);font-size:0.95rem;font-weight:600;}
+        .tr2{color:var(--roman);font-style:italic;}
+        .tn2{color:var(--muted);font-size:0.75rem;}
+        .hbox{background:rgba(122,72,152,0.07);border:1px solid rgba(122,72,152,0.2);border-radius:8px;padding:1rem 1.2rem;margin-bottom:0.7rem;}
+        .hbox-label{font-size:0.66rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent2);margin-bottom:0.6rem;}
+        .hbox p{font-size:0.83rem;color:var(--muted);line-height:1.65;}
+        .hbox p b{color:var(--ink);}
+        .hbox .t{font-family:'Noto Sans Thai',sans-serif;color:var(--thai);font-size:1rem;font-weight:600;line-height:1.7;margin-bottom:0.18rem;}
+        .hbox .r{color:var(--roman);font-size:0.82rem;font-style:italic;}
+        .hbox .e{color:var(--eng);font-size:0.9rem;font-weight:500;margin-bottom:0.3rem;}
+        .dlg{background:white;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:0.8rem;}
+        .dlg-hd{background:var(--ink);padding:0.5rem 1rem;font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(250,247,242,0.6);}
+        .dlg-ln{padding:0.8rem 1rem;border-bottom:1px solid var(--border);display:grid;grid-template-columns:68px 1fr;gap:0.8rem;align-items:start;}
+        .dlg-ln:last-child{border-bottom:none;}
+        .spk{font-size:0.64rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding-top:0.15rem;}
+        .spk.staff{color:var(--eng);}
+        .spk.sora{color:var(--roman);}
+        .dt .e{font-size:0.9rem;padding-right:0;margin-bottom:0.3rem;}
+        .dt .t{font-size:0.97rem;margin-bottom:0.18rem;}
+        .dt .r{font-size:0.8rem;}
+        .order-strip{background:white;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1rem;}
+        .order-strip-hd{background:var(--gold);padding:0.5rem 1rem;font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:white;}
+        .order-row{display:grid;grid-template-columns:130px 1fr;border-bottom:1px solid var(--border);font-size:0.84rem;}
+        .order-row:last-child{border-bottom:none;}
+        .order-label{padding:0.65rem 1rem;background:var(--bg);font-weight:600;font-size:0.74rem;color:var(--muted);letter-spacing:0.04em;text-transform:uppercase;display:flex;align-items:center;border-right:1px solid var(--border);}
+        .order-opts{padding:0.55rem 1rem;display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center;}
+        .opt{display:inline-flex;flex-direction:column;padding:0.28rem 0.65rem;border-radius:4px;border:1px solid var(--border);font-size:0.76rem;}
+        .opt .oe{color:var(--eng);font-weight:500;font-size:0.72rem;}
+        .opt .ot{font-family:'Noto Sans Thai',sans-serif;color:var(--thai);font-size:0.88rem;font-weight:600;line-height:1.5;}
+        .opt .or{color:var(--roman);font-size:0.68rem;font-style:italic;}
+        .dl-footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--border);font-size:0.74rem;color:var(--muted);text-align:center;}
+      </style>`;
+
+    const tabSlug = label.replace(/[^\w\s-]/g,'').trim().replace(/\s+/g,'-').toLowerCase();
+    const date = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English ↔ Thai · Ordering Drinks · ${label}</title>
+${styles}
+</head>
+<body>
+<div class="dl-header">
+  <div class="vol">🥊 Language Exchange · Drinks Special</div>
+  <h2>สั่งเครื่องดื่ม · Ordering Drinks &nbsp;·&nbsp; ${label}</h2>
+  <div class="sub">Saved ${date} · All cards expanded</div>
+</div>
+${clone.innerHTML}
+<div class="dl-footer">
+  Tone guide: à=low · â=falling · á=high · ǎ=rising · a=mid &nbsp;·&nbsp; English ↔ Thai · Language Exchange 🥊
+</div>
+</body>
+</html>`;
+
+    const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `exchange-drinks-${tabSlug}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast(`✓ Saved: ${label}`);
+  }
+
+  // ─── SPEECH ───────────────────────────────────────────────────────────────
+
+  const SPEAK_SVG = `<svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 5.5v5h2.6L9 13.2V2.8L4.6 5.5H2z"/>
+    <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+          d="M10.5 5.8a2.8 2.8 0 0 1 0 4.4"/>
+    <path fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+          d="M12.2 3.8a5.5 5.5 0 0 1 0 8.4"/>
+  </svg>`;
+
+  let activeUtterance = null;
+  let activeBtn = null;
+
+  function createSpeakBtn(lang, type) {
+    const btn = document.createElement('button');
+    btn.className = `speak-btn ${type}-btn`;
+    btn.dataset.lang = lang;
+    btn.title = type === 'eng' ? 'Listen in English' : 'ฟังภาษาไทย';
+    btn.innerHTML = SPEAK_SVG;
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      handleSpeak(btn);
+    });
+    return btn;
+  }
+
+  function handleSpeak(btn) {
+    if (!window.speechSynthesis) {
+      showToast('Speech not supported in this browser');
+      return;
+    }
+    // toggle off if already speaking this button
+    if (btn === activeBtn && btn.classList.contains('speaking')) {
+      window.speechSynthesis.cancel();
+      return;
+    }
+    window.speechSynthesis.cancel();
+
+    // get text from the sibling span inside same .e / .t element
+    const parent = btn.closest('.e, .t');
+    const textSpan = parent && parent.querySelector('.speak-text');
+    const text = textSpan ? textSpan.innerText.trim() : '';
+    if (!text) return;
+
+    const lang = btn.dataset.lang;
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = lang;
+
+    // pick best available voice
+    const voices = window.speechSynthesis.getVoices();
+    const voice = voices.find(v => v.lang === lang)
+               || voices.find(v => v.lang.startsWith(lang.split('-')[0]));
+    if (voice) utt.voice = voice;
+    if (lang === 'th-TH') utt.rate = 0.82; // Thai reads better a touch slower
+
+    activeBtn = btn;
+    btn.classList.add('speaking');
+
+    utt.onend   = () => { btn.classList.remove('speaking'); activeBtn = null; };
+    utt.onerror = () => { btn.classList.remove('speaking'); activeBtn = null; };
+
+    window.speechSynthesis.speak(utt);
+    activeUtterance = utt;
+  }
+
+  function injectSpeakButtons() {
+    // English lines
+    document.querySelectorAll('.e').forEach(el => {
+      if (el.querySelector('.speak-btn')) return;
+      const span = document.createElement('span');
+      span.className = 'speak-text';
+      span.innerHTML = el.innerHTML;
+      el.innerHTML = '';
+      el.appendChild(span);
+      el.appendChild(createSpeakBtn('en-GB', 'eng'));
+    });
+    // Thai script lines
+    document.querySelectorAll('.t').forEach(el => {
+      if (el.querySelector('.speak-btn')) return;
+      const span = document.createElement('span');
+      span.className = 'speak-text';
+      span.innerHTML = el.innerHTML;
+      el.innerHTML = '';
+      el.appendChild(span);
+      el.appendChild(createSpeakBtn('th-TH', 'thai'));
+    });
+  }
+
+  if (!window.speechSynthesis) {
+    document.body.classList.add('no-tts');
+  } else {
+    // voices may load async (especially Chrome)
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      injectSpeakButtons();
+    } else {
+      window.speechSynthesis.addEventListener('voiceschanged', () => {
+        injectSpeakButtons();
+      }, { once: true });
+      // also inject immediately as fallback (voice selection happens at speak time)
+      setTimeout(injectSpeakButtons, 300);
+    }
+  }
+</script>
+</body>
+</html>
