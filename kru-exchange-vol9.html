@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>English ↔ Thai · Vol. 9</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Abril+Fatface&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Abril+Fatface&family=Nunito:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Abril+Fatface&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
 <style>
   :root {
     --bg: #1e0e04;
@@ -325,62 +328,138 @@
   .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
   .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
 
-/* KRU-FEATURES-v1 */
+  /* KRU-FEATURES-v1 — TTS + Bookmark — do not remove this comment */
 
-/* ── TTS BUTTONS ── */
-.tts-btn {
-  background: none;
-  border: 1px solid rgba(42,92,138,0.3);
-  border-radius: 99px;
-  padding: 0.13rem 0.55rem;
-  font-size: 0.62rem;
-  cursor: pointer;
-  color: rgba(42,92,138,0.65);
-  transition: all 0.15s;
-  margin-left: 0.45rem;
-  vertical-align: middle;
-  white-space: nowrap;
-  line-height: 1.6;
-}
-.tts-btn.thai {
-  border-color: rgba(138,32,64,0.3);
-  color: rgba(138,32,64,0.65);
-}
-.tts-btn:hover { opacity: 0.85; transform: scale(1.05); }
-.tts-btn.speaking { opacity: 0.5; }
+  /* ── BOOKMARK ── */
+  .num { display: none; }
 
-/* ── BOOKMARK BUTTON ── */
-.card { position: relative !important; }
-.bookmark-btn {
-  position: absolute;
-  bottom: 0.6rem; right: 0.7rem;
-  background: none;
-  border: 1px solid rgba(184,120,32,0.3);
-  border-radius: 99px;
-  padding: 0.18rem 0.6rem;
-  font-size: 0.68rem;
-  cursor: pointer;
-  color: rgba(184,120,32,0.5);
-  transition: all 0.2s;
-  z-index: 10;
-}
-.bookmark-btn:hover { color: #c8943a; border-color: rgba(184,120,32,0.6); }
-.bookmark-btn.saved { color: #c8943a; border-color: #c8943a; }
+  .bm-btn {
+    position: absolute;
+    bottom: 0.75rem; right: 1rem;
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.18s;
+    color: var(--muted);
+    padding: 0;
+    z-index: 2;
+  }
 
-/* ── FLOATING NOTES PILL ── */
-.notes-pill {
-  position: fixed; bottom: 1.6rem; left: 1.6rem;
-  background: rgba(184,120,32,0.15);
-  border: 1px solid rgba(184,120,32,0.4);
-  color: #c8943a;
-  border-radius: 99px;
-  padding: 0.55rem 1.05rem;
-  font-size: 0.72rem; font-weight: 700;
-  text-decoration: none;
-  z-index: 300;
-  transition: all 0.2s;
-}
-.notes-pill:hover { background: rgba(184,120,32,0.25); }
+  .bm-btn:hover {
+    border-color: var(--gold, #b87820);
+    color: var(--gold, #b87820);
+    background: rgba(184,120,32,0.07);
+  }
+
+  .bm-btn.saved {
+    border-color: var(--gold, #b87820);
+    color: var(--gold, #b87820);
+    background: rgba(184,120,32,0.1);
+  }
+
+  .bm-btn svg { width: 13px; height: 13px; }
+
+  @keyframes bmPop {
+    0%   { transform: scale(1) rotate(0deg); }
+    35%  { transform: scale(1.55) rotate(-12deg); }
+    65%  { transform: scale(0.88) rotate(6deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+
+  @keyframes particleFly {
+    0%   { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+  }
+
+  .bm-btn.popping { animation: bmPop 0.42s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+
+  .bm-particle {
+    position: fixed; border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+  }
+
+  .bm-toast {
+    position: fixed;
+    bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px);
+    background: var(--ink, #1c1710);
+    color: rgba(250,247,242,0.9);
+    font-size: 0.76rem; font-weight: 500;
+    padding: 0.55rem 1.1rem;
+    border-radius: 99px;
+    border: 1px solid rgba(255,255,255,0.1);
+    opacity: 0; transition: all 0.22s;
+    pointer-events: none; z-index: 999;
+    white-space: nowrap; font-family: 'Outfit', sans-serif;
+  }
+
+  .bm-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── TTS SPEAK BUTTONS ── */
+  .card { padding-bottom: 2.2rem; }
+
+  .speak-line {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 0.5rem;
+  }
+
+  .speak-text { flex: 1; }
+
+  .speak-btn {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 3px; padding: 3px 8px;
+    border-radius: 20px; border: 1.5px solid;
+    background: transparent; cursor: pointer;
+    font-size: 0.7rem; font-weight: 600;
+    font-family: 'Outfit', sans-serif; letter-spacing: 0.04em;
+    transition: all 0.15s; white-space: nowrap;
+    margin-top: 2px; min-height: 26px; min-width: 44px;
+  }
+
+  .speak-btn.eng { color: var(--eng, #2a5c8a); border-color: rgba(42,92,138,0.35); }
+  .speak-btn.eng:hover { background: rgba(42,92,138,0.08); border-color: var(--eng, #2a5c8a); }
+  .speak-btn.tha { color: var(--thai, #8a2040); border-color: rgba(138,32,64,0.35); }
+  .speak-btn.tha:hover { background: rgba(138,32,64,0.08); border-color: var(--thai, #8a2040); }
+
+  .speak-btn.speaking { animation: speakPulse 0.9s ease-in-out infinite; }
+  .speak-btn.eng.speaking { background: rgba(42,92,138,0.12); border-color: var(--eng, #2a5c8a); }
+  .speak-btn.tha.speaking { background: rgba(138,32,64,0.12); border-color: var(--thai, #8a2040); }
+
+  @keyframes speakPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.6; transform: scale(0.95); }
+  }
+
+  .speak-btn svg { width: 11px; height: 11px; flex-shrink: 0; }
+
+  /* pill nav additions */
+  .pp-foot {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 4px 0;
+  }
+  .pp-foot .pp-lnk { color: rgba(200,148,58,0.8) !important; font-weight: 700 !important; }
+  .pp-foot .pp-lnk:hover { color: rgba(200,148,58,1) !important; }
+
+  /* ── FLOATING NOTES PILL ── */
+  .notes-pill {
+    position: fixed; bottom: 1.6rem; left: 1.6rem;
+    background: rgba(184,120,32,0.15);
+    border: 1px solid rgba(184,120,32,0.4);
+    color: #c8943a;
+    border-radius: 99px;
+    padding: 0.55rem 1.05rem;
+    font-size: 0.72rem; font-weight: 700;
+    text-decoration: none;
+    z-index: 300;
+    transition: all 0.2s;
+  }
+  .notes-pill:hover { background: rgba(184,120,32,0.25); }
 
 </style>
 </head>
@@ -548,74 +627,60 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">One khao soi chicken please. <button class="tts-btn" data-text="One khao soi chicken please." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ข้าวซอยไก่หนึ่งที่ครับ/ค่ะ <button class="tts-btn thai" data-text="ข้าวซอยไก่หนึ่งที่ครับ/ค่ะ" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">One khao soi chicken please.</div>
+      <div class="t">ข้าวซอยไก่หนึ่งที่ครับ/ค่ะ</div>
       <div class="r">khâao soi gài nùeng thîi khráp/khâ</div>
       <div class="note"><span class="ks">Sora:</span> ที่ (thîi) = portion/serving in a restaurant. หนึ่งที่ = one serving. This is very natural Thai ordering — much more so than just saying the dish name alone.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card001">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Can I have it less spicy? <button class="tts-btn" data-text="Can I have it less spicy?" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ขอเผ็ดน้อยหน่อยได้ไหมคะ? <button class="tts-btn thai" data-text="ขอเผ็ดน้อยหน่อยได้ไหมคะ?" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Can I have it less spicy?</div>
+      <div class="t">ขอเผ็ดน้อยหน่อยได้ไหมคะ?</div>
       <div class="r">khǎaw phèt-nóoi nàwy dâai mǎi khâ?</div>
       <div class="note"><span class="ks">Sora:</span> เผ็ดน้อย (phèt-nóoi) = less spicy. เผ็ดมาก (phèt-mâak) = very spicy. หน่อย (nàwy) softens the request — "just a little less spicy please."</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card002">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">This is the best khao soi I've ever had! <button class="tts-btn" data-text="This is the best khao soi I&#x27;ve ever had!" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ข้าวซอยที่นี่อร่อยที่สุดที่เคยกินมาเลย! <button class="tts-btn thai" data-text="ข้าวซอยที่นี่อร่อยที่สุดที่เคยกินมาเลย!" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">This is the best khao soi I've ever had!</div>
+      <div class="t">ข้าวซอยที่นี่อร่อยที่สุดที่เคยกินมาเลย!</div>
       <div class="r">khâao soi thîi-nîi à-ràwy thîi-sùt thîi khoei gin maa looei!</div>
       <div class="note"><span class="ks">Sora:</span> ที่เคยกินมา (thîi khoei gin maa) = "that I've ever eaten." เคย (khoei) = ever/used to. This sentence structure is really useful for superlatives with past experience.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card003">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">Where is the best khao soi in Chiang Mai? <button class="tts-btn" data-text="Where is the best khao soi in Chiang Mai?" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ข้าวซอยที่ไหนอร่อยที่สุดในเชียงใหม่? <button class="tts-btn thai" data-text="ข้าวซอยที่ไหนอร่อยที่สุดในเชียงใหม่?" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Where is the best khao soi in Chiang Mai?</div>
+      <div class="t">ข้าวซอยที่ไหนอร่อยที่สุดในเชียงใหม่?</div>
       <div class="r">khâao soi thîi-nǎi à-ràwy thîi-sùt nai chiang-mài?</div>
       <div class="note"><span class="ke">Kru:</span> Ask a local this question — everyone has a strong opinion and will love telling you. Khao Soi Khun Yai and Khao Soi Mae Sai are two legendary spots.<br><span class="ks">Sora:</span> เชียงใหม่ (chiang-mài) = Chiang Mai. Literally "New City."</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card004">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">05</div>
-      <div class="e">Can I have some extra crispy noodles on top? <button class="tts-btn" data-text="Can I have some extra crispy noodles on top?" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ขอเส้นทอดเพิ่มได้ไหมคะ? <button class="tts-btn thai" data-text="ขอเส้นทอดเพิ่มได้ไหมคะ?" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Can I have some extra crispy noodles on top?</div>
+      <div class="t">ขอเส้นทอดเพิ่มได้ไหมคะ?</div>
       <div class="r">khǎaw sên thâwt phêm dâai mǎi khâ?</div>
       <div class="note"><span class="ks">Sora:</span> เส้นทอด (sên thâwt) = fried noodles. เพิ่ม (phêm) = extra/more. A very useful word at any food stall!</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card005">☆ Save</button>
     </div>
 
     <div class="grp">The Khao Soi Ritual</div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">06</div>
-      <div class="e">Squeeze the lime in first, then stir everything together. <button class="tts-btn" data-text="Squeeze the lime in first, then stir everything together." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">บีบมะนาวก่อนเลย แล้วคนทุกอย่างเข้าด้วยกัน <button class="tts-btn thai" data-text="บีบมะนาวก่อนเลย แล้วคนทุกอย่างเข้าด้วยกัน" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Squeeze the lime in first, then stir everything together.</div>
+      <div class="t">บีบมะนาวก่อนเลย แล้วคนทุกอย่างเข้าด้วยกัน</div>
       <div class="r">bìip má-naao gàawn looei — láaew khon thúk yàang khâo dûay gan</div>
       <div class="note"><span class="ks">Sora:</span> บีบ (bìip) = to squeeze. มะนาว (má-naao) = lime. คน (khon) = to stir (as a verb). Don't confuse with คน (khon) = person — same spelling, different tone!</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card006">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">07</div>
-      <div class="e">Add the pickled mustard greens on the side — they cut through the richness. <button class="tts-btn" data-text="Add the pickled mustard greens on the side — they cut through the richness." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ใส่ผักกาดดองด้วยนะ — ช่วยตัดความมันได้ดี <button class="tts-btn thai" data-text="ใส่ผักกาดดองด้วยนะ — ช่วยตัดความมันได้ดี" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Add the pickled mustard greens on the side — they cut through the richness.</div>
+      <div class="t">ใส่ผักกาดดองด้วยนะ — ช่วยตัดความมันได้ดี</div>
       <div class="r">sài phàk-gàat-dong dûay ná — chûay dtàt khwaam man dâai dii</div>
       <div class="note"><span class="ks">Sora:</span> ผักกาดดอง (phàk-gàat-dong) = pickled mustard greens. ตัด (dtàt) = to cut. ความมัน (khwaam man) = richness/fattiness.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card007">☆ Save</button>
     </div>
 
   </div><!-- /khaosoiworld -->
@@ -631,62 +696,50 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">What is this? Can I try a little? <button class="tts-btn" data-text="What is this? Can I try a little?" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">นี่คืออะไร? ขอลองนิดหน่อยได้ไหม? <button class="tts-btn thai" data-text="นี่คืออะไร? ขอลองนิดหน่อยได้ไหม?" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">What is this? Can I try a little?</div>
+      <div class="t">นี่คืออะไร? ขอลองนิดหน่อยได้ไหม?</div>
       <div class="r">nîi khue à-rai? khǎaw laawng nít-nàwy dâai mǎi?</div>
       <div class="note"><span class="ks">Sora:</span> Most vendors at Chiang Mai markets are happy to let you try before buying. ลอง (laawng) = to try. นิดหน่อย (nít-nàwy) = just a little bit.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card008">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">How spicy is this? <button class="tts-btn" data-text="How spicy is this?" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">อันนี้เผ็ดแค่ไหน? <button class="tts-btn thai" data-text="อันนี้เผ็ดแค่ไหน?" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">How spicy is this?</div>
+      <div class="t">อันนี้เผ็ดแค่ไหน?</div>
       <div class="r">an níi phèt khâe nǎi?</div>
       <div class="note"><span class="ks">Sora:</span> แค่ไหน (khâe nǎi) = to what extent / how much. Use this for anything — ไกลแค่ไหน = how far? แพงแค่ไหน = how expensive?</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card009">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">One portion please — for eating here. <button class="tts-btn" data-text="One portion please — for eating here." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">หนึ่งที่ครับ/ค่ะ — กินที่นี่เลย <button class="tts-btn thai" data-text="หนึ่งที่ครับ/ค่ะ — กินที่นี่เลย" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">One portion please — for eating here.</div>
+      <div class="t">หนึ่งที่ครับ/ค่ะ — กินที่นี่เลย</div>
       <div class="r">nùeng thîi khráp/khâ — gin thîi-nîi looei</div>
       <div class="note"><span class="ks">Sora:</span> กินที่นี่ (gin thîi-nîi) = eat here. As opposed to เอากลับบ้าน (ao glàp bâan) = take away.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card010">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">Do you have vegetarian options? <button class="tts-btn" data-text="Do you have vegetarian options?" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">มีเมนูมังสวิรัติไหมคะ? <button class="tts-btn thai" data-text="มีเมนูมังสวิรัติไหมคะ?" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Do you have vegetarian options?</div>
+      <div class="t">มีเมนูมังสวิรัติไหมคะ?</div>
       <div class="r">mii mee-nuu mang-sà-wí-rát mǎi khâ?</div>
       <div class="note"><span class="ks">Sora:</span> มังสวิรัติ (mang-sà-wí-rát) = vegetarian. You can also say เจ (jee) which means vegan/Buddhist vegetarian — very widely understood throughout Thailand.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card011">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">05</div>
-      <div class="e">That smells amazing — what is it? <button class="tts-btn" data-text="That smells amazing — what is it?" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">หอมมากเลย — นั่นคืออะไร? <button class="tts-btn thai" data-text="หอมมากเลย — นั่นคืออะไร?" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">That smells amazing — what is it?</div>
+      <div class="t">หอมมากเลย — นั่นคืออะไร?</div>
       <div class="r">hǒm mâak looei — nân khue à-rai?</div>
       <div class="note"><span class="ks">Sora:</span> หอม (hǒm) = fragrant/smells good. เหม็น (měn) = smells bad. These two words are very useful in a market full of interesting aromas!</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card012">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">06</div>
-      <div class="e">I'll take two of these and one of those. <button class="tts-btn" data-text="I&#x27;ll take two of these and one of those." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">เอาอันนี้สองอัน และอันนั้นหนึ่งอัน <button class="tts-btn thai" data-text="เอาอันนี้สองอัน และอันนั้นหนึ่งอัน" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">I'll take two of these and one of those.</div>
+      <div class="t">เอาอันนี้สองอัน และอันนั้นหนึ่งอัน</div>
       <div class="r">ao an níi sǎawng an — láe an nán nùeng an</div>
       <div class="note"><span class="ks">Sora:</span> เอา (ao) = to take/want. อัน (an) = general item classifier. This pattern works for pointing at anything at a market stall.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card013">☆ Save</button>
     </div>
 
     <div class="grp">Famous Chiang Mai Markets</div>
@@ -717,81 +770,65 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Excuse me! / Over here! <button class="tts-btn" data-text="Excuse me! / Over here!" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">น้องครับ! / น้องค่ะ! <button class="tts-btn thai" data-text="น้องครับ! / น้องค่ะ!" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Excuse me! / Over here!</div>
+      <div class="t">น้องครับ! / น้องค่ะ!</div>
       <div class="r">nóong khráp! / nóong khâ!</div>
       <div class="note"><span class="ks">Sora:</span> น้อง (nóong) = younger sibling — used to politely call a server of any age. It's warm and natural. Never clap or snap fingers — that's rude in Thailand.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card014">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Not spicy at all, please. <button class="tts-btn" data-text="Not spicy at all, please." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ไม่เผ็ดเลยนะคะ <button class="tts-btn thai" data-text="ไม่เผ็ดเลยนะคะ" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Not spicy at all, please.</div>
+      <div class="t">ไม่เผ็ดเลยนะคะ</div>
       <div class="r">mâi phèt looei ná khâ</div>
       <div class="note"><span class="ks">Sora:</span> เลย (looei) makes it absolute — "not even a little bit spicy." If you just say ไม่เผ็ด, they might still add a little. Add เลย to really mean it!</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card015">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Very spicy please — I can handle it! <button class="tts-btn" data-text="Very spicy please — I can handle it!" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">เผ็ดมากเลยนะ — กินเผ็ดได้! <button class="tts-btn thai" data-text="เผ็ดมากเลยนะ — กินเผ็ดได้!" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Very spicy please — I can handle it!</div>
+      <div class="t">เผ็ดมากเลยนะ — กินเผ็ดได้!</div>
       <div class="r">phèt mâak looei ná — gin phèt dâai!</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card016">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">No meat please — I'm vegetarian. <button class="tts-btn" data-text="No meat please — I&#x27;m vegetarian." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ไม่ใส่เนื้อสัตว์นะคะ — กินมังสวิรัติ <button class="tts-btn thai" data-text="ไม่ใส่เนื้อสัตว์นะคะ — กินมังสวิรัติ" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">No meat please — I'm vegetarian.</div>
+      <div class="t">ไม่ใส่เนื้อสัตว์นะคะ — กินมังสวิรัติ</div>
       <div class="r">mâi sài núea-sàt ná khâ — gin mang-sà-wí-rát</div>
       <div class="note"><span class="ks">Sora:</span> เนื้อสัตว์ (núea-sàt) = animal meat. ไม่ใส่ (mâi sài) = don't put in. This phrasing is clearer than just saying vegetarian — it tells them specifically what to leave out.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card017">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">05</div>
-      <div class="e">Can I have more rice please? <button class="tts-btn" data-text="Can I have more rice please?" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ขอข้าวเพิ่มได้ไหมคะ? <button class="tts-btn thai" data-text="ขอข้าวเพิ่มได้ไหมคะ?" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Can I have more rice please?</div>
+      <div class="t">ขอข้าวเพิ่มได้ไหมคะ?</div>
       <div class="r">khǎaw khâao phêm dâai mǎi khâ?</div>
       <div class="note"><span class="ks">Sora:</span> At most local Thai restaurants, extra rice is free or very cheap. เพิ่ม (phêm) = extra/more. Use this for anything — น้ำเพิ่ม = more water.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card018">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">06</div>
-      <div class="e">This is absolutely delicious! <button class="tts-btn" data-text="This is absolutely delicious!" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">อร่อยมากๆ เลยค่ะ! <button class="tts-btn thai" data-text="อร่อยมากๆ เลยค่ะ!" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">This is absolutely delicious!</div>
+      <div class="t">อร่อยมากๆ เลยค่ะ!</div>
       <div class="r">à-ràwy mâak-mâak looei khâ!</div>
       <div class="note"><span class="ks">Sora:</span> Doubling มาก to มากๆ makes it emphatic — "SO delicious!" Always say this to the cook or vendor when food is great. It genuinely makes their day.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card019">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">07</div>
-      <div class="e">Check please! / Bill please! <button class="tts-btn" data-text="Check please! / Bill please!" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">เก็บตังค์ด้วยนะคะ! <button class="tts-btn thai" data-text="เก็บตังค์ด้วยนะคะ!" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Check please! / Bill please!</div>
+      <div class="t">เก็บตังค์ด้วยนะคะ!</div>
       <div class="r">gèp dtang dûay ná khâ!</div>
       <div class="note"><span class="ks">Sora:</span> เก็บตังค์ (gèp dtang) = literally "collect money" — this is casual Thai for "bill please." More formal: เช็คบิลด้วยครับ/ค่ะ (chék bin dûay khráp/khâ). Both work perfectly.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card020">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">08</div>
-      <div class="e">I'll come back here every day! <button class="tts-btn" data-text="I&#x27;ll come back here every day!" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">จะกลับมากินทุกวันเลย! <button class="tts-btn thai" data-text="จะกลับมากินทุกวันเลย!" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">I'll come back here every day!</div>
+      <div class="t">จะกลับมากินทุกวันเลย!</div>
       <div class="r">jà glàp maa gin thúk wan looei!</div>
       <div class="note"><span class="ks">Sora:</span> Say this when food is exceptional — vendors love it and you might get extra portions! It's a genuine compliment that goes beyond just "delicious."</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card021">☆ Save</button>
     </div>
 
   </div><!-- /ordering -->
@@ -865,22 +902,18 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Thank you! (Northern dialect — locals will be delighted) <button class="tts-btn" data-text="Thank you! (Northern dialect — locals will be delighted)" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ขอบใจนะคะ! <button class="tts-btn thai" data-text="ขอบใจนะคะ!" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Thank you! (Northern dialect — locals will be delighted)</div>
+      <div class="t">ขอบใจนะคะ!</div>
       <div class="r">khàwp-jai ná khâ!</div>
       <div class="note"><span class="ks">Sora:</span> ขอบใจ (khàwp-jai) is the northern way to say thank you — literally "thank the heart." Use this in Chiang Mai and watch people's faces light up. It shows you actually paid attention to their culture.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card022">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Delicious! (Northern word) <button class="tts-btn" data-text="Delicious! (Northern word)" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">หลิ้มมากเลยค่ะ! <button class="tts-btn thai" data-text="หลิ้มมากเลยค่ะ!" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Delicious! (Northern word)</div>
+      <div class="t">หลิ้มมากเลยค่ะ!</div>
       <div class="r">lîm mâak looei khâ!</div>
       <div class="note"><span class="ks">Sora:</span> หลิ้ม (lîm) = delicious in Kham Mueang northern dialect. Drop this at a market stall instead of อร่อย and watch the vendor absolutely beam. Guaranteed extra portion energy.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol9-card023">☆ Save</button>
     </div>
 
   </div><!-- /vocab -->
@@ -1007,107 +1040,183 @@
 </script>
 
 
-<!-- KRU-FEATURES-v1 -->
 <a class="notes-pill" href="my-saved-note.html">🔖 My Notes</a>
 
+<div id="bmToast" class="bm-toast"></div>
+
 <script>
-(function() {
-  /* ── TTS ── */
-  function ttsSpeak(text, lang) {
-    if (!window.speechSynthesis) return;
-    speechSynthesis.cancel();
-    setTimeout(function() {
-      if (speechSynthesis.paused) speechSynthesis.resume();
-      var u = new SpeechSynthesisUtterance(text);
-      u.lang  = lang;
-      u.rate  = 0.9;
-      speechSynthesis.speak(u);
-    }, 50);
-  }
+/* ── TTS · Web Speech API · en-GB + th-TH ── */
+var _ttsActiveBtn = null;
+var _speakerSVG = '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.5h2.5L8 2.5v11L4.5 10.5H2V5.5z" fill="currentColor"/><path d="M10.5 5.5c1.1 0.7 1.8 1.9 1.8 3.5s-0.7 2.8-1.8 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12.5 3.5C14.2 4.7 15.2 6.2 15.2 8s-1 3.3-2.7 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
 
-  document.querySelectorAll('.tts-btn').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var me = this;
-      me.classList.add('speaking');
-      ttsSpeak(me.dataset.text, me.dataset.lang);
-      setTimeout(function() { me.classList.remove('speaking'); }, 2500);
-    });
+function _makeBtn(lang, cls, label) {
+  var btn = document.createElement('button');
+  btn.className = 'speak-btn ' + cls;
+  btn.dataset.lang = lang;
+  btn.setAttribute('aria-label', 'Listen in ' + label);
+  btn.innerHTML = _speakerSVG + '<span>' + label + '</span>';
+  btn.addEventListener('click', function(e) { e.stopPropagation(); _speakBtn(this); });
+  return btn;
+}
+
+function _speakBtn(btn) {
+  if (!window.speechSynthesis) return;
+  if (_ttsActiveBtn && _ttsActiveBtn !== btn) _ttsActiveBtn.classList.remove('speaking');
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.resume();
+  var textEl = btn.closest('.speak-line').querySelector('.speak-text');
+  var text = textEl ? textEl.textContent.trim() : '';
+  if (!text) return;
+  var lang = btn.dataset.lang;
+  setTimeout(function() {
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = lang;
+    utt.rate = lang === 'th-TH' ? 0.82 : 0.92;
+    var voices = window.speechSynthesis.getVoices();
+    var voice = voices.find(function(v) { return v.lang === lang; })
+             || voices.find(function(v) { return v.lang.startsWith(lang.split('-')[0]); });
+    if (voice) utt.voice = voice;
+    _ttsActiveBtn = btn;
+    btn.classList.add('speaking');
+    utt.onend = function() { btn.classList.remove('speaking'); _ttsActiveBtn = null; };
+    utt.onerror = function() { btn.classList.remove('speaking'); _ttsActiveBtn = null; };
+    window.speechSynthesis.speak(utt);
+  }, 60);
+}
+
+function _injectSpeakButtons() {
+  document.querySelectorAll('.e, .dt .e').forEach(function(el) {
+    if (el.querySelector('.speak-btn')) return;
+    var wrap = document.createElement('div'); wrap.className = 'speak-line';
+    var span = document.createElement('span'); span.className = 'speak-text';
+    span.innerHTML = el.innerHTML; el.innerHTML = '';
+    wrap.appendChild(span); wrap.appendChild(_makeBtn('en-GB','eng','EN'));
+    el.appendChild(wrap);
   });
-
-  /* ── BOOKMARK ── */
-  function getCards() {
-    try { return JSON.parse(localStorage.getItem('kruexchange_saved_cards') || '[]'); }
-    catch (e) { return []; }
-  }
-  function saveCards(arr) {
-    localStorage.setItem('kruexchange_saved_cards', JSON.stringify(arr));
-  }
-
-  function fireworks(btn) {
-    var rect = btn.getBoundingClientRect();
-    var cx = rect.left + rect.width / 2;
-    var cy = rect.top  + rect.height / 2;
-    for (var i = 0; i < 8; i++) {
-      (function(i) {
-        var spark = document.createElement('span');
-        spark.textContent = '✦';
-        spark.style.cssText =
-          'position:fixed;left:' + cx + 'px;top:' + cy + 'px;pointer-events:none;' +
-          'color:#c8943a;font-size:0.9rem;z-index:9999;' +
-          'transition:all 0.6s ease-out;opacity:1;';
-        document.body.appendChild(spark);
-        var angle = (i / 8) * 2 * Math.PI;
-        var dist  = 40 + Math.random() * 20;
-        var dx    = Math.cos(angle) * dist;
-        var dy    = Math.sin(angle) * dist;
-        requestAnimationFrame(function() {
-          spark.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
-          spark.style.opacity   = '0';
-          setTimeout(function() { spark.remove(); }, 650);
-        });
-      })(i);
-    }
-  }
-
-  document.querySelectorAll('.bookmark-btn').forEach(function(btn) {
-    var id    = btn.dataset.id;
-    var saved = getCards();
-    if (saved.some(function(c) { return c.id === id; })) {
-      btn.classList.add('saved');
-      btn.textContent = '★ Saved';
-    }
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var cards = getCards();
-      var idx   = cards.findIndex(function(c) { return c.id === id; });
-      if (idx >= 0) {
-        cards.splice(idx, 1);
-        btn.classList.remove('saved');
-        btn.textContent = '☆ Save';
-      } else {
-        var card = btn.closest('.card');
-        function txt(a, b) {
-          var el = card.querySelector(a) || card.querySelector(b);
-          return el ? el.textContent.trim() : '';
-        }
-        cards.push({
-          id:    id,
-          eng:   txt('.e',  '.eng'),
-          thai:  txt('.t',  '.thai-script'),
-          roman: txt('.r',  '.roman'),
-          vol:   document.title,
-          saved: Date.now()
-        });
-        btn.classList.add('saved');
-        btn.textContent = '★ Saved';
-        fireworks(btn);
-      }
-      saveCards(cards);
-    });
+  document.querySelectorAll('.t, .dt .t').forEach(function(el) {
+    if (el.querySelector('.speak-btn')) return;
+    var wrap = document.createElement('div'); wrap.className = 'speak-line';
+    var span = document.createElement('span'); span.className = 'speak-text';
+    span.innerHTML = el.innerHTML; el.innerHTML = '';
+    wrap.appendChild(span); wrap.appendChild(_makeBtn('th-TH','tha','TH'));
+    el.appendChild(wrap);
   });
-})();
+}
+
+if (!window.speechSynthesis) {
+  console.warn('TTS not available');
+} else {
+  var _v = window.speechSynthesis.getVoices();
+  if (_v.length > 0) { _injectSpeakButtons(); }
+  else {
+    window.speechSynthesis.addEventListener('voiceschanged', function() { _injectSpeakButtons(); }, { once: true });
+    setTimeout(_injectSpeakButtons, 400);
+  }
+}
 </script>
 
+<script>
+/* ── BOOKMARKS · localStorage · My Notes ── */
+var _BM_KEY   = 'kruexchange_saved_cards';
+var _BM_VOL   = '9';
+var _BM_LABEL = 'Vol. 9';
+
+var _bmOutline = '<svg viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 2.5A1.5 1.5 0 0 1 3.5 1h7A1.5 1.5 0 0 1 12 2.5V14l-5-2.5L2 14V2.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+var _bmFilled  = '<svg viewBox="0 0 14 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M2 2.5A1.5 1.5 0 0 1 3.5 1h7A1.5 1.5 0 0 1 12 2.5V14l-5-2.5L2 14V2.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+
+function _bmLoad() { try { return JSON.parse(localStorage.getItem(_BM_KEY) || '[]'); } catch(e) { return []; } }
+function _bmWrite(a) { try { localStorage.setItem(_BM_KEY, JSON.stringify(a)); } catch(e) {} }
+
+function _bmCardId(card) {
+  var sec = card.closest('.section'); var num = card.querySelector('.num');
+  return 'vol' + _BM_VOL + '_' + (sec ? sec.id : 'x') + '_' + (num ? num.textContent.trim() : '0');
+}
+
+function _bmCardData(card) {
+  var sec   = card.closest('.section');
+  var secId = sec ? sec.id : 'unknown';
+  var label = secId.charAt(0).toUpperCase() + secId.slice(1).replace(/-/g,' ');
+  var eng   = card.querySelector('.e .speak-text')
+            ? card.querySelector('.e .speak-text').textContent.trim()
+            : (card.querySelector('.e') ? card.querySelector('.e').textContent.trim() : '');
+  var thai  = card.querySelector('.t .speak-text')
+            ? card.querySelector('.t .speak-text').textContent.trim()
+            : (card.querySelector('.t') ? card.querySelector('.t').textContent.trim() : '');
+  var rom   = card.querySelector('.r') ? card.querySelector('.r').textContent.trim() : '';
+  return {
+    id: _bmCardId(card), vol: _BM_VOL, volLabel: _BM_LABEL,
+    topic: secId, topicLabel: label,
+    eng: eng, thai: thai, roman: rom,
+    savedAt: new Date().toISOString()
+  };
+}
+
+var _bmToastTimer = null;
+function _bmToast(msg) {
+  var t = document.getElementById('bmToast');
+  if (!t) return;
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(_bmToastTimer);
+  _bmToastTimer = setTimeout(function() { t.classList.remove('show'); }, 2200);
+}
+
+function _bmFireParticles(btn) {
+  var r = btn.getBoundingClientRect();
+  var cx = r.left + r.width/2, cy = r.top + r.height/2;
+  var colors = ['#b87820','#c05828','#e8b030','#d4943a','#f0c060','#a05020'];
+  for (var i = 0; i < 12; i++) {
+    (function(i) {
+      var angle = (i/12)*Math.PI*2 + (Math.random()-0.5)*0.6;
+      var dist  = 22 + Math.random()*22;
+      var dx    = Math.cos(angle)*dist, dy = Math.sin(angle)*dist;
+      var size  = 6 + Math.random()*7;
+      var color = colors[Math.floor(Math.random()*colors.length)];
+      var delay = Math.random()*60, dur = 480 + Math.random()*140;
+      var p = document.createElement('span');
+      p.className = 'bm-particle';
+      p.style.cssText = [
+        'left:'+(cx-size/2)+'px','top:'+(cy-size/2)+'px',
+        'width:'+size+'px','height:'+size+'px','background:'+color,
+        '--dx:'+dx.toFixed(1)+'px','--dy:'+dy.toFixed(1)+'px',
+        'animation:particleFly '+dur+'ms '+delay+'ms ease-out forwards'
+      ].join(';');
+      document.body.appendChild(p);
+      setTimeout(function() { if (p.parentNode) p.parentNode.removeChild(p); }, dur+delay+80);
+    })(i);
+  }
+}
+
+function _injectBookmarks() {
+  var saved = _bmLoad(); var savedIds = saved.map(function(c) { return c.id; });
+  document.querySelectorAll('.card').forEach(function(card) {
+    if (card.querySelector('.bm-btn')) return;
+    var id  = _bmCardId(card);
+    var btn = document.createElement('button');
+    btn.className = 'bm-btn' + (savedIds.indexOf(id) !== -1 ? ' saved' : '');
+    btn.innerHTML = savedIds.indexOf(id) !== -1 ? _bmFilled : _bmOutline;
+    btn.setAttribute('aria-label','Save to My Notes');
+    btn.setAttribute('title','Save to My Notes');
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var arr = _bmLoad(); var ids = arr.map(function(c){return c.id;}); var isSaved = ids.indexOf(id) !== -1;
+      if (isSaved) {
+        arr = arr.filter(function(c){return c.id!==id;});
+        btn.classList.remove('saved'); btn.innerHTML = _bmOutline;
+        _bmWrite(arr); _bmToast('Removed from My Notes');
+      } else {
+        var data = _bmCardData(card);
+        arr.push(data); btn.classList.add('saved'); btn.innerHTML = _bmFilled;
+        _bmWrite(arr); _bmToast('Saved to My Notes · ' + data.topicLabel);
+        btn.classList.add('popping');
+        setTimeout(function(){ btn.classList.remove('popping'); }, 500);
+        _bmFireParticles(btn);
+      }
+    });
+    card.appendChild(btn);
+  });
+}
+
+_injectBookmarks();
+</script>
 </body>
 </html>

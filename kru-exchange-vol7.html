@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>English ↔ Thai · Vol. 7</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Mulish:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
 <style>
   :root {
     --bg: #f7f2eb;
@@ -368,62 +371,138 @@
   .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
   .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
 
-/* KRU-FEATURES-v1 */
+  /* KRU-FEATURES-v1 — TTS + Bookmark — do not remove this comment */
 
-/* ── TTS BUTTONS ── */
-.tts-btn {
-  background: none;
-  border: 1px solid rgba(42,92,138,0.3);
-  border-radius: 99px;
-  padding: 0.13rem 0.55rem;
-  font-size: 0.62rem;
-  cursor: pointer;
-  color: rgba(42,92,138,0.65);
-  transition: all 0.15s;
-  margin-left: 0.45rem;
-  vertical-align: middle;
-  white-space: nowrap;
-  line-height: 1.6;
-}
-.tts-btn.thai {
-  border-color: rgba(138,32,64,0.3);
-  color: rgba(138,32,64,0.65);
-}
-.tts-btn:hover { opacity: 0.85; transform: scale(1.05); }
-.tts-btn.speaking { opacity: 0.5; }
+  /* ── BOOKMARK ── */
+  .num { display: none; }
 
-/* ── BOOKMARK BUTTON ── */
-.card { position: relative !important; }
-.bookmark-btn {
-  position: absolute;
-  bottom: 0.6rem; right: 0.7rem;
-  background: none;
-  border: 1px solid rgba(184,120,32,0.3);
-  border-radius: 99px;
-  padding: 0.18rem 0.6rem;
-  font-size: 0.68rem;
-  cursor: pointer;
-  color: rgba(184,120,32,0.5);
-  transition: all 0.2s;
-  z-index: 10;
-}
-.bookmark-btn:hover { color: #c8943a; border-color: rgba(184,120,32,0.6); }
-.bookmark-btn.saved { color: #c8943a; border-color: #c8943a; }
+  .bm-btn {
+    position: absolute;
+    bottom: 0.75rem; right: 1rem;
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.18s;
+    color: var(--muted);
+    padding: 0;
+    z-index: 2;
+  }
 
-/* ── FLOATING NOTES PILL ── */
-.notes-pill {
-  position: fixed; bottom: 1.6rem; left: 1.6rem;
-  background: rgba(184,120,32,0.15);
-  border: 1px solid rgba(184,120,32,0.4);
-  color: #c8943a;
-  border-radius: 99px;
-  padding: 0.55rem 1.05rem;
-  font-size: 0.72rem; font-weight: 700;
-  text-decoration: none;
-  z-index: 300;
-  transition: all 0.2s;
-}
-.notes-pill:hover { background: rgba(184,120,32,0.25); }
+  .bm-btn:hover {
+    border-color: var(--gold, #b87820);
+    color: var(--gold, #b87820);
+    background: rgba(184,120,32,0.07);
+  }
+
+  .bm-btn.saved {
+    border-color: var(--gold, #b87820);
+    color: var(--gold, #b87820);
+    background: rgba(184,120,32,0.1);
+  }
+
+  .bm-btn svg { width: 13px; height: 13px; }
+
+  @keyframes bmPop {
+    0%   { transform: scale(1) rotate(0deg); }
+    35%  { transform: scale(1.55) rotate(-12deg); }
+    65%  { transform: scale(0.88) rotate(6deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+
+  @keyframes particleFly {
+    0%   { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+  }
+
+  .bm-btn.popping { animation: bmPop 0.42s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+
+  .bm-particle {
+    position: fixed; border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+  }
+
+  .bm-toast {
+    position: fixed;
+    bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px);
+    background: var(--ink, #1c1710);
+    color: rgba(250,247,242,0.9);
+    font-size: 0.76rem; font-weight: 500;
+    padding: 0.55rem 1.1rem;
+    border-radius: 99px;
+    border: 1px solid rgba(255,255,255,0.1);
+    opacity: 0; transition: all 0.22s;
+    pointer-events: none; z-index: 999;
+    white-space: nowrap; font-family: 'Outfit', sans-serif;
+  }
+
+  .bm-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── TTS SPEAK BUTTONS ── */
+  .card { padding-bottom: 2.2rem; }
+
+  .speak-line {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 0.5rem;
+  }
+
+  .speak-text { flex: 1; }
+
+  .speak-btn {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 3px; padding: 3px 8px;
+    border-radius: 20px; border: 1.5px solid;
+    background: transparent; cursor: pointer;
+    font-size: 0.7rem; font-weight: 600;
+    font-family: 'Outfit', sans-serif; letter-spacing: 0.04em;
+    transition: all 0.15s; white-space: nowrap;
+    margin-top: 2px; min-height: 26px; min-width: 44px;
+  }
+
+  .speak-btn.eng { color: var(--eng, #2a5c8a); border-color: rgba(42,92,138,0.35); }
+  .speak-btn.eng:hover { background: rgba(42,92,138,0.08); border-color: var(--eng, #2a5c8a); }
+  .speak-btn.tha { color: var(--thai, #8a2040); border-color: rgba(138,32,64,0.35); }
+  .speak-btn.tha:hover { background: rgba(138,32,64,0.08); border-color: var(--thai, #8a2040); }
+
+  .speak-btn.speaking { animation: speakPulse 0.9s ease-in-out infinite; }
+  .speak-btn.eng.speaking { background: rgba(42,92,138,0.12); border-color: var(--eng, #2a5c8a); }
+  .speak-btn.tha.speaking { background: rgba(138,32,64,0.12); border-color: var(--thai, #8a2040); }
+
+  @keyframes speakPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.6; transform: scale(0.95); }
+  }
+
+  .speak-btn svg { width: 11px; height: 11px; flex-shrink: 0; }
+
+  /* pill nav additions */
+  .pp-foot {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 4px 0;
+  }
+  .pp-foot .pp-lnk { color: rgba(200,148,58,0.8) !important; font-weight: 700 !important; }
+  .pp-foot .pp-lnk:hover { color: rgba(200,148,58,1) !important; }
+
+  /* ── FLOATING NOTES PILL ── */
+  .notes-pill {
+    position: fixed; bottom: 1.6rem; left: 1.6rem;
+    background: rgba(184,120,32,0.15);
+    border: 1px solid rgba(184,120,32,0.4);
+    color: #c8943a;
+    border-radius: 99px;
+    padding: 0.55rem 1.05rem;
+    font-size: 0.72rem; font-weight: 700;
+    text-decoration: none;
+    z-index: 300;
+    transition: all 0.2s;
+  }
+  .notes-pill:hover { background: rgba(184,120,32,0.25); }
 
 </style>
 </head>
@@ -597,52 +676,42 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Please dress modestly — cover your shoulders and knees. <button class="tts-btn" data-text="Please dress modestly — cover your shoulders and knees." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">แต่งตัวสุภาพด้วยนะ — ปิดไหล่และเข่า <button class="tts-btn thai" data-text="แต่งตัวสุภาพด้วยนะ — ปิดไหล่และเข่า" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Please dress modestly — cover your shoulders and knees.</div>
+      <div class="t">แต่งตัวสุภาพด้วยนะ — ปิดไหล่และเข่า</div>
       <div class="r">tàeng-tua sù-phâap dûay ná — bpìt lài láe khào</div>
       <div class="note"><span class="ke">Kru:</span> Important to warn students before visiting a temple. Most temples provide sarongs to borrow but it's respectful to come prepared.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card001">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Remove your shoes before entering any building inside the temple. <button class="tts-btn" data-text="Remove your shoes before entering any building inside the temple." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ถอดรองเท้าก่อนเข้าอาคารในวัดทุกหลัง <button class="tts-btn thai" data-text="ถอดรองเท้าก่อนเข้าอาคารในวัดทุกหลัง" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Remove your shoes before entering any building inside the temple.</div>
+      <div class="t">ถอดรองเท้าก่อนเข้าอาคารในวัดทุกหลัง</div>
       <div class="r">thàwt rawng-tháao gàawn khâo aa-khaan nai wát thúk lǎng</div>
       <div class="note"><span class="ks">Sora:</span> ถอด (thàwt) = to remove (clothing/shoes). รองเท้า (rawng-tháao) = shoes. อาคาร (aa-khaan) = building.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card002">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Never point your feet toward a Buddha image or a monk. <button class="tts-btn" data-text="Never point your feet toward a Buddha image or a monk." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">อย่าชี้เท้าไปทางพระพุทธรูปหรือพระเด็ดขาด <button class="tts-btn thai" data-text="อย่าชี้เท้าไปทางพระพุทธรูปหรือพระเด็ดขาด" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Never point your feet toward a Buddha image or a monk.</div>
+      <div class="t">อย่าชี้เท้าไปทางพระพุทธรูปหรือพระเด็ดขาด</div>
       <div class="r">yàa chîi tháao bpai thaang phrá-phút-thá-rûup rǔe phrá dèt-khàat</div>
       <div class="note"><span class="ke">Kru:</span> The feet are the lowest, most spiritually impure part of the body in Thai culture. Even accidentally pointing feet toward something sacred is offensive.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card003">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">Women must not touch or hand things directly to a monk. <button class="tts-btn" data-text="Women must not touch or hand things directly to a monk." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ผู้หญิงต้องไม่แตะต้องหรือส่งของให้พระโดยตรง <button class="tts-btn thai" data-text="ผู้หญิงต้องไม่แตะต้องหรือส่งของให้พระโดยตรง" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Women must not touch or hand things directly to a monk.</div>
+      <div class="t">ผู้หญิงต้องไม่แตะต้องหรือส่งของให้พระโดยตรง</div>
       <div class="r">phûu-yǐng tâwng mâi tàe-tâwng rǔe sòng khǎawng hâi phrá dooi-trong</div>
       <div class="note"><span class="ke">Kru:</span> Items should be placed on a cloth for the monk to pick up, or handed to a male companion to pass on. This is a well-known and important rule for female visitors.<br><span class="ks">Sora:</span> โดยตรง (dooi-trong) = directly</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card004">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">05</div>
-      <div class="e">The Wai Kru in Muay Thai is our way of thanking our teachers and ancestors before we fight. <button class="tts-btn" data-text="The Wai Kru in Muay Thai is our way of thanking our teachers and ancestors before we fight." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ไหว้ครูในมวยไทยคือการขอบคุณครูและบรรพบุรุษของเราก่อนชก <button class="tts-btn thai" data-text="ไหว้ครูในมวยไทยคือการขอบคุณครูและบรรพบุรุษของเราก่อนชก" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">The Wai Kru in Muay Thai is our way of thanking our teachers and ancestors before we fight.</div>
+      <div class="t">ไหว้ครูในมวยไทยคือการขอบคุณครูและบรรพบุรุษของเราก่อนชก</div>
       <div class="r">wâi khruu nai muay thai khue gaan khàwp-khun khruu láe ban-phá-bù-rùt khǎawng rao gàawn chók</div>
       <div class="note"><span class="ks">Sora:</span> บรรพบุรุษ (ban-phá-bù-rùt) = ancestors. The Wai Kru is one of the most beautiful aspects of Muay Thai — a meditation, a prayer, and a show of lineage all in one.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card005">☆ Save</button>
     </div>
 
   </div><!-- /buddhism -->
@@ -669,13 +738,13 @@
         Thai New Year — a 3-day water festival in mid-April, the hottest time of year. Water is poured to wash away bad luck and pay respect to elders. In Bangkok and Chiang Mai it becomes a massive city-wide water fight. <b>It is the biggest party in Thailand.</b><br><br>
         <b>Important:</b> Anything electronic in your pocket will get soaked. Embrace it!
         <div class="fest-phrase">
-          <div class="e">Happy New Year! (Songkran greeting) <button class="tts-btn" data-text="Happy New Year! (Songkran greeting)" data-lang="en-US">🔊 EN</button></div>
-          <div class="t">สวัสดีปีใหม่ไทย! <button class="tts-btn thai" data-text="สวัสดีปีใหม่ไทย!" data-lang="th-TH">🔊 TH</button></div>
+          <div class="e">Happy New Year! (Songkran greeting)</div>
+          <div class="t">สวัสดีปีใหม่ไทย!</div>
           <div class="r">sà-wàt-dii bpii-mài thai!</div>
         </div>
         <div class="fest-phrase">
-          <div class="e">May you be happy and healthy this year. <button class="tts-btn" data-text="May you be happy and healthy this year." data-lang="en-US">🔊 EN</button></div>
-          <div class="t">ขอให้มีความสุขและสุขภาพดีตลอดปีนะ <button class="tts-btn thai" data-text="ขอให้มีความสุขและสุขภาพดีตลอดปีนะ" data-lang="th-TH">🔊 TH</button></div>
+          <div class="e">May you be happy and healthy this year.</div>
+          <div class="t">ขอให้มีความสุขและสุขภาพดีตลอดปีนะ</div>
           <div class="r">khǎaw hâi mii khwaam-sùk láe sùk-khà-phâap dii tà-làwt bpii ná</div>
         </div>
       </div>
@@ -693,13 +762,13 @@
         On the full moon of the 12th lunar month, Thais float small lotus-shaped baskets (กระทง — grà-thong) carrying candles, incense, and flowers on rivers and lakes — releasing bad luck and paying respects to the water goddess Mae Khongkha. In Chiang Mai, sky lanterns (โคมลอย — khoom loi) are released simultaneously — one of the most beautiful sights in Asia.<br><br>
         <b>Tradition:</b> Make a wish as your krathong floats away.
         <div class="fest-phrase">
-          <div class="e">Happy Loy Krathong! <button class="tts-btn" data-text="Happy Loy Krathong!" data-lang="en-US">🔊 EN</button></div>
-          <div class="t">สุขสันต์วันลอยกระทง! <button class="tts-btn thai" data-text="สุขสันต์วันลอยกระทง!" data-lang="th-TH">🔊 TH</button></div>
+          <div class="e">Happy Loy Krathong!</div>
+          <div class="t">สุขสันต์วันลอยกระทง!</div>
           <div class="r">sùk-sǎn wan loi grà-thong!</div>
         </div>
         <div class="fest-phrase">
-          <div class="e">Let go of all the bad — let the water carry it away. <button class="tts-btn" data-text="Let go of all the bad — let the water carry it away." data-lang="en-US">🔊 EN</button></div>
-          <div class="t">ปล่อยทุกสิ่งร้ายไป — ให้น้ำพัดพาไป <button class="tts-btn thai" data-text="ปล่อยทุกสิ่งร้ายไป — ให้น้ำพัดพาไป" data-lang="th-TH">🔊 TH</button></div>
+          <div class="e">Let go of all the bad — let the water carry it away.</div>
+          <div class="t">ปล่อยทุกสิ่งร้ายไป — ให้น้ำพัดพาไป</div>
           <div class="r">bplàwy thúk sìng ráai bpai — hâi nám phát-phaa bpai</div>
         </div>
       </div>
@@ -716,8 +785,8 @@
       <div class="fest-body">
         The holiest day in Buddhism — commemorating the birth, enlightenment, and death of the Buddha, all on the same date. Thais visit temples, listen to sermons, and walk the <b>เวียนเทียน (wian-thian)</b> — a candlelit procession around the temple three times. <b>Alcohol is not sold in Thailand on this day.</b>
         <div class="fest-phrase">
-          <div class="e">Today is a Buddhist holy day — no alcohol is sold. <button class="tts-btn" data-text="Today is a Buddhist holy day — no alcohol is sold." data-lang="en-US">🔊 EN</button></div>
-          <div class="t">วันนี้เป็นวันพระสำคัญ — ไม่มีขายเหล้า <button class="tts-btn thai" data-text="วันนี้เป็นวันพระสำคัญ — ไม่มีขายเหล้า" data-lang="th-TH">🔊 TH</button></div>
+          <div class="e">Today is a Buddhist holy day — no alcohol is sold.</div>
+          <div class="t">วันนี้เป็นวันพระสำคัญ — ไม่มีขายเหล้า</div>
           <div class="r">wan níi bpen wan-phrá sǎm-khan — mâi mii khǎai lâo</div>
         </div>
       </div>
@@ -734,13 +803,13 @@
       <div class="fest-body">
         Thailand celebrates both its traditional New Year (Songkran in April) and the Western New Year on January 1st — with fireworks, street parties, and countdowns. Bangkok's celebrations rival anywhere in the world.
         <div class="fest-phrase">
-          <div class="e">Happy New Year! <button class="tts-btn" data-text="Happy New Year!" data-lang="en-US">🔊 EN</button></div>
-          <div class="t">สวัสดีปีใหม่! <button class="tts-btn thai" data-text="สวัสดีปีใหม่!" data-lang="th-TH">🔊 TH</button></div>
+          <div class="e">Happy New Year!</div>
+          <div class="t">สวัสดีปีใหม่!</div>
           <div class="r">sà-wàt-dii bpii-mài!</div>
         </div>
         <div class="fest-phrase">
-          <div class="e">Wishing you a wonderful year ahead. <button class="tts-btn" data-text="Wishing you a wonderful year ahead." data-lang="en-US">🔊 EN</button></div>
-          <div class="t">ขอให้ปีหน้าเป็นปีที่ดีนะ <button class="tts-btn thai" data-text="ขอให้ปีหน้าเป็นปีที่ดีนะ" data-lang="th-TH">🔊 TH</button></div>
+          <div class="e">Wishing you a wonderful year ahead.</div>
+          <div class="t">ขอให้ปีหน้าเป็นปีที่ดีนะ</div>
           <div class="r">khǎaw hâi bpii nâa bpen bpii thîi dii ná</div>
         </div>
       </div>
@@ -780,30 +849,24 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Stand still and silent when the national anthem plays — it's played at 8am and 6pm in public spaces. <button class="tts-btn" data-text="Stand still and silent when the national anthem plays — it&#x27;s played at 8am and 6pm in public spaces." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">หยุดนิ่งและเงียบตอนเพลงชาติ — เปิดตอน 8 โมงเช้าและ 6 โมงเย็นในที่สาธารณะ <button class="tts-btn thai" data-text="หยุดนิ่งและเงียบตอนเพลงชาติ — เปิดตอน 8 โมงเช้าและ 6 โมงเย็นในที่สาธารณะ" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Stand still and silent when the national anthem plays — it's played at 8am and 6pm in public spaces.</div>
+      <div class="t">หยุดนิ่งและเงียบตอนเพลงชาติ — เปิดตอน 8 โมงเช้าและ 6 โมงเย็นในที่สาธารณะ</div>
       <div class="r">yùt nîng láe ngîap tawn phleeng-châat — bpòet tawn bpàet moong cháao láe hòk moong yen nai thîi sǎa-thaa-rá-ná</div>
       <div class="note"><span class="ke">Kru:</span> This surprises most international visitors. At train stations, parks, schools — everyone stops. It's not optional and locals notice if you don't.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card006">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">In Thai cinemas, the royal anthem plays before every film — everyone stands. <button class="tts-btn" data-text="In Thai cinemas, the royal anthem plays before every film — everyone stands." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ในโรงหนังไทย เพลงสรรเสริญฯ เปิดก่อนทุกรอบ — ทุกคนยืน <button class="tts-btn thai" data-text="ในโรงหนังไทย เพลงสรรเสริญฯ เปิดก่อนทุกรอบ — ทุกคนยืน" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">In Thai cinemas, the royal anthem plays before every film — everyone stands.</div>
+      <div class="t">ในโรงหนังไทย เพลงสรรเสริญฯ เปิดก่อนทุกรอบ — ทุกคนยืน</div>
       <div class="r">nai roong-nǎng thai — phleeng-sǎn-soen bpòet gàawn thúk râwp — thúk khon yuen</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card007">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Portraits of the royal family are displayed everywhere — treat them with respect. <button class="tts-btn" data-text="Portraits of the royal family are displayed everywhere — treat them with respect." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">รูปพระบรมฉายาลักษณ์มีอยู่ทุกที่ — แสดงความเคารพด้วยนะ <button class="tts-btn thai" data-text="รูปพระบรมฉายาลักษณ์มีอยู่ทุกที่ — แสดงความเคารพด้วยนะ" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Portraits of the royal family are displayed everywhere — treat them with respect.</div>
+      <div class="t">รูปพระบรมฉายาลักษณ์มีอยู่ทุกที่ — แสดงความเคารพด้วยนะ</div>
       <div class="r">rûup phrá-baw-rom-chǎai-yaa-lák mii yùu thúk thîi — sà-daeng khwaam khao-róp dûay ná</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card008">☆ Save</button>
     </div>
 
   </div><!-- /royalty -->
@@ -825,41 +888,33 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">In Thailand we always share dishes — order several for the table. <button class="tts-btn" data-text="In Thailand we always share dishes — order several for the table." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ในไทยเราแชร์อาหารกันเสมอ — สั่งหลายๆ อย่างสำหรับโต๊ะ <button class="tts-btn thai" data-text="ในไทยเราแชร์อาหารกันเสมอ — สั่งหลายๆ อย่างสำหรับโต๊ะ" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">In Thailand we always share dishes — order several for the table.</div>
+      <div class="t">ในไทยเราแชร์อาหารกันเสมอ — สั่งหลายๆ อย่างสำหรับโต๊ะ</div>
       <div class="r">nai thai rao chaer aa-hǎan gan sà-mǒe — sàng lǎai-lǎai yàang sǎm-ràp dtó</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card009">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">กินข้าวยัง? / กินข้าวหรือยัง? — Have you eaten yet? <button class="tts-btn" data-text="กินข้าวยัง? / กินข้าวหรือยัง? — Have you eaten yet?" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">กินข้าวยัง? / กินข้าวหรือยัง? <button class="tts-btn thai" data-text="กินข้าวยัง? / กินข้าวหรือยัง?" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">กินข้าวยัง? / กินข้าวหรือยัง? — Have you eaten yet?</div>
+      <div class="t">กินข้าวยัง? / กินข้าวหรือยัง?</div>
       <div class="r">gin khâao yang? / gin khâao rǔe yang?</div>
       <div class="note"><span class="ks">Sora:</span> This is one of the most common Thai greetings — asking if someone has eaten is expressing care. It's not literally about food. Respond: กินแล้ว (gin láaew) = "already eaten" or ยังเลย (yang looei) = "not yet!"</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card010">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">The host always pays — don't fight over the bill with a Thai host. <button class="tts-btn" data-text="The host always pays — don&#x27;t fight over the bill with a Thai host." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">เจ้าภาพจ่ายเสมอ — อย่าแย่งจ่ายเงินกับเจ้าภาพไทย <button class="tts-btn thai" data-text="เจ้าภาพจ่ายเสมอ — อย่าแย่งจ่ายเงินกับเจ้าภาพไทย" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">The host always pays — don't fight over the bill with a Thai host.</div>
+      <div class="t">เจ้าภาพจ่ายเสมอ — อย่าแย่งจ่ายเงินกับเจ้าภาพไทย</div>
       <div class="r">jâo-phâap jàai sà-mǒe — yàa yâeng jàai ngoen gàp jâo-phâap thai</div>
       <div class="note"><span class="ke">Kru:</span> If a Thai person invited you to eat, they intend to pay. Insisting to split is uncomfortable. Accept gracefully and reciprocate by inviting them next time.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card011">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">อร่อยมากเลย! — It's delicious! <button class="tts-btn" data-text="อร่อยมากเลย! — It&#x27;s delicious!" data-lang="en-US">🔊 EN</button></div>
-      <div class="t">อร่อยมากเลย! <button class="tts-btn thai" data-text="อร่อยมากเลย!" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">อร่อยมากเลย! — It's delicious!</div>
+      <div class="t">อร่อยมากเลย!</div>
       <div class="r">à-ràwy mâak looei!</div>
       <div class="note"><span class="ks">Sora:</span> Always say this when you enjoy food cooked by or chosen by a Thai person. It makes them genuinely happy. อร่อย (à-ràwy) = delicious — one of the most important words you'll ever learn.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card012">☆ Save</button>
     </div>
 
     <div class="grp">Thai Food Customs Worth Knowing</div>
@@ -891,32 +946,26 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Every Thai home and business has a spirit house outside. <button class="tts-btn" data-text="Every Thai home and business has a spirit house outside." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ทุกบ้านและธุรกิจในไทยมีศาลพระภูมิอยู่ด้านนอก <button class="tts-btn thai" data-text="ทุกบ้านและธุรกิจในไทยมีศาลพระภูมิอยู่ด้านนอก" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">Every Thai home and business has a spirit house outside.</div>
+      <div class="t">ทุกบ้านและธุรกิจในไทยมีศาลพระภูมิอยู่ด้านนอก</div>
       <div class="r">thúk bâan láe thú-rà-gìt nai thai mii sǎan-phrá-phuum yùu dâan-nâawk</div>
       <div class="note"><span class="ke">Kru:</span> The spirit house (ศาลพระภูมิ) is a miniature temple where the protective spirit of the land is honoured with offerings of food, water, flowers, and incense. Never disrespect one.<br><span class="ks">Sora:</span> ศาลพระภูมิ (sǎan-phrá-phuum) = spirit house. You'll see them everywhere in Thailand.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card013">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">The Mongkon is blessed by monks — it protects the fighter. <button class="tts-btn" data-text="The Mongkon is blessed by monks — it protects the fighter." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">มงคลได้รับการอวยพรจากพระ — ช่วยปกป้องนักมวย <button class="tts-btn thai" data-text="มงคลได้รับการอวยพรจากพระ — ช่วยปกป้องนักมวย" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">The Mongkon is blessed by monks — it protects the fighter.</div>
+      <div class="t">มงคลได้รับการอวยพรจากพระ — ช่วยปกป้องนักมวย</div>
       <div class="r">mongkhon dâai-ráp gaan uay-phawn jàak phrá — chûay bpòk-bprâwng nák-muay</div>
       <div class="note"><span class="ks">Sora:</span> มงคล (mongkhon) = the blessed headband worn during Wai Kru. Only the trainer (kru) removes it — it must be passed over the head, never under. Deeply sacred.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card014">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">The Prajiad armbands are for protection and good luck in a fight. <button class="tts-btn" data-text="The Prajiad armbands are for protection and good luck in a fight." data-lang="en-US">🔊 EN</button></div>
-      <div class="t">ประเจียดเป็นของที่ใส่เพื่อความโชคดีและปกป้องในการชก <button class="tts-btn thai" data-text="ประเจียดเป็นของที่ใส่เพื่อความโชคดีและปกป้องในการชก" data-lang="th-TH">🔊 TH</button></div>
+      <div class="e">The Prajiad armbands are for protection and good luck in a fight.</div>
+      <div class="t">ประเจียดเป็นของที่ใส่เพื่อความโชคดีและปกป้องในการชก</div>
       <div class="r">bprà-jìat bpen khǎawng thîi sài phûea khwaam-chôok-dii láe bpòk-bprâwng nai gaan chók</div>
       <div class="note"><span class="ks">Sora:</span> ประเจียด (bprà-jìat) = the armbands worn during fights. Often contain a rolled sacred cloth. โชคดี (chôok-dii) = good luck.</div>
-    
-      <button class="bookmark-btn" data-id="kru_exchange_vol7-card015">☆ Save</button>
     </div>
 
     <div class="grp">Common Thai Beliefs & Superstitions</div>
@@ -942,32 +991,32 @@
       <div class="dlg-ln">
         <div class="spk sora">Sora</div>
         <div class="dt">
-          <div class="e">Kru — what should I think about during the Wai Kru? <button class="tts-btn" data-text="Kru — what should I think about during the Wai Kru?" data-lang="en-US">🔊 EN</button></div>
-          <div class="t">ครู — ระหว่างไหว้ครู ควรคิดถึงอะไร? <button class="tts-btn thai" data-text="ครู — ระหว่างไหว้ครู ควรคิดถึงอะไร?" data-lang="th-TH">🔊 TH</button></div>
+          <div class="e">Kru — what should I think about during the Wai Kru?</div>
+          <div class="t">ครู — ระหว่างไหว้ครู ควรคิดถึงอะไร?</div>
           <div class="r">khruu — rá-wàang wâi-khruu — khuan khít-thǔeng à-rai?</div>
         </div>
       </div>
       <div class="dlg-ln">
         <div class="spk kru">Kru</div>
         <div class="dt">
-          <div class="e">Think of everyone who helped you get here. Your family. Your teachers. Say thank you in your heart. <button class="tts-btn" data-text="Think of everyone who helped you get here. Your family. Your teachers. Say thank you in your heart." data-lang="en-US">🔊 EN</button></div>
-          <div class="t">คิดถึงทุกคนที่ช่วยให้คุณมาถึงวันนี้ ครอบครัว ครู ขอบคุณในใจ <button class="tts-btn thai" data-text="คิดถึงทุกคนที่ช่วยให้คุณมาถึงวันนี้ ครอบครัว ครู ขอบคุณในใจ" data-lang="th-TH">🔊 TH</button></div>
+          <div class="e">Think of everyone who helped you get here. Your family. Your teachers. Say thank you in your heart.</div>
+          <div class="t">คิดถึงทุกคนที่ช่วยให้คุณมาถึงวันนี้ ครอบครัว ครู ขอบคุณในใจ</div>
           <div class="r">khít-thǔeng thúk khon thîi chûay hâi khun maa thǔeng wan níi — khrâwp-khrua — khruu — khàwp-khun nai jai</div>
         </div>
       </div>
       <div class="dlg-ln">
         <div class="spk sora">Sora</div>
         <div class="dt">
-          <div class="e">And the Mongkon — do I wear it the whole fight? <button class="tts-btn" data-text="And the Mongkon — do I wear it the whole fight?" data-lang="en-US">🔊 EN</button></div>
-          <div class="t">แล้วมงคลล่ะ — ใส่ตลอดการชกไหม? <button class="tts-btn thai" data-text="แล้วมงคลล่ะ — ใส่ตลอดการชกไหม?" data-lang="th-TH">🔊 TH</button></div>
+          <div class="e">And the Mongkon — do I wear it the whole fight?</div>
+          <div class="t">แล้วมงคลล่ะ — ใส่ตลอดการชกไหม?</div>
           <div class="r">láaew mongkhon là — sài tà-làwt gaan chók mǎi?</div>
         </div>
       </div>
       <div class="dlg-ln">
         <div class="spk kru">Kru</div>
         <div class="dt">
-          <div class="e">No — only during the Wai Kru. I remove it before the fight starts. Only I can touch it. <button class="tts-btn" data-text="No — only during the Wai Kru. I remove it before the fight starts. Only I can touch it." data-lang="en-US">🔊 EN</button></div>
-          <div class="t">ไม่ — แค่ตอนไหว้ครู ครูถอดให้ก่อนชก มีแต่ครูที่แตะได้ <button class="tts-btn thai" data-text="ไม่ — แค่ตอนไหว้ครู ครูถอดให้ก่อนชก มีแต่ครูที่แตะได้" data-lang="th-TH">🔊 TH</button></div>
+          <div class="e">No — only during the Wai Kru. I remove it before the fight starts. Only I can touch it.</div>
+          <div class="t">ไม่ — แค่ตอนไหว้ครู ครูถอดให้ก่อนชก มีแต่ครูที่แตะได้</div>
           <div class="r">mâi — khâe tawn wâi-khruu — khruu thàwt hâi gàawn chók — mii-dtàe khruu thîi tàe dâai</div>
         </div>
       </div>
@@ -1097,107 +1146,183 @@
 </script>
 
 
-<!-- KRU-FEATURES-v1 -->
 <a class="notes-pill" href="my-saved-note.html">🔖 My Notes</a>
 
+<div id="bmToast" class="bm-toast"></div>
+
 <script>
-(function() {
-  /* ── TTS ── */
-  function ttsSpeak(text, lang) {
-    if (!window.speechSynthesis) return;
-    speechSynthesis.cancel();
-    setTimeout(function() {
-      if (speechSynthesis.paused) speechSynthesis.resume();
-      var u = new SpeechSynthesisUtterance(text);
-      u.lang  = lang;
-      u.rate  = 0.9;
-      speechSynthesis.speak(u);
-    }, 50);
-  }
+/* ── TTS · Web Speech API · en-GB + th-TH ── */
+var _ttsActiveBtn = null;
+var _speakerSVG = '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.5h2.5L8 2.5v11L4.5 10.5H2V5.5z" fill="currentColor"/><path d="M10.5 5.5c1.1 0.7 1.8 1.9 1.8 3.5s-0.7 2.8-1.8 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12.5 3.5C14.2 4.7 15.2 6.2 15.2 8s-1 3.3-2.7 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
 
-  document.querySelectorAll('.tts-btn').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var me = this;
-      me.classList.add('speaking');
-      ttsSpeak(me.dataset.text, me.dataset.lang);
-      setTimeout(function() { me.classList.remove('speaking'); }, 2500);
-    });
+function _makeBtn(lang, cls, label) {
+  var btn = document.createElement('button');
+  btn.className = 'speak-btn ' + cls;
+  btn.dataset.lang = lang;
+  btn.setAttribute('aria-label', 'Listen in ' + label);
+  btn.innerHTML = _speakerSVG + '<span>' + label + '</span>';
+  btn.addEventListener('click', function(e) { e.stopPropagation(); _speakBtn(this); });
+  return btn;
+}
+
+function _speakBtn(btn) {
+  if (!window.speechSynthesis) return;
+  if (_ttsActiveBtn && _ttsActiveBtn !== btn) _ttsActiveBtn.classList.remove('speaking');
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.resume();
+  var textEl = btn.closest('.speak-line').querySelector('.speak-text');
+  var text = textEl ? textEl.textContent.trim() : '';
+  if (!text) return;
+  var lang = btn.dataset.lang;
+  setTimeout(function() {
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = lang;
+    utt.rate = lang === 'th-TH' ? 0.82 : 0.92;
+    var voices = window.speechSynthesis.getVoices();
+    var voice = voices.find(function(v) { return v.lang === lang; })
+             || voices.find(function(v) { return v.lang.startsWith(lang.split('-')[0]); });
+    if (voice) utt.voice = voice;
+    _ttsActiveBtn = btn;
+    btn.classList.add('speaking');
+    utt.onend = function() { btn.classList.remove('speaking'); _ttsActiveBtn = null; };
+    utt.onerror = function() { btn.classList.remove('speaking'); _ttsActiveBtn = null; };
+    window.speechSynthesis.speak(utt);
+  }, 60);
+}
+
+function _injectSpeakButtons() {
+  document.querySelectorAll('.e, .dt .e').forEach(function(el) {
+    if (el.querySelector('.speak-btn')) return;
+    var wrap = document.createElement('div'); wrap.className = 'speak-line';
+    var span = document.createElement('span'); span.className = 'speak-text';
+    span.innerHTML = el.innerHTML; el.innerHTML = '';
+    wrap.appendChild(span); wrap.appendChild(_makeBtn('en-GB','eng','EN'));
+    el.appendChild(wrap);
   });
-
-  /* ── BOOKMARK ── */
-  function getCards() {
-    try { return JSON.parse(localStorage.getItem('kruexchange_saved_cards') || '[]'); }
-    catch (e) { return []; }
-  }
-  function saveCards(arr) {
-    localStorage.setItem('kruexchange_saved_cards', JSON.stringify(arr));
-  }
-
-  function fireworks(btn) {
-    var rect = btn.getBoundingClientRect();
-    var cx = rect.left + rect.width / 2;
-    var cy = rect.top  + rect.height / 2;
-    for (var i = 0; i < 8; i++) {
-      (function(i) {
-        var spark = document.createElement('span');
-        spark.textContent = '✦';
-        spark.style.cssText =
-          'position:fixed;left:' + cx + 'px;top:' + cy + 'px;pointer-events:none;' +
-          'color:#c8943a;font-size:0.9rem;z-index:9999;' +
-          'transition:all 0.6s ease-out;opacity:1;';
-        document.body.appendChild(spark);
-        var angle = (i / 8) * 2 * Math.PI;
-        var dist  = 40 + Math.random() * 20;
-        var dx    = Math.cos(angle) * dist;
-        var dy    = Math.sin(angle) * dist;
-        requestAnimationFrame(function() {
-          spark.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
-          spark.style.opacity   = '0';
-          setTimeout(function() { spark.remove(); }, 650);
-        });
-      })(i);
-    }
-  }
-
-  document.querySelectorAll('.bookmark-btn').forEach(function(btn) {
-    var id    = btn.dataset.id;
-    var saved = getCards();
-    if (saved.some(function(c) { return c.id === id; })) {
-      btn.classList.add('saved');
-      btn.textContent = '★ Saved';
-    }
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var cards = getCards();
-      var idx   = cards.findIndex(function(c) { return c.id === id; });
-      if (idx >= 0) {
-        cards.splice(idx, 1);
-        btn.classList.remove('saved');
-        btn.textContent = '☆ Save';
-      } else {
-        var card = btn.closest('.card');
-        function txt(a, b) {
-          var el = card.querySelector(a) || card.querySelector(b);
-          return el ? el.textContent.trim() : '';
-        }
-        cards.push({
-          id:    id,
-          eng:   txt('.e',  '.eng'),
-          thai:  txt('.t',  '.thai-script'),
-          roman: txt('.r',  '.roman'),
-          vol:   document.title,
-          saved: Date.now()
-        });
-        btn.classList.add('saved');
-        btn.textContent = '★ Saved';
-        fireworks(btn);
-      }
-      saveCards(cards);
-    });
+  document.querySelectorAll('.t, .dt .t').forEach(function(el) {
+    if (el.querySelector('.speak-btn')) return;
+    var wrap = document.createElement('div'); wrap.className = 'speak-line';
+    var span = document.createElement('span'); span.className = 'speak-text';
+    span.innerHTML = el.innerHTML; el.innerHTML = '';
+    wrap.appendChild(span); wrap.appendChild(_makeBtn('th-TH','tha','TH'));
+    el.appendChild(wrap);
   });
-})();
+}
+
+if (!window.speechSynthesis) {
+  console.warn('TTS not available');
+} else {
+  var _v = window.speechSynthesis.getVoices();
+  if (_v.length > 0) { _injectSpeakButtons(); }
+  else {
+    window.speechSynthesis.addEventListener('voiceschanged', function() { _injectSpeakButtons(); }, { once: true });
+    setTimeout(_injectSpeakButtons, 400);
+  }
+}
 </script>
 
+<script>
+/* ── BOOKMARKS · localStorage · My Notes ── */
+var _BM_KEY   = 'kruexchange_saved_cards';
+var _BM_VOL   = '7';
+var _BM_LABEL = 'Vol. 7';
+
+var _bmOutline = '<svg viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 2.5A1.5 1.5 0 0 1 3.5 1h7A1.5 1.5 0 0 1 12 2.5V14l-5-2.5L2 14V2.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+var _bmFilled  = '<svg viewBox="0 0 14 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M2 2.5A1.5 1.5 0 0 1 3.5 1h7A1.5 1.5 0 0 1 12 2.5V14l-5-2.5L2 14V2.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+
+function _bmLoad() { try { return JSON.parse(localStorage.getItem(_BM_KEY) || '[]'); } catch(e) { return []; } }
+function _bmWrite(a) { try { localStorage.setItem(_BM_KEY, JSON.stringify(a)); } catch(e) {} }
+
+function _bmCardId(card) {
+  var sec = card.closest('.section'); var num = card.querySelector('.num');
+  return 'vol' + _BM_VOL + '_' + (sec ? sec.id : 'x') + '_' + (num ? num.textContent.trim() : '0');
+}
+
+function _bmCardData(card) {
+  var sec   = card.closest('.section');
+  var secId = sec ? sec.id : 'unknown';
+  var label = secId.charAt(0).toUpperCase() + secId.slice(1).replace(/-/g,' ');
+  var eng   = card.querySelector('.e .speak-text')
+            ? card.querySelector('.e .speak-text').textContent.trim()
+            : (card.querySelector('.e') ? card.querySelector('.e').textContent.trim() : '');
+  var thai  = card.querySelector('.t .speak-text')
+            ? card.querySelector('.t .speak-text').textContent.trim()
+            : (card.querySelector('.t') ? card.querySelector('.t').textContent.trim() : '');
+  var rom   = card.querySelector('.r') ? card.querySelector('.r').textContent.trim() : '';
+  return {
+    id: _bmCardId(card), vol: _BM_VOL, volLabel: _BM_LABEL,
+    topic: secId, topicLabel: label,
+    eng: eng, thai: thai, roman: rom,
+    savedAt: new Date().toISOString()
+  };
+}
+
+var _bmToastTimer = null;
+function _bmToast(msg) {
+  var t = document.getElementById('bmToast');
+  if (!t) return;
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(_bmToastTimer);
+  _bmToastTimer = setTimeout(function() { t.classList.remove('show'); }, 2200);
+}
+
+function _bmFireParticles(btn) {
+  var r = btn.getBoundingClientRect();
+  var cx = r.left + r.width/2, cy = r.top + r.height/2;
+  var colors = ['#b87820','#c05828','#e8b030','#d4943a','#f0c060','#a05020'];
+  for (var i = 0; i < 12; i++) {
+    (function(i) {
+      var angle = (i/12)*Math.PI*2 + (Math.random()-0.5)*0.6;
+      var dist  = 22 + Math.random()*22;
+      var dx    = Math.cos(angle)*dist, dy = Math.sin(angle)*dist;
+      var size  = 6 + Math.random()*7;
+      var color = colors[Math.floor(Math.random()*colors.length)];
+      var delay = Math.random()*60, dur = 480 + Math.random()*140;
+      var p = document.createElement('span');
+      p.className = 'bm-particle';
+      p.style.cssText = [
+        'left:'+(cx-size/2)+'px','top:'+(cy-size/2)+'px',
+        'width:'+size+'px','height:'+size+'px','background:'+color,
+        '--dx:'+dx.toFixed(1)+'px','--dy:'+dy.toFixed(1)+'px',
+        'animation:particleFly '+dur+'ms '+delay+'ms ease-out forwards'
+      ].join(';');
+      document.body.appendChild(p);
+      setTimeout(function() { if (p.parentNode) p.parentNode.removeChild(p); }, dur+delay+80);
+    })(i);
+  }
+}
+
+function _injectBookmarks() {
+  var saved = _bmLoad(); var savedIds = saved.map(function(c) { return c.id; });
+  document.querySelectorAll('.card').forEach(function(card) {
+    if (card.querySelector('.bm-btn')) return;
+    var id  = _bmCardId(card);
+    var btn = document.createElement('button');
+    btn.className = 'bm-btn' + (savedIds.indexOf(id) !== -1 ? ' saved' : '');
+    btn.innerHTML = savedIds.indexOf(id) !== -1 ? _bmFilled : _bmOutline;
+    btn.setAttribute('aria-label','Save to My Notes');
+    btn.setAttribute('title','Save to My Notes');
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var arr = _bmLoad(); var ids = arr.map(function(c){return c.id;}); var isSaved = ids.indexOf(id) !== -1;
+      if (isSaved) {
+        arr = arr.filter(function(c){return c.id!==id;});
+        btn.classList.remove('saved'); btn.innerHTML = _bmOutline;
+        _bmWrite(arr); _bmToast('Removed from My Notes');
+      } else {
+        var data = _bmCardData(card);
+        arr.push(data); btn.classList.add('saved'); btn.innerHTML = _bmFilled;
+        _bmWrite(arr); _bmToast('Saved to My Notes · ' + data.topicLabel);
+        btn.classList.add('popping');
+        setTimeout(function(){ btn.classList.remove('popping'); }, 500);
+        _bmFireParticles(btn);
+      }
+    });
+    card.appendChild(btn);
+  });
+}
+
+_injectBookmarks();
+</script>
 </body>
 </html>
