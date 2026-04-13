@@ -237,40 +237,13 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </head>
 <body>
 
-<!-- SETUP SCREEN -->
-<div id="setup-screen">
-  <div class="setup-box">
-    <div class="setup-logo">MY<span>NOTES</span></div>
-    <p class="setup-tagline">KRUEXCHANGE<br>PERSONAL DICTIONARY</p>
-
-    <label class="setup-label">YOUR NAME</label>
-    <input class="setup-input" id="setup-name" placeholder="e.g. Sora, Kru Lek..." autocomplete="given-name">
-
-    <label class="setup-label">ANTHROPIC API KEY</label>
-    <input class="setup-input" id="setup-apikey" type="password" placeholder="sk-ant-..." autocomplete="off">
-    <p class="setup-hint">console.anthropic.com &#8594; API Keys &nbsp;&#183;&nbsp; Stored locally only</p>
-
-    <label class="setup-label">SELECT ROLE</label>
-    <div class="role-row">
-      <div class="role-btn active" data-role="student">&#x1F94A;<br>STUDENT</div>
-      <div class="role-btn" data-role="teacher">&#128218;<br>KRU</div>
-    </div>
-
-    <p class="setup-error" id="setup-error"></p>
-    <button class="setup-btn" id="setup-btn">&#9654; START</button>
-    <p class="setup-note">Data lives locally on this device</p>
-  </div>
-</div>
-
 <!-- MAIN APP -->
-<div id="app" style="display:none;flex-direction:column;min-height:100vh;">
+<div id="app" style="display:flex;flex-direction:column;min-height:100vh;">
 
 <div class="topbar">
   <div class="topbar-logo">MY<span>NOTES</span></div>
   <div class="topbar-right">
-    <span class="topbar-user" id="topbar-user"></span>
-    <div class="topbar-avatar" id="topbar-avatar">?</div>
-    <button class="key-btn" id="key-btn" title="Change API Key">&#9881;</button>
+    <button class="key-btn" id="key-btn" title="Settings">&#9881;</button>
     <button class="back-btn" onclick="window.location='index.html'">&#8592; INDEX</button>
   </div>
 </div>
@@ -339,25 +312,11 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   </div>
   <div class="sheet-body">
     <div class="field-group">
-      <label class="field-label">YOUR NAME</label>
-      <input class="field-input" id="settings-name" placeholder="e.g. Sora...">
-    </div>
-    <div class="field-group">
       <label class="field-label">ANTHROPIC API KEY</label>
       <input class="field-input" id="settings-apikey" type="password" placeholder="sk-ant-..." autocomplete="off">
-      <div style="font-size:0.65rem;color:var(--muted);margin-top:0.4rem;line-height:1.6;">Leave blank to keep current key &nbsp;&#183;&nbsp; Stored locally only</div>
+      <div style="font-size:0.65rem;color:var(--muted);margin-top:0.4rem;line-height:1.6;">Required for Add Word lookup &nbsp;&#183;&nbsp; Stored locally only &nbsp;&#183;&nbsp; console.anthropic.com &#8594; API Keys</div>
     </div>
-    <div class="field-group">
-      <label class="field-label">ROLE</label>
-      <div class="role-row" id="settings-roles">
-        <div class="role-btn active" data-role="student">&#x1F94A;<br>STUDENT</div>
-        <div class="role-btn" data-role="teacher">&#128218;<br>KRU</div>
-      </div>
-    </div>
-    <button class="save-btn" id="settings-save" style="margin-top:0.5rem;">SAVE SETTINGS</button>
-    <div style="text-align:center;margin-top:1rem;">
-      <button style="background:none;border:none;color:var(--muted);font-size:0.65rem;cursor:pointer;font-family:'Press Start 2P',monospace;line-height:1.8;" id="settings-logout">LOG OUT &#8594;</button>
-    </div>
+    <button class="save-btn" id="settings-save" style="margin-top:0.5rem;">SAVE KEY</button>
   </div>
 </div>
 
@@ -424,43 +383,7 @@ function loadSession(){try{return JSON.parse(localStorage.getItem(SESS_KEY)||'nu
 function saveSession(s){try{localStorage.setItem(SESS_KEY,JSON.stringify(s));}catch(e){}}
 function getApiKey(){var s=loadSession();return s?s.apiKey:'';}
 
-/* ── SETUP SCREEN ── */
-document.querySelectorAll('#setup-screen .role-btn').forEach(function(btn){
-  btn.addEventListener('click',function(){
-    document.querySelectorAll('#setup-screen .role-btn').forEach(function(b){b.classList.remove('active');});
-    btn.classList.add('active');
-    currentRole=btn.dataset.role;
-  });
-});
-
-document.getElementById('setup-btn').addEventListener('click',doSetup);
-document.getElementById('setup-name').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('setup-apikey').focus();});
-document.getElementById('setup-apikey').addEventListener('keydown',function(e){if(e.key==='Enter')doSetup();});
-
-function showSetupError(msg){var el=document.getElementById('setup-error');el.textContent=msg;el.style.display='block';}
-
-function doSetup(){
-  var name=document.getElementById('setup-name').value.trim();
-  var rawKey=document.getElementById('setup-apikey').value.trim();
-  var apiKey=rawKey.split('').filter(function(c){return c.charCodeAt(0)>=33&&c.charCodeAt(0)<=126;}).join('');
-  if(!name){showSetupError('ENTER YOUR NAME');return;}
-  if(!apiKey||!apiKey.startsWith('sk-')){showSetupError('ENTER A VALID API KEY (starts with sk-)');return;}
-  var role=document.querySelector('#setup-screen .role-btn.active').dataset.role;
-  saveSession({name:name,apiKey:apiKey,role:role});
-  startApp({name:name,apiKey:apiKey,role:role});
-}
-
-function startApp(sess){
-  currentRole=sess.role||'student';
-  document.getElementById('setup-screen').style.display='none';
-  document.getElementById('app').style.display='flex';
-  document.getElementById('topbar-user').textContent=sess.name;
-  document.getElementById('topbar-avatar').textContent=sess.name[0].toUpperCase();
-  /* pre-fill settings sheet */
-  document.getElementById('settings-name').value=sess.name;
-  document.querySelectorAll('#settings-roles .role-btn').forEach(function(b){
-    b.classList.toggle('active',b.dataset.role===currentRole);
-  });
+function startApp(){
   renderCloud();
   renderCards();
 }
@@ -478,30 +401,16 @@ document.querySelectorAll('#settings-roles .role-btn').forEach(function(btn){
 });
 
 document.getElementById('settings-save').addEventListener('click',function(){
-  var name=document.getElementById('settings-name').value.trim();
   var rawKey=document.getElementById('settings-apikey').value.trim();
-  var role=document.querySelector('#settings-roles .role-btn.active').dataset.role;
+  if(!rawKey){showToast('ENTER AN API KEY');return;}
+  var k=rawKey.split('').filter(function(c){return c.charCodeAt(0)>=33&&c.charCodeAt(0)<=126;}).join('');
+  if(!k.startsWith('sk-')){showToast('INVALID KEY — must start with sk-');return;}
   var sess=loadSession()||{};
-  if(name)sess.name=name;
-  if(rawKey){
-    var k=rawKey.split('').filter(function(c){return c.charCodeAt(0)>=33&&c.charCodeAt(0)<=126;}).join('');
-    if(k.startsWith('sk-'))sess.apiKey=k;
-    else{showToast('INVALID KEY FORMAT');return;}
-  }
-  sess.role=role;
+  sess.apiKey=k;
   saveSession(sess);
-  currentRole=role;
-  document.getElementById('topbar-user').textContent=sess.name||'';
-  document.getElementById('topbar-avatar').textContent=(sess.name||'?')[0].toUpperCase();
   document.getElementById('settings-apikey').value='';
   closeSettings();
-  showToast('SETTINGS SAVED');
-});
-
-document.getElementById('settings-logout').addEventListener('click',function(){
-  if(!confirm('Log out? Your saved words will stay on this device.'))return;
-  localStorage.removeItem(SESS_KEY);
-  location.reload();
+  showToast('API KEY SAVED ✓');
 });
 
 function openSettings(){
@@ -787,7 +696,7 @@ document.getElementById('panel-word').addEventListener('keydown',function(e){if(
 
 async function lookupWord(){
   var apiKey=getApiKey();
-  if(!apiKey){showToast('SET API KEY IN &#9881; SETTINGS');return;}
+  if(!apiKey){closeSheet();openSettings();showToast('ENTER API KEY TO USE ADD WORD');return;}
 
   var word=document.getElementById('panel-word').value.trim();
   if(!word){document.getElementById('panel-word').focus();return;}
@@ -851,12 +760,7 @@ document.getElementById('save-btn').addEventListener('click',function(){
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3000);}
 
 /* ── INIT ── */
-var _sess = loadSession();
-if(_sess && _sess.apiKey && _sess.name){
-  startApp(_sess);
-} else {
-  document.getElementById('setup-screen').style.display='flex';
-}
+startApp();
 </script>
 </body>
 </html>
