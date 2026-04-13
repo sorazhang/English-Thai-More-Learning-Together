@@ -698,6 +698,10 @@ document.querySelectorAll('.tf-pill').forEach(function(p){
 
 document.getElementById('search-input').addEventListener('input',function(){
   searchQuery=this.value.toLowerCase().trim();
+  /* auto-switch to MY VOCAB tab when searching */
+  if(searchQuery&&activeTab!=='mine'){
+    activeTab='mine';syncTabs();
+  }
   renderCards();
   var q=this.value.trim();
   var btn=document.getElementById('add-btn-top');
