@@ -218,6 +218,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .preview-eng{color:var(--cyan);font-size:0.92rem;font-weight:600;margin-bottom:0.2rem;}
 .preview-thai{font-family:'Noto Sans Thai',sans-serif;color:var(--yellow);font-size:1.05rem;font-weight:700;line-height:1.6;margin-bottom:0.1rem;}
 .preview-roman{color:#b3ff75;font-size:0.8rem;font-style:italic;}
+.pv-line{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.2rem;}.pv-line>*:first-child{flex:1;}
 .preview-label{font-family:'Press Start 2P',monospace;font-size:0.36rem;color:var(--yellow);margin:0.6rem 0 0.4rem;letter-spacing:0.1em;}
 .preview-ex{font-size:0.78rem;color:var(--muted);line-height:1.65;}
 .sheet-error{font-size:0.75rem;color:var(--pink);display:none;padding:0.4rem 0;line-height:1.5;}
@@ -264,7 +265,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
     <div class="dict-tabs">
       <button class="dict-tab active" id="tab-topics">&#128204; MY TOPICS</button>
-      <button class="dict-tab" id="tab-mine">&#128218; MY WORDS</button>
+      <button class="dict-tab" id="tab-mine">&#128218; MY VOCAB</button>
     </div>
 
     <div class="tag-scroll" id="tag-scroll">
@@ -296,7 +297,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   </button>
   <button class="nav-item" id="nav-mine">
     <span class="nav-icon">&#128203;</span>
-    <span class="nav-label">MY WORDS</span>
+    <span class="nav-label">MY VOCAB</span>
   </button>
 </nav>
 
@@ -314,23 +315,23 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="field-group">
       <label class="field-label">ANTHROPIC API KEY</label>
       <input class="field-input" id="settings-apikey" type="password" placeholder="sk-ant-..." autocomplete="off">
-      <div style="font-size:0.65rem;color:var(--muted);margin-top:0.4rem;line-height:1.6;">Required for Add Word lookup &nbsp;&#183;&nbsp; Stored locally only &nbsp;&#183;&nbsp; console.anthropic.com &#8594; API Keys</div>
+      <div style="font-size:0.65rem;color:var(--muted);margin-top:0.4rem;line-height:1.6;">Required for Add Vocab lookup &nbsp;&#183;&nbsp; Stored locally only &nbsp;&#183;&nbsp; console.anthropic.com &#8594; API Keys</div>
     </div>
     <button class="save-btn" id="settings-save" style="margin-top:0.5rem;">SAVE KEY</button>
   </div>
 </div>
 
-<!-- ADD WORD SHEET -->
+<!-- ADD VOCAB SHEET -->
 <div class="sheet-overlay" id="sheet-overlay"></div>
 <div class="sheet" id="sheet">
   <div class="sheet-handle"></div>
   <div class="sheet-hd">
-    <div class="sheet-title">ADD NEW WORD</div>
+    <div class="sheet-title">ADD NEW VOCAB</div>
     <button class="sheet-close" id="sheet-close">&#10005;</button>
   </div>
   <div class="sheet-body">
     <div class="field-group">
-      <label class="field-label">WORD / PHRASE</label>
+      <label class="field-label">VOCAB / PHRASE</label>
       <input class="field-input" id="panel-word" placeholder="e.g. nervous &#183; &#3648;&#3619;&#3655;&#3623; &#183; to shake off..." autocomplete="off" spellcheck="false">
     </div>
     <div class="field-group">
@@ -353,13 +354,13 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="sheet-loading" id="sheet-loading"><div class="spinner"></div><span id="sheet-loading-text">Searching&#8230;</span></div>
     <p class="sheet-error" id="sheet-error"></p>
     <div class="preview-box" id="preview-box">
-      <div class="preview-eng" id="pv-eng"></div>
-      <div class="preview-thai" id="pv-thai"></div>
+      <div class="pv-line"><div class="preview-eng" id="pv-eng"></div><button class="speak-btn-sm eng" id="pv-speak-eng">&#128266;</button></div>
+      <div class="pv-line"><div class="preview-thai" id="pv-thai"></div><button class="speak-btn-sm tha" id="pv-speak-tha">&#128266;</button></div>
       <div class="preview-roman" id="pv-roman"></div>
       <div class="preview-label">EXAMPLES</div>
       <div class="preview-ex" id="pv-examples"></div>
     </div>
-    <button class="save-btn" id="save-btn" disabled>SAVE TO MY WORDS</button>
+    <button class="save-btn" id="save-btn" disabled>SAVE TO MY VOCAB</button>
   </div>
 </div>
 
@@ -455,7 +456,7 @@ function renderCloud(){
   var wrap=document.getElementById('cloud-wrap');
   var W=wrap.offsetWidth||340,H=200;
   var words=loadMyWords();
-  if(!words.length){wrap.innerHTML='<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:Press Start 2P,monospace;font-size:0.42rem;text-align:center;line-height:1.9;">SEARCH &amp; SAVE WORDS<br>TO SEE CLOUD</div>';return;}
+  if(!words.length){wrap.innerHTML='<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:Press Start 2P,monospace;font-size:0.42rem;text-align:center;line-height:1.9;">SEARCH &amp; SAVE VOCAB<br>TO SEE CLOUD</div>';return;}
 
   /* dedupe + count */
   var freq={};
@@ -591,12 +592,12 @@ function renderCards(){
   });
 
   tagScroll.style.display=loadMyWords().length>0?'block':'none';
-  countEl.textContent=words.length+' word'+(words.length!==1?'s':'')+
+  countEl.textContent=words.length+' vocab'+(words.length!==1?'s':'')+
     (searchQuery?' matching "'+searchQuery+'"':'')+
     (activeTag!=='all'?' &middot; '+(TAG_LABELS[activeTag]||activeTag):'');
 
   if(!loadMyWords().length){
-    container.innerHTML='<div class="empty-state"><div class="big">???</div><p>NO WORDS YET<br><br><span style="font-size:0.7rem;font-family:Outfit,sans-serif;">Tap + to search a word<br>and add it here.</span></p></div>';
+    container.innerHTML='<div class="empty-state"><div class="big">???</div><p>NO VOCAB YET<br><br><span style="font-size:0.7rem;font-family:Outfit,sans-serif;">Tap + to search a vocab<br>and add it here.</span></p></div>';
     return;
   }
   if(!words.length){
@@ -622,14 +623,13 @@ function buildCard(w){
   div.innerHTML=
     '<div class="wcard-top">'+
       '<div class="wcard-tag" data-tag="'+esc(w.tag||'other')+'">'+(TAG_LABELS[w.tag]||w.tag||'Other')+'</div>'+
-      '<div class="wcard-meta"><span class="wcard-by">'+esc(w.addedBy||'')+'</span><button class="speak-btn">&#128266;</button></div>'+
+      '<span class="wcard-by">'+esc(w.addedBy||'')+'</span>'+
     '</div>'+
-    '<div class="wcard-eng">'+esc(w.english)+'<span class="wcard-pos">'+esc(w.partOfSpeech||'')+'</span></div>'+
-    '<div class="wcard-thai">'+esc(w.thai)+'</div>'+
+    '<div class="wcard-eng">'+esc(w.english)+'<span class="wcard-pos">'+esc(w.partOfSpeech||'')+'</span><button class="speak-btn-sm eng" data-text="'+escAttr(w.english)+'" data-lang="en-GB">&#128266;</button></div>'+
+    '<div class="wcard-thai">'+esc(w.thai)+'<button class="speak-btn-sm tha" data-text="'+escAttr(w.thai)+'" data-lang="th-TH">&#128266;</button></div>'+
     '<div class="wcard-roman">'+esc(w.romanized)+'</div>'+
     exSection;
 
-  div.querySelector('.speak-btn').addEventListener('click',function(e){e.stopPropagation();speak(w.thai,e.currentTarget,'th-TH');});
   div.querySelectorAll('.speak-btn-sm').forEach(function(btn){
     btn.addEventListener('click',function(e){e.stopPropagation();speak(btn.dataset.text,btn,btn.dataset.lang);});
   });
@@ -650,6 +650,7 @@ function topicPH(icon,title,desc){
 function volHref(v){return v==='1'?'kru-language-exchange.html':'kru-exchange-vol'+v+'.html';}
 function matchesSearch(w,q){if(!q)return true;return(w.english||'').toLowerCase().indexOf(q)>-1||(w.thai||'').indexOf(q)>-1||(w.romanized||'').toLowerCase().indexOf(q)>-1;}
 function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escAttr(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');}
 
 /* ── NAV ── */
 document.getElementById('nav-home').addEventListener('click',function(){setNav('home');activeTab='topics';syncTabs();renderCards();});
@@ -696,7 +697,7 @@ document.getElementById('panel-word').addEventListener('keydown',function(e){if(
 
 async function lookupWord(){
   var apiKey=getApiKey();
-  if(!apiKey){closeSheet();openSettings();showToast('ENTER API KEY TO USE ADD WORD');return;}
+  if(!apiKey){closeSheet();openSettings();showToast('ENTER API KEY TO USE ADD VOCAB');return;}
 
   var word=document.getElementById('panel-word').value.trim();
   if(!word){document.getElementById('panel-word').focus();return;}
@@ -722,11 +723,19 @@ async function lookupWord(){
     document.getElementById('pv-eng').textContent=pendingWord.english+' ('+(pendingWord.partOfSpeech||'')+')';
     document.getElementById('pv-thai').textContent=pendingWord.thai;
     document.getElementById('pv-roman').textContent=pendingWord.romanized;
+    /* wire preview speak buttons */
+    document.getElementById('pv-speak-eng').onclick=function(e){e.stopPropagation();speak(pendingWord.english,this,'en-GB');};
+    document.getElementById('pv-speak-tha').onclick=function(e){e.stopPropagation();speak(pendingWord.thai,this,'th-TH');};
+    /* examples with speak buttons */
     document.getElementById('pv-examples').innerHTML=(pendingWord.examples||[]).map(function(ex,i){
-      return '<div style="margin-bottom:0.5rem"><b style="color:var(--yellow)">'+(i+1)+'.</b> '+esc(ex.english)+'<br>'+
-             '<span style="font-family:Noto Sans Thai,sans-serif;color:var(--yellow)">'+esc(ex.thai)+'</span><br>'+
-             '<span style="color:#b3ff75;font-style:italic">'+esc(ex.romanized)+'</span></div>';
+      return '<div style="margin-bottom:0.6rem">'+
+        '<b style="color:var(--yellow)">'+(i+1)+'.</b> '+esc(ex.english)+'<button class="speak-btn-sm eng" data-text="'+escAttr(ex.english)+'" data-lang="en-GB">&#128266;</button><br>'+
+        '<span style="font-family:Noto Sans Thai,sans-serif;color:var(--yellow)">'+esc(ex.thai)+'</span><button class="speak-btn-sm tha" data-text="'+escAttr(ex.thai)+'" data-lang="th-TH">&#128266;</button><br>'+
+        '<span style="color:#b3ff75;font-style:italic">'+esc(ex.romanized)+'</span></div>';
     }).join('');
+    document.getElementById('pv-examples').querySelectorAll('.speak-btn-sm').forEach(function(btn){
+      btn.addEventListener('click',function(e){e.stopPropagation();speak(btn.dataset.text,btn,btn.dataset.lang);});
+    });
     document.getElementById('preview-box').classList.add('visible');
     document.getElementById('save-btn').disabled=false;
   }catch(err){
@@ -753,7 +762,7 @@ document.getElementById('save-btn').addEventListener('click',function(){
   closeSheet();
   renderCloud();
   activeTab='mine';setNav('mine');syncTabs();renderCards();
-  showToast((pendingWord.english||'').toUpperCase()+' SAVED!');
+  showToast((pendingWord.english||'').toUpperCase()+' SAVED TO MY VOCAB!');
   pendingWord=null;
 });
 
