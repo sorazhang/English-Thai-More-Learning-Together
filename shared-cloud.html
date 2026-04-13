@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Shared Cloud · KruExchange</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,600;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<style>
+:root{
+  --bg:#0a0906;--bg2:#131109;--bg3:#1c1810;
+  --gold:#c8943a;--gold2:#e6b45a;--gold-dim:rgba(200,148,58,0.15);
+  --cream:#f0e8d8;--cream2:#d8cdb8;--muted:#7a7060;
+  --border:rgba(200,148,58,0.18);--border2:rgba(200,148,58,0.08);
+  --top-h:52px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Jost',system-ui,sans-serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.5;}
+
+/* TOPBAR */
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 1rem;height:var(--top-h);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;}
+.topbar-logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.25rem;font-weight:600;color:var(--gold);line-height:1;}
+.topbar-logo span{color:var(--gold2);}
+.back-btn{background:none;border:1px solid var(--border);color:var(--muted);font-size:0.72rem;padding:0.3rem 0.7rem;border-radius:3px;cursor:pointer;font-family:'Jost',sans-serif;font-weight:500;letter-spacing:0.04em;transition:all 0.15s;text-decoration:none;display:inline-block;}
+.back-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* CLOUD */
+.cloud-section{position:relative;background:var(--bg2);border-bottom:1px solid var(--border);overflow:hidden;}
+.cloud-header{padding:1.1rem 1.1rem 0.6rem;display:flex;align-items:center;justify-content:space-between;}
+.section-label{font-family:'Jost',sans-serif;font-size:0.62rem;font-weight:600;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;display:flex;align-items:center;gap:0.6rem;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:livePulse 2s ease-in-out infinite;flex-shrink:0;}
+@keyframes livePulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(200,148,58,0.4);}50%{opacity:0.7;box-shadow:0 0 0 5px rgba(200,148,58,0);}}
+.cloud-wrap{position:relative;width:100%;height:280px;overflow:hidden;}
+.cloud-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(200,148,58,0.05) 0%,transparent 70%);pointer-events:none;}
+.cloud-word{position:absolute;cursor:default;font-weight:700;line-height:1;white-space:nowrap;animation:cloudIn 0.5s ease both;user-select:none;transition:transform 0.15s;}
+.cloud-word:hover{transform:scale(1.08);}
+.cloud-sub{display:block;font-family:'Noto Sans Thai',sans-serif;font-size:0.72em;opacity:0.65;font-weight:600;margin-top:2px;}
+@keyframes cloudIn{from{opacity:0;transform:scale(0.5);}to{opacity:1;transform:scale(1);}}
+.cloud-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.8rem;color:var(--muted);}
+.cloud-empty-icon{font-size:2.5rem;opacity:0.3;}
+.cloud-empty-text{font-size:0.72rem;letter-spacing:0.14em;font-weight:500;}
+
+/* CONTRIBUTORS */
+.page{padding:1rem;}
+.contrib-grid{display:flex;flex-direction:column;gap:0.6rem;margin-top:0.8rem;}
+.contrib-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:0.8rem 1rem;display:flex;align-items:center;gap:0.9rem;position:relative;overflow:hidden;}
+.contrib-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;}
+.contrib-swatch{width:28px;height:28px;border-radius:50%;flex-shrink:0;}
+.contrib-info{flex:1;}
+.contrib-name{font-size:0.88rem;font-weight:600;color:var(--cream);margin-bottom:0.15rem;}
+.contrib-count{font-size:0.68rem;color:var(--muted);letter-spacing:0.04em;}
+.contrib-badge{font-family:'Jost',sans-serif;font-size:0.62rem;font-weight:600;letter-spacing:0.06em;padding:0.2rem 0.55rem;border-radius:3px;white-space:nowrap;}
+
+/* RECENT */
+.recent-list{display:flex;flex-direction:column;gap:0.45rem;margin-top:0.8rem;}
+.recent-row{display:flex;align-items:center;gap:0.7rem;padding:0.55rem 0.8rem;background:var(--bg2);border:1px solid var(--border2);border-radius:4px;animation:fadeUp 0.2s ease both;}
+.recent-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.recent-eng{font-size:0.85rem;font-weight:500;color:var(--cream);flex:1;}
+.recent-thai{font-family:'Noto Sans Thai',sans-serif;font-size:0.85rem;font-weight:600;color:var(--muted);}
+.recent-by{font-size:0.62rem;color:var(--muted);letter-spacing:0.04em;white-space:nowrap;}
+
+/* NO CONFIG */
+.no-config{text-align:center;padding:4rem 1.5rem;color:var(--muted);}
+.no-config-icon{font-size:2.5rem;margin-bottom:1rem;opacity:0.5;}
+.no-config h2{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;color:var(--gold);margin-bottom:0.8rem;}
+.no-config p{font-size:0.8rem;line-height:1.9;max-width:320px;margin:0 auto;}
+.no-config code{background:var(--bg3);border:1px solid var(--border);padding:0.15rem 0.5rem;border-radius:3px;font-size:0.78rem;color:var(--gold2);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">Shared<span>Cloud</span></div>
+  <a class="back-btn" href="my-saved-note.html">&#8592; MY NOTES</a>
+</div>
+
+<div id="main-content"></div>
+
+<script>
+/* ── FIREBASE CONFIG — must match the one in my-saved-note.html ── */
+var FB_CONFIG={
+  apiKey:            "REPLACE_apiKey",
+  authDomain:        "REPLACE_authDomain",
+  databaseURL:       "REPLACE_databaseURL",
+  projectId:         "REPLACE_projectId",
+  storageBucket:     "REPLACE_storageBucket",
+  messagingSenderId: "REPLACE_messagingSenderId",
+  appId:             "REPLACE_appId"
+};
+var FB_ON=FB_CONFIG.apiKey!=="REPLACE_apiKey";
+
+/* warm palette — one colour per user, cycles if >6 users */
+var USER_PALETTE=['#c8943a','#cc5a7a','#5aaa80','#e6b45a','#c87840','#a090c8'];
+var userColorMap={};
+var userColorIdx=0;
+function colorForUser(name){
+  if(!userColorMap[name]){
+    userColorMap[name]=USER_PALETTE[userColorIdx%USER_PALETTE.length];
+    userColorIdx++;
+  }
+  return userColorMap[name];
+}
+
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* ── RENDER NO-CONFIG STATE ── */
+function renderNoConfig(){
+  document.getElementById('main-content').innerHTML=
+    '<div class="no-config">'+
+      '<div class="no-config-icon">&#9729;</div>'+
+      '<h2>Firebase not connected</h2>'+
+      '<p>Open <code>shared-cloud.html</code> and fill in your Firebase config to see the shared word cloud here.</p>'+
+      '<p style="margin-top:1rem;">See setup steps in <code>my-saved-note.html</code>.</p>'+
+    '</div>';
+}
+
+/* ── RENDER FULL PAGE ── */
+function renderPage(words){
+  /* reset user colors so they're assigned consistently */
+  userColorMap={};userColorIdx=0;
+
+  /* build frequency + user map */
+  var freq={};
+  words.forEach(function(w){
+    var k=w.english.toLowerCase();
+    if(!freq[k])freq[k]={english:w.english,thai:w.thai,count:0,users:{},latest:w.savedAt};
+    freq[k].count++;
+    freq[k].users[w.addedBy]=(freq[k].users[w.addedBy]||0)+1;
+    if(w.savedAt>freq[k].latest)freq[k].latest=w.savedAt;
+  });
+  var cloudWords=Object.values(freq).sort(function(a,b){return b.count-a.count;}).slice(0,20);
+  var maxC=cloudWords[0]?cloudWords[0].count:1;
+
+  /* contributor stats */
+  var contribs={};
+  words.forEach(function(w){contribs[w.addedBy]=(contribs[w.addedBy]||0)+1;});
+  var contribList=Object.keys(contribs).sort(function(a,b){return contribs[b]-contribs[a];});
+  /* assign colors in contributor-count order so top contributor = first palette color */
+  contribList.forEach(function(n){colorForUser(n);});
+
+  /* recent 8 additions (sorted newest first) */
+  var recent=words.slice().sort(function(a,b){return (b.savedAt||'').localeCompare(a.savedAt||'');}).slice(0,8);
+
+  var html=
+    '<div class="cloud-section">'+
+      '<div class="cloud-header">'+
+        '<div class="section-label">&#128101; ALL CONTRIBUTORS &nbsp;<span class="live-dot"></span></div>'+
+      '</div>'+
+      '<div class="cloud-wrap" id="cloud-wrap">'+
+        (cloudWords.length?'':'<div class="cloud-empty"><div class="cloud-empty-icon">&#9729;</div><div class="cloud-empty-text">NO SHARED WORDS YET</div></div>')+
+      '</div>'+
+    '</div>'+
+
+    '<div class="page">'+
+      '<div class="section-label" style="margin-bottom:0;">&#128100; CONTRIBUTORS</div>'+
+      '<div class="contrib-grid">'+
+        contribList.map(function(name,i){
+          var c=colorForUser(name);
+          var cnt=contribs[name];
+          return '<div class="contrib-card" style="border-color:'+c+'22;">'+
+            '<div class="contrib-card" style="display:none"></div>'+/* trick to avoid duplicate */
+            '<div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:'+c+';border-radius:3px 0 0 3px;"></div>'+
+            '<div class="contrib-swatch" style="background:'+c+'22;border:2px solid '+c+';"></div>'+
+            '<div class="contrib-info">'+
+              '<div class="contrib-name">'+esc(name)+'</div>'+
+              '<div class="contrib-count">'+cnt+' vocab word'+(cnt!==1?'s':'')+'</div>'+
+            '</div>'+
+            '<div class="contrib-badge" style="background:'+c+'18;border:1px solid '+c+'44;color:'+c+';">'+(i===0?'&#127942; TOP':'#'+(i+1))+'</div>'+
+          '</div>';
+        }).join('')+
+      '</div>'+
+
+      '<div class="section-label" style="margin-top:1.2rem;margin-bottom:0;">&#128336; RECENT ADDITIONS</div>'+
+      '<div class="recent-list">'+
+        recent.map(function(w){
+          var c=colorForUser(w.addedBy);
+          return '<div class="recent-row">'+
+            '<div class="recent-dot" style="background:'+c+';box-shadow:0 0 6px '+c+'66;"></div>'+
+            '<div class="recent-eng">'+esc(w.english)+'</div>'+
+            '<div class="recent-thai">'+esc(w.thai)+'</div>'+
+            '<div class="recent-by">'+esc(w.addedBy)+'</div>'+
+          '</div>';
+        }).join('')+
+      '</div>'+
+    '</div>';
+
+  document.getElementById('main-content').innerHTML=html;
+
+  /* render cloud into the cloud-wrap */
+  if(cloudWords.length) renderCloud(cloudWords,maxC);
+}
+
+function renderCloud(cloudWords,maxC){
+  var wrap=document.getElementById('cloud-wrap');
+  if(!wrap)return;
+  var W=wrap.offsetWidth||360,H=280;
+  var placed=[];
+  var canvas=document.createElement('canvas');
+  var ctx=canvas.getContext('2d');
+
+  cloudWords.forEach(function(w,i){
+    var ratio=w.count/maxC;
+    var fs=Math.round(12+ratio*20);
+
+    /* pick colour: if only one user saved it → that user's colour; else gold (shared) */
+    var userNames=Object.keys(w.users);
+    var c=userNames.length===1?colorForUser(userNames[0]):'#c8943a';
+
+    ctx.font='bold '+fs+'px Jost,sans-serif';
+    var tw=ctx.measureText(w.english).width+10;
+    var th=fs*2.2;
+
+    var cx=W/2,cy=H/2,angle=(i*2.39)+Math.random()*0.4,radius=0,x=cx-tw/2,y=cy-th/2,attempts=0;
+    while(attempts<300){
+      x=cx+radius*Math.cos(angle)-tw/2;
+      y=cy+radius*Math.sin(angle)-th/2;
+      if(x<4)x=4;if(y<4)y=4;
+      if(x+tw>W-4)x=W-tw-4;if(y+th>H-4)y=H-th-4;
+      var ok=true;
+      for(var j=0;j<placed.length;j++){var p=placed[j];if(x<p.x+p.w+4&&x+tw>p.x-4&&y<p.y+p.h+4&&y+th>p.y-4){ok=false;break;}}
+      if(ok)break;
+      radius+=2.5;angle+=0.4;attempts++;
+    }
+    placed.push({x:x,y:y,w:tw,h:th});
+
+    var glowO=0.2+ratio*0.55;
+    var glowR=parseInt(c.slice(1,3),16),glowG=parseInt(c.slice(3,5),16),glowB=parseInt(c.slice(5,7),16);
+    var glowColor='rgba('+glowR+','+glowG+','+glowB+','+glowO+')';
+
+    var el=document.createElement('div');
+    el.className='cloud-word';
+    el.style.cssText='left:'+Math.round(x)+'px;top:'+Math.round(y)+'px;font-size:'+fs+'px;color:'+c+';animation-delay:'+(i*0.04)+'s;text-shadow:0 0 '+(6+ratio*14)+'px '+glowColor+';';
+    el.innerHTML=esc(w.english)+'<span class="cloud-sub">'+esc(w.thai)+'</span>';
+    wrap.appendChild(el);
+  });
+}
+
+/* ── INIT ── */
+if(!FB_ON){
+  renderNoConfig();
+}else{
+  firebase.initializeApp(FB_CONFIG);
+  var db=firebase.database();
+  /* real-time listener */
+  db.ref('shared_words').on('value',function(snap){
+    var words=[];
+    snap.forEach(function(child){words.push(Object.assign({id:child.key},child.val()));});
+    if(!words.length){
+      document.getElementById('main-content').innerHTML=
+        '<div class="no-config" style="padding-top:5rem;">'+
+          '<div class="no-config-icon">&#128101;</div>'+
+          '<h2>No shared words yet</h2>'+
+          '<p>When someone saves a vocab word in My Notes, it will appear here.</p>'+
+        '</div>';
+    }else{
+      renderPage(words);
+    }
+  });
+}
+</script>
+</body>
+</html>

@@ -8,6 +8,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,600;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,600;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <style>
 :root{
   --bg:#0a0906;--bg2:#131109;--bg3:#1c1810;
@@ -203,6 +206,14 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .toast{position:fixed;bottom:calc(var(--nav-h) + 1rem);left:50%;transform:translateX(-50%) translateY(10px);background:var(--bg2);color:var(--gold);border:1px solid var(--gold);padding:0.6rem 1.2rem;border-radius:4px;font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.08em;opacity:0;transition:all 0.25s;z-index:100;white-space:nowrap;pointer-events:none;line-height:1.7;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+/* NAME PROMPT */
+.name-screen{position:fixed;inset:0;background:rgba(10,9,6,0.97);z-index:500;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+.name-screen.hidden{display:none;}
+.name-box{width:100%;max-width:300px;text-align:center;}
+.name-logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:2rem;font-weight:600;color:var(--gold);margin-bottom:0.3rem;line-height:1;}
+.name-logo span{color:var(--gold2);}
+.name-sub{font-size:0.7rem;color:var(--muted);letter-spacing:0.14em;margin-bottom:1.8rem;}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes pulse{from{opacity:1;}to{opacity:0.5;}}
@@ -216,6 +227,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="topbar">
   <div class="topbar-logo">MY<span>NOTES</span></div>
   <div class="topbar-right">
+    <a class="key-btn" href="shared-cloud.html" title="Shared Cloud">&#128101;</a>
     <button class="key-btn" id="key-btn" title="Settings">&#9881;</button>
     <button class="back-btn" onclick="window.location='index.html'">&#8592; INDEX</button>
   </div>
@@ -330,7 +342,40 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 <div class="toast" id="toast"></div>
 
+<!-- NAME PROMPT (shown once, only when Firebase is enabled) -->
+<div class="name-screen hidden" id="name-screen">
+  <div class="name-box">
+    <div class="name-logo">Kru<span>Exchange</span></div>
+    <p class="name-sub">WHAT'S YOUR NAME?</p>
+    <input id="name-input" class="field-input" placeholder="e.g. Kru Som, Pi Oak…" autocomplete="off" spellcheck="false" style="text-align:center;margin-bottom:1rem;">
+    <button id="name-save" class="save-btn" style="margin-top:0;">LET'S GO &#8594;</button>
+  </div>
+</div>
+
 <script>
+/* ── FIREBASE CONFIG ─────────────────────────────────────────────────────
+   1. Go to console.firebase.google.com → New project (free)
+   2. Add a Web app → copy the config object below
+   3. Go to Realtime Database → Create database → Start in test mode
+   4. Paste your values here (replace every "REPLACE_..." string)
+   ──────────────────────────────────────────────────────────────────── */
+var FB_CONFIG={
+  apiKey:            "REPLACE_apiKey",
+  authDomain:        "REPLACE_authDomain",
+  databaseURL:       "REPLACE_databaseURL",  // https://PROJECT-default-rtdb.firebaseio.com
+  projectId:         "REPLACE_projectId",
+  storageBucket:     "REPLACE_storageBucket",
+  messagingSenderId: "REPLACE_messagingSenderId",
+  appId:             "REPLACE_appId"
+};
+var FB_ON=FB_CONFIG.apiKey!=="REPLACE_apiKey";
+var fb_db=null;
+if(FB_ON){try{firebase.initializeApp(FB_CONFIG);fb_db=firebase.database();}catch(e){console.warn('Firebase init failed',e);FB_ON=false;}}
+
+var NAME_KEY='kruexchange_username';
+function getUsername(){return localStorage.getItem(NAME_KEY)||'';}
+function setUsername(n){localStorage.setItem(NAME_KEY,n.trim());}
+
 var SYSTEM_PROMPT='You are a Thai language teacher. Given a word or phrase in English or Thai, return ONLY valid JSON, no markdown: {"english":"word","thai":"Thai script","romanized":"romanized with tone marks","partOfSpeech":"noun/verb/etc","examples":[{"english":"sentence","thai":"Thai","romanized":"romanized"},{"english":"sentence","thai":"Thai","romanized":"romanized"}]}. Examples should be practical and Muay Thai / daily life context.';
 var TAG_LABELS={emotions:'Emotions',gym:'Gym',food:'Food',daily:'Daily',travel:'Travel',culture:'Culture',other:'Other',bookmark:'KruExchange'};
 var BM_KEY='kruexchange_saved_cards';
@@ -349,6 +394,20 @@ function saveSession(s){try{localStorage.setItem(SESS_KEY,JSON.stringify(s));}ca
 function getApiKey(){var s=loadSession();return s?s.apiKey:'';}
 
 function startApp(){
+  if(FB_ON&&!getUsername()){
+    var ns=document.getElementById('name-screen');
+    ns.classList.remove('hidden');
+    setTimeout(function(){document.getElementById('name-input').focus();},200);
+    document.getElementById('name-save').addEventListener('click',function(){
+      var n=document.getElementById('name-input').value.trim();
+      if(!n)return;
+      setUsername(n);
+      ns.classList.add('hidden');
+      renderCloud();renderCards();
+    });
+    document.getElementById('name-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('name-save').click();});
+    return;
+  }
   renderCloud();
   renderCards();
 }
@@ -717,8 +776,14 @@ document.getElementById('save-btn').addEventListener('click',function(){
   var tag=document.getElementById('panel-tag').value;
   var arr=loadMyWords();
   var id='my_'+Date.now();
-  arr.unshift(Object.assign({},pendingWord,{id:id,tag:tag,note:note,addedBy:'Me',savedAt:new Date().toISOString()}));
+  var by=getUsername()||'Me';
+  var wordEntry=Object.assign({},pendingWord,{id:id,tag:tag,note:note,addedBy:by,savedAt:new Date().toISOString()});
+  arr.unshift(wordEntry);
   saveMyWords(arr);
+  /* sync to Firebase shared pool */
+  if(FB_ON&&fb_db){
+    fb_db.ref('shared_words').push(Object.assign({},pendingWord,{tag:tag,note:note,addedBy:by,savedAt:new Date().toISOString()}));
+  }
   closeSheet();
   renderCloud();
   activeTab='mine';syncTabs();renderCards();
