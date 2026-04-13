@@ -552,10 +552,9 @@ function buildBookmarkCard(b){
   div.innerHTML=
     '<div class="wcard-top">'+
       '<div class="wcard-tag" data-tag="'+esc(cat)+'">'+esc(b.volLabel||'')+' &middot; '+esc(b.topicLabel||'')+'</div>'+
-      '<div class="wcard-meta"><button class="speak-btn">&#128266;</button></div>'+
     '</div>'+
-    '<div class="wcard-eng">'+esc(b.eng||'—')+'</div>'+
-    '<div class="wcard-thai">'+esc(b.thai||'')+'</div>'+
+    '<div class="wcard-eng">'+esc(b.eng||'—')+'<button class="speak-btn-sm eng" data-text="'+escAttr(b.eng||'')+'" data-lang="en-GB">&#128266;</button></div>'+
+    '<div class="wcard-thai">'+esc(b.thai||'')+'<button class="speak-btn-sm tha" data-text="'+escAttr(b.thai||'')+'" data-lang="th-TH">&#128266;</button></div>'+
     '<div class="wcard-roman">'+esc(b.roman||'')+'</div>'+
     '<hr class="wcard-divider">'+
     '<div class="wcard-examples">'+
@@ -566,7 +565,7 @@ function buildBookmarkCard(b){
     '</div>'+
     '<div class="expand-row"><span>SOURCE</span><span class="arr">&#9662;</span></div>';
 
-  div.querySelector('.speak-btn').addEventListener('click',function(e){e.stopPropagation();speak(b.thai||'',e.currentTarget,'th-TH');});
+  div.querySelectorAll('.speak-btn-sm').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation();speak(btn.dataset.text,btn,btn.dataset.lang);});});
   div.querySelector('.rm-bm').addEventListener('click',function(e){e.stopPropagation();removeBookmark(b.id);});
   div.addEventListener('click',function(){div.classList.toggle('expanded');});
   return div;
