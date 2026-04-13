@@ -166,6 +166,21 @@ FEATURES_CSS = """
   }
   .pp-foot .pp-lnk { color: rgba(200,148,58,0.8) !important; font-weight: 700 !important; }
   .pp-foot .pp-lnk:hover { color: rgba(200,148,58,1) !important; }
+
+  /* ── FLOATING NOTES PILL ── */
+  .notes-pill {
+    position: fixed; bottom: 1.6rem; left: 1.6rem;
+    background: rgba(184,120,32,0.15);
+    border: 1px solid rgba(184,120,32,0.4);
+    color: #c8943a;
+    border-radius: 99px;
+    padding: 0.55rem 1.05rem;
+    font-size: 0.72rem; font-weight: 700;
+    text-decoration: none;
+    z-index: 300;
+    transition: all 0.2s;
+  }
+  .notes-pill:hover { background: rgba(184,120,32,0.25); }
 """
 
 # ── TOAST HTML ────────────────────────────────────────────────────────────────
@@ -430,9 +445,10 @@ for fname, (vol_id, vol_label) in FILES.items():
     # 2 — pill footer
     html = inject_pill_footer(html)
 
-    # 3 — toast div + TTS + Bookmark JS  (before </body>)
+    # 3 — floating notes pill + toast div + TTS + Bookmark JS  (before </body>)
     bookmark_js = BOOKMARK_JS_TPL.replace('{vol_id}', vol_id).replace('{vol_label}', vol_label)
-    injection = TOAST_HTML + '\n' + TTS_JS + '\n' + bookmark_js + '\n'
+    notes_pill = '\n<a class="notes-pill" href="my-saved-note.html">\U0001f516 My Notes</a>'
+    injection = notes_pill + '\n' + TOAST_HTML + '\n' + TTS_JS + '\n' + bookmark_js + '\n'
     html = html.replace('</body>', injection + '</body>', 1)
 
     with open(fpath, 'w', encoding='utf-8') as f:

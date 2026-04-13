@@ -407,6 +407,21 @@
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-8px); }
   }
+
+  /* ── FLOATING NOTES PILL ── */
+  .notes-pill {
+    position: fixed; bottom: 1.6rem; left: 1.6rem;
+    background: rgba(184,120,32,0.15);
+    border: 1px solid rgba(184,120,32,0.4);
+    color: #c8943a;
+    border-radius: 99px;
+    padding: 0.55rem 1.05rem;
+    font-size: 0.72rem; font-weight: 700;
+    text-decoration: none;
+    z-index: 300;
+    transition: all 0.2s;
+  }
+  .notes-pill:hover { background: rgba(184,120,32,0.25); }
 </style>
 </head>
 <body>
@@ -819,6 +834,8 @@
     <span>🟢 Romanized</span>
   </div>
 </footer>
+
+<a class="notes-pill" href="my-saved-note.html">🔖 My Notes</a>
 
 </body>
 </html>
