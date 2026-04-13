@@ -41,7 +41,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #search-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:0.65rem 0.8rem 0.65rem 2.2rem;font-family:'Jost',sans-serif;font-size:0.9rem;color:var(--cream);outline:none;transition:border-color 0.15s;-webkit-appearance:none;}
 #search-input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(200,148,58,0.1);}
 #search-input::placeholder{color:var(--muted);}
-.add-btn-top{background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:4px;width:38px;height:38px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;}
+.add-btn-top{background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:4px;height:38px;min-width:38px;padding:0 0.5rem;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.35rem;flex-shrink:0;transition:all 0.2s;}
+.add-btn-top.has-query{padding:0 0.85rem;font-size:0.72rem;font-weight:600;letter-spacing:0.04em;}
 .add-btn-top:active{background:rgba(200,148,58,0.1);}
 
 /* SCROLL */
@@ -238,7 +239,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <span class="search-icon">&#128269;</span>
     <input id="search-input" type="search" placeholder="English, ภาษาไทย, romanized..." autocomplete="off" spellcheck="false">
   </div>
-  <button class="add-btn-top" id="add-btn-top">&#xFF0B;</button>
+  <button class="add-btn-top" id="add-btn-top"><span id="add-icon">&#xFF0B;</span><span id="add-label" style="display:none;">ADD</span></button>
 </div>
 
 <div class="scroll-area">
@@ -675,8 +676,11 @@ function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/<
 function escAttr(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');}
 
 /* ── NAV ── */
-document.getElementById('nav-add').addEventListener('click',openSheet);
-document.getElementById('add-btn-top').addEventListener('click',openSheet);
+document.getElementById('nav-add').addEventListener('click',function(){openSheet();});
+document.getElementById('add-btn-top').addEventListener('click',function(){
+  var q=document.getElementById('search-input').value.trim();
+  openSheet(q||undefined);
+});
 
 function syncTabs(){document.getElementById('tab-topics').classList.toggle('active',activeTab==='topics');document.getElementById('tab-mine').classList.toggle('active',activeTab==='mine');}
 
@@ -695,9 +699,17 @@ document.querySelectorAll('.tf-pill').forEach(function(p){
 document.getElementById('search-input').addEventListener('input',function(){
   searchQuery=this.value.toLowerCase().trim();
   renderCards();
+  var q=this.value.trim();
+  var btn=document.getElementById('add-btn-top');
+  document.getElementById('add-icon').style.display=q?'none':'';
+  document.getElementById('add-label').style.display=q?'':'none';
+  btn.classList.toggle('has-query',!!q);
+});
+document.getElementById('search-input').addEventListener('keydown',function(e){
+  if(e.key==='Enter'){var q=this.value.trim();if(q)openSheet(q);}
 });
 
-function openSheet(){
+function openSheet(prefill){
   document.getElementById('sheet-overlay').classList.add('visible');
   document.getElementById('sheet').classList.add('visible');
   pendingWord=null;
@@ -705,9 +717,14 @@ function openSheet(){
   document.getElementById('preview-box').classList.remove('visible');
   document.getElementById('sheet-loading').classList.remove('visible');
   document.getElementById('sheet-error').classList.remove('visible');
-  document.getElementById('panel-word').value='';
   document.getElementById('panel-note').value='';
-  setTimeout(function(){document.getElementById('panel-word').focus();},350);
+  if(prefill){
+    document.getElementById('panel-word').value=prefill;
+    setTimeout(lookupWord,350);  /* auto-trigger lookup */
+  }else{
+    document.getElementById('panel-word').value='';
+    setTimeout(function(){document.getElementById('panel-word').focus();},350);
+  }
 }
 function closeSheet(){document.getElementById('sheet-overlay').classList.remove('visible');document.getElementById('sheet').classList.remove('visible');}
 document.getElementById('sheet-close').addEventListener('click',closeSheet);
