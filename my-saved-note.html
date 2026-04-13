@@ -394,6 +394,15 @@ function loadSession(){try{return JSON.parse(localStorage.getItem(SESS_KEY)||'nu
 function saveSession(s){try{localStorage.setItem(SESS_KEY,JSON.stringify(s));}catch(e){}}
 function getApiKey(){var s=loadSession();return s?s.apiKey:'';}
 
+function fetchSharedApiKey(cb){
+  if(!FB_ON||!fb_db||getApiKey()){cb();return;}
+  fb_db.ref('config/apiKey').once('value',function(snap){
+    var k=snap.val();
+    if(k){var sess=loadSession()||{};sess.apiKey=k;saveSession(sess);}
+    cb();
+  },function(){cb();});
+}
+
 function startApp(){
   if(FB_ON&&!getUsername()){
     var ns=document.getElementById('name-screen');
@@ -404,13 +413,12 @@ function startApp(){
       if(!n)return;
       setUsername(n);
       ns.classList.add('hidden');
-      renderCloud();renderCards();
+      fetchSharedApiKey(function(){renderCloud();renderCards();});
     });
     document.getElementById('name-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('name-save').click();});
     return;
   }
-  renderCloud();
-  renderCards();
+  fetchSharedApiKey(function(){renderCloud();renderCards();});
 }
 
 /* ── SETTINGS SHEET ── */
@@ -433,6 +441,8 @@ document.getElementById('settings-save').addEventListener('click',function(){
   var sess=loadSession()||{};
   sess.apiKey=k;
   saveSession(sess);
+  /* share key with other devices via Firebase */
+  if(FB_ON&&fb_db){fb_db.ref('config/apiKey').set(k);}
   document.getElementById('settings-apikey').value='';
   closeSettings();
   showToast('API KEY SAVED ✓');
