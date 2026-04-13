@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>English ↔ Thai · Vol. 4</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
   :root {
     --bg: #faf7f2;
@@ -305,6 +305,64 @@
   .pp-lnk.here  .pp-nm { color: #b83010; }
   .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
   .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+
+/* KRU-FEATURES-v1 */
+
+/* ── TTS BUTTONS ── */
+.tts-btn {
+  background: none;
+  border: 1px solid rgba(42,92,138,0.3);
+  border-radius: 99px;
+  padding: 0.13rem 0.55rem;
+  font-size: 0.62rem;
+  cursor: pointer;
+  color: rgba(42,92,138,0.65);
+  transition: all 0.15s;
+  margin-left: 0.45rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+.tts-btn.thai {
+  border-color: rgba(138,32,64,0.3);
+  color: rgba(138,32,64,0.65);
+}
+.tts-btn:hover { opacity: 0.85; transform: scale(1.05); }
+.tts-btn.speaking { opacity: 0.5; }
+
+/* ── BOOKMARK BUTTON ── */
+.card { position: relative !important; }
+.bookmark-btn {
+  position: absolute;
+  bottom: 0.6rem; right: 0.7rem;
+  background: none;
+  border: 1px solid rgba(184,120,32,0.3);
+  border-radius: 99px;
+  padding: 0.18rem 0.6rem;
+  font-size: 0.68rem;
+  cursor: pointer;
+  color: rgba(184,120,32,0.5);
+  transition: all 0.2s;
+  z-index: 10;
+}
+.bookmark-btn:hover { color: #c8943a; border-color: rgba(184,120,32,0.6); }
+.bookmark-btn.saved { color: #c8943a; border-color: #c8943a; }
+
+/* ── FLOATING NOTES PILL ── */
+.notes-pill {
+  position: fixed; bottom: 1.6rem; left: 1.6rem;
+  background: rgba(184,120,32,0.15);
+  border: 1px solid rgba(184,120,32,0.4);
+  color: #c8943a;
+  border-radius: 99px;
+  padding: 0.55rem 1.05rem;
+  font-size: 0.72rem; font-weight: 700;
+  text-decoration: none;
+  z-index: 300;
+  transition: all 0.2s;
+}
+.notes-pill:hover { background: rgba(184,120,32,0.25); }
+
 </style>
 </head>
 <body>
@@ -371,48 +429,60 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">You seem a bit frustrated today — is everything okay?</div>
-      <div class="t">วันนี้ดูหงุดหงิดนิดหน่อย — ทุกอย่างโอเคไหม?</div>
+      <div class="e">You seem a bit frustrated today — is everything okay? <button class="tts-btn" data-text="You seem a bit frustrated today — is everything okay?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">วันนี้ดูหงุดหงิดนิดหน่อย — ทุกอย่างโอเคไหม? <button class="tts-btn thai" data-text="วันนี้ดูหงุดหงิดนิดหน่อย — ทุกอย่างโอเคไหม?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">wan níi duu ngùt-ngìt nít-nàwy — thúk yàang oh-khee mǎi?</div>
       <div class="note"><span class="ke">Kru:</span> "You seem..." is gentler than "You are..." — it opens a conversation without making assumptions.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card001">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">It's okay to feel nervous — everyone does before a fight.</div>
-      <div class="t">โอเคนะถ้ากังวล — ทุกคนรู้สึกแบบนี้ก่อนชก</div>
+      <div class="e">It's okay to feel nervous — everyone does before a fight. <button class="tts-btn" data-text="It&#x27;s okay to feel nervous — everyone does before a fight." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">โอเคนะถ้ากังวล — ทุกคนรู้สึกแบบนี้ก่อนชก <button class="tts-btn thai" data-text="โอเคนะถ้ากังวล — ทุกคนรู้สึกแบบนี้ก่อนชก" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">oh-khee ná thâa gang-won — thúk khon rúu-sùek bàaep níi gàawn chók</div>
       <div class="note"><span class="ke">Kru:</span> Normalising emotions ("everyone does") is one of the most powerful things a coach can say.<br><span class="ks">Sora:</span> กังวล (gang-won) = worried/anxious · ทุกคน (thúk khon) = everyone</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card002">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">I'm really proud of you.</div>
-      <div class="t">ภูมิใจในตัวคุณมากเลย</div>
+      <div class="e">I'm really proud of you. <button class="tts-btn" data-text="I&#x27;m really proud of you." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ภูมิใจในตัวคุณมากเลย <button class="tts-btn thai" data-text="ภูมิใจในตัวคุณมากเลย" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">phuum-jai nai tua khun mâak looei</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card003">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">Don't let it get to you — shake it off.</div>
-      <div class="t">อย่าให้มันมากระทบ — สะบัดทิ้งไปเลย</div>
+      <div class="e">Don't let it get to you — shake it off. <button class="tts-btn" data-text="Don&#x27;t let it get to you — shake it off." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">อย่าให้มันมากระทบ — สะบัดทิ้งไปเลย <button class="tts-btn thai" data-text="อย่าให้มันมากระทบ — สะบัดทิ้งไปเลย" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">yàa hâi man maa grà-thóp — sà-bàt thîng bpai looei</div>
       <div class="note"><span class="ks">Sora:</span> สะบัดทิ้ง (sà-bàt thîng) = shake off/let go. สะบัด literally means to shake/flick — very vivid.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card004">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">05</div>
-      <div class="e">I feel much better after training.</div>
-      <div class="t">รู้สึกดีขึ้นมากหลังจากฝึก</div>
+      <div class="e">I feel much better after training. <button class="tts-btn" data-text="I feel much better after training." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">รู้สึกดีขึ้นมากหลังจากฝึก <button class="tts-btn thai" data-text="รู้สึกดีขึ้นมากหลังจากฝึก" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">rúu-sùek dii khûen mâak lǎng-jàak fùek</div>
       <div class="note"><span class="ks">Sora:</span> หลังจาก (lǎng-jàak) = after. ก่อน (gàawn) = before. Two connectors you'll use constantly.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card005">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">06</div>
-      <div class="e">I was stressed this week but training helped.</div>
-      <div class="t">สัปดาห์นี้เครียดมาก แต่การฝึกช่วยได้</div>
+      <div class="e">I was stressed this week but training helped. <button class="tts-btn" data-text="I was stressed this week but training helped." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">สัปดาห์นี้เครียดมาก แต่การฝึกช่วยได้ <button class="tts-btn thai" data-text="สัปดาห์นี้เครียดมาก แต่การฝึกช่วยได้" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">sàp-daa níi khrîat mâak — tàae gaan fùek chûay dâai</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card006">☆ Save</button>
     </div>
 
   </div><!-- /emotions -->
@@ -434,49 +504,61 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Where is the nearest BTS station?</div>
-      <div class="t">สถานีรถไฟฟ้า BTS ที่ใกล้ที่สุดอยู่ที่ไหน?</div>
+      <div class="e">Where is the nearest BTS station? <button class="tts-btn" data-text="Where is the nearest BTS station?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">สถานีรถไฟฟ้า BTS ที่ใกล้ที่สุดอยู่ที่ไหน? <button class="tts-btn thai" data-text="สถานีรถไฟฟ้า BTS ที่ใกล้ที่สุดอยู่ที่ไหน?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">sà-thǎa-nii rót-fai-fáa BTS thîi glâi thîi-sùt yùu thîi nǎi?</div>
       <div class="note"><span class="ks">Sora:</span> ที่ใกล้ที่สุด (thîi glâi thîi-sùt) = the nearest / closest. ที่สุด = superlative suffix. ใหญ่ที่สุด = biggest. ดีที่สุด = best.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card007">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Please take me to — (destination).</div>
-      <div class="t">ไป — (ที่หมาย) หน่อยนะครับ/ค่ะ</div>
+      <div class="e">Please take me to — (destination). <button class="tts-btn" data-text="Please take me to — (destination)." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ไป — (ที่หมาย) หน่อยนะครับ/ค่ะ <button class="tts-btn thai" data-text="ไป — (ที่หมาย) หน่อยนะครับ/ค่ะ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">bpai — (thîi-mǎai) nàwy ná khráp/khâ</div>
       <div class="note"><span class="ks">Sora:</span> This is your taxi phrase. Use ค่ะ (khâ) as your polite particle. Just say the destination name after ไป (bpai = go).</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card008">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Turn on the meter, please.</div>
-      <div class="t">เปิดมิเตอร์ด้วยนะคะ</div>
+      <div class="e">Turn on the meter, please. <button class="tts-btn" data-text="Turn on the meter, please." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เปิดมิเตอร์ด้วยนะคะ <button class="tts-btn thai" data-text="เปิดมิเตอร์ด้วยนะคะ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">bpòet mí-dtôe dûay ná khâ</div>
       <div class="note"><span class="ks">Sora:</span> Essential in Bangkok. Some taxi drivers try to negotiate a flat fare — always ask for the meter. ปิด (bpìt) = close/off · เปิด (bpòet) = open/on.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card009">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">How much is it to get to — ?</div>
-      <div class="t">ไป — เท่าไหร่?</div>
+      <div class="e">How much is it to get to — ? <button class="tts-btn" data-text="How much is it to get to — ?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ไป — เท่าไหร่? <button class="tts-btn thai" data-text="ไป — เท่าไหร่?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">bpai — thâo-rài?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card010">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">05</div>
-      <div class="e">Stop here, please.</div>
-      <div class="t">จอดตรงนี้เลยนะคะ</div>
+      <div class="e">Stop here, please. <button class="tts-btn" data-text="Stop here, please." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">จอดตรงนี้เลยนะคะ <button class="tts-btn thai" data-text="จอดตรงนี้เลยนะคะ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">jàwt trong níi looei ná khâ</div>
       <div class="note"><span class="ks">Sora:</span> จอด (jàwt) = to park/stop (a vehicle). ตรงนี้ (trong níi) = right here.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card011">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">06</div>
-      <div class="e">Is it far from here?</div>
-      <div class="t">ไกลจากที่นี่ไหม?</div>
+      <div class="e">Is it far from here? <button class="tts-btn" data-text="Is it far from here?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ไกลจากที่นี่ไหม? <button class="tts-btn thai" data-text="ไกลจากที่นี่ไหม?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">glai jàak thîi-nîi mǎi?</div>
       <div class="note"><span class="ks">Sora:</span> ไกล (glai) = far · ใกล้ (glâi) = near/close. Same spelling almost, different tones — watch out! ไกล = falling tone, ใกล้ = falling on ใ then rising.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card012">☆ Save</button>
     </div>
 
     <div class="grp">Directions</div>
@@ -511,59 +593,73 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">In Thailand, we greet with a wai — hands pressed together.</div>
-      <div class="t">ในไทย เราทักทายด้วยการไหว้ — พนมมือ</div>
+      <div class="e">In Thailand, we greet with a wai — hands pressed together. <button class="tts-btn" data-text="In Thailand, we greet with a wai — hands pressed together." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ในไทย เราทักทายด้วยการไหว้ — พนมมือ <button class="tts-btn thai" data-text="ในไทย เราทักทายด้วยการไหว้ — พนมมือ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">nai thai — rao thák-thaai dûay gaan wâi — phá-nom mue</div>
       <div class="note"><span class="ke">Kru:</span> Teaching students the wai early builds enormous goodwill. It signals respect for Thai culture beyond just the sport.<br><span class="ks">Sora:</span> ไหว้ (wâi) = the wai gesture · พนมมือ (phá-nom mue) = pressing palms together</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card013">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">The higher you hold your hands in the wai, the more respect you show.</div>
-      <div class="t">ยิ่งยกมือสูงในการไหว้ ยิ่งแสดงความเคารพมากขึ้น</div>
+      <div class="e">The higher you hold your hands in the wai, the more respect you show. <button class="tts-btn" data-text="The higher you hold your hands in the wai, the more respect you show." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ยิ่งยกมือสูงในการไหว้ ยิ่งแสดงความเคารพมากขึ้น <button class="tts-btn thai" data-text="ยิ่งยกมือสูงในการไหว้ ยิ่งแสดงความเคารพมากขึ้น" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">yîng yók mue sǔung nai gaan wâi — yîng sà-daeng khwaam khao-róp mâak khûen</div>
       <div class="note"><span class="ks">Sora:</span> ยิ่ง...ยิ่ง (yîng...yîng) = the more...the more. A beautiful Thai grammar pattern: ยิ่งฝึก ยิ่งเก่ง = the more you train, the better you get!</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card014">☆ Save</button>
     </div>
 
     <div class="grp">Key Cultural Concepts</div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Saving face is very important in Thai culture.</div>
-      <div class="t">การรักษาหน้าสำคัญมากในวัฒนธรรมไทย</div>
+      <div class="e">Saving face is very important in Thai culture. <button class="tts-btn" data-text="Saving face is very important in Thai culture." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">การรักษาหน้าสำคัญมากในวัฒนธรรมไทย <button class="tts-btn thai" data-text="การรักษาหน้าสำคัญมากในวัฒนธรรมไทย" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">gaan rák-sǎa nâa sǎm-khan mâak nai wát-thá-na-tham thai</div>
       <div class="note"><span class="ke">Kru:</span> Never embarrass a student publicly. Always correct privately when possible — this is Thai social instinct too.<br><span class="ks">Sora:</span> รักษาหน้า (rák-sǎa nâa) = save face. วัฒนธรรม (wát-thá-na-tham) = culture.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card015">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">Sanuk — Thai people believe everything should have some fun in it.</div>
-      <div class="t">สนุก — คนไทยเชื่อว่าทุกอย่างควรจะมีความสนุกอยู่ด้วย</div>
+      <div class="e">Sanuk — Thai people believe everything should have some fun in it. <button class="tts-btn" data-text="Sanuk — Thai people believe everything should have some fun in it." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">สนุก — คนไทยเชื่อว่าทุกอย่างควรจะมีความสนุกอยู่ด้วย <button class="tts-btn thai" data-text="สนุก — คนไทยเชื่อว่าทุกอย่างควรจะมีความสนุกอยู่ด้วย" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">sà-nùk — khon thai chûea wâa thúk yàang khuan jà mii khwaam sà-nùk yùu dûay</div>
       <div class="note"><span class="ks">Sora:</span> สนุก (sà-nùk) = fun. This cultural value explains a lot — why Thai training camps have such good energy, why coaches joke mid-session. Fun is not frivolous in Thai culture, it's important.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card016">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">05</div>
-      <div class="e">Kreng jai — not wanting to impose or cause trouble for others.</div>
-      <div class="t">เกรงใจ — ไม่อยากทำให้คนอื่นลำบากหรือรู้สึกอึดอัด</div>
+      <div class="e">Kreng jai — not wanting to impose or cause trouble for others. <button class="tts-btn" data-text="Kreng jai — not wanting to impose or cause trouble for others." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เกรงใจ — ไม่อยากทำให้คนอื่นลำบากหรือรู้สึกอึดอัด <button class="tts-btn thai" data-text="เกรงใจ — ไม่อยากทำให้คนอื่นลำบากหรือรู้สึกอึดอัด" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">greng-jai — mâi yàak tham hâi khon ùen lam-bàak rǔe rúu-sùek ùet-àt</div>
       <div class="note"><span class="ks">Sora:</span> เกรงใจ (greng-jai) is untranslatable but essential. It's why Thais won't ask for help even when they need it, or why students won't complain about pain. As a student, knowing this helps you understand why kru might not push you even if you could handle more.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card017">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">06</div>
-      <div class="e">In Thailand, monks and temples are highly respected — dress modestly when visiting.</div>
-      <div class="t">ในไทย พระและวัดได้รับความเคารพอย่างสูง — แต่งตัวสุภาพเมื่อไปเยือน</div>
+      <div class="e">In Thailand, monks and temples are highly respected — dress modestly when visiting. <button class="tts-btn" data-text="In Thailand, monks and temples are highly respected — dress modestly when visiting." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ในไทย พระและวัดได้รับความเคารพอย่างสูง — แต่งตัวสุภาพเมื่อไปเยือน <button class="tts-btn thai" data-text="ในไทย พระและวัดได้รับความเคารพอย่างสูง — แต่งตัวสุภาพเมื่อไปเยือน" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">nai thai — phrá láe wát dâai ráp khwaam khao-róp yàang sǔung — tàeng-tua sù-phâap mûea bpai yuean</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card018">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">07</div>
-      <div class="e">Never touch someone's head — it's considered sacred.</div>
-      <div class="t">อย่าแตะหัวคนอื่นเด็ดขาด — ถือว่าศักดิ์สิทธิ์</div>
+      <div class="e">Never touch someone's head — it's considered sacred. <button class="tts-btn" data-text="Never touch someone&#x27;s head — it&#x27;s considered sacred." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">อย่าแตะหัวคนอื่นเด็ดขาด — ถือว่าศักดิ์สิทธิ์ <button class="tts-btn thai" data-text="อย่าแตะหัวคนอื่นเด็ดขาด — ถือว่าศักดิ์สิทธิ์" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">yàa tàe hǔa khon ùen dèt-khàat — thǔe wâa sàk-sìt</div>
       <div class="note"><span class="ke">Kru:</span> Important to share with international students — playfully ruffling someone's hair is offensive in Thai culture. Feet are the opposite: keep feet pointed away from sacred objects and people.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card019">☆ Save</button>
     </div>
 
   </div><!-- /culture -->
@@ -602,34 +698,42 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">He's one of my most dedicated students.</div>
-      <div class="t">เขาเป็นนักเรียนที่ทุ่มเทที่สุดคนหนึ่งของฉัน</div>
+      <div class="e">He's one of my most dedicated students. <button class="tts-btn" data-text="He&#x27;s one of my most dedicated students." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เขาเป็นนักเรียนที่ทุ่มเทที่สุดคนหนึ่งของฉัน <button class="tts-btn thai" data-text="เขาเป็นนักเรียนที่ทุ่มเทที่สุดคนหนึ่งของฉัน" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khǎo bpen nák-rian thîi thûm-thée thîi-sùt khon nùeng khǎawng chǎn</div>
       <div class="note"><span class="ks">Sora:</span> ทุ่มเท (thûm-thée) = dedicated/committed. คนหนึ่ง (khon nùeng) = one of (a person). คนหนึ่งของฉัน = "one of mine."</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card020">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">She has a really strong character.</div>
-      <div class="t">เธอมีนิสัยที่แข็งแกร่งมาก</div>
+      <div class="e">She has a really strong character. <button class="tts-btn" data-text="She has a really strong character." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เธอมีนิสัยที่แข็งแกร่งมาก <button class="tts-btn thai" data-text="เธอมีนิสัยที่แข็งแกร่งมาก" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">thooe mii ní-sǎi thîi khǎeng-grâeng mâak</div>
       <div class="note"><span class="ks">Sora:</span> นิสัย (ní-sǎi) = character/personality/habit. แข็งแกร่ง (khǎeng-grâeng) = strong/tough (character or physical).</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card021">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">He reminds me of myself when I was starting out.</div>
-      <div class="t">เขาทำให้นึกถึงตัวเองตอนที่เริ่มต้น</div>
+      <div class="e">He reminds me of myself when I was starting out. <button class="tts-btn" data-text="He reminds me of myself when I was starting out." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เขาทำให้นึกถึงตัวเองตอนที่เริ่มต้น <button class="tts-btn thai" data-text="เขาทำให้นึกถึงตัวเองตอนที่เริ่มต้น" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khǎo tham hâi núek-thǔeng tua-eeng tawn thîi rôem-tôn</div>
       <div class="note"><span class="ke">Kru:</span> A deeply human connection to share with a student — builds trust and shows you see their potential.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card022">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">What's she like as a person?</div>
-      <div class="t">เธอเป็นคนยังไงบ้าง?</div>
+      <div class="e">What's she like as a person? <button class="tts-btn" data-text="What&#x27;s she like as a person?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เธอเป็นคนยังไงบ้าง? <button class="tts-btn thai" data-text="เธอเป็นคนยังไงบ้าง?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">thooe bpen khon yang-ngai bâang?</div>
       <div class="note"><span class="ks">Sora:</span> เป็นคนยังไง (bpen khon yang-ngai) = "what kind of person is..." A great question for gossip and getting to know people!</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card023">☆ Save</button>
     </div>
 
   </div><!-- /describe -->
@@ -646,51 +750,63 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Just checking in — how's the training going?</div>
-      <div class="t">แค่แวะมาถามไถ่ — การฝึกเป็นยังไงบ้าง?</div>
+      <div class="e">Just checking in — how's the training going? <button class="tts-btn" data-text="Just checking in — how&#x27;s the training going?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">แค่แวะมาถามไถ่ — การฝึกเป็นยังไงบ้าง? <button class="tts-btn thai" data-text="แค่แวะมาถามไถ่ — การฝึกเป็นยังไงบ้าง?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khâe wâe maa thǎam-thâi — gaan fùek bpen yang-ngai bâang?</div>
       <div class="note"><span class="ke">Kru:</span> "Just checking in" is the most natural English opener for a casual follow-up message. Warmer than "How are you?" in this context.<br><span class="ks">Sora:</span> แวะมา (wâe maa) = to drop by/pop in. ถามไถ่ (thǎam-thâi) = to enquire/check in on someone.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card024">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">See you at training on Thursday!</div>
-      <div class="t">เจอกันที่ฝึกวันพฤหัสนะ!</div>
+      <div class="e">See you at training on Thursday! <button class="tts-btn" data-text="See you at training on Thursday!" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เจอกันที่ฝึกวันพฤหัสนะ! <button class="tts-btn thai" data-text="เจอกันที่ฝึกวันพฤหัสนะ!" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">jooe gan thîi fùek wan phá-rúe-hàt ná!</div>
       <div class="note"><span class="ks">Sora:</span> Days of the week — วันจันทร์ (Mon) · วันอังคาร (Tue) · วันพุธ (Wed) · วันพฤหัส (Thu) · วันศุกร์ (Fri) · วันเสาร์ (Sat) · วันอาทิตย์ (Sun)</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card025">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Sorry, I need to reschedule — are you free on Friday instead?</div>
-      <div class="t">ขอโทษนะ ต้องเลื่อนนัด — วันศุกร์ว่างไหม?</div>
+      <div class="e">Sorry, I need to reschedule — are you free on Friday instead? <button class="tts-btn" data-text="Sorry, I need to reschedule — are you free on Friday instead?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ขอโทษนะ ต้องเลื่อนนัด — วันศุกร์ว่างไหม? <button class="tts-btn thai" data-text="ขอโทษนะ ต้องเลื่อนนัด — วันศุกร์ว่างไหม?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khǎaw-thôot ná — tâwng lûean nát — wan sùk wâang mǎi?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card026">☆ Save</button>
     </div>
 
     <div class="grp">Social Media Captions (English)</div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">Another great session with an incredible student. The progress speaks for itself. 🥊</div>
-      <div class="t">อีกเซสชันที่ยอดเยี่ยมกับนักเรียนที่ยอดเยี่ยม ความก้าวหน้าพูดแทนตัวมันเอง 🥊</div>
+      <div class="e">Another great session with an incredible student. The progress speaks for itself. 🥊 <button class="tts-btn" data-text="Another great session with an incredible student. The progress speaks for itself. 🥊" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">อีกเซสชันที่ยอดเยี่ยมกับนักเรียนที่ยอดเยี่ยม ความก้าวหน้าพูดแทนตัวมันเอง 🥊 <button class="tts-btn thai" data-text="อีกเซสชันที่ยอดเยี่ยมกับนักเรียนที่ยอดเยี่ยม ความก้าวหน้าพูดแทนตัวมันเอง 🥊" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">ìik set-chân thîi yâwt-yîam gàp nák-rian thîi yâwt-yîam — khwaam-gâao-nâa phûut thaen tua man eeng</div>
       <div class="note"><span class="ke">Kru:</span> "The progress speaks for itself" is a strong caption hook — confident but not boastful.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card027">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">05</div>
-      <div class="e">Grateful to train alongside people who push me to be better every day.</div>
-      <div class="t">รู้สึกขอบคุณที่ได้ฝึกกับคนที่ผลักดันให้ฉันดีขึ้นทุกวัน</div>
+      <div class="e">Grateful to train alongside people who push me to be better every day. <button class="tts-btn" data-text="Grateful to train alongside people who push me to be better every day." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">รู้สึกขอบคุณที่ได้ฝึกกับคนที่ผลักดันให้ฉันดีขึ้นทุกวัน <button class="tts-btn thai" data-text="รู้สึกขอบคุณที่ได้ฝึกกับคนที่ผลักดันให้ฉันดีขึ้นทุกวัน" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">rúu-sùek khàwp-khun thîi dâai fùek gàp khon thîi phlàk-dan hâi chǎn dii khûen thúk wan</div>
       <div class="note"><span class="ks">Sora:</span> ผลักดัน (phlàk-dan) = to push forward/drive/motivate. A great word for describing a mentor's influence.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card028">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">06</div>
-      <div class="e">DM me to book a session or ask any questions.</div>
-      <div class="t">ทักมาได้เลยถ้าอยากจองเซสชันหรือมีคำถาม</div>
+      <div class="e">DM me to book a session or ask any questions. <button class="tts-btn" data-text="DM me to book a session or ask any questions." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ทักมาได้เลยถ้าอยากจองเซสชันหรือมีคำถาม <button class="tts-btn thai" data-text="ทักมาได้เลยถ้าอยากจองเซสชันหรือมีคำถาม" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">thák maa dâai looei thâa yàak jawng set-chân rǔe mii kham-thǎam</div>
       <div class="note"><span class="ke">Kru:</span> Always end posts with a clear call to action — "DM me" is the most natural.<br><span class="ks">Sora:</span> ทักมา (thák maa) = to message/reach out to someone. Very common in Thai social media.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card029">☆ Save</button>
     </div>
 
   </div><!-- /teaching -->
@@ -744,26 +860,32 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Stand in front of the bag.</div>
-      <div class="t">ยืนข้างหน้ากระสอบ</div>
+      <div class="e">Stand in front of the bag. <button class="tts-btn" data-text="Stand in front of the bag." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ยืนข้างหน้ากระสอบ <button class="tts-btn thai" data-text="ยืนข้างหน้ากระสอบ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">yuen khâang-nâa grà-sàwp</div>
       <div class="note"><span class="ks">Sora:</span> กระสอบ (grà-sàwp) = heavy bag · ถุงมือ (thǔng-mue) = boxing gloves · เชือก (chûeak) = rope (as in skipping rope)</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card030">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Move to the centre of the ring.</div>
-      <div class="t">เคลื่อนมาตรงกลางเวที</div>
+      <div class="e">Move to the centre of the ring. <button class="tts-btn" data-text="Move to the centre of the ring." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เคลื่อนมาตรงกลางเวที <button class="tts-btn thai" data-text="เคลื่อนมาตรงกลางเวที" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khlûean maa trong-glaang we-thii</div>
       <div class="note"><span class="ks">Sora:</span> เวที (we-thii) = ring/stage · ตรงกลาง (trong-glaang) = centre/middle</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card031">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Keep your opponent at arm's length.</div>
-      <div class="t">รักษาระยะห่างให้อยู่ที่ความยาวแขน</div>
+      <div class="e">Keep your opponent at arm's length. <button class="tts-btn" data-text="Keep your opponent at arm&#x27;s length." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">รักษาระยะห่างให้อยู่ที่ความยาวแขน <button class="tts-btn thai" data-text="รักษาระยะห่างให้อยู่ที่ความยาวแขน" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">rák-sǎa rá-yá hàang hâi yùu thîi khwaam-yaao khǎaen</div>
       <div class="note"><span class="ks">Sora:</span> ระยะห่าง (rá-yá hàang) = distance/gap · ความยาว (khwaam-yaao) = length · แขน (khǎaen) = arm</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol4-card032">☆ Save</button>
     </div>
 
   </div><!-- /location -->
@@ -887,6 +1009,109 @@
       pop.classList.remove('popen'); btn.classList.remove('pactive');
     }
   });
+</script>
+
+
+<!-- KRU-FEATURES-v1 -->
+<a class="notes-pill" href="my-saved-note.html">🔖 My Notes</a>
+
+<script>
+(function() {
+  /* ── TTS ── */
+  function ttsSpeak(text, lang) {
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    setTimeout(function() {
+      if (speechSynthesis.paused) speechSynthesis.resume();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang  = lang;
+      u.rate  = 0.9;
+      speechSynthesis.speak(u);
+    }, 50);
+  }
+
+  document.querySelectorAll('.tts-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var me = this;
+      me.classList.add('speaking');
+      ttsSpeak(me.dataset.text, me.dataset.lang);
+      setTimeout(function() { me.classList.remove('speaking'); }, 2500);
+    });
+  });
+
+  /* ── BOOKMARK ── */
+  function getCards() {
+    try { return JSON.parse(localStorage.getItem('kruexchange_saved_cards') || '[]'); }
+    catch (e) { return []; }
+  }
+  function saveCards(arr) {
+    localStorage.setItem('kruexchange_saved_cards', JSON.stringify(arr));
+  }
+
+  function fireworks(btn) {
+    var rect = btn.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top  + rect.height / 2;
+    for (var i = 0; i < 8; i++) {
+      (function(i) {
+        var spark = document.createElement('span');
+        spark.textContent = '✦';
+        spark.style.cssText =
+          'position:fixed;left:' + cx + 'px;top:' + cy + 'px;pointer-events:none;' +
+          'color:#c8943a;font-size:0.9rem;z-index:9999;' +
+          'transition:all 0.6s ease-out;opacity:1;';
+        document.body.appendChild(spark);
+        var angle = (i / 8) * 2 * Math.PI;
+        var dist  = 40 + Math.random() * 20;
+        var dx    = Math.cos(angle) * dist;
+        var dy    = Math.sin(angle) * dist;
+        requestAnimationFrame(function() {
+          spark.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+          spark.style.opacity   = '0';
+          setTimeout(function() { spark.remove(); }, 650);
+        });
+      })(i);
+    }
+  }
+
+  document.querySelectorAll('.bookmark-btn').forEach(function(btn) {
+    var id    = btn.dataset.id;
+    var saved = getCards();
+    if (saved.some(function(c) { return c.id === id; })) {
+      btn.classList.add('saved');
+      btn.textContent = '★ Saved';
+    }
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var cards = getCards();
+      var idx   = cards.findIndex(function(c) { return c.id === id; });
+      if (idx >= 0) {
+        cards.splice(idx, 1);
+        btn.classList.remove('saved');
+        btn.textContent = '☆ Save';
+      } else {
+        var card = btn.closest('.card');
+        function txt(a, b) {
+          var el = card.querySelector(a) || card.querySelector(b);
+          return el ? el.textContent.trim() : '';
+        }
+        cards.push({
+          id:    id,
+          eng:   txt('.e',  '.eng'),
+          thai:  txt('.t',  '.thai-script'),
+          roman: txt('.r',  '.roman'),
+          vol:   document.title,
+          saved: Date.now()
+        });
+        btn.classList.add('saved');
+        btn.textContent = '★ Saved';
+        fireworks(btn);
+      }
+      saveCards(cards);
+    });
+  });
+})();
 </script>
 
 </body>

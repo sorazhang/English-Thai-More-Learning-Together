@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>English ↔ Thai · Vol. 17 · Thai Wellness & Massage</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
   :root {
     --bg: #f4f9f4;
@@ -148,6 +148,64 @@
   .pp-lnk.here  .pp-nm { color: #b83010; }
   .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
   .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+
+/* KRU-FEATURES-v1 */
+
+/* ── TTS BUTTONS ── */
+.tts-btn {
+  background: none;
+  border: 1px solid rgba(42,92,138,0.3);
+  border-radius: 99px;
+  padding: 0.13rem 0.55rem;
+  font-size: 0.62rem;
+  cursor: pointer;
+  color: rgba(42,92,138,0.65);
+  transition: all 0.15s;
+  margin-left: 0.45rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+.tts-btn.thai {
+  border-color: rgba(138,32,64,0.3);
+  color: rgba(138,32,64,0.65);
+}
+.tts-btn:hover { opacity: 0.85; transform: scale(1.05); }
+.tts-btn.speaking { opacity: 0.5; }
+
+/* ── BOOKMARK BUTTON ── */
+.card { position: relative !important; }
+.bookmark-btn {
+  position: absolute;
+  bottom: 0.6rem; right: 0.7rem;
+  background: none;
+  border: 1px solid rgba(184,120,32,0.3);
+  border-radius: 99px;
+  padding: 0.18rem 0.6rem;
+  font-size: 0.68rem;
+  cursor: pointer;
+  color: rgba(184,120,32,0.5);
+  transition: all 0.2s;
+  z-index: 10;
+}
+.bookmark-btn:hover { color: #c8943a; border-color: rgba(184,120,32,0.6); }
+.bookmark-btn.saved { color: #c8943a; border-color: #c8943a; }
+
+/* ── FLOATING NOTES PILL ── */
+.notes-pill {
+  position: fixed; bottom: 1.6rem; left: 1.6rem;
+  background: rgba(184,120,32,0.15);
+  border: 1px solid rgba(184,120,32,0.4);
+  color: #c8943a;
+  border-radius: 99px;
+  padding: 0.55rem 1.05rem;
+  font-size: 0.72rem; font-weight: 700;
+  text-decoration: none;
+  z-index: 300;
+  transition: all 0.2s;
+}
+.notes-pill:hover { background: rgba(184,120,32,0.25); }
+
 </style>
 </head>
 <body>
@@ -207,26 +265,32 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">I'd like a one-hour Thai massage, please.</div>
-      <div class="t">ขอนวดไทยหนึ่งชั่วโมงค่ะ</div>
+      <div class="e">I'd like a one-hour Thai massage, please. <button class="tts-btn" data-text="I&#x27;d like a one-hour Thai massage, please." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ขอนวดไทยหนึ่งชั่วโมงค่ะ <button class="tts-btn thai" data-text="ขอนวดไทยหนึ่งชั่วโมงค่ะ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khǎaw nûat thai nùeng chûa-moong khâ</div>
       <div class="note"><span class="ks">Sora:</span> This is your complete booking sentence. Just change the time: ครึ่งชั่วโมง (khûeng chûa-moong) = 30 minutes · สองชั่วโมง (sǎawng chûa-moong) = 2 hours.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol17-card001">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Please focus on my lower back — it's very tight.</div>
-      <div class="t">ช่วยเน้นที่หลังส่วนล่างหน่อยนะคะ — ตึงมาก</div>
+      <div class="e">Please focus on my lower back — it's very tight. <button class="tts-btn" data-text="Please focus on my lower back — it&#x27;s very tight." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ช่วยเน้นที่หลังส่วนล่างหน่อยนะคะ — ตึงมาก <button class="tts-btn thai" data-text="ช่วยเน้นที่หลังส่วนล่างหน่อยนะคะ — ตึงมาก" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">chûay nên thîi lǎng sùan lâang nàwy ná khâ — tueng mâak</div>
       <div class="note"><span class="ks">Sora:</span> ตึง (tueng) = tight/stiff/tense. หลัง (lǎng) = back. หลังส่วนล่าง (lǎng sùan lâang) = lower back. หลังส่วนบน (lǎng sùan bon) = upper back.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol17-card002">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">That's a bit too strong — can you go lighter?</div>
-      <div class="t">แรงไปนิดนึง — เบาลงได้ไหมคะ?</div>
+      <div class="e">That's a bit too strong — can you go lighter? <button class="tts-btn" data-text="That&#x27;s a bit too strong — can you go lighter?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">แรงไปนิดนึง — เบาลงได้ไหมคะ? <button class="tts-btn thai" data-text="แรงไปนิดนึง — เบาลงได้ไหมคะ?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">raeng bpai nít-nueng — bao long dâai mǎi khâ?</div>
       <div class="note"><span class="ks">Sora:</span> ...ไปนิดนึง (...bpai nít-nueng) = a little too... This pattern works for everything: เผ็ดไปนิดนึง = a bit too spicy · เร็วไปนิดนึง = a bit too fast.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol17-card003">☆ Save</button>
     </div>
   </div>
 
@@ -270,18 +334,22 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">My shins are really sore from training — in a good way.</div>
-      <div class="t">แข้งเมื่อยล้ามากหลังจากฝึก — แต่เป็นความเมื่อยที่ดี</div>
+      <div class="e">My shins are really sore from training — in a good way. <button class="tts-btn" data-text="My shins are really sore from training — in a good way." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">แข้งเมื่อยล้ามากหลังจากฝึก — แต่เป็นความเมื่อยที่ดี <button class="tts-btn thai" data-text="แข้งเมื่อยล้ามากหลังจากฝึก — แต่เป็นความเมื่อยที่ดี" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khâaeng mûeay-láa mâak lǎng-jàak fùek — tàae bpen khwaam mûeay thîi dii</div>
       <div class="note"><span class="ks">Sora:</span> เมื่อยล้า (mûeay-láa) = fatigue/soreness from effort. Different from เจ็บ (jèp) which is sharp pain from injury. Knowing the difference helps you communicate clearly with kru.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol17-card004">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">My knee is a bit swollen — I'll put ice on it.</div>
-      <div class="t">เข่าบวมนิดหน่อย — จะเอาน้ำแข็งประคบ</div>
+      <div class="e">My knee is a bit swollen — I'll put ice on it. <button class="tts-btn" data-text="My knee is a bit swollen — I&#x27;ll put ice on it." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เข่าบวมนิดหน่อย — จะเอาน้ำแข็งประคบ <button class="tts-btn thai" data-text="เข่าบวมนิดหน่อย — จะเอาน้ำแข็งประคบ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khào buam nít-nàwy — jà ao nám-khǎaeng bprà-khóp</div>
       <div class="note"><span class="ks">Sora:</span> ประคบ (bprà-khóp) = to apply compress (hot or cold). น้ำแข็ง (nám-khǎaeng) = ice. A word every Muay Thai student needs.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol17-card005">☆ Save</button>
     </div>
   </div>
 
@@ -313,18 +381,22 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">The herbal compress feels amazing on sore muscles after training.</div>
-      <div class="t">ลูกประคบสมุนไพรช่วยได้มากสำหรับกล้ามเนื้อที่เมื่อยหลังซ้อม</div>
+      <div class="e">The herbal compress feels amazing on sore muscles after training. <button class="tts-btn" data-text="The herbal compress feels amazing on sore muscles after training." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ลูกประคบสมุนไพรช่วยได้มากสำหรับกล้ามเนื้อที่เมื่อยหลังซ้อม <button class="tts-btn thai" data-text="ลูกประคบสมุนไพรช่วยได้มากสำหรับกล้ามเนื้อที่เมื่อยหลังซ้อม" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">lûuk bprà-khóp sà-mǔn-phrai chûay dâai mâak sǎm-ràp glâam-núea thîi mûeay lǎng sôm</div>
       <div class="note"><span class="ks">Sora:</span> กล้ามเนื้อ (glâam-núea) = muscle. A good word to know — you'll use it a lot in training context. กล้ามแขน = arm muscles · กล้ามขา = leg muscles.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol17-card006">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Do you have anything for bruising?</div>
-      <div class="t">มียาอะไรสำหรับรอยช้ำบ้างไหม?</div>
+      <div class="e">Do you have anything for bruising? <button class="tts-btn" data-text="Do you have anything for bruising?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">มียาอะไรสำหรับรอยช้ำบ้างไหม? <button class="tts-btn thai" data-text="มียาอะไรสำหรับรอยช้ำบ้างไหม?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">mii yaa à-rai sǎm-ràp roi chám bâang mǎi?</div>
       <div class="note"><span class="ks">Sora:</span> ยา (yaa) = medicine / remedy. รอยช้ำ (roi chám) = bruise (literally: bruise-mark). สำหรับ (sǎm-ràp) = for / in the case of.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol17-card007">☆ Save</button>
     </div>
   </div>
 
@@ -352,26 +424,32 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Your body needs rest as much as it needs training.</div>
-      <div class="t">ร่างกายต้องการพักผ่อนมากพอๆ กับที่ต้องการซ้อม</div>
+      <div class="e">Your body needs rest as much as it needs training. <button class="tts-btn" data-text="Your body needs rest as much as it needs training." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ร่างกายต้องการพักผ่อนมากพอๆ กับที่ต้องการซ้อม <button class="tts-btn thai" data-text="ร่างกายต้องการพักผ่อนมากพอๆ กับที่ต้องการซ้อม" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">râang-gaai tâwng-gaan phák-phàwn mâak phaw-phaw gàp thîi tâwng-gaan sôm</div>
       <div class="note"><span class="ke">Kru:</span> มากพอๆ กับ (mâak phaw-phaw gàp) = as much as. A grammatically useful comparison pattern: A มากพอๆ กับ B = A as much as B.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol17-card008">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">I'm skipping training today — my body is telling me to rest.</div>
-      <div class="t">วันนี้ขอพักจากการซ้อม — ร่างกายบอกให้พัก</div>
+      <div class="e">I'm skipping training today — my body is telling me to rest. <button class="tts-btn" data-text="I&#x27;m skipping training today — my body is telling me to rest." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">วันนี้ขอพักจากการซ้อม — ร่างกายบอกให้พัก <button class="tts-btn thai" data-text="วันนี้ขอพักจากการซ้อม — ร่างกายบอกให้พัก" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">wan níi khǎaw phák jàak gaan sôm — râang-gaai bàawk hâi phák</div>
       <div class="note"><span class="ks">Sora:</span> ร่างกายบอกให้พัก (râang-gaai bàawk hâi phák) = my body is telling me to rest. A beautifully literal Thai expression — the body speaks and you listen.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol17-card009">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Sleep is when the training actually happens — your muscles repair while you rest.</div>
-      <div class="t">การนอนหลับคือตอนที่การฝึกเกิดขึ้นจริงๆ — กล้ามเนื้อซ่อมแซมตัวเองขณะพักผ่อน</div>
+      <div class="e">Sleep is when the training actually happens — your muscles repair while you rest. <button class="tts-btn" data-text="Sleep is when the training actually happens — your muscles repair while you rest." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">การนอนหลับคือตอนที่การฝึกเกิดขึ้นจริงๆ — กล้ามเนื้อซ่อมแซมตัวเองขณะพักผ่อน <button class="tts-btn thai" data-text="การนอนหลับคือตอนที่การฝึกเกิดขึ้นจริงๆ — กล้ามเนื้อซ่อมแซมตัวเองขณะพักผ่อน" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">gaan nawn-làp khue tawn thîi gaan fùek gòet khûen jing-jing — glâam-núea sâwm-saaem tua-eeng khà-nà phák-phàwn</div>
       <div class="note"><span class="ke">Kru:</span> ซ่อมแซม (sâwm-saaem) = to repair. This is one of the most important things I tell students — they think training is the work. Recovery is the work.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol17-card010">☆ Save</button>
     </div>
   </div>
 
@@ -398,18 +476,22 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">I feel so much better — completely relaxed.</div>
-      <div class="t">รู้สึกดีขึ้นมากเลย — ผ่อนคลายสุดๆ</div>
+      <div class="e">I feel so much better — completely relaxed. <button class="tts-btn" data-text="I feel so much better — completely relaxed." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">รู้สึกดีขึ้นมากเลย — ผ่อนคลายสุดๆ <button class="tts-btn thai" data-text="รู้สึกดีขึ้นมากเลย — ผ่อนคลายสุดๆ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">rúu-sùek dii khûen mâak looei — phàwn-klaai sùt-sùt</div>
       <div class="note"><span class="ks">Sora:</span> สุดๆ (sùt-sùt) = extremely / to the max. ดีสุดๆ = the best · อร่อยสุดๆ = incredibly delicious. A very casual, expressive intensifier.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol17-card011">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">An hour of Thai massage after a week of hard training — there's nothing like it.</div>
-      <div class="t">นวดไทยหนึ่งชั่วโมงหลังจากซ้อมหนักมาทั้งสัปดาห์ — ไม่มีอะไรเทียบได้</div>
+      <div class="e">An hour of Thai massage after a week of hard training — there's nothing like it. <button class="tts-btn" data-text="An hour of Thai massage after a week of hard training — there&#x27;s nothing like it." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">นวดไทยหนึ่งชั่วโมงหลังจากซ้อมหนักมาทั้งสัปดาห์ — ไม่มีอะไรเทียบได้ <button class="tts-btn thai" data-text="นวดไทยหนึ่งชั่วโมงหลังจากซ้อมหนักมาทั้งสัปดาห์ — ไม่มีอะไรเทียบได้" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">nûat thai nùeng chûa-moong lǎng-jàak sôm nàk maa tháng sàp-daa — mâi mii à-rai thîap dâai</div>
       <div class="note"><span class="ke">Kru:</span> ไม่มีอะไรเทียบได้ (mâi mii à-rai thîap dâai) = nothing compares. เทียบ (thîap) = to compare. One of the most satisfying sentences in Thai.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol17-card012">☆ Save</button>
     </div>
   </div>
 
@@ -543,6 +625,109 @@
       pop.classList.remove('popen'); btn.classList.remove('pactive');
     }
   });
+</script>
+
+
+<!-- KRU-FEATURES-v1 -->
+<a class="notes-pill" href="my-saved-note.html">🔖 My Notes</a>
+
+<script>
+(function() {
+  /* ── TTS ── */
+  function ttsSpeak(text, lang) {
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    setTimeout(function() {
+      if (speechSynthesis.paused) speechSynthesis.resume();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang  = lang;
+      u.rate  = 0.9;
+      speechSynthesis.speak(u);
+    }, 50);
+  }
+
+  document.querySelectorAll('.tts-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var me = this;
+      me.classList.add('speaking');
+      ttsSpeak(me.dataset.text, me.dataset.lang);
+      setTimeout(function() { me.classList.remove('speaking'); }, 2500);
+    });
+  });
+
+  /* ── BOOKMARK ── */
+  function getCards() {
+    try { return JSON.parse(localStorage.getItem('kruexchange_saved_cards') || '[]'); }
+    catch (e) { return []; }
+  }
+  function saveCards(arr) {
+    localStorage.setItem('kruexchange_saved_cards', JSON.stringify(arr));
+  }
+
+  function fireworks(btn) {
+    var rect = btn.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top  + rect.height / 2;
+    for (var i = 0; i < 8; i++) {
+      (function(i) {
+        var spark = document.createElement('span');
+        spark.textContent = '✦';
+        spark.style.cssText =
+          'position:fixed;left:' + cx + 'px;top:' + cy + 'px;pointer-events:none;' +
+          'color:#c8943a;font-size:0.9rem;z-index:9999;' +
+          'transition:all 0.6s ease-out;opacity:1;';
+        document.body.appendChild(spark);
+        var angle = (i / 8) * 2 * Math.PI;
+        var dist  = 40 + Math.random() * 20;
+        var dx    = Math.cos(angle) * dist;
+        var dy    = Math.sin(angle) * dist;
+        requestAnimationFrame(function() {
+          spark.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+          spark.style.opacity   = '0';
+          setTimeout(function() { spark.remove(); }, 650);
+        });
+      })(i);
+    }
+  }
+
+  document.querySelectorAll('.bookmark-btn').forEach(function(btn) {
+    var id    = btn.dataset.id;
+    var saved = getCards();
+    if (saved.some(function(c) { return c.id === id; })) {
+      btn.classList.add('saved');
+      btn.textContent = '★ Saved';
+    }
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var cards = getCards();
+      var idx   = cards.findIndex(function(c) { return c.id === id; });
+      if (idx >= 0) {
+        cards.splice(idx, 1);
+        btn.classList.remove('saved');
+        btn.textContent = '☆ Save';
+      } else {
+        var card = btn.closest('.card');
+        function txt(a, b) {
+          var el = card.querySelector(a) || card.querySelector(b);
+          return el ? el.textContent.trim() : '';
+        }
+        cards.push({
+          id:    id,
+          eng:   txt('.e',  '.eng'),
+          thai:  txt('.t',  '.thai-script'),
+          roman: txt('.r',  '.roman'),
+          vol:   document.title,
+          saved: Date.now()
+        });
+        btn.classList.add('saved');
+        btn.textContent = '★ Saved';
+        fireworks(btn);
+      }
+      saveCards(cards);
+    });
+  });
+})();
 </script>
 
 </body>

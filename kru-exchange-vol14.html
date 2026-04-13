@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>English ↔ Thai · Vol. 14</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Raleway:wght@300;400;600;700;800&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Raleway:wght@300;400;600;700;800&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
   :root {
     --bg: #0c1018;
@@ -174,6 +174,64 @@
   .pp-lnk.here  .pp-nm { color: #b83010; }
   .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
   .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+
+/* KRU-FEATURES-v1 */
+
+/* ── TTS BUTTONS ── */
+.tts-btn {
+  background: none;
+  border: 1px solid rgba(42,92,138,0.3);
+  border-radius: 99px;
+  padding: 0.13rem 0.55rem;
+  font-size: 0.62rem;
+  cursor: pointer;
+  color: rgba(42,92,138,0.65);
+  transition: all 0.15s;
+  margin-left: 0.45rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+.tts-btn.thai {
+  border-color: rgba(138,32,64,0.3);
+  color: rgba(138,32,64,0.65);
+}
+.tts-btn:hover { opacity: 0.85; transform: scale(1.05); }
+.tts-btn.speaking { opacity: 0.5; }
+
+/* ── BOOKMARK BUTTON ── */
+.card { position: relative !important; }
+.bookmark-btn {
+  position: absolute;
+  bottom: 0.6rem; right: 0.7rem;
+  background: none;
+  border: 1px solid rgba(184,120,32,0.3);
+  border-radius: 99px;
+  padding: 0.18rem 0.6rem;
+  font-size: 0.68rem;
+  cursor: pointer;
+  color: rgba(184,120,32,0.5);
+  transition: all 0.2s;
+  z-index: 10;
+}
+.bookmark-btn:hover { color: #c8943a; border-color: rgba(184,120,32,0.6); }
+.bookmark-btn.saved { color: #c8943a; border-color: #c8943a; }
+
+/* ── FLOATING NOTES PILL ── */
+.notes-pill {
+  position: fixed; bottom: 1.6rem; left: 1.6rem;
+  background: rgba(184,120,32,0.15);
+  border: 1px solid rgba(184,120,32,0.4);
+  color: #c8943a;
+  border-radius: 99px;
+  padding: 0.55rem 1.05rem;
+  font-size: 0.72rem; font-weight: 700;
+  text-decoration: none;
+  z-index: 300;
+  transition: all 0.2s;
+}
+.notes-pill:hover { background: rgba(184,120,32,0.25); }
+
 </style>
 </head>
 <body>
@@ -293,33 +351,41 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">One ticket to Chiang Mai — overnight sleeper, second class.</div>
-      <div class="t">ตั๋วไปเชียงใหม่หนึ่งใบ — นอนชั้นสอง</div>
+      <div class="e">One ticket to Chiang Mai — overnight sleeper, second class. <button class="tts-btn" data-text="One ticket to Chiang Mai — overnight sleeper, second class." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ตั๋วไปเชียงใหม่หนึ่งใบ — นอนชั้นสอง <button class="tts-btn thai" data-text="ตั๋วไปเชียงใหม่หนึ่งใบ — นอนชั้นสอง" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">dtǔa bpai chiang-mài nùeng bai — nawn chán sǎawng</div>
       <div class="note"><span class="ks">Sora:</span> ชั้น (chán) = class. ชั้นหนึ่ง = 1st class · ชั้นสอง = 2nd class · ชั้นสาม = 3rd class. นอน (nawn) = to sleep — signals you want a sleeper berth.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card001">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">What platform does the Chiang Mai train leave from?</div>
-      <div class="t">รถไฟไปเชียงใหม่ออกจากชานชาลาไหน?</div>
+      <div class="e">What platform does the Chiang Mai train leave from? <button class="tts-btn" data-text="What platform does the Chiang Mai train leave from?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">รถไฟไปเชียงใหม่ออกจากชานชาลาไหน? <button class="tts-btn thai" data-text="รถไฟไปเชียงใหม่ออกจากชานชาลาไหน?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">rót-fai bpai chiang-mài àawk jàak chaan-chaa-laa nǎi?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card002">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Is the train on time?</div>
-      <div class="t">รถไฟตรงเวลาไหม?</div>
+      <div class="e">Is the train on time? <button class="tts-btn" data-text="Is the train on time?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">รถไฟตรงเวลาไหม? <button class="tts-btn thai" data-text="รถไฟตรงเวลาไหม?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">rót-fai trong we-laa mǎi?</div>
       <div class="note"><span class="ks">Sora:</span> ตรงเวลา (trong we-laa) = on time. Literally "straight time." Thai trains are often delayed — don't plan a tight onward connection!</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card003">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">Which is my berth — upper or lower?</div>
-      <div class="t">เบอร์ของฉันเป็นเตียงบนหรือล่าง?</div>
+      <div class="e">Which is my berth — upper or lower? <button class="tts-btn" data-text="Which is my berth — upper or lower?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เบอร์ของฉันเป็นเตียงบนหรือล่าง? <button class="tts-btn thai" data-text="เบอร์ของฉันเป็นเตียงบนหรือล่าง?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">boe khǎawng chǎn bpen dtiang bon rǔe lâang?</div>
       <div class="note"><span class="ks">Sora:</span> เตียงบน (dtiang bon) = upper berth · เตียงล่าง (dtiang lâang) = lower berth. Lower berths cost more but are easier and have a window view during the day.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card004">☆ Save</button>
     </div>
   </div><!-- /train -->
 
@@ -364,32 +430,40 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">What time is the next bus to Chiang Mai?</div>
-      <div class="t">รถบัสไปเชียงใหม่คันต่อไปออกกี่โมง?</div>
+      <div class="e">What time is the next bus to Chiang Mai? <button class="tts-btn" data-text="What time is the next bus to Chiang Mai?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">รถบัสไปเชียงใหม่คันต่อไปออกกี่โมง? <button class="tts-btn thai" data-text="รถบัสไปเชียงใหม่คันต่อไปออกกี่โมง?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">rót-bàt bpai chiang-mài khan tàw bpai àawk gìi moong?</div>
       <div class="note"><span class="ks">Sora:</span> คัน (khan) = classifier for vehicles. คันต่อไป = the next one (vehicle).</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card005">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Does the bus go directly or does it stop?</div>
-      <div class="t">รถไปตรงหรือมีจอดระหว่างทาง?</div>
+      <div class="e">Does the bus go directly or does it stop? <button class="tts-btn" data-text="Does the bus go directly or does it stop?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">รถไปตรงหรือมีจอดระหว่างทาง? <button class="tts-btn thai" data-text="รถไปตรงหรือมีจอดระหว่างทาง?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">rót bpai trong rǔe mii jàwt rá-wàang thaang?</div>
       <div class="note"><span class="ks">Sora:</span> ระหว่างทาง (rá-wàang thaang) = along the way/en route. จอด (jàwt) = to stop (a vehicle).</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card006">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Can I store my big bag underneath?</div>
-      <div class="t">เก็บกระเป๋าใบใหญ่ไว้ข้างล่างได้ไหมคะ?</div>
+      <div class="e">Can I store my big bag underneath? <button class="tts-btn" data-text="Can I store my big bag underneath?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เก็บกระเป๋าใบใหญ่ไว้ข้างล่างได้ไหมคะ? <button class="tts-btn thai" data-text="เก็บกระเป๋าใบใหญ่ไว้ข้างล่างได้ไหมคะ?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">gèp grà-bpǎo bai yài wái khâang lâang dâai mǎi khâ?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card007">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">How long is the journey?</div>
-      <div class="t">ใช้เวลาเดินทางนานแค่ไหน?</div>
+      <div class="e">How long is the journey? <button class="tts-btn" data-text="How long is the journey?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ใช้เวลาเดินทางนานแค่ไหน? <button class="tts-btn thai" data-text="ใช้เวลาเดินทางนานแค่ไหน?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">chái we-laa doen-thaang naan khâe nǎi?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card008">☆ Save</button>
     </div>
   </div><!-- /bus -->
 
@@ -410,32 +484,40 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Which terminal does AirAsia use?</div>
-      <div class="t">แอร์เอเชียใช้เทอร์มินอลไหน?</div>
+      <div class="e">Which terminal does AirAsia use? <button class="tts-btn" data-text="Which terminal does AirAsia use?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">แอร์เอเชียใช้เทอร์มินอลไหน? <button class="tts-btn thai" data-text="แอร์เอเชียใช้เทอร์มินอลไหน?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">ae-aa-chia chái thôe-mí-nâwl nǎi?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card009">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">My flight is delayed — how long?</div>
-      <div class="t">เที่ยวบินดีเลย์ — นานแค่ไหน?</div>
+      <div class="e">My flight is delayed — how long? <button class="tts-btn" data-text="My flight is delayed — how long?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เที่ยวบินดีเลย์ — นานแค่ไหน? <button class="tts-btn thai" data-text="เที่ยวบินดีเลย์ — นานแค่ไหน?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">thîao-bin dii-lei — naan khâe nǎi?</div>
       <div class="note"><span class="ks">Sora:</span> เที่ยวบิน (thîao-bin) = flight. ดีเลย์ (dii-lei) = delayed (from English). นานแค่ไหน = how long?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card010">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Where is the check-in counter for Thai Airways?</div>
-      <div class="t">เคาน์เตอร์เช็กอินของการบินไทยอยู่ที่ไหน?</div>
+      <div class="e">Where is the check-in counter for Thai Airways? <button class="tts-btn" data-text="Where is the check-in counter for Thai Airways?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เคาน์เตอร์เช็กอินของการบินไทยอยู่ที่ไหน? <button class="tts-btn thai" data-text="เคาน์เตอร์เช็กอินของการบินไทยอยู่ที่ไหน?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khao-dtôe chék-in khǎawng gaan-bin-thai yùu thîi-nǎi?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card011">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">My baggage is overweight — how much is the charge?</div>
-      <div class="t">กระเป๋าน้ำหนักเกิน — ต้องจ่ายเพิ่มเท่าไหร่?</div>
+      <div class="e">My baggage is overweight — how much is the charge? <button class="tts-btn" data-text="My baggage is overweight — how much is the charge?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">กระเป๋าน้ำหนักเกิน — ต้องจ่ายเพิ่มเท่าไหร่? <button class="tts-btn thai" data-text="กระเป๋าน้ำหนักเกิน — ต้องจ่ายเพิ่มเท่าไหร่?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">grà-bpǎo nám-nàk goen — tâwng jàai phêm thâo-rài?</div>
       <div class="note"><span class="ks">Sora:</span> น้ำหนักเกิน (nám-nàk goen) = overweight (luggage). เกิน (goen) = over/excess. เสียค่าธรรมเนียม (sǐa khâa-tham-niam) = to pay a fee.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card012">☆ Save</button>
     </div>
   </div><!-- /flight -->
 
@@ -455,49 +537,61 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">What time does the overnight train to Chiang Mai depart?</div>
-      <div class="t">รถไฟกลางคืนไปเชียงใหม่ออกกี่โมง?</div>
+      <div class="e">What time does the overnight train to Chiang Mai depart? <button class="tts-btn" data-text="What time does the overnight train to Chiang Mai depart?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">รถไฟกลางคืนไปเชียงใหม่ออกกี่โมง? <button class="tts-btn thai" data-text="รถไฟกลางคืนไปเชียงใหม่ออกกี่โมง?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">rót-fai glaang-khuen bpai chiang-mài àawk gìi moong?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card013">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">I'd like a lower berth — is one available?</div>
-      <div class="t">อยากได้เตียงล่าง — มีว่างไหมคะ?</div>
+      <div class="e">I'd like a lower berth — is one available? <button class="tts-btn" data-text="I&#x27;d like a lower berth — is one available?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">อยากได้เตียงล่าง — มีว่างไหมคะ? <button class="tts-btn thai" data-text="อยากได้เตียงล่าง — มีว่างไหมคะ?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">yàak dâai dtiang lâang — mii wâang mǎi khâ?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card014">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">When will the beds be made up?</div>
-      <div class="t">พนักงานจะปูเตียงให้เมื่อไหร่?</div>
+      <div class="e">When will the beds be made up? <button class="tts-btn" data-text="When will the beds be made up?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">พนักงานจะปูเตียงให้เมื่อไหร่? <button class="tts-btn thai" data-text="พนักงานจะปูเตียงให้เมื่อไหร่?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">phá-nák-ngaan jà bpuu dtiang hâi mûea-rài?</div>
       <div class="note"><span class="ks">Sora:</span> ปูเตียง (bpuu dtiang) = to make the bed. พนักงาน (phá-nák-ngaan) = staff/employee. Usually around 9pm on overnight trains.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card015">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">Is there food on the train?</div>
-      <div class="t">บนรถไฟมีอาหารไหมคะ?</div>
+      <div class="e">Is there food on the train? <button class="tts-btn" data-text="Is there food on the train?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">บนรถไฟมีอาหารไหมคะ? <button class="tts-btn thai" data-text="บนรถไฟมีอาหารไหมคะ?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">bon rót-fai mii aa-hǎan mǎi khâ?</div>
       <div class="note"><span class="ks">Sora:</span> There's usually a dining car (ตู้อาหาร — dtûu aa-hǎan) and a vendor who walks through selling snacks. Bring your own food too — the options improve at station stops en route.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card016">☆ Save</button>
     </div>
 
     <div class="grp">Overnight Bus Tips</div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">05</div>
-      <div class="e">The overnight bus to Phuket takes about 13 hours.</div>
-      <div class="t">รถบัสกลางคืนไปภูเก็ตใช้เวลาประมาณ 13 ชั่วโมง</div>
+      <div class="e">The overnight bus to Phuket takes about 13 hours. <button class="tts-btn" data-text="The overnight bus to Phuket takes about 13 hours." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">รถบัสกลางคืนไปภูเก็ตใช้เวลาประมาณ 13 ชั่วโมง <button class="tts-btn thai" data-text="รถบัสกลางคืนไปภูเก็ตใช้เวลาประมาณ 13 ชั่วโมง" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">rót-bàt glaang-khuen bpai phuu-gèt chái we-laa bprà-maan sìp-sǎam chûa-moong</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card017">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">06</div>
-      <div class="e">Please wake me up before we arrive.</div>
-      <div class="t">ช่วยปลุกก่อนถึงจุดหมายนะคะ</div>
+      <div class="e">Please wake me up before we arrive. <button class="tts-btn" data-text="Please wake me up before we arrive." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ช่วยปลุกก่อนถึงจุดหมายนะคะ <button class="tts-btn thai" data-text="ช่วยปลุกก่อนถึงจุดหมายนะคะ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">chûay bplùk gàawn thǔeng jùt-mǎai ná khâ</div>
       <div class="note"><span class="ks">Sora:</span> ปลุก (bplùk) = to wake someone up. จุดหมาย (jùt-mǎai) = destination. Very useful on overnight buses — say this to the driver's assistant (พนักงาน) before you sleep.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card018">☆ Save</button>
     </div>
   </div><!-- /overnight -->
 
@@ -556,40 +650,50 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">How much to the old city?</div>
-      <div class="t">ไปเมืองเก่าเท่าไหร่?</div>
+      <div class="e">How much to the old city? <button class="tts-btn" data-text="How much to the old city?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ไปเมืองเก่าเท่าไหร่? <button class="tts-btn thai" data-text="ไปเมืองเก่าเท่าไหร่?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">bpai mueang-gào thâo-rài?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card019">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">That's too expensive — 60 baht is enough.</div>
-      <div class="t">แพงไปหน่อย — 60 บาทพอนะคะ</div>
+      <div class="e">That's too expensive — 60 baht is enough. <button class="tts-btn" data-text="That&#x27;s too expensive — 60 baht is enough." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">แพงไปหน่อย — 60 บาทพอนะคะ <button class="tts-btn thai" data-text="แพงไปหน่อย — 60 บาทพอนะคะ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">phaeng bpai nàwy — hòk-sìp bàat phaw ná khâ</div>
       <div class="note"><span class="ks">Sora:</span> บาท (bàat) = Thai baht. พอ (phaw) = enough/sufficient. A firm but polite way to counter-offer in a tuk-tuk negotiation.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card020">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Please go slowly — I'm scared!</div>
-      <div class="t">ขับช้าๆ หน่อยนะคะ — กลัวอยู่!</div>
+      <div class="e">Please go slowly — I'm scared! <button class="tts-btn" data-text="Please go slowly — I&#x27;m scared!" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ขับช้าๆ หน่อยนะคะ — กลัวอยู่! <button class="tts-btn thai" data-text="ขับช้าๆ หน่อยนะคะ — กลัวอยู่!" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khàp châa-châa nàwy ná khâ — glua yùu!</div>
       <div class="note"><span class="ks">Sora:</span> ขับ (khàp) = to drive. กลัว (glua) = scared/afraid. Motorbike taxi drivers sometimes need reminding that passengers are human!</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card021">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">Stop here please — this is fine.</div>
-      <div class="t">จอดตรงนี้เลยนะคะ — โอเคแล้ว</div>
+      <div class="e">Stop here please — this is fine. <button class="tts-btn" data-text="Stop here please — this is fine." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">จอดตรงนี้เลยนะคะ — โอเคแล้ว <button class="tts-btn thai" data-text="จอดตรงนี้เลยนะคะ — โอเคแล้ว" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">jàwt trong níi looei ná khâ — oh-khee láaew</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card022">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">05</div>
-      <div class="e">Use the meter please.</div>
-      <div class="t">เปิดมิเตอร์ด้วยนะคะ</div>
+      <div class="e">Use the meter please. <button class="tts-btn" data-text="Use the meter please." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เปิดมิเตอร์ด้วยนะคะ <button class="tts-btn thai" data-text="เปิดมิเตอร์ด้วยนะคะ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">bpòet mí-dtôe dûay ná khâ</div>
       <div class="note"><span class="ks">Sora:</span> Essential for Bangkok taxis. Some drivers prefer to negotiate a flat fare — always insist on the meter, which is almost always cheaper. เปิด (bpòet) = to open/turn on.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol14-card023">☆ Save</button>
     </div>
   </div><!-- /local -->
 
@@ -711,6 +815,109 @@
       pop.classList.remove('popen'); btn.classList.remove('pactive');
     }
   });
+</script>
+
+
+<!-- KRU-FEATURES-v1 -->
+<a class="notes-pill" href="my-saved-note.html">🔖 My Notes</a>
+
+<script>
+(function() {
+  /* ── TTS ── */
+  function ttsSpeak(text, lang) {
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    setTimeout(function() {
+      if (speechSynthesis.paused) speechSynthesis.resume();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang  = lang;
+      u.rate  = 0.9;
+      speechSynthesis.speak(u);
+    }, 50);
+  }
+
+  document.querySelectorAll('.tts-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var me = this;
+      me.classList.add('speaking');
+      ttsSpeak(me.dataset.text, me.dataset.lang);
+      setTimeout(function() { me.classList.remove('speaking'); }, 2500);
+    });
+  });
+
+  /* ── BOOKMARK ── */
+  function getCards() {
+    try { return JSON.parse(localStorage.getItem('kruexchange_saved_cards') || '[]'); }
+    catch (e) { return []; }
+  }
+  function saveCards(arr) {
+    localStorage.setItem('kruexchange_saved_cards', JSON.stringify(arr));
+  }
+
+  function fireworks(btn) {
+    var rect = btn.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top  + rect.height / 2;
+    for (var i = 0; i < 8; i++) {
+      (function(i) {
+        var spark = document.createElement('span');
+        spark.textContent = '✦';
+        spark.style.cssText =
+          'position:fixed;left:' + cx + 'px;top:' + cy + 'px;pointer-events:none;' +
+          'color:#c8943a;font-size:0.9rem;z-index:9999;' +
+          'transition:all 0.6s ease-out;opacity:1;';
+        document.body.appendChild(spark);
+        var angle = (i / 8) * 2 * Math.PI;
+        var dist  = 40 + Math.random() * 20;
+        var dx    = Math.cos(angle) * dist;
+        var dy    = Math.sin(angle) * dist;
+        requestAnimationFrame(function() {
+          spark.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+          spark.style.opacity   = '0';
+          setTimeout(function() { spark.remove(); }, 650);
+        });
+      })(i);
+    }
+  }
+
+  document.querySelectorAll('.bookmark-btn').forEach(function(btn) {
+    var id    = btn.dataset.id;
+    var saved = getCards();
+    if (saved.some(function(c) { return c.id === id; })) {
+      btn.classList.add('saved');
+      btn.textContent = '★ Saved';
+    }
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var cards = getCards();
+      var idx   = cards.findIndex(function(c) { return c.id === id; });
+      if (idx >= 0) {
+        cards.splice(idx, 1);
+        btn.classList.remove('saved');
+        btn.textContent = '☆ Save';
+      } else {
+        var card = btn.closest('.card');
+        function txt(a, b) {
+          var el = card.querySelector(a) || card.querySelector(b);
+          return el ? el.textContent.trim() : '';
+        }
+        cards.push({
+          id:    id,
+          eng:   txt('.e',  '.eng'),
+          thai:  txt('.t',  '.thai-script'),
+          roman: txt('.r',  '.roman'),
+          vol:   document.title,
+          saved: Date.now()
+        });
+        btn.classList.add('saved');
+        btn.textContent = '★ Saved';
+        fireworks(btn);
+      }
+      saveCards(cards);
+    });
+  });
+})();
 </script>
 
 </body>

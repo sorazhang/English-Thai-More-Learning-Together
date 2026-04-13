@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>English ↔ Thai · Vol. 22</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Yeseva+One&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Yeseva+One&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
   :root {
     --bg: #f4f0e8;
@@ -335,6 +335,64 @@
   .pp-lnk.here  .pp-nm { color: #b83010; }
   .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
   .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+
+/* KRU-FEATURES-v1 */
+
+/* ── TTS BUTTONS ── */
+.tts-btn {
+  background: none;
+  border: 1px solid rgba(42,92,138,0.3);
+  border-radius: 99px;
+  padding: 0.13rem 0.55rem;
+  font-size: 0.62rem;
+  cursor: pointer;
+  color: rgba(42,92,138,0.65);
+  transition: all 0.15s;
+  margin-left: 0.45rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+.tts-btn.thai {
+  border-color: rgba(138,32,64,0.3);
+  color: rgba(138,32,64,0.65);
+}
+.tts-btn:hover { opacity: 0.85; transform: scale(1.05); }
+.tts-btn.speaking { opacity: 0.5; }
+
+/* ── BOOKMARK BUTTON ── */
+.card { position: relative !important; }
+.bookmark-btn {
+  position: absolute;
+  bottom: 0.6rem; right: 0.7rem;
+  background: none;
+  border: 1px solid rgba(184,120,32,0.3);
+  border-radius: 99px;
+  padding: 0.18rem 0.6rem;
+  font-size: 0.68rem;
+  cursor: pointer;
+  color: rgba(184,120,32,0.5);
+  transition: all 0.2s;
+  z-index: 10;
+}
+.bookmark-btn:hover { color: #c8943a; border-color: rgba(184,120,32,0.6); }
+.bookmark-btn.saved { color: #c8943a; border-color: #c8943a; }
+
+/* ── FLOATING NOTES PILL ── */
+.notes-pill {
+  position: fixed; bottom: 1.6rem; left: 1.6rem;
+  background: rgba(184,120,32,0.15);
+  border: 1px solid rgba(184,120,32,0.4);
+  color: #c8943a;
+  border-radius: 99px;
+  padding: 0.55rem 1.05rem;
+  font-size: 0.72rem; font-weight: 700;
+  text-decoration: none;
+  z-index: 300;
+  transition: all 0.2s;
+}
+.notes-pill:hover { background: rgba(184,120,32,0.25); }
+
 </style>
 </head>
 <body>
@@ -516,34 +574,42 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Can I choose my own fish from the tank?</div>
-      <div class="t">ขอเลือกปลาเองจากตู้ได้ไหมคะ?</div>
+      <div class="e">Can I choose my own fish from the tank? <button class="tts-btn" data-text="Can I choose my own fish from the tank?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ขอเลือกปลาเองจากตู้ได้ไหมคะ? <button class="tts-btn thai" data-text="ขอเลือกปลาเองจากตู้ได้ไหมคะ?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khǎaw lûeak bplaa eeng jàak dtûu dâai mǎi khâ?</div>
       <div class="note"><span class="ks">Sora:</span> เลือก (lûeak) = to choose/select. ตู้ (dtûu) = tank/cabinet. At good seafood restaurants, you pick your live fish, crab, or prawns directly from the tank and they cook it fresh.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol22-card001">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">How much is this per kilogram?</div>
-      <div class="t">อันนี้กิโลละเท่าไหร่คะ?</div>
+      <div class="e">How much is this per kilogram? <button class="tts-btn" data-text="How much is this per kilogram?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">อันนี้กิโลละเท่าไหร่คะ? <button class="tts-btn thai" data-text="อันนี้กิโลละเท่าไหร่คะ?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">an níi gi-loo lá thâo-rài khâ?</div>
       <div class="note"><span class="ks">Sora:</span> กิโล (gi-loo) = kilogram. ละ (lá) = per. Live seafood is priced by weight — always ask before they cook it!</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol22-card002">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Can you cook it steamed with lime and chilli?</div>
-      <div class="t">ขอทำแบบนึ่งมะนาวพริกได้ไหมคะ?</div>
+      <div class="e">Can you cook it steamed with lime and chilli? <button class="tts-btn" data-text="Can you cook it steamed with lime and chilli?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ขอทำแบบนึ่งมะนาวพริกได้ไหมคะ? <button class="tts-btn thai" data-text="ขอทำแบบนึ่งมะนาวพริกได้ไหมคะ?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khǎaw tham bàaep nûeng má-naao phrík dâai mǎi khâ?</div>
       <div class="note"><span class="ks">Sora:</span> นึ่ง (nûeng) = steamed. This is the classic way to eat whole fish in Thailand — steamed with lime, chilli, garlic, and fish sauce. Light, bright, and lets the fresh fish shine.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol22-card003">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">Stir-fried with salted egg, please.</div>
-      <div class="t">ผัดไข่เค็มนะคะ</div>
+      <div class="e">Stir-fried with salted egg, please. <button class="tts-btn" data-text="Stir-fried with salted egg, please." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ผัดไข่เค็มนะคะ <button class="tts-btn thai" data-text="ผัดไข่เค็มนะคะ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">phàt khài khem ná khâ</div>
       <div class="note"><span class="ks">Sora:</span> ไข่เค็ม (khài khem) = salted egg. One of the south's favourite preparations — prawns, crab, or squid stir-fried with salted egg yolk and butter. Rich, salty, addictive.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol22-card004">☆ Save</button>
     </div>
 
     <div class="grp">Famous Seafood Dishes</div>
@@ -658,24 +724,30 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Is this Halal?</div>
-      <div class="t">อาหารนี้ฮาลาลไหมคะ?</div>
+      <div class="e">Is this Halal? <button class="tts-btn" data-text="Is this Halal?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">อาหารนี้ฮาลาลไหมคะ? <button class="tts-btn thai" data-text="อาหารนี้ฮาลาลไหมคะ?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">aa-hǎan níi haa-laan mǎi khâ?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol22-card005">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">I don't eat pork.</div>
-      <div class="t">ฉันไม่กินหมูค่ะ</div>
+      <div class="e">I don't eat pork. <button class="tts-btn" data-text="I don&#x27;t eat pork." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ฉันไม่กินหมูค่ะ <button class="tts-btn thai" data-text="ฉันไม่กินหมูค่ะ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">chǎn mâi gin mǔu khâ</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol22-card006">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">One roti with condensed milk please.</div>
-      <div class="t">โรตีนมข้นหนึ่งที่ค่ะ</div>
+      <div class="e">One roti with condensed milk please. <button class="tts-btn" data-text="One roti with condensed milk please." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">โรตีนมข้นหนึ่งที่ค่ะ <button class="tts-btn thai" data-text="โรตีนมข้นหนึ่งที่ค่ะ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">roo-dtii nom-khôn nùeng thîi khâ</div>
       <div class="note"><span class="ks">Sora:</span> นมข้น (nom-khôn) = condensed milk. นม (nom) = milk · ข้น (khôn) = thick/condensed.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol22-card007">☆ Save</button>
     </div>
 
   </div><!-- /muslim -->
@@ -742,10 +814,12 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Spicy and delicious! (Southern compliment)</div>
-      <div class="t">เผ็ดแซบมากเลย!</div>
+      <div class="e">Spicy and delicious! (Southern compliment) <button class="tts-btn" data-text="Spicy and delicious! (Southern compliment)" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เผ็ดแซบมากเลย! <button class="tts-btn thai" data-text="เผ็ดแซบมากเลย!" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">phèt sâaep mâak looei!</div>
       <div class="note"><span class="ks">Sora:</span> แซบ (sâaep) = delicious in the southern and northeastern dialects. If you say this to a southerner after eating their food — especially something fiery — they will absolutely love you for it.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol22-card008">☆ Save</button>
     </div>
 
   </div><!-- /southvocab -->
@@ -869,6 +943,109 @@
       pop.classList.remove('popen'); btn.classList.remove('pactive');
     }
   });
+</script>
+
+
+<!-- KRU-FEATURES-v1 -->
+<a class="notes-pill" href="my-saved-note.html">🔖 My Notes</a>
+
+<script>
+(function() {
+  /* ── TTS ── */
+  function ttsSpeak(text, lang) {
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    setTimeout(function() {
+      if (speechSynthesis.paused) speechSynthesis.resume();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang  = lang;
+      u.rate  = 0.9;
+      speechSynthesis.speak(u);
+    }, 50);
+  }
+
+  document.querySelectorAll('.tts-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var me = this;
+      me.classList.add('speaking');
+      ttsSpeak(me.dataset.text, me.dataset.lang);
+      setTimeout(function() { me.classList.remove('speaking'); }, 2500);
+    });
+  });
+
+  /* ── BOOKMARK ── */
+  function getCards() {
+    try { return JSON.parse(localStorage.getItem('kruexchange_saved_cards') || '[]'); }
+    catch (e) { return []; }
+  }
+  function saveCards(arr) {
+    localStorage.setItem('kruexchange_saved_cards', JSON.stringify(arr));
+  }
+
+  function fireworks(btn) {
+    var rect = btn.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top  + rect.height / 2;
+    for (var i = 0; i < 8; i++) {
+      (function(i) {
+        var spark = document.createElement('span');
+        spark.textContent = '✦';
+        spark.style.cssText =
+          'position:fixed;left:' + cx + 'px;top:' + cy + 'px;pointer-events:none;' +
+          'color:#c8943a;font-size:0.9rem;z-index:9999;' +
+          'transition:all 0.6s ease-out;opacity:1;';
+        document.body.appendChild(spark);
+        var angle = (i / 8) * 2 * Math.PI;
+        var dist  = 40 + Math.random() * 20;
+        var dx    = Math.cos(angle) * dist;
+        var dy    = Math.sin(angle) * dist;
+        requestAnimationFrame(function() {
+          spark.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+          spark.style.opacity   = '0';
+          setTimeout(function() { spark.remove(); }, 650);
+        });
+      })(i);
+    }
+  }
+
+  document.querySelectorAll('.bookmark-btn').forEach(function(btn) {
+    var id    = btn.dataset.id;
+    var saved = getCards();
+    if (saved.some(function(c) { return c.id === id; })) {
+      btn.classList.add('saved');
+      btn.textContent = '★ Saved';
+    }
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var cards = getCards();
+      var idx   = cards.findIndex(function(c) { return c.id === id; });
+      if (idx >= 0) {
+        cards.splice(idx, 1);
+        btn.classList.remove('saved');
+        btn.textContent = '☆ Save';
+      } else {
+        var card = btn.closest('.card');
+        function txt(a, b) {
+          var el = card.querySelector(a) || card.querySelector(b);
+          return el ? el.textContent.trim() : '';
+        }
+        cards.push({
+          id:    id,
+          eng:   txt('.e',  '.eng'),
+          thai:  txt('.t',  '.thai-script'),
+          roman: txt('.r',  '.roman'),
+          vol:   document.title,
+          saved: Date.now()
+        });
+        btn.classList.add('saved');
+        btn.textContent = '★ Saved';
+        fireworks(btn);
+      }
+      saveCards(cards);
+    });
+  });
+})();
 </script>
 
 </body>

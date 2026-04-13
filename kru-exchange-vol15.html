@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>English ↔ Thai · Vol. 15 · Thai Festivals</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
   :root {
     --bg: #faf7f2;
@@ -168,6 +168,64 @@
   .pp-lnk.here  .pp-nm { color: #b83010; }
   .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
   .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+
+/* KRU-FEATURES-v1 */
+
+/* ── TTS BUTTONS ── */
+.tts-btn {
+  background: none;
+  border: 1px solid rgba(42,92,138,0.3);
+  border-radius: 99px;
+  padding: 0.13rem 0.55rem;
+  font-size: 0.62rem;
+  cursor: pointer;
+  color: rgba(42,92,138,0.65);
+  transition: all 0.15s;
+  margin-left: 0.45rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+.tts-btn.thai {
+  border-color: rgba(138,32,64,0.3);
+  color: rgba(138,32,64,0.65);
+}
+.tts-btn:hover { opacity: 0.85; transform: scale(1.05); }
+.tts-btn.speaking { opacity: 0.5; }
+
+/* ── BOOKMARK BUTTON ── */
+.card { position: relative !important; }
+.bookmark-btn {
+  position: absolute;
+  bottom: 0.6rem; right: 0.7rem;
+  background: none;
+  border: 1px solid rgba(184,120,32,0.3);
+  border-radius: 99px;
+  padding: 0.18rem 0.6rem;
+  font-size: 0.68rem;
+  cursor: pointer;
+  color: rgba(184,120,32,0.5);
+  transition: all 0.2s;
+  z-index: 10;
+}
+.bookmark-btn:hover { color: #c8943a; border-color: rgba(184,120,32,0.6); }
+.bookmark-btn.saved { color: #c8943a; border-color: #c8943a; }
+
+/* ── FLOATING NOTES PILL ── */
+.notes-pill {
+  position: fixed; bottom: 1.6rem; left: 1.6rem;
+  background: rgba(184,120,32,0.15);
+  border: 1px solid rgba(184,120,32,0.4);
+  color: #c8943a;
+  border-radius: 99px;
+  padding: 0.55rem 1.05rem;
+  font-size: 0.72rem; font-weight: 700;
+  text-decoration: none;
+  z-index: 300;
+  transition: all 0.2s;
+}
+.notes-pill:hover { background: rgba(184,120,32,0.25); }
+
 </style>
 </head>
 <body>
@@ -227,34 +285,42 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Are you going back home for Songkran?</div>
-      <div class="t">กลับบ้านเล่นสงกรานต์ไหม?</div>
+      <div class="e">Are you going back home for Songkran? <button class="tts-btn" data-text="Are you going back home for Songkran?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">กลับบ้านเล่นสงกรานต์ไหม? <button class="tts-btn thai" data-text="กลับบ้านเล่นสงกรานต์ไหม?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">glàp bâan lên sǒng-graan mǎi?</div>
       <div class="note"><span class="ks">Sora:</span> กลับบ้าน (glàp bâan) = go back home. One of the most common questions during April — Thais travel home for Songkran the way other cultures travel for Christmas.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol15-card001">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">I got soaked from head to toe — it was amazing.</div>
-      <div class="t">โดนสาดน้ำเปียกหมดเลย — สนุกมาก</div>
+      <div class="e">I got soaked from head to toe — it was amazing. <button class="tts-btn" data-text="I got soaked from head to toe — it was amazing." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">โดนสาดน้ำเปียกหมดเลย — สนุกมาก <button class="tts-btn thai" data-text="โดนสาดน้ำเปียกหมดเลย — สนุกมาก" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">doon sàat nám bpìak mòt looei — sà-nùk mâak</div>
       <div class="note"><span class="ks">Sora:</span> โดน (doon) = to get/receive something (often unintentional). เปียก (bpìak) = wet. เปียกหมดเลย = completely soaked.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol15-card002">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">During Songkran, we pour water on our elders' hands to ask for their blessing.</div>
-      <div class="t">ในสงกรานต์ เราจะรดน้ำมือผู้ใหญ่เพื่อขอพร</div>
+      <div class="e">During Songkran, we pour water on our elders' hands to ask for their blessing. <button class="tts-btn" data-text="During Songkran, we pour water on our elders&#x27; hands to ask for their blessing." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ในสงกรานต์ เราจะรดน้ำมือผู้ใหญ่เพื่อขอพร <button class="tts-btn thai" data-text="ในสงกรานต์ เราจะรดน้ำมือผู้ใหญ่เพื่อขอพร" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">nai sǒng-graan — rao jà rót nám mue phûu-yài phûea khǎaw phoon</div>
       <div class="note"><span class="ke">Kru:</span> This is the cultural heart of Songkran. The water fight is the fun part — but the blessing ceremony is what makes it meaningful. Teaching this to students builds real respect for Thai culture.<br><span class="ks">Sora:</span> ขอพร (khǎaw phoon) = ask for a blessing.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol15-card003">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">No camera? Everything is going to get wet!</div>
-      <div class="t">ไม่มีกล้องเหรอ? ทุกอย่างจะเปียกหมดแน่นอน!</div>
+      <div class="e">No camera? Everything is going to get wet! <button class="tts-btn" data-text="No camera? Everything is going to get wet!" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ไม่มีกล้องเหรอ? ทุกอย่างจะเปียกหมดแน่นอน! <button class="tts-btn thai" data-text="ไม่มีกล้องเหรอ? ทุกอย่างจะเปียกหมดแน่นอน!" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">mâi mii glâawng rǒe? thúk yàang jà bpìak mòt nâae-nawn!</div>
       <div class="note"><span class="ks">Sora:</span> แน่นอน (nâae-nawn) = definitely / of course. Essential Songkran advice — waterproof bag everything!</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol15-card004">☆ Save</button>
     </div>
   </div>
 
@@ -290,26 +356,32 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Have you ever floated a krathong before?</div>
-      <div class="t">เคยลอยกระทงไหม?</div>
+      <div class="e">Have you ever floated a krathong before? <button class="tts-btn" data-text="Have you ever floated a krathong before?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เคยลอยกระทงไหม? <button class="tts-btn thai" data-text="เคยลอยกระทงไหม?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khoei loi grà-thong mǎi?</div>
       <div class="note"><span class="ks">Sora:</span> เคย...ไหม (khoei...mǎi) = have you ever...? A beautiful question structure. เคยไปไหม = have you ever been? เคยกินไหม = have you ever eaten?</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol15-card005">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">The moment you release the lantern and watch it rise — it's impossible to describe.</div>
-      <div class="t">ตอนที่ปล่อยโคมลอยแล้วดูมันลอยขึ้น — บอกไม่ถูกเลย</div>
+      <div class="e">The moment you release the lantern and watch it rise — it's impossible to describe. <button class="tts-btn" data-text="The moment you release the lantern and watch it rise — it&#x27;s impossible to describe." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ตอนที่ปล่อยโคมลอยแล้วดูมันลอยขึ้น — บอกไม่ถูกเลย <button class="tts-btn thai" data-text="ตอนที่ปล่อยโคมลอยแล้วดูมันลอยขึ้น — บอกไม่ถูกเลย" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">tawn thîi bplàwy khoom loi láaew duu man loi khûen — bàawk mâi thùuk looei</div>
       <div class="note"><span class="ks">Sora:</span> บอกไม่ถูก (bàawk mâi thùuk) = can't describe / words can't do it justice. A wonderfully expressive phrase.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol15-card006">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">What do you wish for when you float the krathong?</div>
-      <div class="t">ตอนลอยกระทงอธิษฐานขออะไร?</div>
+      <div class="e">What do you wish for when you float the krathong? <button class="tts-btn" data-text="What do you wish for when you float the krathong?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ตอนลอยกระทงอธิษฐานขออะไร? <button class="tts-btn thai" data-text="ตอนลอยกระทงอธิษฐานขออะไร?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">tawn loi grà-thong à-thít-thǎan khǎaw à-rai?</div>
       <div class="note"><span class="ks">Sora:</span> ขออะไร (khǎaw à-rai) = what do you wish for / ask for? ขอ (khǎaw) = to ask for / wish for.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol15-card007">☆ Save</button>
     </div>
   </div>
 
@@ -338,26 +410,32 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Happy New Year! Wishing you health, happiness, and success.</div>
-      <div class="t">สวัสดีปีใหม่! ขอให้มีสุขภาพดี มีความสุข และประสบความสำเร็จ</div>
+      <div class="e">Happy New Year! Wishing you health, happiness, and success. <button class="tts-btn" data-text="Happy New Year! Wishing you health, happiness, and success." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">สวัสดีปีใหม่! ขอให้มีสุขภาพดี มีความสุข และประสบความสำเร็จ <button class="tts-btn thai" data-text="สวัสดีปีใหม่! ขอให้มีสุขภาพดี มีความสุข และประสบความสำเร็จ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">sà-wàt-dii bpii-mài! khǎaw hâi mii sùk-khà-phâap dii — mii khwaam-sùk — láe bprà-sòp khwaam-sǎm-rèt</div>
       <div class="note"><span class="ks">Sora:</span> ประสบความสำเร็จ (bprà-sòp khwaam-sǎm-rèt) = achieve success. This three-part wish (health + happiness + success) is the classic Thai New Year greeting format.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol15-card008">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">What are your plans for New Year?</div>
-      <div class="t">ปีใหม่นี้มีแผนอะไรบ้าง?</div>
+      <div class="e">What are your plans for New Year? <button class="tts-btn" data-text="What are your plans for New Year?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ปีใหม่นี้มีแผนอะไรบ้าง? <button class="tts-btn thai" data-text="ปีใหม่นี้มีแผนอะไรบ้าง?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">bpii-mài níi mii phǎaen à-rai bâang?</div>
       <div class="note"><span class="ks">Sora:</span> มีแผน (mii phǎaen) = have plans. บ้าง (bâang) softens the question — it's asking "any plans at all?" rather than demanding a specific answer.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol15-card009">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">In Thailand, we actually celebrate New Year three times — January, Chinese New Year, and Songkran.</div>
-      <div class="t">ในไทย เราฉลองปีใหม่ถึงสามครั้ง — มกราคม ตรุษจีน และสงกรานต์</div>
+      <div class="e">In Thailand, we actually celebrate New Year three times — January, Chinese New Year, and Songkran. <button class="tts-btn" data-text="In Thailand, we actually celebrate New Year three times — January, Chinese New Year, and Songkran." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ในไทย เราฉลองปีใหม่ถึงสามครั้ง — มกราคม ตรุษจีน และสงกรานต์ <button class="tts-btn thai" data-text="ในไทย เราฉลองปีใหม่ถึงสามครั้ง — มกราคม ตรุษจีน และสงกรานต์" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">nai thai — rao chà-lawng bpii-mài thǔeng sǎam khráng — mók-graa-khom — trùt-jiin — láe sǒng-graan</div>
       <div class="note"><span class="ke">Kru:</span> This always surprises international students. Thailand's multicultural calendar means three full New Year celebrations — and Thais take all three seriously.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol15-card010">☆ Save</button>
     </div>
   </div>
 
@@ -418,28 +496,32 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Have a safe trip — take care of yourself!</div>
-      <div class="t">ขอให้เดินทางปลอดภัยนะ — ดูแลตัวเองด้วย!</div>
+      <div class="e">Have a safe trip — take care of yourself! <button class="tts-btn" data-text="Have a safe trip — take care of yourself!" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ขอให้เดินทางปลอดภัยนะ — ดูแลตัวเองด้วย! <button class="tts-btn thai" data-text="ขอให้เดินทางปลอดภัยนะ — ดูแลตัวเองด้วย!" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khǎaw hâi doen-thaang bplàawt-phai ná — duu-lae tua-eeng dûay!</div>
       <div class="note"><span class="ke">Kru:</span> This is one of the most used departing phrases in Thai — always said to someone leaving for a journey. ดูแลตัวเอง (duu-lae tua-eeng) = take care of yourself.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol15-card011">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Happy birthday — may all your wishes come true.</div>
-      <div class="t">สุขสันต์วันเกิด — ขอให้สมหวังทุกอย่าง</div>
+      <div class="e">Happy birthday — may all your wishes come true. <button class="tts-btn" data-text="Happy birthday — may all your wishes come true." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">สุขสันต์วันเกิด — ขอให้สมหวังทุกอย่าง <button class="tts-btn thai" data-text="สุขสันต์วันเกิด — ขอให้สมหวังทุกอย่าง" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">sùk-sǎn wan gòet — khǎaw hâi sǒm-wǎng thúk yàang</td></tr>
       <div class="note"><span class="ks">Sora:</span> สุขสันต์วันเกิด (sùk-sǎn wan gòet) = happy birthday. สมหวัง (sǒm-wǎng) = to have wishes fulfilled — from สม (fitting/matching) + หวัง (hope).</div>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Good luck in the fight — I'm rooting for you!</div>
-      <div class="t">ขอให้ชนะนะ — เชียร์อยู่เลย!</div>
+      <div class="e">Good luck in the fight — I'm rooting for you! <button class="tts-btn" data-text="Good luck in the fight — I&#x27;m rooting for you!" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ขอให้ชนะนะ — เชียร์อยู่เลย! <button class="tts-btn thai" data-text="ขอให้ชนะนะ — เชียร์อยู่เลย!" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khǎaw hâi chá-ná ná — chiia yùu looei!</div>
       <div class="note"><span class="ks">Sora:</span> เชียร์ (chiia) = to cheer / root for someone. From English "cheer" — one of many English loan words in Thai sports culture.</div>
     </div>
-  </div>
+  
+      <button class="bookmark-btn" data-id="kru_exchange_vol15-card012">☆ Save</button>
+    </div>
 
 </div>
 
@@ -571,6 +653,109 @@
       pop.classList.remove('popen'); btn.classList.remove('pactive');
     }
   });
+</script>
+
+
+<!-- KRU-FEATURES-v1 -->
+<a class="notes-pill" href="my-saved-note.html">🔖 My Notes</a>
+
+<script>
+(function() {
+  /* ── TTS ── */
+  function ttsSpeak(text, lang) {
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    setTimeout(function() {
+      if (speechSynthesis.paused) speechSynthesis.resume();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang  = lang;
+      u.rate  = 0.9;
+      speechSynthesis.speak(u);
+    }, 50);
+  }
+
+  document.querySelectorAll('.tts-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var me = this;
+      me.classList.add('speaking');
+      ttsSpeak(me.dataset.text, me.dataset.lang);
+      setTimeout(function() { me.classList.remove('speaking'); }, 2500);
+    });
+  });
+
+  /* ── BOOKMARK ── */
+  function getCards() {
+    try { return JSON.parse(localStorage.getItem('kruexchange_saved_cards') || '[]'); }
+    catch (e) { return []; }
+  }
+  function saveCards(arr) {
+    localStorage.setItem('kruexchange_saved_cards', JSON.stringify(arr));
+  }
+
+  function fireworks(btn) {
+    var rect = btn.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top  + rect.height / 2;
+    for (var i = 0; i < 8; i++) {
+      (function(i) {
+        var spark = document.createElement('span');
+        spark.textContent = '✦';
+        spark.style.cssText =
+          'position:fixed;left:' + cx + 'px;top:' + cy + 'px;pointer-events:none;' +
+          'color:#c8943a;font-size:0.9rem;z-index:9999;' +
+          'transition:all 0.6s ease-out;opacity:1;';
+        document.body.appendChild(spark);
+        var angle = (i / 8) * 2 * Math.PI;
+        var dist  = 40 + Math.random() * 20;
+        var dx    = Math.cos(angle) * dist;
+        var dy    = Math.sin(angle) * dist;
+        requestAnimationFrame(function() {
+          spark.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+          spark.style.opacity   = '0';
+          setTimeout(function() { spark.remove(); }, 650);
+        });
+      })(i);
+    }
+  }
+
+  document.querySelectorAll('.bookmark-btn').forEach(function(btn) {
+    var id    = btn.dataset.id;
+    var saved = getCards();
+    if (saved.some(function(c) { return c.id === id; })) {
+      btn.classList.add('saved');
+      btn.textContent = '★ Saved';
+    }
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var cards = getCards();
+      var idx   = cards.findIndex(function(c) { return c.id === id; });
+      if (idx >= 0) {
+        cards.splice(idx, 1);
+        btn.classList.remove('saved');
+        btn.textContent = '☆ Save';
+      } else {
+        var card = btn.closest('.card');
+        function txt(a, b) {
+          var el = card.querySelector(a) || card.querySelector(b);
+          return el ? el.textContent.trim() : '';
+        }
+        cards.push({
+          id:    id,
+          eng:   txt('.e',  '.eng'),
+          thai:  txt('.t',  '.thai-script'),
+          roman: txt('.r',  '.roman'),
+          vol:   document.title,
+          saved: Date.now()
+        });
+        btn.classList.add('saved');
+        btn.textContent = '★ Saved';
+        fireworks(btn);
+      }
+      saveCards(cards);
+    });
+  });
+})();
 </script>
 
 </body>

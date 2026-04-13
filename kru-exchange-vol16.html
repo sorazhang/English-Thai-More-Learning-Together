@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>English ↔ Thai · Vol. 16 · Love, Family & Relationships</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
   :root {
     --bg: #faf7f2;
@@ -148,6 +148,64 @@
   .pp-lnk.here  .pp-nm { color: #b83010; }
   .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
   .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+
+/* KRU-FEATURES-v1 */
+
+/* ── TTS BUTTONS ── */
+.tts-btn {
+  background: none;
+  border: 1px solid rgba(42,92,138,0.3);
+  border-radius: 99px;
+  padding: 0.13rem 0.55rem;
+  font-size: 0.62rem;
+  cursor: pointer;
+  color: rgba(42,92,138,0.65);
+  transition: all 0.15s;
+  margin-left: 0.45rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+.tts-btn.thai {
+  border-color: rgba(138,32,64,0.3);
+  color: rgba(138,32,64,0.65);
+}
+.tts-btn:hover { opacity: 0.85; transform: scale(1.05); }
+.tts-btn.speaking { opacity: 0.5; }
+
+/* ── BOOKMARK BUTTON ── */
+.card { position: relative !important; }
+.bookmark-btn {
+  position: absolute;
+  bottom: 0.6rem; right: 0.7rem;
+  background: none;
+  border: 1px solid rgba(184,120,32,0.3);
+  border-radius: 99px;
+  padding: 0.18rem 0.6rem;
+  font-size: 0.68rem;
+  cursor: pointer;
+  color: rgba(184,120,32,0.5);
+  transition: all 0.2s;
+  z-index: 10;
+}
+.bookmark-btn:hover { color: #c8943a; border-color: rgba(184,120,32,0.6); }
+.bookmark-btn.saved { color: #c8943a; border-color: #c8943a; }
+
+/* ── FLOATING NOTES PILL ── */
+.notes-pill {
+  position: fixed; bottom: 1.6rem; left: 1.6rem;
+  background: rgba(184,120,32,0.15);
+  border: 1px solid rgba(184,120,32,0.4);
+  color: #c8943a;
+  border-radius: 99px;
+  padding: 0.55rem 1.05rem;
+  font-size: 0.72rem; font-weight: 700;
+  text-decoration: none;
+  z-index: 300;
+  transition: all 0.2s;
+}
+.notes-pill:hover { background: rgba(184,120,32,0.25); }
+
 </style>
 </head>
 <body>
@@ -209,26 +267,32 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">How many people are in your family?</div>
-      <div class="t">ครอบครัวมีกี่คน?</div>
+      <div class="e">How many people are in your family? <button class="tts-btn" data-text="How many people are in your family?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ครอบครัวมีกี่คน? <button class="tts-btn thai" data-text="ครอบครัวมีกี่คน?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khrâawp-khrua mii gìi khon?</div>
       <div class="note"><span class="ks">Sora:</span> ครอบครัว (khrâawp-khrua) = family. กี่ (gìi) = how many. กี่คน = how many people.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card001">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">I'm the oldest of three — two younger sisters.</div>
-      <div class="t">ฉันเป็นลูกคนโตในสามคน — มีน้องสาวสองคน</div>
+      <div class="e">I'm the oldest of three — two younger sisters. <button class="tts-btn" data-text="I&#x27;m the oldest of three — two younger sisters." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ฉันเป็นลูกคนโตในสามคน — มีน้องสาวสองคน <button class="tts-btn thai" data-text="ฉันเป็นลูกคนโตในสามคน — มีน้องสาวสองคน" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">chǎn bpen lûuk khon dtoo nai sǎam khon — mii nâawng-sǎao sǎawng khon</div>
       <div class="note"><span class="ks">Sora:</span> ลูกคนโต (lûuk khon dtoo) = the oldest child. ลูกคนเล็ก (lûuk khon lék) = the youngest child. ลูกคนกลาง (lûuk khon glaang) = the middle child.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card002">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">In Thai culture, taking care of your parents when they're older is very important.</div>
-      <div class="t">ในวัฒนธรรมไทย การดูแลพ่อแม่ตอนแก่สำคัญมาก</div>
+      <div class="e">In Thai culture, taking care of your parents when they're older is very important. <button class="tts-btn" data-text="In Thai culture, taking care of your parents when they&#x27;re older is very important." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ในวัฒนธรรมไทย การดูแลพ่อแม่ตอนแก่สำคัญมาก <button class="tts-btn thai" data-text="ในวัฒนธรรมไทย การดูแลพ่อแม่ตอนแก่สำคัญมาก" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">nai wát-thá-na-tham thai — gaan duu-lae phâaw-mâae tawn gàe sǎm-khan mâak</div>
       <div class="note"><span class="ke">Kru:</span> This is a deeply held value. Many Thai adults support their parents financially and physically into old age. Understanding this explains a lot about how Thais prioritise family over personal goals.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card003">☆ Save</button>
     </div>
   </div>
 
@@ -264,26 +328,32 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">I think I have a crush on someone.</div>
-      <div class="t">ฉันแอบชอบใครบางคนอยู่</div>
+      <div class="e">I think I have a crush on someone. <button class="tts-btn" data-text="I think I have a crush on someone." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ฉันแอบชอบใครบางคนอยู่ <button class="tts-btn thai" data-text="ฉันแอบชอบใครบางคนอยู่" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">chǎn àaep châawp khrai baang khon yùu</div>
       <div class="note"><span class="ks">Sora:</span> แอบ (àaep) = secretly/sneakily. It's in แอบชอบ, แอบดู (secretly watch), แอบหัวเราะ (secretly laugh). A very useful prefix for slightly hidden feelings!</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card004">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">I've missed you so much.</div>
-      <div class="t">คิดถึงมากเลย</div>
+      <div class="e">I've missed you so much. <button class="tts-btn" data-text="I&#x27;ve missed you so much." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">คิดถึงมากเลย <button class="tts-btn thai" data-text="คิดถึงมากเลย" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khít-thǔeng mâak looei</div>
       <div class="note"><span class="ks">Sora:</span> คิดถึง (khít-thǔeng) covers both missing people AND places. คิดถึงบ้าน = homesick (literally: miss home). No separate word needed.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card005">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Are you seeing anyone at the moment?</div>
-      <div class="t">ตอนนี้มีแฟนหรือเปล่า?</div>
+      <div class="e">Are you seeing anyone at the moment? <button class="tts-btn" data-text="Are you seeing anyone at the moment?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ตอนนี้มีแฟนหรือเปล่า? <button class="tts-btn thai" data-text="ตอนนี้มีแฟนหรือเปล่า?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">tawn níi mii faaen rǔe bplào?</div>
       <div class="note"><span class="ks">Sora:</span> รึเปล่า / หรือเปล่า (rǔe bplào) = or not? A gentle yes/no question tag. มีแฟนไหม also works but รึเปล่า feels slightly softer.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card006">☆ Save</button>
     </div>
   </div>
 
@@ -312,26 +382,32 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">We've been friends since we were kids.</div>
-      <div class="t">เราเป็นเพื่อนกันมาตั้งแต่เด็กเลย</div>
+      <div class="e">We've been friends since we were kids. <button class="tts-btn" data-text="We&#x27;ve been friends since we were kids." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เราเป็นเพื่อนกันมาตั้งแต่เด็กเลย <button class="tts-btn thai" data-text="เราเป็นเพื่อนกันมาตั้งแต่เด็กเลย" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">rao bpen phûean gan maa dtâng-tàae dèk looei</div>
       <div class="note"><span class="ks">Sora:</span> ตั้งแต่ (dtâng-tàae) = since / from (a point in time). ตั้งแต่เด็ก = since childhood. ตั้งแต่มหาลัย = since university.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card007">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">She's someone I can really trust.</div>
-      <div class="t">เธอเป็นคนที่ฉันไว้ใจได้จริงๆ</div>
+      <div class="e">She's someone I can really trust. <button class="tts-btn" data-text="She&#x27;s someone I can really trust." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เธอเป็นคนที่ฉันไว้ใจได้จริงๆ <button class="tts-btn thai" data-text="เธอเป็นคนที่ฉันไว้ใจได้จริงๆ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">thooe bpen khon thîi chǎn wâi-jai dâai jing-jing</div>
       <div class="note"><span class="ks">Sora:</span> ไว้ใจได้ (wâi-jai dâai) = can be trusted. ได้ (dâai) after a verb = can / able to. จริงๆ (jing-jing) = really / truly.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card008">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Training with the same people for years — those become real bonds.</div>
-      <div class="t">ซ้อมกับคนเดิมมาหลายปี — กลายเป็นความผูกพันที่แท้จริง</div>
+      <div class="e">Training with the same people for years — those become real bonds. <button class="tts-btn" data-text="Training with the same people for years — those become real bonds." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ซ้อมกับคนเดิมมาหลายปี — กลายเป็นความผูกพันที่แท้จริง <button class="tts-btn thai" data-text="ซ้อมกับคนเดิมมาหลายปี — กลายเป็นความผูกพันที่แท้จริง" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">sôm gàp khon derm maa lǎai bpii — glaai bpen khwaam phùuk-phan thîi tâae-jing</div>
       <div class="note"><span class="ke">Kru:</span> ความผูกพัน (khwaam phùuk-phan) = bonds / deep connection. This is the invisible thing training together builds — shared sweat creates trust faster than almost anything else.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card009">☆ Save</button>
     </div>
   </div>
 
@@ -365,18 +441,22 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Thais often address people by their role — "teacher," "older sibling," "boss" — rather than their name.</div>
-      <div class="t">คนไทยมักเรียกคนด้วยบทบาท — ครู พี่ เจ้านาย — แทนที่จะใช้ชื่อ</div>
+      <div class="e">Thais often address people by their role — "teacher," "older sibling," "boss" — rather than their name. <button class="tts-btn" data-text="Thais often address people by their role — &quot;teacher,&quot; &quot;older sibling,&quot; &quot;boss&quot; — rather than their name." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">คนไทยมักเรียกคนด้วยบทบาท — ครู พี่ เจ้านาย — แทนที่จะใช้ชื่อ <button class="tts-btn thai" data-text="คนไทยมักเรียกคนด้วยบทบาท — ครู พี่ เจ้านาย — แทนที่จะใช้ชื่อ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khon thai mák rîak khon dûay bòt-bàat — khruu — phîi — jâo-naai — thaen thîi jà chái chûe</div>
       <div class="note"><span class="ke">Kru:</span> This is why students call me "Kru" — it's a title of respect for teacher/trainer, not just a name. Understanding this helps international students use Thai social address correctly from day one.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card010">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">I use หนู (nǔu) with kru because it shows I respect the relationship.</div>
-      <div class="t">หนูใช้ "หนู" กับครูเพราะมันแสดงความเคารพในความสัมพันธ์</div>
+      <div class="e">I use หนู (nǔu) with kru because it shows I respect the relationship. <button class="tts-btn" data-text="I use หนู (nǔu) with kru because it shows I respect the relationship." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">หนูใช้ "หนู" กับครูเพราะมันแสดงความเคารพในความสัมพันธ์ <button class="tts-btn thai" data-text="หนูใช้ &quot;หนู&quot; กับครูเพราะมันแสดงความเคารพในความสัมพันธ์" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">nǔu chái "nǔu" gàp khruu phrâw man sà-daeng khwaam khao-róp nai khwaam sǎm-phan</div>
       <div class="note"><span class="ks">Sora:</span> หนู (nǔu) = literally "mouse/rat" — used as a humble first-person pronoun by women speaking to elders or respected figures. It's warm, respectful, and natural. Not infantile — it's appropriate.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card011">☆ Save</button>
     </div>
   </div>
 
@@ -391,34 +471,42 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Are you free this weekend? Want to get something to eat?</div>
-      <div class="t">สุดสัปดาห์นี้ว่างไหม? ไปกินข้าวกันไหม?</div>
+      <div class="e">Are you free this weekend? Want to get something to eat? <button class="tts-btn" data-text="Are you free this weekend? Want to get something to eat?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">สุดสัปดาห์นี้ว่างไหม? ไปกินข้าวกันไหม? <button class="tts-btn thai" data-text="สุดสัปดาห์นี้ว่างไหม? ไปกินข้าวกันไหม?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">sùt-sàp-daa níi wâang mǎi? bpai gin khâao gan mǎi?</div>
       <div class="note"><span class="ks">Sora:</span> ไปกินข้าว (bpai gin khâao) = go eat rice / go have a meal. This is how Thais invite people out for any meal — not just rice. It's the universal social invitation.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card012">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Sorry, I already have plans — maybe next time?</div>
-      <div class="t">ขอโทษนะ ติดธุระแล้ว — ครั้งหน้าได้ไหม?</div>
+      <div class="e">Sorry, I already have plans — maybe next time? <button class="tts-btn" data-text="Sorry, I already have plans — maybe next time?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ขอโทษนะ ติดธุระแล้ว — ครั้งหน้าได้ไหม? <button class="tts-btn thai" data-text="ขอโทษนะ ติดธุระแล้ว — ครั้งหน้าได้ไหม?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khǎaw-thôot ná — tìt thú-rá láaew — khráng nâa dâai mǎi?</div>
       <div class="note"><span class="ks">Sora:</span> ติดธุระ (tìt thú-rá) = have something on / prior commitment. More natural than just "busy." ครั้งหน้า (khráng nâa) = next time.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card013">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Let's keep in touch!</div>
-      <div class="t">ติดต่อกันด้วยนะ!</div>
+      <div class="e">Let's keep in touch! <button class="tts-btn" data-text="Let&#x27;s keep in touch!" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ติดต่อกันด้วยนะ! <button class="tts-btn thai" data-text="ติดต่อกันด้วยนะ!" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">tìt-tàw gan dûay ná!</div>
       <div class="note"><span class="ks">Sora:</span> ติดต่อ (tìt-tàw) = to contact / stay in touch. ทักมาได้เลย (thák maa dâai looei) = feel free to message me anytime — even more casual and warm.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card014">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">You're always welcome at our gym.</div>
-      <div class="t">ยินดีต้อนรับเสมอที่ยิมของเรา</div>
+      <div class="e">You're always welcome at our gym. <button class="tts-btn" data-text="You&#x27;re always welcome at our gym." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ยินดีต้อนรับเสมอที่ยิมของเรา <button class="tts-btn thai" data-text="ยินดีต้อนรับเสมอที่ยิมของเรา" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">yin-dii tâwn-ráp sà-mǒe thîi yim khǎawng rao</div>
       <div class="note"><span class="ke">Kru:</span> ยินดีต้อนรับ (yin-dii tâwn-ráp) = welcome (literally: happy to receive). เสมอ (sà-mǒe) = always. A warm phrase for international students visiting a Thai gym.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol16-card015">☆ Save</button>
     </div>
   </div>
 
@@ -552,6 +640,109 @@
       pop.classList.remove('popen'); btn.classList.remove('pactive');
     }
   });
+</script>
+
+
+<!-- KRU-FEATURES-v1 -->
+<a class="notes-pill" href="my-saved-note.html">🔖 My Notes</a>
+
+<script>
+(function() {
+  /* ── TTS ── */
+  function ttsSpeak(text, lang) {
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    setTimeout(function() {
+      if (speechSynthesis.paused) speechSynthesis.resume();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang  = lang;
+      u.rate  = 0.9;
+      speechSynthesis.speak(u);
+    }, 50);
+  }
+
+  document.querySelectorAll('.tts-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var me = this;
+      me.classList.add('speaking');
+      ttsSpeak(me.dataset.text, me.dataset.lang);
+      setTimeout(function() { me.classList.remove('speaking'); }, 2500);
+    });
+  });
+
+  /* ── BOOKMARK ── */
+  function getCards() {
+    try { return JSON.parse(localStorage.getItem('kruexchange_saved_cards') || '[]'); }
+    catch (e) { return []; }
+  }
+  function saveCards(arr) {
+    localStorage.setItem('kruexchange_saved_cards', JSON.stringify(arr));
+  }
+
+  function fireworks(btn) {
+    var rect = btn.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top  + rect.height / 2;
+    for (var i = 0; i < 8; i++) {
+      (function(i) {
+        var spark = document.createElement('span');
+        spark.textContent = '✦';
+        spark.style.cssText =
+          'position:fixed;left:' + cx + 'px;top:' + cy + 'px;pointer-events:none;' +
+          'color:#c8943a;font-size:0.9rem;z-index:9999;' +
+          'transition:all 0.6s ease-out;opacity:1;';
+        document.body.appendChild(spark);
+        var angle = (i / 8) * 2 * Math.PI;
+        var dist  = 40 + Math.random() * 20;
+        var dx    = Math.cos(angle) * dist;
+        var dy    = Math.sin(angle) * dist;
+        requestAnimationFrame(function() {
+          spark.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+          spark.style.opacity   = '0';
+          setTimeout(function() { spark.remove(); }, 650);
+        });
+      })(i);
+    }
+  }
+
+  document.querySelectorAll('.bookmark-btn').forEach(function(btn) {
+    var id    = btn.dataset.id;
+    var saved = getCards();
+    if (saved.some(function(c) { return c.id === id; })) {
+      btn.classList.add('saved');
+      btn.textContent = '★ Saved';
+    }
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var cards = getCards();
+      var idx   = cards.findIndex(function(c) { return c.id === id; });
+      if (idx >= 0) {
+        cards.splice(idx, 1);
+        btn.classList.remove('saved');
+        btn.textContent = '☆ Save';
+      } else {
+        var card = btn.closest('.card');
+        function txt(a, b) {
+          var el = card.querySelector(a) || card.querySelector(b);
+          return el ? el.textContent.trim() : '';
+        }
+        cards.push({
+          id:    id,
+          eng:   txt('.e',  '.eng'),
+          thai:  txt('.t',  '.thai-script'),
+          roman: txt('.r',  '.roman'),
+          vol:   document.title,
+          saved: Date.now()
+        });
+        btn.classList.add('saved');
+        btn.textContent = '★ Saved';
+        fireworks(btn);
+      }
+      saveCards(cards);
+    });
+  });
+})();
 </script>
 
 </body>

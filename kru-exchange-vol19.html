@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>English ↔ Thai · Vol. 19 · Time, Days & Months</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Fraunces:ital,wght@0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
   :root {
     --bg: #faf7f2;
@@ -179,6 +179,64 @@
   .pp-lnk.here  .pp-nm { color: #b83010; }
   .pp-tag { font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 3px; background: rgba(200,74,16,0.2); color: #b83010; border: 1px solid rgba(200,74,16,0.3); flex-shrink: 0; }
   .pp-div { height: 1px; background: rgba(255,255,255,0.05); margin: 0.45rem 1rem; }
+
+/* KRU-FEATURES-v1 */
+
+/* ── TTS BUTTONS ── */
+.tts-btn {
+  background: none;
+  border: 1px solid rgba(42,92,138,0.3);
+  border-radius: 99px;
+  padding: 0.13rem 0.55rem;
+  font-size: 0.62rem;
+  cursor: pointer;
+  color: rgba(42,92,138,0.65);
+  transition: all 0.15s;
+  margin-left: 0.45rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+.tts-btn.thai {
+  border-color: rgba(138,32,64,0.3);
+  color: rgba(138,32,64,0.65);
+}
+.tts-btn:hover { opacity: 0.85; transform: scale(1.05); }
+.tts-btn.speaking { opacity: 0.5; }
+
+/* ── BOOKMARK BUTTON ── */
+.card { position: relative !important; }
+.bookmark-btn {
+  position: absolute;
+  bottom: 0.6rem; right: 0.7rem;
+  background: none;
+  border: 1px solid rgba(184,120,32,0.3);
+  border-radius: 99px;
+  padding: 0.18rem 0.6rem;
+  font-size: 0.68rem;
+  cursor: pointer;
+  color: rgba(184,120,32,0.5);
+  transition: all 0.2s;
+  z-index: 10;
+}
+.bookmark-btn:hover { color: #c8943a; border-color: rgba(184,120,32,0.6); }
+.bookmark-btn.saved { color: #c8943a; border-color: #c8943a; }
+
+/* ── FLOATING NOTES PILL ── */
+.notes-pill {
+  position: fixed; bottom: 1.6rem; left: 1.6rem;
+  background: rgba(184,120,32,0.15);
+  border: 1px solid rgba(184,120,32,0.4);
+  color: #c8943a;
+  border-radius: 99px;
+  padding: 0.55rem 1.05rem;
+  font-size: 0.72rem; font-weight: 700;
+  text-decoration: none;
+  z-index: 300;
+  transition: all 0.2s;
+}
+.notes-pill:hover { background: rgba(184,120,32,0.25); }
+
 </style>
 </head>
 <body>
@@ -269,34 +327,42 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">What time does training start?</div>
-      <div class="t">การซ้อมเริ่มกี่โมง?</div>
+      <div class="e">What time does training start? <button class="tts-btn" data-text="What time does training start?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">การซ้อมเริ่มกี่โมง? <button class="tts-btn thai" data-text="การซ้อมเริ่มกี่โมง?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">gaan sôm rôem gìi moong?</div>
       <div class="note"><span class="ks">Sora:</span> เริ่ม (rôem) = to start/begin. This is your essential gym scheduling question. กี่โมง (gìi moong) = what time (literally: how many o'clock).</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card001">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Training starts at 6 in the morning and finishes around 8.</div>
-      <div class="t">การซ้อมเริ่มหกโมงเช้า เสร็จประมาณแปดโมง</div>
+      <div class="e">Training starts at 6 in the morning and finishes around 8. <button class="tts-btn" data-text="Training starts at 6 in the morning and finishes around 8." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">การซ้อมเริ่มหกโมงเช้า เสร็จประมาณแปดโมง <button class="tts-btn thai" data-text="การซ้อมเริ่มหกโมงเช้า เสร็จประมาณแปดโมง" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">gaan sôm rôem hòk moong cháo — sèt bprà-maan bpàaet moong</div>
       <div class="note"><span class="ks">Sora:</span> เสร็จ (sèt) = finished/done. ประมาณ (bprà-maan) = approximately/around. Two words you'll use constantly for time.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card002">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">Sorry I'm late — the traffic was terrible.</div>
-      <div class="t">ขอโทษที่มาสาย — การจราจรแย่มาก</div>
+      <div class="e">Sorry I'm late — the traffic was terrible. <button class="tts-btn" data-text="Sorry I&#x27;m late — the traffic was terrible." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ขอโทษที่มาสาย — การจราจรแย่มาก <button class="tts-btn thai" data-text="ขอโทษที่มาสาย — การจราจรแย่มาก" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">khǎaw-thôot thîi maa sǎai — gaan jà-raa-jon yâae mâak</div>
       <div class="note"><span class="ks">Sora:</span> การจราจร (gaan jà-raa-jon) = traffic. This is Bangkok's most relatable sentence. รถติด (rót dtìt) = traffic jam — literally "stuck car" — is shorter and what Thais actually say: รถติดมาก = terrible traffic.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card003">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">I'll be there in about 20 minutes.</div>
-      <div class="t">ประมาณยี่สิบนาทีจะถึง</div>
+      <div class="e">I'll be there in about 20 minutes. <button class="tts-btn" data-text="I&#x27;ll be there in about 20 minutes." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ประมาณยี่สิบนาทีจะถึง <button class="tts-btn thai" data-text="ประมาณยี่สิบนาทีจะถึง" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">bprà-maan yîi-sìp naa-thii jà thǔeng</div>
       <div class="note"><span class="ks">Sora:</span> ถึง (thǔeng) = to arrive / reach. จะถึง = will arrive. A very useful message to send when you're on your way. Add already? แล้ว at the end to say you've arrived: ถึงแล้ว (thǔeng láaew) = I'm here!</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card004">☆ Save</button>
     </div>
   </div><!-- /time -->
 
@@ -354,34 +420,42 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">See you at training on Thursday!</div>
-      <div class="t">เจอกันที่ซ้อมวันพฤหัสนะ!</div>
+      <div class="e">See you at training on Thursday! <button class="tts-btn" data-text="See you at training on Thursday!" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เจอกันที่ซ้อมวันพฤหัสนะ! <button class="tts-btn thai" data-text="เจอกันที่ซ้อมวันพฤหัสนะ!" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">jooe gan thîi sôm wan phá-rúe-hàt ná!</div>
       <div class="note"><span class="ks">Sora:</span> เจอกัน (jooe gan) = see you / meet each other. นะ at the end makes it warm — not a command, just a friendly confirmation.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card005">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">I train every day except Sunday.</div>
-      <div class="t">ซ้อมทุกวันยกเว้นวันอาทิตย์</div>
+      <div class="e">I train every day except Sunday. <button class="tts-btn" data-text="I train every day except Sunday." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ซ้อมทุกวันยกเว้นวันอาทิตย์ <button class="tts-btn thai" data-text="ซ้อมทุกวันยกเว้นวันอาทิตย์" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">sôm thúk wan yók wên wan aa-thít</div>
       <div class="note"><span class="ks">Sora:</span> ยกเว้น (yók wên) = except / excluding. A very useful word: ทุกวันยกเว้นวันหยุด = every day except holidays.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card006">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">What day is it today?</div>
-      <div class="t">วันนี้วันอะไร?</div>
+      <div class="e">What day is it today? <button class="tts-btn" data-text="What day is it today?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">วันนี้วันอะไร? <button class="tts-btn thai" data-text="วันนี้วันอะไร?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">wan níi wan à-rai?</div>
       <div class="note"><span class="ks">Sora:</span> Simple and essential. The answer: วันนี้วันจันทร์ (it's Monday today). Notice Thai repeats วัน twice — the first is "today", the second is part of the day name.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card007">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">Are you free on the weekend?</div>
-      <div class="t">สุดสัปดาห์ว่างไหม?</div>
+      <div class="e">Are you free on the weekend? <button class="tts-btn" data-text="Are you free on the weekend?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">สุดสัปดาห์ว่างไหม? <button class="tts-btn thai" data-text="สุดสัปดาห์ว่างไหม?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">sùt sàp-daa wâang mǎi?</div>
       <div class="note"><span class="ke">Kru:</span> สุดสัปดาห์ (sùt sàp-daa) = end of the week / weekend. ว่าง (wâang) = free / available. ว่างไหม = are you free? — essential for making plans.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card008">☆ Save</button>
     </div>
   </div><!-- /days -->
 
@@ -443,26 +517,32 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">The fight is on the 15th of next month.</div>
-      <div class="t">การชกอยู่วันที่ 15 เดือนหน้า</div>
+      <div class="e">The fight is on the 15th of next month. <button class="tts-btn" data-text="The fight is on the 15th of next month." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">การชกอยู่วันที่ 15 เดือนหน้า <button class="tts-btn thai" data-text="การชกอยู่วันที่ 15 เดือนหน้า" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">gaan chók yùu wan thîi sìp-hâa duean nâa</div>
       <div class="note"><span class="ks">Sora:</span> วันที่ (wan thîi) = the date. Thai writes dates as วันที่ + number. วันที่ 15 มีนาคม = 15 March. The order is day → month, same as British English.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card009">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">I'm coming to Thailand in April — Songkran time!</div>
-      <div class="t">จะมาไทยเดือนเมษายน — ช่วงสงกรานต์เลย!</div>
+      <div class="e">I'm coming to Thailand in April — Songkran time! <button class="tts-btn" data-text="I&#x27;m coming to Thailand in April — Songkran time!" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">จะมาไทยเดือนเมษายน — ช่วงสงกรานต์เลย! <button class="tts-btn thai" data-text="จะมาไทยเดือนเมษายน — ช่วงสงกรานต์เลย!" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">jà maa thai duean mee-sǎa-yon — chûang sǒng-graan looei!</div>
       <div class="note"><span class="ks">Sora:</span> ช่วง (chûang) = during / period of time. ช่วงสงกรานต์ = during Songkran. ช่วงนี้ = during this period / these days. A beautifully versatile word.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card010">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">What year is it in the Thai calendar?</div>
-      <div class="t">ปีนี้ พ.ศ. อะไร?</div>
+      <div class="e">What year is it in the Thai calendar? <button class="tts-btn" data-text="What year is it in the Thai calendar?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ปีนี้ พ.ศ. อะไร? <button class="tts-btn thai" data-text="ปีนี้ พ.ศ. อะไร?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">bpii níi pháw sǎaw à-rai?</div>
       <div class="note"><span class="ks">Sora:</span> พ.ศ. (pháw sǎaw) = พุทธศักราช = Buddhist Era year. The answer in 2025: พ.ศ. สองพันห้าร้อยหกสิบแปด (2568). Thais use พ.ศ. for official documents, legal dates, history.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card011">☆ Save</button>
     </div>
   </div><!-- /months -->
 
@@ -510,26 +590,32 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">I just finished training — I'm exhausted.</div>
-      <div class="t">เพิ่งซ้อมเสร็จ — เหนื่อยมากเลย</div>
+      <div class="e">I just finished training — I'm exhausted. <button class="tts-btn" data-text="I just finished training — I&#x27;m exhausted." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เพิ่งซ้อมเสร็จ — เหนื่อยมากเลย <button class="tts-btn thai" data-text="เพิ่งซ้อมเสร็จ — เหนื่อยมากเลย" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">phôeng sôm sèt — nùeay mâak looei</div>
       <div class="note"><span class="ks">Sora:</span> เพิ่ง (phôeng) = just did something. เพิ่ง + verb = just completed that verb. เพิ่งกิน = just ate · เพิ่งตื่น = just woke up · เพิ่งถึง = just arrived. One of the most useful time words in Thai.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card012">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Haven't been to Thailand in ages — I really miss it.</div>
-      <div class="t">ไม่ได้ไปไทยนานมาแล้ว — คิดถึงมากเลย</div>
+      <div class="e">Haven't been to Thailand in ages — I really miss it. <button class="tts-btn" data-text="Haven&#x27;t been to Thailand in ages — I really miss it." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ไม่ได้ไปไทยนานมาแล้ว — คิดถึงมากเลย <button class="tts-btn thai" data-text="ไม่ได้ไปไทยนานมาแล้ว — คิดถึงมากเลย" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">mâi dâai bpai thai naan maa láaew — khít-thǔeng mâak looei</div>
       <div class="note"><span class="ks">Sora:</span> ไม่ได้ + verb = haven't done something. ไม่ได้กิน = haven't eaten · ไม่ได้คุย = haven't talked. นานมาแล้ว = for a long time already.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card013">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">How long have you been training Muay Thai?</div>
-      <div class="t">ซ้อมมวยไทยมานานแค่ไหนแล้ว?</div>
+      <div class="e">How long have you been training Muay Thai? <button class="tts-btn" data-text="How long have you been training Muay Thai?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ซ้อมมวยไทยมานานแค่ไหนแล้ว? <button class="tts-btn thai" data-text="ซ้อมมวยไทยมานานแค่ไหนแล้ว?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">sôm muay thai maa naan khâe nǎi láaew?</div>
       <div class="note"><span class="ke">Kru:</span> มา (maa) in the middle of a time expression signals a duration: ซ้อมมา 3 ปีแล้ว = have been training for 3 years already. The structure: verb + มา + duration + แล้ว.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card014">☆ Save</button>
     </div>
   </div><!-- /relative -->
 
@@ -545,42 +631,52 @@
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">01</div>
-      <div class="e">Are you free on Saturday morning?</div>
-      <div class="t">เช้าวันเสาร์ว่างไหม?</div>
+      <div class="e">Are you free on Saturday morning? <button class="tts-btn" data-text="Are you free on Saturday morning?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">เช้าวันเสาร์ว่างไหม? <button class="tts-btn thai" data-text="เช้าวันเสาร์ว่างไหม?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">cháo wan sǎo wâang mǎi?</div>
       <div class="note"><span class="ks">Sora:</span> เช้า = morning · บ่าย = afternoon · เย็น = evening. Placed before the day: เช้าวันจันทร์ = Monday morning · เย็นวันศุกร์ = Friday evening. Simple and flexible.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card015">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">02</div>
-      <div class="e">Let's meet at the gym at 7am on Wednesday.</div>
-      <div class="t">นัดเจอกันที่ยิมเจ็ดโมงเช้าวันพุธนะ</div>
+      <div class="e">Let's meet at the gym at 7am on Wednesday. <button class="tts-btn" data-text="Let&#x27;s meet at the gym at 7am on Wednesday." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">นัดเจอกันที่ยิมเจ็ดโมงเช้าวันพุธนะ <button class="tts-btn thai" data-text="นัดเจอกันที่ยิมเจ็ดโมงเช้าวันพุธนะ" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">nát jooe gan thîi yim jèt moong cháo wan phút ná</div>
       <div class="note"><span class="ks">Sora:</span> นัด (nát) = to make an appointment / meet by arrangement. นัดหมาย (nát-mǎai) = appointment (more formal). เจอกัน = meet each other. นัดเจอกัน = arrange to meet.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card016">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">03</div>
-      <div class="e">I need to reschedule — can we move it to Thursday instead?</div>
-      <div class="t">ต้องเลื่อนนัด — ย้ายไปวันพฤหัสได้ไหม?</div>
+      <div class="e">I need to reschedule — can we move it to Thursday instead? <button class="tts-btn" data-text="I need to reschedule — can we move it to Thursday instead?" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ต้องเลื่อนนัด — ย้ายไปวันพฤหัสได้ไหม? <button class="tts-btn thai" data-text="ต้องเลื่อนนัด — ย้ายไปวันพฤหัสได้ไหม?" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">tâwng lûean nát — yáai bpai wan phá-rúe-hàt dâai mǎi?</div>
       <div class="note"><span class="ks">Sora:</span> เลื่อน (lûean) = to postpone / push back a time. ย้าย (yáai) = to move / shift. Both useful for scheduling: เลื่อนออกไป = push it later · ย้ายวัน = change the day.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card017">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">04</div>
-      <div class="e">Can you confirm the time? I want to make sure I'm not late.</div>
-      <div class="t">ยืนยันเวลาให้หน่อยได้ไหม? กลัวมาสาย</div>
+      <div class="e">Can you confirm the time? I want to make sure I'm not late. <button class="tts-btn" data-text="Can you confirm the time? I want to make sure I&#x27;m not late." data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ยืนยันเวลาให้หน่อยได้ไหม? กลัวมาสาย <button class="tts-btn thai" data-text="ยืนยันเวลาให้หน่อยได้ไหม? กลัวมาสาย" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">yuuen-yan wee-laa hâi nàwy dâai mǎi? — glua maa sǎai</div>
       <div class="note"><span class="ks">Sora:</span> ยืนยัน (yuuen-yan) = to confirm. กลัว (glua) = to be afraid / worried about something. กลัวมาสาย = worried about being late — a very Thai way to say "I don't want to be late."</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card018">☆ Save</button>
     </div>
 
     <div class="card" onclick="this.classList.toggle('on')">
       <div class="num">05</div>
-      <div class="e">I'll be there — see you then!</div>
-      <div class="t">ไปแน่นอน — เจอกันนะ!</div>
+      <div class="e">I'll be there — see you then! <button class="tts-btn" data-text="I&#x27;ll be there — see you then!" data-lang="en-US">🔊 EN</button></div>
+      <div class="t">ไปแน่นอน — เจอกันนะ! <button class="tts-btn thai" data-text="ไปแน่นอน — เจอกันนะ!" data-lang="th-TH">🔊 TH</button></div>
       <div class="r">bpai nâae-nawn — jooe gan ná!</div>
       <div class="note"><span class="ks">Sora:</span> แน่นอน (nâae-nawn) = definitely / for sure. ไปแน่นอน = definitely going. A confident, warm confirmation. เจอกันนะ = see you then — the perfect message to send before any meetup.</div>
+    
+      <button class="bookmark-btn" data-id="kru_exchange_vol19-card019">☆ Save</button>
     </div>
 
     <div class="grp">Thai time vocabulary quick-reference</div>
@@ -730,6 +826,109 @@
     var btn = document.getElementById('pill-btn');
     if (!pop.contains(e.target) && !btn.contains(e.target)) { pop.classList.remove('popen'); btn.classList.remove('pactive'); }
   });
+</script>
+
+
+<!-- KRU-FEATURES-v1 -->
+<a class="notes-pill" href="my-saved-note.html">🔖 My Notes</a>
+
+<script>
+(function() {
+  /* ── TTS ── */
+  function ttsSpeak(text, lang) {
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    setTimeout(function() {
+      if (speechSynthesis.paused) speechSynthesis.resume();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang  = lang;
+      u.rate  = 0.9;
+      speechSynthesis.speak(u);
+    }, 50);
+  }
+
+  document.querySelectorAll('.tts-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var me = this;
+      me.classList.add('speaking');
+      ttsSpeak(me.dataset.text, me.dataset.lang);
+      setTimeout(function() { me.classList.remove('speaking'); }, 2500);
+    });
+  });
+
+  /* ── BOOKMARK ── */
+  function getCards() {
+    try { return JSON.parse(localStorage.getItem('kruexchange_saved_cards') || '[]'); }
+    catch (e) { return []; }
+  }
+  function saveCards(arr) {
+    localStorage.setItem('kruexchange_saved_cards', JSON.stringify(arr));
+  }
+
+  function fireworks(btn) {
+    var rect = btn.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top  + rect.height / 2;
+    for (var i = 0; i < 8; i++) {
+      (function(i) {
+        var spark = document.createElement('span');
+        spark.textContent = '✦';
+        spark.style.cssText =
+          'position:fixed;left:' + cx + 'px;top:' + cy + 'px;pointer-events:none;' +
+          'color:#c8943a;font-size:0.9rem;z-index:9999;' +
+          'transition:all 0.6s ease-out;opacity:1;';
+        document.body.appendChild(spark);
+        var angle = (i / 8) * 2 * Math.PI;
+        var dist  = 40 + Math.random() * 20;
+        var dx    = Math.cos(angle) * dist;
+        var dy    = Math.sin(angle) * dist;
+        requestAnimationFrame(function() {
+          spark.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+          spark.style.opacity   = '0';
+          setTimeout(function() { spark.remove(); }, 650);
+        });
+      })(i);
+    }
+  }
+
+  document.querySelectorAll('.bookmark-btn').forEach(function(btn) {
+    var id    = btn.dataset.id;
+    var saved = getCards();
+    if (saved.some(function(c) { return c.id === id; })) {
+      btn.classList.add('saved');
+      btn.textContent = '★ Saved';
+    }
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var cards = getCards();
+      var idx   = cards.findIndex(function(c) { return c.id === id; });
+      if (idx >= 0) {
+        cards.splice(idx, 1);
+        btn.classList.remove('saved');
+        btn.textContent = '☆ Save';
+      } else {
+        var card = btn.closest('.card');
+        function txt(a, b) {
+          var el = card.querySelector(a) || card.querySelector(b);
+          return el ? el.textContent.trim() : '';
+        }
+        cards.push({
+          id:    id,
+          eng:   txt('.e',  '.eng'),
+          thai:  txt('.t',  '.thai-script'),
+          roman: txt('.r',  '.roman'),
+          vol:   document.title,
+          saved: Date.now()
+        });
+        btn.classList.add('saved');
+        btn.textContent = '★ Saved';
+        fireworks(btn);
+      }
+      saveCards(cards);
+    });
+  });
+})();
 </script>
 
 </body>
