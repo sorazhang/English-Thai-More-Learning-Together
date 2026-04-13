@@ -48,12 +48,12 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .cloud-wrap{position:relative;width:100%;height:200px;background:var(--bg2);border-bottom:1px solid var(--border);overflow:hidden;}
 .cloud-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(200,148,58,0.05) 0%,transparent 70%);pointer-events:none;}
 .cloud-word{position:absolute;cursor:pointer;font-weight:700;line-height:1;white-space:nowrap;transition:transform 0.2s;animation:cloudIn 0.4s ease both;user-select:none;}
-.cloud-word.kru-hot{color:var(--gold);}
-.cloud-word.stu-hot{color:var(--eng);}
-.cloud-word.equal-hot{color:var(--thai);}
-.cloud-word.kru-hot:hover{text-shadow:0 0 16px rgba(200,148,58,0.7),0 0 32px rgba(200,148,58,0.3);}
-.cloud-word.stu-hot:hover{text-shadow:0 0 16px rgba(90,154,204,0.7),0 0 32px rgba(90,154,204,0.3);}
-.cloud-word.equal-hot:hover{text-shadow:0 0 16px rgba(204,90,122,0.7),0 0 32px rgba(204,90,122,0.3);}
+.cloud-word.freq-high{color:var(--gold2);}
+.cloud-word.freq-mid{color:var(--cream2);}
+.cloud-word.freq-low{color:var(--muted);}
+.cloud-word.freq-high:hover{text-shadow:0 0 18px rgba(230,180,90,0.8),0 0 36px rgba(200,148,58,0.35);}
+.cloud-word.freq-mid:hover{text-shadow:0 0 14px rgba(216,205,184,0.55);}
+.cloud-word.freq-low:hover{text-shadow:0 0 10px rgba(122,112,96,0.5);}
 .cloud-sub{display:block;font-family:'Noto Sans Thai',sans-serif;font-size:0.75em;opacity:0.7;font-weight:600;margin-top:2px;}
 @keyframes cloudIn{from{opacity:0;transform:scale(0.6);}to{opacity:1;transform:scale(1);}}
 
@@ -440,9 +440,8 @@ function renderCloud(){
   sorted.forEach(function(w,i){
     var ratio=w.count/maxC;
     var fs=Math.round(11+ratio*17);
-    /* color by tag */
-    var tagColors={gym:'kru-hot',food:'stu-hot',daily:'stu-hot',travel:'equal-hot',culture:'equal-hot',emotions:'kru-hot',other:'equal-hot',bookmark:'stu-hot'};
-    var cls=tagColors[w.tag]||'equal-hot';
+    /* color by frequency */
+    var cls=ratio>0.65?'freq-high':ratio>0.3?'freq-mid':'freq-low';
 
     ctx.font='bold '+fs+'px Jost,sans-serif';
     var tw=ctx.measureText(w.english).width+8;
@@ -466,7 +465,7 @@ function renderCloud(){
     var el=document.createElement('div');
     el.className='cloud-word '+cls;
     var glowOpacity=0.2+ratio*0.5;
-    var glowColor=cls==='kru-hot'?'rgba(200,148,58,'+glowOpacity+')':cls==='stu-hot'?'rgba(90,154,204,'+glowOpacity+')':'rgba(204,90,122,'+glowOpacity+')';
+    var glowColor=cls==='freq-high'?'rgba(230,180,90,'+glowOpacity+')':cls==='freq-mid'?'rgba(216,205,184,'+(glowOpacity*0.6)+')':'rgba(122,112,96,'+(glowOpacity*0.4)+')';
     el.style.cssText='left:'+Math.round(x)+'px;top:'+Math.round(y)+'px;font-size:'+fs+'px;animation-delay:'+(i*0.05)+'s;text-shadow:0 0 '+(6+ratio*12)+'px '+glowColor+';';
     el.innerHTML=esc(w.english)+'<span class="cloud-sub">'+esc(w.thai)+'</span>';
     el.addEventListener('click',function(){document.getElementById('search-input').value=w.english;searchQuery=w.english.toLowerCase();renderCards();});
