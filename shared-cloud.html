@@ -144,6 +144,9 @@ function renderPage(words){
   var contribList=Object.keys(contribs).sort(function(a,b){return contribs[b]-contribs[a];});
   /* assign colors in contributor-count order so top contributor = first palette color */
   contribList.forEach(function(n){colorForUser(n);});
+  /* anonymous display names — real names never shown */
+  var anonMap={};
+  contribList.forEach(function(n,i){anonMap[n]='Learner '+(i+1);});
 
   /* recent 8 additions (sorted newest first) */
   var recent=words.slice().sort(function(a,b){return (b.savedAt||'').localeCompare(a.savedAt||'');}).slice(0,8);
@@ -169,7 +172,7 @@ function renderPage(words){
             '<div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:'+c+';border-radius:3px 0 0 3px;"></div>'+
             '<div class="contrib-swatch" style="background:'+c+'22;border:2px solid '+c+';"></div>'+
             '<div class="contrib-info">'+
-              '<div class="contrib-name">'+esc(name)+'</div>'+
+              '<div class="contrib-name">'+esc(anonMap[name]||name)+'</div>'+
               '<div class="contrib-count">'+cnt+' vocab word'+(cnt!==1?'s':'')+'</div>'+
             '</div>'+
             '<div class="contrib-badge" style="background:'+c+'18;border:1px solid '+c+'44;color:'+c+';">'+(i===0?'&#127942; TOP':'#'+(i+1))+'</div>'+
@@ -185,7 +188,7 @@ function renderPage(words){
             '<div class="recent-dot" style="background:'+c+';box-shadow:0 0 6px '+c+'66;"></div>'+
             '<div class="recent-eng">'+esc(w.english)+'</div>'+
             '<div class="recent-thai">'+esc(w.thai)+'</div>'+
-            '<div class="recent-by">'+esc(w.addedBy)+'</div>'+
+            '<div class="recent-by">'+esc(anonMap[w.addedBy]||w.addedBy)+'</div>'+
           '</div>';
         }).join('')+
       '</div>'+
