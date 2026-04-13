@@ -18,7 +18,7 @@
   --cream:#f0e8d8;--cream2:#d8cdb8;--muted:#7a7060;
   --border:rgba(200,148,58,0.18);--border2:rgba(200,148,58,0.08);
   --eng:#5a9acc;--thai:#cc5a7a;--roman:#5aaa80;
-  --nav-h:62px;--top-h:52px;
+  --nav-h:56px;--top-h:52px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{font-family:'Jost',system-ui,sans-serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;}
@@ -156,12 +156,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .empty-state .big{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:600;margin-bottom:1rem;color:var(--border);}
 .empty-state p{font-size:0.82rem;line-height:1.9;letter-spacing:0.02em;}
 
-/* BOTTOM NAV */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--bg2);border-top:1px solid var(--border);display:flex;justify-content:center;z-index:20;padding-bottom:env(safe-area-inset-bottom);}
-.nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.3rem;cursor:pointer;border:none;background:none;color:var(--muted);transition:color 0.15s;padding:0 2rem;font-family:'Jost',sans-serif;}
-.nav-item.active{color:var(--gold);}
-.nav-icon{font-size:1.1rem;line-height:1;}
-.nav-label{font-size:0.6rem;font-weight:600;letter-spacing:0.08em;line-height:1.5;}
 
 /* SHEET */
 .sheet-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:50;}
@@ -271,12 +265,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   </div>
 </div>
 
-<nav class="bottom-nav">
-  <button class="nav-item active" id="nav-add">
-    <span class="nav-icon">&#xFF0B;</span>
-    <span class="nav-label">ADD VOCAB</span>
-  </button>
-</nav>
 
 </div><!-- /app -->
 
@@ -685,7 +673,6 @@ function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/<
 function escAttr(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');}
 
 /* ── NAV ── */
-document.getElementById('nav-add').addEventListener('click',function(){openSheet();});
 document.getElementById('add-btn-top').addEventListener('click',function(){
   var q=document.getElementById('search-input').value.trim();
   openSheet(q||undefined);
@@ -826,16 +813,17 @@ function showToast(msg){var t=document.getElementById('toast');t.textContent=msg
 /* ── INIT ── */
 startApp();
 </script>
-<!-- PILL STACK -->
-<style>
-.pill-stack{position:fixed;bottom:1.6rem;right:1.6rem;display:flex;flex-direction:column;align-items:flex-end;gap:0.55rem;z-index:9999;}
-.pill-stack a{background:rgba(184,120,32,0.15);border:1px solid rgba(184,120,32,0.4);color:#c8943a;border-radius:99px;padding:0.55rem 1.05rem;font-size:0.72rem;font-weight:700;text-decoration:none;transition:all 0.2s;white-space:nowrap;font-family:'Jost',system-ui,sans-serif;}
-.pill-stack a:hover{background:rgba(184,120,32,0.25);}
+<!-- PILL STACK --><style>
+.tab-bar{position:fixed;bottom:0;left:0;right:0;height:56px;background:#131109;border-top:1px solid rgba(200,148,58,0.18);display:flex;align-items:stretch;z-index:9000;font-family:'Jost',system-ui,sans-serif;padding-bottom:env(safe-area-inset-bottom);}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:rgba(122,112,96,0.8);transition:color 0.15s;}
+.tab-item.active{color:#c8943a;}
+.tab-icon{font-size:1.15rem;line-height:1;}
+.tab-label{font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;}
 </style>
-<div class="pill-stack">
-  <a href="index.html">&#x1F94A; Volumes</a>
-  <a href="shared-cloud.html">&#128101; Shared Cloud</a>
-  <a href="my-saved-note.html">&#128278; My Notes</a>
-</div>
+<nav class="tab-bar">
+  <a class="tab-item" href="index.html"><span class="tab-icon">🥊</span><span class="tab-label">Volumes</span></a>
+  <a class="tab-item" href="shared-cloud.html"><span class="tab-icon">👥</span><span class="tab-label">Shared Cloud</span></a>
+  <a class="tab-item active" href="my-saved-note.html"><span class="tab-icon">🔖</span><span class="tab-label">My Notes</span></a>
+</nav>
 </body>
 </html>

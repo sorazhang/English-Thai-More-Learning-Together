@@ -269,7 +269,7 @@
   
   /* ══ FLOATING PILL NAV ══ */
   .pill-btn {
-    position: fixed; bottom: 1.6rem; right: 1.6rem;
+    position: fixed; bottom: calc(56px + 1rem); right: 1.6rem;
     display: flex; align-items: center; gap: 0.45rem;
     background: #1c1710; color: rgba(244,238,216,0.8);
     border: 1px solid rgba(255,255,255,0.12); border-radius: 99px;
@@ -291,7 +291,7 @@
   .pill-btn.pactive .pill-arrow { transform: rotate(180deg); }
 
   .pill-pop {
-    position: fixed; bottom: 4.8rem; right: 1.6rem;
+    position: fixed; bottom: calc(56px + 4.2rem); right: 1.6rem;
     width: min(320px, calc(100vw - 3.2rem));
     background: #0f0c09; border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px; z-index: 299; display: none;
@@ -1017,10 +1017,6 @@
       <span class="pp-nm">Getting Around Thailand</span>
     </a>
   </div>
-  <div class="pp-foot">
-    <a class="pp-lnk" href="shared-cloud.html"><span class="pp-nm">👥 Shared Cloud</span></a>
-    <a class="pp-lnk" href="my-saved-note.html"><span class="pp-nm">🔖 My Notes</span></a>
-  </div>
 </div>
 
 <script>
@@ -1219,5 +1215,17 @@ function _injectBookmarks() {
 }
 
 _injectBookmarks();
-</script></body>
+</script><style>
+.tab-bar{position:fixed;bottom:0;left:0;right:0;height:56px;background:#131109;border-top:1px solid rgba(200,148,58,0.18);display:flex;align-items:stretch;z-index:9000;font-family:'Jost',system-ui,sans-serif;padding-bottom:env(safe-area-inset-bottom);}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:rgba(122,112,96,0.8);transition:color 0.15s;}
+.tab-item.active{color:#c8943a;}
+.tab-icon{font-size:1.15rem;line-height:1;}
+.tab-label{font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;}
+</style>
+<nav class="tab-bar">
+  <a class="tab-item active" href="index.html"><span class="tab-icon">🥊</span><span class="tab-label">Volumes</span></a>
+  <a class="tab-item" href="shared-cloud.html"><span class="tab-icon">👥</span><span class="tab-label">Shared Cloud</span></a>
+  <a class="tab-item" href="my-saved-note.html"><span class="tab-icon">🔖</span><span class="tab-label">My Notes</span></a>
+</nav>
+</body>
 </html>
