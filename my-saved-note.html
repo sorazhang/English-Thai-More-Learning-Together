@@ -153,8 +153,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .empty-state p{font-size:0.82rem;line-height:1.9;letter-spacing:0.02em;}
 
 /* BOTTOM NAV */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:20;padding-bottom:env(safe-area-inset-bottom);}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.3rem;cursor:pointer;border:none;background:none;color:var(--muted);transition:color 0.15s;padding:0;font-family:'Jost',sans-serif;}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--bg2);border-top:1px solid var(--border);display:flex;justify-content:center;z-index:20;padding-bottom:env(safe-area-inset-bottom);}
+.nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.3rem;cursor:pointer;border:none;background:none;color:var(--muted);transition:color 0.15s;padding:0 2rem;font-family:'Jost',sans-serif;}
 .nav-item.active{color:var(--gold);}
 .nav-icon{font-size:1.1rem;line-height:1;}
 .nav-label{font-size:0.6rem;font-weight:600;letter-spacing:0.08em;line-height:1.5;}
@@ -259,17 +259,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 
 <nav class="bottom-nav">
-  <button class="nav-item active" id="nav-home">
-    <span class="nav-icon">&#128269;</span>
-    <span class="nav-label">SEARCH</span>
-  </button>
-  <button class="nav-item" id="nav-add">
+  <button class="nav-item active" id="nav-add">
     <span class="nav-icon">&#xFF0B;</span>
-    <span class="nav-label">ADD</span>
-  </button>
-  <button class="nav-item" id="nav-mine">
-    <span class="nav-icon">&#128203;</span>
-    <span class="nav-label">MY VOCAB</span>
+    <span class="nav-label">ADD VOCAB</span>
   </button>
 </nav>
 
@@ -625,16 +617,13 @@ function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/<
 function escAttr(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');}
 
 /* ── NAV ── */
-document.getElementById('nav-home').addEventListener('click',function(){setNav('home');activeTab='topics';syncTabs();renderCards();});
-document.getElementById('nav-mine').addEventListener('click',function(){setNav('mine');activeTab='mine';syncTabs();renderCards();});
 document.getElementById('nav-add').addEventListener('click',openSheet);
 document.getElementById('add-btn-top').addEventListener('click',openSheet);
 
-function setNav(id){document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});document.getElementById('nav-'+id).classList.add('active');}
 function syncTabs(){document.getElementById('tab-topics').classList.toggle('active',activeTab==='topics');document.getElementById('tab-mine').classList.toggle('active',activeTab==='mine');}
 
-document.getElementById('tab-topics').addEventListener('click',function(){activeTab='topics';setNav('home');syncTabs();renderCards();});
-document.getElementById('tab-mine').addEventListener('click',function(){activeTab='mine';setNav('mine');syncTabs();renderCards();});
+document.getElementById('tab-topics').addEventListener('click',function(){activeTab='topics';syncTabs();renderCards();});
+document.getElementById('tab-mine').addEventListener('click',function(){activeTab='mine';syncTabs();renderCards();});
 
 document.querySelectorAll('.tf-pill').forEach(function(p){
   p.addEventListener('click',function(){
@@ -733,7 +722,7 @@ document.getElementById('save-btn').addEventListener('click',function(){
   saveMyWords(arr);
   closeSheet();
   renderCloud();
-  activeTab='mine';setNav('mine');syncTabs();renderCards();
+  activeTab='mine';syncTabs();renderCards();
   showToast((pendingWord.english||'').toUpperCase()+' SAVED TO MY VOCAB!');
   pendingWord=null;
 });
