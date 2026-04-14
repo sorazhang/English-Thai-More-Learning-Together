@@ -158,9 +158,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 
 /* SHEET */
-.sheet-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:50;}
+.sheet-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9001;}
 .sheet-overlay.visible{display:block;}
-.sheet{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-radius:12px 12px 0 0;border-top:1px solid var(--border);max-height:92vh;overflow-y:auto;z-index:51;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);padding-bottom:env(safe-area-inset-bottom);}
+.sheet{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-radius:12px 12px 0 0;border-top:1px solid var(--border);max-height:92vh;overflow-y:auto;z-index:9002;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);padding-bottom:env(safe-area-inset-bottom);}
 .sheet.visible{transform:translateY(0);}
 .sheet-handle{width:32px;height:3px;background:var(--border);border-radius:2px;margin:0.8rem auto 0;}
 .sheet-hd{padding:1rem 1.1rem 0.8rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
