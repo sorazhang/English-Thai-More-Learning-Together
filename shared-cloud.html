@@ -6,7 +6,7 @@
 <title>Shared Cloud · KruExchange</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,600;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,600;1,400;1,600&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <style>
@@ -23,8 +23,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 /* TOPBAR */
 .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 1rem;height:var(--top-h);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;}
-.topbar-logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.25rem;font-weight:600;color:var(--gold);line-height:1;}
-.topbar-logo span{color:var(--gold2);}
+.topbar-logo{font-family:'Playfair Display',serif;font-style:italic;font-size:1.3rem;font-weight:700;color:var(--gold);line-height:1;letter-spacing:0.01em;}
+.topbar-logo span{color:var(--gold2);font-style:normal;}
 .back-btn{background:none;border:1px solid var(--border);color:var(--muted);font-size:0.72rem;padding:0.3rem 0.7rem;border-radius:3px;cursor:pointer;font-family:'Jost',sans-serif;font-weight:500;letter-spacing:0.04em;transition:all 0.15s;text-decoration:none;display:inline-block;}
 .back-btn:hover{border-color:var(--gold);color:var(--gold);}
 
@@ -77,7 +77,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <body>
 
 <div class="topbar">
-  <div class="topbar-logo">Shared<span>Cloud</span></div>
+  <div class="topbar-logo"><span>Shared</span> Cloud</div>
   <a class="back-btn" href="my-saved-note.html">&#8592; MY NOTES</a>
 </div>
 
