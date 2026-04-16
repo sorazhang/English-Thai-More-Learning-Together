@@ -472,6 +472,8 @@
   .notes-pill:hover { background: rgba(184,120,32,0.25); }
 
 </style>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -1256,5 +1258,27 @@ _injectBookmarks();
   <a class="tab-item" href="shared-cloud.html"><span class="tab-icon">🧱</span><span class="tab-label">Word Wall</span></a>
   <a class="tab-item" href="my-saved-note.html"><span class="tab-icon">🔖</span><span class="tab-label">My Notes</span></a>
 </nav>
+<script>
+/* ── BOOKMARK FIREBASE SYNC ── */
+(function(){
+  var _FC={apiKey:"AIzaSyADe8cPmF8Tcw8TDAqxW-_iQrRirLTPzFI",databaseURL:"https://kruexchange-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"kruexchange",appId:"1:1087057646157:web:55a0b1b0ca27d596fd4204"};
+  function _sk(n){return(n||'').toLowerCase().replace(/[.#$\/\[\]\s]+/g,'_').replace(/^_|_$/g,'').slice(0,64)||'user';}
+  function _gu(){return localStorage.getItem('kruexchange_username')||'';}
+  var _db=null;
+  function getDb(){if(_db)return _db;try{if(!firebase.apps.length)firebase.initializeApp(_FC);_db=firebase.database();}catch(e){}return _db;}
+  /* override _bmWrite — detects adds/removes and mirrors to Firebase */
+  var _orig=_bmWrite;
+  _bmWrite=function(newArr){
+    var oldArr=_bmLoad();
+    _orig(newArr);
+    var u=_gu();if(!u)return;
+    var db=getDb();if(!db)return;
+    var oldIds={};oldArr.forEach(function(b){oldIds[b.id]=true;});
+    var newIds={};newArr.forEach(function(b){newIds[b.id]=true;});
+    newArr.forEach(function(b){if(!oldIds[b.id])db.ref('users/'+_sk(u)+'/bookmarks/'+b.id).set(b);});
+    oldArr.forEach(function(b){if(!newIds[b.id])db.ref('users/'+_sk(u)+'/bookmarks/'+b.id).remove();});
+  };
+})();
+</script>
 </body>
 </html>
