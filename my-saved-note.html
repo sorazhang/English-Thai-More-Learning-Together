@@ -382,18 +382,55 @@ function startApp(){
       if(!n)return;
       setUsername(n);
       ns.classList.add('hidden');
-      fetchSharedApiKey(function(){renderCloud();renderCards();});
+      fetchSharedApiKey(function(){setupFirebaseSync();});
     });
     document.getElementById('name-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('name-save').click();});
     return;
   }
-  fetchSharedApiKey(function(){renderCloud();renderCards();});
+  fetchSharedApiKey(function(){setupFirebaseSync();renderCloud();renderCards();});
 }
 
 
 function loadBookmarks(){try{return JSON.parse(localStorage.getItem(BM_KEY)||'[]');}catch(e){return[];}}
 function loadMyWords(){try{return JSON.parse(localStorage.getItem(MY_KEY)||'[]');}catch(e){return[];}}
 function saveMyWords(arr){try{localStorage.setItem(MY_KEY,JSON.stringify(arr));}catch(e){}}
+
+/* ── FIREBASE USER SYNC ── */
+function safeKey(n){return(n||'').toLowerCase().replace(/[.#$\/\[\]\s]+/g,'_').replace(/^_|_$/g,'').slice(0,64)||'user';}
+function userRef(){return fb_db.ref('users/'+safeKey(getUsername()));}
+
+function setupFirebaseSync(){
+  if(!FB_ON||!fb_db||!getUsername())return;
+  var ref=userRef();
+
+  /* real-time listener: my_words */
+  ref.child('my_words').on('value',function(snap){
+    var words=[];
+    snap.forEach(function(c){words.push(c.val());});
+    words.sort(function(a,b){return(b.savedAt||'').localeCompare(a.savedAt||'');});
+    try{localStorage.setItem(MY_KEY,JSON.stringify(words));}catch(e){}
+    renderCloud();
+    if(activeTab==='mine')renderCards();
+  });
+
+  /* real-time listener: bookmarks */
+  ref.child('bookmarks').on('value',function(snap){
+    var bmarks=[];
+    snap.forEach(function(c){bmarks.push(c.val());});
+    try{localStorage.setItem(BM_KEY,JSON.stringify(bmarks));}catch(e){}
+    if(activeTab==='topics')renderCards();
+  });
+
+  /* one-time migration: upload any localStorage data not yet in Firebase */
+  ref.child('my_words').once('value',function(snap){
+    var fbIds={};snap.forEach(function(c){fbIds[c.val().id]=true;});
+    loadMyWords().forEach(function(w){if(!fbIds[w.id])ref.child('my_words').child(w.id).set(w);});
+  });
+  ref.child('bookmarks').once('value',function(snap){
+    var fbIds={};snap.forEach(function(c){var v=c.val();if(v&&v.id)fbIds[v.id]=true;});
+    loadBookmarks().forEach(function(b){if(!fbIds[b.id])ref.child('bookmarks').child(b.id).set(b);});
+  });
+}
 
 /* convert bookmark card to word-card format — unused, kept for reference */
 var VOL_CAT={'1':'gym','2':'gym','6':'gym','8':'gym','20':'gym','9':'food','21':'food','22':'food','7':'culture','15':'culture','12':'travel','13':'travel','14':'travel','3':'daily','4':'daily','5':'daily','16':'daily','17':'daily','18':'daily','19':'daily'};
@@ -506,9 +543,21 @@ function buildBookmarkCard(b){
 }
 
 function removeBookmark(id){
-  var arr=loadBookmarks().filter(function(b){return b.id!==id;});
-  try{localStorage.setItem(BM_KEY,JSON.stringify(arr));}catch(e){}
-  renderCards();
+  if(FB_ON&&fb_db&&getUsername()){
+    userRef().child('bookmarks').child(id).remove();
+  } else {
+    var arr=loadBookmarks().filter(function(b){return b.id!==id;});
+    try{localStorage.setItem(BM_KEY,JSON.stringify(arr));}catch(e){}
+    renderCards();
+  }
+}
+function removeMyWord(id){
+  if(FB_ON&&fb_db&&getUsername()){
+    userRef().child('my_words').child(id).remove();
+  } else {
+    saveMyWords(loadMyWords().filter(function(w){return w.id!==id;}));
+    renderCloud();renderCards();
+  }
 }
 
 /* ── RENDER CARDS ── */
@@ -589,7 +638,7 @@ function buildCard(w){
   div.innerHTML=
     '<div class="wcard-top">'+
       '<div class="wcard-tag" data-tag="'+esc(w.tag||'other')+'">'+(TAG_LABELS[w.tag]||w.tag||'Other')+'</div>'+
-      '<span class="wcard-by">'+esc(w.addedBy||'')+'</span>'+
+      '<button class="clear-btn rm-word">REMOVE</button>'+
     '</div>'+
     '<div class="wcard-eng">'+esc(w.english)+'<span class="wcard-pos">'+esc(w.partOfSpeech||'')+'</span><button class="speak-btn-sm eng" data-text="'+escAttr(w.english)+'" data-lang="en-GB">&#128266;</button></div>'+
     '<div class="wcard-thai">'+esc(w.thai)+'<button class="speak-btn-sm tha" data-text="'+escAttr(w.thai)+'" data-lang="th-TH">&#128266;</button></div>'+
@@ -599,6 +648,7 @@ function buildCard(w){
   div.querySelectorAll('.speak-btn-sm').forEach(function(btn){
     btn.addEventListener('click',function(e){e.stopPropagation();speak(btn.dataset.text,btn,btn.dataset.lang);});
   });
+  div.querySelector('.rm-word').addEventListener('click',function(e){e.stopPropagation();removeMyWord(w.id);});
   if(exSection) div.addEventListener('click',function(){div.classList.toggle('expanded');});
   return div;
 }
@@ -737,15 +787,15 @@ document.getElementById('save-btn').addEventListener('click',function(){
   if(!pendingWord)return;
   var note=document.getElementById('panel-note').value.trim();
   var tag=document.getElementById('panel-tag').value;
-  var arr=loadMyWords();
   var id='my_'+Date.now();
   var by=getUsername()||'Me';
   var wordEntry=Object.assign({},pendingWord,{id:id,tag:tag,note:note,addedBy:by,savedAt:new Date().toISOString()});
-  arr.unshift(wordEntry);
-  saveMyWords(arr);
-  /* sync to Firebase shared pool */
-  if(FB_ON&&fb_db){
+  if(FB_ON&&fb_db&&getUsername()){
+    /* write to user's Firebase node — listener auto-updates localStorage + UI */
+    userRef().child('my_words').child(id).set(wordEntry);
     fb_db.ref('shared_words').push(Object.assign({},pendingWord,{tag:tag,note:note,addedBy:by,savedAt:new Date().toISOString()}));
+  } else {
+    var arr=loadMyWords();arr.unshift(wordEntry);saveMyWords(arr);
   }
   closeSheet();
   renderCloud();
