@@ -1088,6 +1088,7 @@ function _speakBtn(btn) {
 
 function _injectSpeakButtons() {
   document.querySelectorAll('.e, .dt .e, .eng').forEach(function(el) {
+    if (el.classList.contains('speak-btn')) return;
     if (el.querySelector('.speak-btn')) return;
     var wrap = document.createElement('div'); wrap.className = 'speak-line';
     var span = document.createElement('span'); span.className = 'speak-text';
