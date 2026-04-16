@@ -222,8 +222,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="topbar">
   <div class="topbar-logo">My <span>Notes</span></div>
   <div class="topbar-right">
-    <a class="key-btn" href="shared-cloud.html" title="Shared Cloud">&#128101;</a>
-    <button class="key-btn" id="key-btn" title="Settings">&#9881;</button>
     <button class="back-btn" onclick="window.location='index.html'">&#8592; INDEX</button>
   </div>
 </div>
@@ -268,23 +266,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 </div><!-- /app -->
 
-<!-- SETTINGS SHEET (change API key) -->
-<div class="sheet-overlay" id="settings-overlay"></div>
-<div class="sheet" id="settings-sheet">
-  <div class="sheet-handle"></div>
-  <div class="sheet-hd">
-    <div class="sheet-title">&#9881; SETTINGS</div>
-    <button class="sheet-close" id="settings-close">&#10005;</button>
-  </div>
-  <div class="sheet-body">
-    <div class="field-group">
-      <label class="field-label">ANTHROPIC API KEY</label>
-      <input class="field-input" id="settings-apikey" type="password" placeholder="sk-ant-..." autocomplete="off">
-      <div style="font-size:0.65rem;color:var(--muted);margin-top:0.4rem;line-height:1.6;">Required for Add Vocab lookup &nbsp;&#183;&nbsp; Stored locally only &nbsp;&#183;&nbsp; console.anthropic.com &#8594; API Keys</div>
-    </div>
-    <button class="save-btn" id="settings-save" style="margin-top:0.5rem;">SAVE KEY</button>
-  </div>
-</div>
 
 <!-- ADD VOCAB SHEET -->
 <div class="sheet-overlay" id="sheet-overlay"></div>
@@ -409,41 +390,6 @@ function startApp(){
   fetchSharedApiKey(function(){renderCloud();renderCards();});
 }
 
-/* ── SETTINGS SHEET ── */
-document.getElementById('key-btn').addEventListener('click',openSettings);
-document.getElementById('settings-close').addEventListener('click',closeSettings);
-document.getElementById('settings-overlay').addEventListener('click',closeSettings);
-
-document.querySelectorAll('#settings-roles .role-btn').forEach(function(btn){
-  btn.addEventListener('click',function(){
-    document.querySelectorAll('#settings-roles .role-btn').forEach(function(b){b.classList.remove('active');});
-    btn.classList.add('active');
-  });
-});
-
-document.getElementById('settings-save').addEventListener('click',function(){
-  var rawKey=document.getElementById('settings-apikey').value.trim();
-  if(!rawKey){showToast('ENTER AN API KEY');return;}
-  var k=rawKey.split('').filter(function(c){return c.charCodeAt(0)>=33&&c.charCodeAt(0)<=126;}).join('');
-  if(!k.startsWith('sk-')){showToast('INVALID KEY — must start with sk-');return;}
-  var sess=loadSession()||{};
-  sess.apiKey=k;
-  saveSession(sess);
-  /* share key with other devices via Firebase */
-  if(FB_ON&&fb_db){fb_db.ref('config/apiKey').set(k);}
-  document.getElementById('settings-apikey').value='';
-  closeSettings();
-  showToast('API KEY SAVED ✓');
-});
-
-function openSettings(){
-  document.getElementById('settings-overlay').classList.add('visible');
-  document.getElementById('settings-sheet').classList.add('visible');
-}
-function closeSettings(){
-  document.getElementById('settings-overlay').classList.remove('visible');
-  document.getElementById('settings-sheet').classList.remove('visible');
-}
 
 function loadBookmarks(){try{return JSON.parse(localStorage.getItem(BM_KEY)||'[]');}catch(e){return[];}}
 function loadMyWords(){try{return JSON.parse(localStorage.getItem(MY_KEY)||'[]');}catch(e){return[];}}
@@ -733,7 +679,7 @@ document.getElementById('panel-word').addEventListener('keydown',function(e){if(
 
 async function lookupWord(){
   var apiKey=getApiKey();
-  if(!apiKey){closeSheet();openSettings();showToast('ENTER API KEY TO USE ADD VOCAB');return;}
+  if(!apiKey){showToast('LOADING API KEY…');return;}
 
   var word=document.getElementById('panel-word').value.trim();
   if(!word){document.getElementById('panel-word').focus();return;}
