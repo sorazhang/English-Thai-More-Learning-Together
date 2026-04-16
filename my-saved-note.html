@@ -212,6 +212,63 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes pulse{from{opacity:1;}to{opacity:0.5;}}
+
+/* ── FLASH CARDS ── */
+.practice-bar{display:none;margin-bottom:0.75rem;}
+.practice-btn{width:100%;background:transparent;border:1px solid rgba(200,148,58,0.35);color:var(--gold);border-radius:5px;padding:0.65rem;font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.1em;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:0.5rem;}
+.practice-btn:active{background:rgba(200,148,58,0.08);}
+
+.fc-overlay{position:fixed;inset:0;background:var(--bg);z-index:9500;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.38s cubic-bezier(0.32,0.72,0,1);}
+.fc-overlay.open{transform:translateY(0);}
+.fc-topbar{padding:0.75rem 1rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0;}
+.fc-close-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:'Jost',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;padding:0.3rem 0.65rem;border-radius:3px;cursor:pointer;transition:all 0.15s;}
+.fc-close-btn:active{border-color:var(--gold);color:var(--gold);}
+.fc-prog-text{font-family:'Jost',sans-serif;font-size:0.78rem;font-weight:600;color:var(--gold);}
+.fc-deck-left{font-family:'Jost',sans-serif;font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;}
+.fc-progbar{height:2px;background:var(--border2);flex-shrink:0;}
+.fc-progbar-fill{height:100%;background:var(--gold);transition:width 0.4s ease;width:0%;}
+
+.fc-stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.2rem 1rem;gap:1.2rem;overflow:hidden;}
+.fc-card-wrap{perspective:1200px;width:100%;max-width:380px;}
+.fc-card{width:100%;height:240px;cursor:pointer;transform-style:preserve-3d;transition:transform 0.52s cubic-bezier(0.4,0,0.2,1);position:relative;user-select:none;}
+.fc-card.flipped{transform:rotateY(180deg);}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.2rem 1.4rem;text-align:center;border:1px solid var(--border);}
+.fc-front{background:linear-gradient(160deg,var(--bg2) 0%,#0f0d08 100%);border-color:rgba(90,154,204,0.25);}
+.fc-back{background:linear-gradient(160deg,var(--bg2) 0%,#120a0d 100%);border-color:rgba(204,90,122,0.25);transform:rotateY(180deg);}
+.fc-face-label{font-family:'Jost',sans-serif;font-size:0.56rem;font-weight:600;letter-spacing:0.2em;color:var(--muted);position:absolute;top:0.75rem;left:50%;transform:translateX(-50%);white-space:nowrap;}
+.fc-eng{font-size:1.8rem;font-weight:700;color:var(--eng);line-height:1.2;margin-bottom:0.3rem;}
+.fc-pos{font-size:0.7rem;color:var(--muted);font-style:italic;margin-bottom:0.6rem;}
+.fc-speak-hint{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Jost',sans-serif;font-size:0.65rem;padding:0.28rem 0.75rem;border-radius:20px;cursor:pointer;transition:all 0.15s;margin-bottom:0.3rem;}
+.fc-speak-hint.en-style{border-color:rgba(90,154,204,0.3);color:var(--eng);}
+.fc-speak-hint.th-style{border-color:rgba(204,90,122,0.3);color:var(--thai);}
+.fc-speak-hint.speaking{animation:pulse 0.5s ease infinite alternate;}
+.fc-tap-hint{font-family:'Jost',sans-serif;font-size:0.58rem;color:var(--muted);letter-spacing:0.06em;position:absolute;bottom:0.7rem;opacity:0.5;}
+.fc-thai{font-family:'Noto Sans Thai',sans-serif;font-size:1.9rem;font-weight:700;color:var(--thai);line-height:1.5;margin-bottom:0.15rem;}
+.fc-roman{font-size:0.82rem;color:var(--roman);font-style:italic;margin-bottom:0.5rem;}
+.fc-eng-echo{font-size:0.72rem;color:var(--muted);margin-bottom:0.6rem;}
+
+.fc-actions{width:100%;max-width:380px;display:none;gap:0.65rem;}
+.fc-actions.show{display:flex;}
+.fc-action-btn{flex:1;padding:0.85rem 0.5rem;border-radius:6px;font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;cursor:pointer;border:2px solid transparent;transition:all 0.15s;}
+.fc-again-btn{background:transparent;border-color:rgba(200,148,58,0.4);color:var(--gold);}
+.fc-again-btn:active{background:rgba(200,148,58,0.08);}
+.fc-got-btn{background:rgba(30,72,50,0.5);border-color:rgba(90,170,120,0.45);color:#5aaa80;}
+.fc-got-btn:active{background:rgba(30,72,50,0.8);}
+
+.fc-summary{flex:1;display:none;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;}
+.fc-summary.show{display:flex;}
+.fc-sum-emoji{font-size:3.5rem;margin-bottom:0.6rem;}
+.fc-sum-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--gold2);margin-bottom:0.4rem;}
+.fc-sum-sub{font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:1.4rem;}
+.fc-sum-row{display:flex;gap:1.5rem;margin-bottom:1.6rem;}
+.fc-sum-stat{text-align:center;}
+.fc-sum-num{font-size:2rem;font-weight:700;line-height:1;}
+.fc-sum-lbl{font-family:'Jost',sans-serif;font-size:0.6rem;color:var(--muted);letter-spacing:0.14em;margin-top:0.2rem;}
+.fc-sum-btn{width:100%;max-width:280px;padding:0.85rem;border-radius:6px;font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;cursor:pointer;border:2px solid transparent;margin-top:0.6rem;transition:all 0.15s;}
+.fc-sum-again{background:rgba(30,72,50,0.5);border-color:rgba(90,170,120,0.45);color:#5aaa80;}
+.fc-sum-back{background:transparent;border-color:var(--border);color:var(--muted);}
+.fc-sum-again:active{background:rgba(30,72,50,0.8);}
+.fc-sum-back:active{background:rgba(255,255,255,0.03);}
 </style>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#c8943a">
@@ -261,6 +318,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       </div>
     </div>
 
+    <div class="practice-bar" id="practice-bar">
+      <button class="practice-btn" id="practice-btn">&#127183; FLASH CARDS &nbsp;&mdash;&nbsp; Practice My Vocab</button>
+    </div>
     <p class="results-count" id="results-count"></p>
     <div class="cards-list" id="cards-container"></div>
   </div>
@@ -314,6 +374,72 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- ── FLASH CARD OVERLAY ── -->
+<div class="fc-overlay" id="fc-overlay">
+
+  <!-- top bar -->
+  <div class="fc-topbar" id="fc-topbar">
+    <button class="fc-close-btn" id="fc-close-btn">&#10005; EXIT</button>
+    <div class="fc-prog-text" id="fc-prog-text">1 / ?</div>
+    <div class="fc-deck-left" id="fc-deck-left">FLASH CARDS</div>
+  </div>
+  <div class="fc-progbar"><div class="fc-progbar-fill" id="fc-progbar-fill"></div></div>
+
+  <!-- card stage -->
+  <div class="fc-stage" id="fc-stage">
+    <div class="fc-card-wrap">
+      <div class="fc-card" id="fc-card">
+        <!-- FRONT: English -->
+        <div class="fc-face fc-front">
+          <div class="fc-face-label">ENGLISH</div>
+          <div class="fc-eng" id="fc-eng"></div>
+          <div class="fc-pos" id="fc-pos"></div>
+          <button class="fc-speak-hint en-style" id="fc-speak-en">&#128266; Hear English</button>
+          <div class="fc-tap-hint">Tap card to reveal Thai</div>
+        </div>
+        <!-- BACK: Thai -->
+        <div class="fc-face fc-back">
+          <div class="fc-face-label">&#3616;&#3634;&#3625;&#3634;&#3652;&#3607;&#3618;</div>
+          <div class="fc-thai" id="fc-thai"></div>
+          <div class="fc-roman" id="fc-roman"></div>
+          <div class="fc-eng-echo" id="fc-eng-echo"></div>
+          <button class="fc-speak-hint th-style" id="fc-speak-th">&#128266; &#3629;&#3629;&#3585;&#3648;&#3626;&#3637;&#3618;&#3591;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- action buttons (shown after flip) -->
+    <div class="fc-actions" id="fc-actions">
+      <button class="fc-action-btn fc-again-btn" id="fc-again-btn">&#8629; AGAIN</button>
+      <button class="fc-action-btn fc-got-btn" id="fc-got-btn">GOT IT &#10003;</button>
+    </div>
+  </div>
+
+  <!-- session summary (shown when deck finished) -->
+  <div class="fc-summary" id="fc-summary">
+    <div class="fc-sum-emoji" id="fc-sum-emoji">&#127881;</div>
+    <div class="fc-sum-title">Round Complete!</div>
+    <div class="fc-sum-sub" id="fc-sum-sub">SESSION RESULTS</div>
+    <div class="fc-sum-row">
+      <div class="fc-sum-stat">
+        <div class="fc-sum-num" id="fc-sum-known" style="color:#5aaa80;">0</div>
+        <div class="fc-sum-lbl">GOT IT</div>
+      </div>
+      <div class="fc-sum-stat">
+        <div class="fc-sum-num" id="fc-sum-again" style="color:var(--gold);">0</div>
+        <div class="fc-sum-lbl">TO REVIEW</div>
+      </div>
+      <div class="fc-sum-stat">
+        <div class="fc-sum-num" id="fc-sum-total" style="color:var(--muted);">0</div>
+        <div class="fc-sum-lbl">TOTAL</div>
+      </div>
+    </div>
+    <button class="fc-sum-btn fc-sum-again" id="fc-sum-restart">&#9654; PRACTICE AGAIN</button>
+    <button class="fc-sum-btn fc-sum-back" id="fc-sum-back">&#8592; BACK TO VOCAB</button>
+  </div>
+
+</div>
 
 <!-- NAME PROMPT (shown once, only when Firebase is enabled) -->
 <div class="name-screen hidden" id="name-screen">
@@ -569,6 +695,7 @@ function renderCards(){
   var tagScroll=document.getElementById('tag-scroll');
   var countEl=document.getElementById('results-count');
 
+  document.getElementById('practice-bar').style.display='none';
   /* ── MY TOPICS: actual bookmarked cards from vols ── */
   if(activeTab==='topics'){
     var bmarks=loadBookmarks();
@@ -622,6 +749,8 @@ function renderCards(){
     container.innerHTML='<div class="empty-state"><div class="big">0</div><p>NO MATCH</p></div>';
     return;
   }
+  /* show practice bar when there are words */
+  document.getElementById('practice-bar').style.display=loadMyWords().length>0?'block':'none';
   container.innerHTML='';
   words.forEach(function(w){container.appendChild(buildCard(w));});
 }
@@ -808,6 +937,114 @@ document.getElementById('save-btn').addEventListener('click',function(){
 });
 
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3000);}
+
+/* ── FLASH CARDS ── */
+var FC={deck:[],idx:0,known:0,againCount:0,total:0,flipped:false};
+
+function fcShuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+
+function openFlashCards(){
+  var words=loadMyWords();
+  if(!words.length){showToast('ADD SOME VOCAB FIRST');return;}
+  FC.deck=fcShuffle(words);
+  FC.idx=0;FC.known=0;FC.againCount=0;FC.total=FC.deck.length;FC.flipped=false;
+  /* reset UI */
+  document.getElementById('fc-summary').classList.remove('show');
+  document.getElementById('fc-stage').style.display='';
+  document.getElementById('fc-topbar').style.display='';
+  document.getElementById('fc-progbar-fill').parentElement.style.display='';
+  document.getElementById('fc-overlay').classList.add('open');
+  fcShowCard();
+}
+
+function fcShowCard(){
+  if(FC.idx>=FC.deck.length){fcShowSummary();return;}
+  var w=FC.deck[FC.idx];
+  var card=document.getElementById('fc-card');
+  /* snap back without animation, then re-enable */
+  card.style.transition='none';
+  card.classList.remove('flipped');
+  FC.flipped=false;
+  setTimeout(function(){card.style.transition='';},30);
+  document.getElementById('fc-actions').classList.remove('show');
+  /* content */
+  document.getElementById('fc-eng').textContent=w.english||'';
+  document.getElementById('fc-pos').textContent=w.partOfSpeech||'';
+  document.getElementById('fc-thai').textContent=w.thai||'';
+  document.getElementById('fc-roman').textContent=w.romanized||'';
+  document.getElementById('fc-eng-echo').textContent=w.english||'';
+  /* progress */
+  var done=FC.idx;
+  document.getElementById('fc-prog-text').textContent=(FC.idx+1)+' / '+FC.total;
+  document.getElementById('fc-deck-left').textContent=(FC.deck.length-FC.idx)+' LEFT';
+  document.getElementById('fc-progbar-fill').style.width=Math.round((done/FC.total)*100)+'%';
+  /* cancel any ongoing speech */
+  if(window.speechSynthesis&&speechSynthesis.speaking)speechSynthesis.cancel();
+}
+
+document.getElementById('fc-card').addEventListener('click',function(){
+  if(FC.flipped)return;
+  FC.flipped=true;
+  document.getElementById('fc-card').classList.add('flipped');
+  setTimeout(function(){document.getElementById('fc-actions').classList.add('show');},320);
+  /* auto-speak Thai after flip completes */
+  var w=FC.deck[FC.idx];
+  if(w&&w.thai){
+    setTimeout(function(){speak(w.thai,document.getElementById('fc-speak-th'),'th-TH');},620);
+  }
+});
+
+document.getElementById('fc-got-btn').addEventListener('click',function(){
+  FC.known++;FC.idx++;fcShowCard();
+});
+
+document.getElementById('fc-again-btn').addEventListener('click',function(){
+  FC.againCount++;
+  /* re-insert card randomly in remaining deck (not immediately next) */
+  var w=FC.deck.splice(FC.idx,1)[0];
+  var remaining=FC.deck.length-FC.idx;
+  var insertAt=FC.idx+1+Math.floor(Math.random()*Math.max(remaining,1));
+  if(insertAt>FC.deck.length)insertAt=FC.deck.length;
+  FC.deck.splice(insertAt,0,w);
+  FC.total=FC.deck.length; /* deck grew by 1 re-insert */
+  fcShowCard();
+});
+
+document.getElementById('fc-speak-en').addEventListener('click',function(e){
+  e.stopPropagation();
+  var w=FC.deck[FC.idx];if(w)speak(w.english,this,'en-GB');
+});
+document.getElementById('fc-speak-th').addEventListener('click',function(e){
+  e.stopPropagation();
+  var w=FC.deck[FC.idx];if(w)speak(w.thai,this,'th-TH');
+});
+
+function fcShowSummary(){
+  document.getElementById('fc-stage').style.display='none';
+  document.getElementById('fc-progbar-fill').parentElement.style.display='none';
+  document.getElementById('fc-topbar').style.display='none';
+  if(window.speechSynthesis&&speechSynthesis.speaking)speechSynthesis.cancel();
+  var pct=FC.total?Math.round((FC.known/FC.total)*100):0;
+  document.getElementById('fc-sum-emoji').textContent=pct>=80?'🎉':pct>=50?'💪':'🔄';
+  document.getElementById('fc-sum-sub').textContent=pct+'% KNOWN THIS ROUND';
+  document.getElementById('fc-sum-known').textContent=FC.known;
+  document.getElementById('fc-sum-again').textContent=FC.againCount;
+  document.getElementById('fc-sum-total').textContent=loadMyWords().length;
+  document.getElementById('fc-summary').classList.add('show');
+}
+
+function fcClose(){
+  document.getElementById('fc-overlay').classList.remove('open');
+  if(window.speechSynthesis&&speechSynthesis.speaking)speechSynthesis.cancel();
+}
+document.getElementById('fc-close-btn').addEventListener('click',fcClose);
+document.getElementById('fc-sum-back').addEventListener('click',fcClose);
+document.getElementById('fc-sum-restart').addEventListener('click',openFlashCards);
+document.getElementById('practice-btn').addEventListener('click',openFlashCards);
 
 /* ── INIT ── */
 startApp();
