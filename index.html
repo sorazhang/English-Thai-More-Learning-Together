@@ -452,6 +452,24 @@
     letter-spacing: 0.04em;
     display: none;
   }
+
+  /* ── PWA INSTALL BANNER ── */
+  .pwa-banner{
+    position:fixed;bottom:calc(56px + 0.65rem);left:0.65rem;right:0.65rem;
+    background:var(--bg2);border:1px solid rgba(200,148,58,0.35);border-radius:8px;
+    padding:0.75rem 0.85rem;display:flex;align-items:center;gap:0.7rem;
+    z-index:8500;box-shadow:0 6px 24px rgba(0,0,0,0.5);
+    transform:translateY(16px);opacity:0;pointer-events:none;
+    transition:transform 0.32s cubic-bezier(0.32,0.72,0,1),opacity 0.32s ease;
+  }
+  .pwa-banner.show{transform:translateY(0);opacity:1;pointer-events:auto;}
+  .pwa-icon{width:42px;height:42px;border-radius:9px;flex-shrink:0;object-fit:cover;}
+  .pwa-text{flex:1;min-width:0;}
+  .pwa-title{font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:600;color:var(--cream);line-height:1.3;}
+  .pwa-sub{font-size:0.62rem;color:var(--muted);margin-top:2px;line-height:1.4;}
+  .pwa-install-btn{background:var(--gold);border:none;color:#0a0906;font-family:'Jost',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;padding:0.42rem 0.9rem;border-radius:4px;cursor:pointer;flex-shrink:0;transition:background 0.15s;}
+  .pwa-install-btn:active{background:var(--gold2);}
+  .pwa-dismiss{background:none;border:none;color:var(--muted);font-size:0.85rem;cursor:pointer;padding:0.2rem 0.3rem;flex-shrink:0;line-height:1;}
 </style>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#c8943a">
@@ -907,12 +925,82 @@
   <a class="tab-item" href="shared-cloud.html"><span class="tab-icon">🧱</span><span class="tab-label">Word Wall</span></a>
   <a class="tab-item" href="my-saved-note.html"><span class="tab-icon">🔖</span><span class="tab-label">My Notes</span></a>
 </nav>
+<!-- PWA INSTALL BANNER -->
+<div class="pwa-banner" id="pwa-banner">
+  <img class="pwa-icon" src="/icons/icon-192.png" alt="KruExchange">
+  <div class="pwa-text">
+    <div class="pwa-title">KruExchange</div>
+    <div class="pwa-sub" id="pwa-sub">Install for offline access &amp; home screen</div>
+  </div>
+  <button class="pwa-install-btn" id="pwa-install-btn">INSTALL</button>
+  <button class="pwa-dismiss" id="pwa-dismiss" title="Dismiss">&#10005;</button>
+</div>
+
 <script>
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
     navigator.serviceWorker.register('/sw.js');
   });
 }
+
+/* ── PWA INSTALL PROMPT ── */
+(function(){
+  /* Don't show if already running as installed PWA */
+  if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone)return;
+  /* Don't show if user dismissed within last 7 days */
+  var dismissed=localStorage.getItem('pwa_prompt_dismissed');
+  if(dismissed&&(Date.now()-parseInt(dismissed))<7*24*60*60*1000)return;
+
+  var banner=document.getElementById('pwa-banner');
+  var installBtn=document.getElementById('pwa-install-btn');
+  var dismissBtn=document.getElementById('pwa-dismiss');
+  var deferredPrompt=null;
+
+  function showBanner(){banner.classList.add('show');}
+  function hideBanner(){banner.classList.remove('show');}
+
+  /* ── Android / Chrome: capture native prompt ── */
+  window.addEventListener('beforeinstallprompt',function(e){
+    e.preventDefault();
+    deferredPrompt=e;
+    /* Show banner after 4 seconds of browsing */
+    setTimeout(showBanner,4000);
+  });
+
+  installBtn.addEventListener('click',function(){
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function(choice){
+        if(choice.outcome==='accepted'){localStorage.setItem('pwa_prompt_dismissed',Date.now());}
+        deferredPrompt=null;
+        hideBanner();
+      });
+    }
+  });
+
+  /* ── iOS Safari: show manual instructions ── */
+  var isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream;
+  var isSafari=/^((?!chrome|crios|fxios|android).)*safari/i.test(navigator.userAgent);
+  if(isIOS&&isSafari&&!window.navigator.standalone){
+    installBtn.textContent='HOW TO INSTALL';
+    installBtn.addEventListener('click',function(){
+      document.getElementById('pwa-sub').innerHTML=
+        'Tap the <strong style="color:var(--gold)">&#9650; Share</strong> button below, then choose <strong style="color:var(--gold)">"Add to Home Screen"</strong>';
+    },{once:true});
+    setTimeout(showBanner,4000);
+  }
+
+  dismissBtn.addEventListener('click',function(){
+    hideBanner();
+    localStorage.setItem('pwa_prompt_dismissed',Date.now());
+  });
+
+  /* Also show on 'appinstalled' cleanup */
+  window.addEventListener('appinstalled',function(){
+    hideBanner();
+    deferredPrompt=null;
+  });
+})();
 </script>
 </body>
 </html>
