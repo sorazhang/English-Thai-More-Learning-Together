@@ -213,6 +213,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes pulse{from{opacity:1;}to{opacity:0.5;}}
 </style>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#c8943a">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
 </head>
 <body>
 
@@ -821,5 +824,12 @@ startApp();
   <a class="tab-item" href="shared-cloud.html"><span class="tab-icon">🧱</span><span class="tab-label">Word Wall</span></a>
   <a class="tab-item active" href="my-saved-note.html"><span class="tab-icon">🔖</span><span class="tab-label">My Notes</span></a>
 </nav>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('/sw.js');
+  });
+}
+</script>
 </body>
 </html>

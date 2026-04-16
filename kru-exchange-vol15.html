@@ -308,6 +308,9 @@
 </style>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#c8943a">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
 </head>
 <body>
 
@@ -921,6 +924,13 @@ _injectBookmarks();
     oldArr.forEach(function(b){if(!newIds[b.id])db.ref('users/'+_sk(u)+'/bookmarks/'+b.id).remove();});
   };
 })();
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('/sw.js');
+  });
+}
 </script>
 </body>
 </html>
