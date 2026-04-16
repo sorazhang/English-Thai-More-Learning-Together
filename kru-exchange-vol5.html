@@ -1204,13 +1204,12 @@ function _bmCardData(card) {
   var sec   = card.closest('.section');
   var secId = sec ? sec.id : 'unknown';
   var label = secId.charAt(0).toUpperCase() + secId.slice(1).replace(/-/g,' ');
-  var eng   = card.querySelector('.e .speak-text')
-            ? card.querySelector('.e .speak-text').textContent.trim()
-            : (card.querySelector('.e') ? card.querySelector('.e').textContent.trim() : '');
-  var thai  = card.querySelector('.t .speak-text')
-            ? card.querySelector('.t .speak-text').textContent.trim()
-            : (card.querySelector('.t') ? card.querySelector('.t').textContent.trim() : '');
-  var rom   = card.querySelector('.r') ? card.querySelector('.r').textContent.trim() : '';
+  var engEl = card.querySelector('.e .speak-text')||card.querySelector('.eng .speak-text')||card.querySelector('.e')||card.querySelector('.eng');
+  var eng   = engEl ? engEl.textContent.trim() : '';
+  var thaiEl= card.querySelector('.t .speak-text')||card.querySelector('.thai-script .speak-text')||card.querySelector('.t')||card.querySelector('.thai-script');
+  var thai  = thaiEl ? thaiEl.textContent.trim() : '';
+  var romEl = card.querySelector('.r')||card.querySelector('.roman');
+  var rom   = romEl ? romEl.textContent.trim() : '';
   return {
     id: _bmCardId(card), vol: _BM_VOL, volLabel: _BM_LABEL,
     topic: secId, topicLabel: label,
