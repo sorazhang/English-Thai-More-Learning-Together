@@ -470,7 +470,7 @@ if(!FB_ON){
         '<div class="no-config" style="padding-top:5rem;">'+
           '<div class="no-config-icon">&#128101;</div>'+
           '<h2>No shared words yet</h2>'+
-          '<p>When someone saves a vocab word in My Notes, it will appear here.</p>'+
+          '<p>When someone saves a vocab word in My Vocab, it will appear here.</p>'+
         '</div>';
     }else{
       renderPage(words);
@@ -535,7 +535,7 @@ button.tab-item{background:none;border:none;padding:0;cursor:pointer;font-family
 <nav class="tab-bar">
   <button class="tab-item" id="vol-tab-btn" onclick="pillToggle()"><span class="tab-icon">🥊</span><span class="tab-label">Volumes</span></button>
   <a class="tab-item active" href="shared-cloud.html"><span class="tab-icon">🔥</span><span class="tab-label">Trending</span></a>
-  <a class="tab-item" href="my-saved-note.html"><span class="tab-icon">🔖</span><span class="tab-label">My Notes</span></a>
+  <a class="tab-item" href="my-saved-note.html"><span class="tab-icon">🔖</span><span class="tab-label">My Vocab</span></a>
 </nav>
 <script>
 function pillToggle(){var pop=document.getElementById('pill-pop');var btn=document.getElementById('vol-tab-btn');if(pop.classList.contains('popen')){pop.classList.remove('popen');if(btn)btn.classList.remove('pactive');}else{pop.classList.add('popen');if(btn)btn.classList.add('pactive');}}

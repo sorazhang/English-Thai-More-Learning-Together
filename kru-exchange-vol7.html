@@ -1265,7 +1265,7 @@ if (!window.speechSynthesis) {
 </script>
 
 <script>
-/* ── BOOKMARKS · localStorage · My Notes ── */
+/* ── BOOKMARKS · localStorage · My Vocab ── */
 var _BM_KEY   = 'kruexchange_saved_cards';
 var _BM_VOL   = '7';
 var _BM_LABEL = 'Vol. 7';
@@ -1343,19 +1343,19 @@ function _injectBookmarks() {
     var btn = document.createElement('button');
     btn.className = 'bm-btn' + (savedIds.indexOf(id) !== -1 ? ' saved' : '');
     btn.innerHTML = savedIds.indexOf(id) !== -1 ? _bmFilled : _bmOutline;
-    btn.setAttribute('aria-label','Save to My Notes');
-    btn.setAttribute('title','Save to My Notes');
+    btn.setAttribute('aria-label','Save to My Vocab');
+    btn.setAttribute('title','Save to My Vocab');
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
       var arr = _bmLoad(); var ids = arr.map(function(c){return c.id;}); var isSaved = ids.indexOf(id) !== -1;
       if (isSaved) {
         arr = arr.filter(function(c){return c.id!==id;});
         btn.classList.remove('saved'); btn.innerHTML = _bmOutline;
-        _bmWrite(arr); _bmToast('Removed from My Notes');
+        _bmWrite(arr); _bmToast('Removed from My Vocab');
       } else {
         var data = _bmCardData(card);
         arr.push(data); btn.classList.add('saved'); btn.innerHTML = _bmFilled;
-        _bmWrite(arr); _bmToast('Saved to My Notes · ' + data.topicLabel);
+        _bmWrite(arr); _bmToast('Saved to My Vocab · ' + data.topicLabel);
         btn.classList.add('popping');
         setTimeout(function(){ btn.classList.remove('popping'); }, 500);
         _bmFireParticles(btn);
@@ -1377,7 +1377,7 @@ button.tab-item{background:none;border:none;padding:0;cursor:pointer;font-family
 <nav class="tab-bar">
   <button class="tab-item active" id="vol-tab-btn" onclick="pillToggle()"><span class="tab-icon">🥊</span><span class="tab-label">Volumes</span></button>
   <a class="tab-item" href="shared-cloud.html"><span class="tab-icon">🔥</span><span class="tab-label">Trending</span></a>
-  <a class="tab-item" href="my-saved-note.html"><span class="tab-icon">🔖</span><span class="tab-label">My Notes</span></a>
+  <a class="tab-item" href="my-saved-note.html"><span class="tab-icon">🔖</span><span class="tab-label">My Vocab</span></a>
 </nav>
 <script>
 /* ── CARD VOCAB BUTTON ── */
