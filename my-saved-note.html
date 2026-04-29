@@ -840,7 +840,7 @@ function initMyGraph(words,wrap){
       var r=isDrag?n.radius*2.3:ac?n.radius*1.7:n.radius;
       if(ac){var rg=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,r*(isDrag?4:3.5));rg.addColorStop(0,'rgba('+hexToRgb(n.color)+','+(isDrag?0.5:0.35)+')');rg.addColorStop(1,'rgba('+hexToRgb(n.color)+',0)');ctx.beginPath();ctx.arc(n.x,n.y,r*(isDrag?4:3.5),0,Math.PI*2);ctx.fillStyle=rg;ctx.fill();}
       ctx.beginPath();ctx.arc(n.x,n.y,r,0,Math.PI*2);
-      var baseAlpha=n.type==='tag'?'0.85':(n.remembered?'1.0':'0.45');
+      var baseAlpha=n.type==='tag'?'0.85':(n.remembered?'1.0':'0.30');
       ctx.fillStyle=ac?n.color:'rgba('+hexToRgb(n.color)+','+baseAlpha+')';ctx.fill();
 if(n.type==='tag'){ctx.font='bold 8px Jost,sans-serif';ctx.fillStyle=ac?n.color:'rgba('+hexToRgb(n.color)+',0.65)';ctx.textAlign='center';ctx.fillText(n.label.toUpperCase(),n.x,n.y-r-3);}
       if(ac&&!isDrag&&n.type==='word'){
