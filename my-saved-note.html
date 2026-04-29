@@ -66,11 +66,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .section-label{font-family:'Jost',sans-serif;font-size:0.62rem;font-weight:600;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.6rem;}
 .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
 
-/* TABS */
-.dict-tabs{display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:3px;margin-bottom:0.9rem;gap:3px;}
-.dict-tab{flex:1;padding:0.55rem;font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.06em;color:var(--muted);cursor:pointer;border:none;background:transparent;border-radius:3px;transition:all 0.15s;text-align:center;}
-.dict-tab.active{background:var(--bg3);color:var(--gold);}
-
 /* TAG PILLS */
 .tag-scroll{overflow-x:auto;margin-bottom:0.9rem;scrollbar-width:none;display:none;}
 .tag-scroll::-webkit-scrollbar{display:none;}
@@ -298,12 +293,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <div class="cloud-wrap" id="cloud-wrap"></div>
 
   <div class="page">
-    <div class="section-label px">&#128218; MY LIBRARY</div>
-
-    <div class="dict-tabs">
-      <button class="dict-tab active" id="tab-topics">&#128204; MY TOPICS</button>
-      <button class="dict-tab" id="tab-mine">&#128218; MY VOCAB</button>
-    </div>
+    <div class="section-label px">&#128218; MY VOCAB</div>
 
     <div class="tag-scroll" id="tag-scroll">
       <div class="tag-row">
@@ -476,12 +466,10 @@ function getUsername(){return localStorage.getItem(NAME_KEY)||'';}
 function setUsername(n){localStorage.setItem(NAME_KEY,n.trim());}
 
 var SYSTEM_PROMPT='You are a Thai language teacher. Given a word or phrase in English or Thai, return ONLY valid JSON, no markdown: {"english":"word","thai":"Thai script","romanized":"romanized with tone marks","partOfSpeech":"noun/verb/etc","examples":[{"english":"sentence","thai":"Thai","romanized":"romanized"},{"english":"sentence","thai":"Thai","romanized":"romanized"}]}. Examples should be practical and Muay Thai / daily life context.';
-var TAG_LABELS={emotions:'Emotions',gym:'Gym',food:'Food',daily:'Daily',travel:'Travel',culture:'Culture',other:'Other',bookmark:'KruExchange'};
-var BM_KEY='kruexchange_saved_cards';
+var TAG_LABELS={emotions:'Emotions',gym:'Gym',food:'Food',daily:'Daily',travel:'Travel',culture:'Culture',other:'Other'};
 var MY_KEY='kruexchange_my_words';
 var SESS_KEY='kruexchange_session';
 
-var activeTab='topics';
 var activeTag='all';
 var searchQuery='';
 var pendingWord=null;
@@ -520,7 +508,6 @@ function startApp(){
 }
 
 
-function loadBookmarks(){try{return JSON.parse(localStorage.getItem(BM_KEY)||'[]');}catch(e){return[];}}
 function loadMyWords(){try{return JSON.parse(localStorage.getItem(MY_KEY)||'[]');}catch(e){return[];}}
 function saveMyWords(arr){try{localStorage.setItem(MY_KEY,JSON.stringify(arr));}catch(e){}}
 
@@ -539,15 +526,7 @@ function setupFirebaseSync(){
     words.sort(function(a,b){return(b.savedAt||'').localeCompare(a.savedAt||'');});
     try{localStorage.setItem(MY_KEY,JSON.stringify(words));}catch(e){}
     renderCloud();
-    if(activeTab==='mine')renderCards();
-  });
-
-  /* real-time listener: bookmarks */
-  ref.child('bookmarks').on('value',function(snap){
-    var bmarks=[];
-    snap.forEach(function(c){bmarks.push(c.val());});
-    try{localStorage.setItem(BM_KEY,JSON.stringify(bmarks));}catch(e){}
-    if(activeTab==='topics')renderCards();
+    renderCards();
   });
 
   /* one-time migration: upload any localStorage data not yet in Firebase */
@@ -555,14 +534,7 @@ function setupFirebaseSync(){
     var fbIds={};snap.forEach(function(c){fbIds[c.val().id]=true;});
     loadMyWords().forEach(function(w){if(!fbIds[w.id])ref.child('my_words').child(w.id).set(w);});
   });
-  ref.child('bookmarks').once('value',function(snap){
-    var fbIds={};snap.forEach(function(c){var v=c.val();if(v&&v.id)fbIds[v.id]=true;});
-    loadBookmarks().forEach(function(b){if(!fbIds[b.id])ref.child('bookmarks').child(b.id).set(b);});
-  });
 }
-
-/* convert bookmark card to word-card format — unused, kept for reference */
-var VOL_CAT={'1':'gym','2':'gym','6':'gym','8':'gym','20':'gym','9':'food','21':'food','22':'food','7':'culture','15':'culture','12':'travel','13':'travel','14':'travel','3':'daily','4':'daily','5':'daily','16':'daily','17':'daily','18':'daily','19':'daily'};
 
 /* ── SPEAK ── */
 function speak(text,btn,lang){
@@ -643,43 +615,6 @@ function renderCloud(){
   });
 }
 
-/* ── BUILD BOOKMARK CARD (from vol bookmark) ── */
-function buildBookmarkCard(b){
-  var cat=VOL_CAT[b.vol]||'other';
-  var div=document.createElement('div');
-  div.className='wcard bmark';
-
-  div.innerHTML=
-    '<div class="wcard-top">'+
-      '<div class="wcard-tag" data-tag="'+esc(cat)+'">'+esc(b.volLabel||'')+' &middot; '+esc(b.topicLabel||'')+'</div>'+
-    '</div>'+
-    '<div class="wcard-eng">'+esc(b.eng||'—')+'<button class="speak-btn-sm eng" data-text="'+escAttr(b.eng||'')+'" data-lang="en-GB">&#128266;</button></div>'+
-    '<div class="wcard-thai">'+esc(b.thai||'')+'<button class="speak-btn-sm tha" data-text="'+escAttr(b.thai||'')+'" data-lang="th-TH">&#128266;</button></div>'+
-    '<div class="wcard-roman">'+esc(b.roman||'')+'</div>'+
-    '<hr class="wcard-divider">'+
-    '<div class="wcard-examples">'+
-      '<div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;">'+
-        '<a href="'+volHref(b.vol)+'" style="color:var(--eng);font-size:0.75rem;text-decoration:none;">&#8594; Open '+esc(b.volLabel||'')+'</a>'+
-        '<button class="clear-btn rm-bm">REMOVE</button>'+
-      '</div>'+
-    '</div>'+
-    '<div class="expand-row"><span>SOURCE</span><span class="arr">&#9662;</span></div>';
-
-  div.querySelectorAll('.speak-btn-sm').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation();speak(btn.dataset.text,btn,btn.dataset.lang);});});
-  div.querySelector('.rm-bm').addEventListener('click',function(e){e.stopPropagation();removeBookmark(b.id);});
-  div.addEventListener('click',function(){div.classList.toggle('expanded');});
-  return div;
-}
-
-function removeBookmark(id){
-  if(FB_ON&&fb_db&&getUsername()){
-    userRef().child('bookmarks').child(id).remove();
-  } else {
-    var arr=loadBookmarks().filter(function(b){return b.id!==id;});
-    try{localStorage.setItem(BM_KEY,JSON.stringify(arr));}catch(e){}
-    renderCards();
-  }
-}
 function removeMyWord(id){
   if(FB_ON&&fb_db&&getUsername()){
     userRef().child('my_words').child(id).remove();
@@ -694,63 +629,28 @@ function renderCards(){
   var container=document.getElementById('cards-container');
   var tagScroll=document.getElementById('tag-scroll');
   var countEl=document.getElementById('results-count');
+  var allWords=loadMyWords();
 
-  document.getElementById('practice-bar').style.display='none';
-  /* ── MY TOPICS: actual bookmarked cards from vols ── */
-  if(activeTab==='topics'){
-    var bmarks=loadBookmarks();
-
-    var filtered=bmarks.filter(function(b){
-      var cat=VOL_CAT[b.vol]||'other';
-      var catOk=activeTag==='all'||cat===activeTag;
-      var qOk=!searchQuery||
-        (b.eng||'').toLowerCase().indexOf(searchQuery)>-1||
-        (b.thai||'').indexOf(searchQuery)>-1||
-        (b.roman||'').toLowerCase().indexOf(searchQuery)>-1;
-      return catOk&&qOk;
-    });
-
-    tagScroll.style.display=bmarks.length>0?'block':'none';
-    countEl.textContent=bmarks.length?filtered.length+' saved card'+(filtered.length!==1?'s':''):'';
-
-    if(!bmarks.length){
-      container.innerHTML=
-        '<div class="empty-state"><div class="big">&#128218;</div>'+
-        '<p>NO BOOKMARKS YET<br><br>'+
-        '<span style="font-size:0.7rem;font-family:Jost,sans-serif;">Tap the bookmark icon on any<br>card in a volume to save it here.</span></p></div>';
-      return;
-    }
-    if(!filtered.length){
-      container.innerHTML='<div class="empty-state"><div class="big">0</div><p>NO MATCH<br>TRY DIFFERENT SEARCH</p></div>';
-      return;
-    }
-    container.innerHTML='';
-    filtered.slice().reverse().forEach(function(b){container.appendChild(buildBookmarkCard(b));});
-    return;
-  }
-
-  /* ── MY WORDS: only API-searched and saved words ── */
-  var words=loadMyWords().filter(function(w){
+  var words=allWords.filter(function(w){
     if(activeTag!=='all'&&w.tag!==activeTag)return false;
     if(!matchesSearch(w,searchQuery))return false;
     return true;
   });
 
-  tagScroll.style.display=loadMyWords().length>0?'block':'none';
-  countEl.textContent=words.length+' vocab'+(words.length!==1?'s':'')+
+  tagScroll.style.display=allWords.length>0?'block':'none';
+  document.getElementById('practice-bar').style.display=allWords.length>0?'block':'none';
+  countEl.textContent=words.length+' word'+(words.length!==1?'s':'')+
     (searchQuery?' matching "'+searchQuery+'"':'')+
     (activeTag!=='all'?' &middot; '+(TAG_LABELS[activeTag]||activeTag):'');
 
-  if(!loadMyWords().length){
-    container.innerHTML='<div class="empty-state"><div class="big">???</div><p>NO VOCAB YET<br><br><span style="font-size:0.7rem;font-family:Jost,sans-serif;">Tap + to search a vocab<br>and add it here.</span></p></div>';
+  if(!allWords.length){
+    container.innerHTML='<div class="empty-state"><div class="big">&#128218;</div><p>NO VOCAB YET<br><br><span style="font-size:0.7rem;font-family:Jost,sans-serif;">Tap <strong>+</strong> on any volume card<br>or use the search bar to add words.</span></p></div>';
     return;
   }
   if(!words.length){
     container.innerHTML='<div class="empty-state"><div class="big">0</div><p>NO MATCH</p></div>';
     return;
   }
-  /* show practice bar when there are words */
-  document.getElementById('practice-bar').style.display=loadMyWords().length>0?'block':'none';
   container.innerHTML='';
   words.forEach(function(w){container.appendChild(buildCard(w));});
 }
@@ -785,17 +685,6 @@ function buildCard(w){
   return div;
 }
 
-function topicPH(icon,title,desc){
-  return '<div class="topic-card-ph">'+
-    '<div class="topic-icon">'+icon+'</div>'+
-    '<div class="topic-info">'+
-      '<div class="topic-title">'+title+'</div>'+
-      '<div class="topic-desc">'+desc+'</div>'+
-    '</div>'+
-    '<div class="topic-badge">COMING SOON</div>'+
-  '</div>';
-}
-function volHref(v){return v==='1'?'kru-language-exchange.html':'kru-exchange-vol'+v+'.html';}
 function matchesSearch(w,q){if(!q)return true;return(w.english||'').toLowerCase().indexOf(q)>-1||(w.thai||'').indexOf(q)>-1||(w.romanized||'').toLowerCase().indexOf(q)>-1;}
 function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function escAttr(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');}
@@ -805,11 +694,6 @@ document.getElementById('add-btn-top').addEventListener('click',function(){
   var q=document.getElementById('search-input').value.trim();
   openSheet(q||undefined);
 });
-
-function syncTabs(){document.getElementById('tab-topics').classList.toggle('active',activeTab==='topics');document.getElementById('tab-mine').classList.toggle('active',activeTab==='mine');}
-
-document.getElementById('tab-topics').addEventListener('click',function(){activeTab='topics';syncTabs();renderCards();});
-document.getElementById('tab-mine').addEventListener('click',function(){activeTab='mine';syncTabs();renderCards();});
 
 document.querySelectorAll('.tf-pill').forEach(function(p){
   p.addEventListener('click',function(){
@@ -822,10 +706,6 @@ document.querySelectorAll('.tf-pill').forEach(function(p){
 
 document.getElementById('search-input').addEventListener('input',function(){
   searchQuery=this.value.toLowerCase().trim();
-  /* auto-switch to MY VOCAB tab when searching */
-  if(searchQuery&&activeTab!=='mine'){
-    activeTab='mine';syncTabs();
-  }
   renderCards();
   var q=this.value.trim();
   var btn=document.getElementById('add-btn-top');
