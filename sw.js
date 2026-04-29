@@ -1,4 +1,4 @@
-const CACHE = 'kruexchange-v13';
+const CACHE = 'kruexchange-v14';
 
 const STATIC = [
   '/index.html',

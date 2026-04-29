@@ -72,10 +72,27 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .section-label{font-family:'Jost',sans-serif;font-size:0.62rem;font-weight:600;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.6rem;}
 .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
 
+/* STATS STRIP */
+.stats-strip{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:0.5rem 1rem;gap:0;}
+.stat-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.1rem;}
+.stat-num{font-family:'Jost',sans-serif;font-size:1rem;font-weight:700;line-height:1;color:var(--cream);}
+.stat-lbl{font-family:'Jost',sans-serif;font-size:0.52rem;font-weight:600;letter-spacing:0.14em;color:var(--muted);}
+.stat-item.s-learning .stat-num{color:#5a9acc;}
+.stat-item.s-remembered .stat-num{color:var(--roman);}
+.stat-vdiv{width:1px;background:var(--border);align-self:stretch;margin:0.1rem 0;}
+
+/* VOCAB HEADER */
+.vocab-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;}
+.vocab-header .section-label{margin-bottom:0;flex:1;}
+.vocab-header .section-label::after{display:none;}
+.practice-icon-btn{background:none;border:1px solid rgba(200,148,58,0.35);color:var(--gold);font-family:'Jost',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.08em;padding:0.28rem 0.7rem;border-radius:3px;cursor:pointer;white-space:nowrap;transition:all 0.15s;flex-shrink:0;}
+.practice-icon-btn:hover{background:rgba(200,148,58,0.08);}
+.practice-icon-btn:active{background:rgba(200,148,58,0.12);}
+
 /* TAG PILLS */
-.tag-scroll{overflow-x:auto;margin-bottom:0.9rem;scrollbar-width:none;display:none;}
+.tag-scroll{overflow-x:auto;margin-bottom:0.75rem;scrollbar-width:none;display:none;}
 .tag-scroll::-webkit-scrollbar{display:none;}
-.tag-row{display:flex;gap:0.4rem;padding-bottom:2px;width:max-content;}
+.tag-row{display:flex;gap:0.4rem;padding-bottom:2px;width:max-content;align-items:center;}
 .tf-pill{padding:0.28rem 0.7rem;border-radius:3px;font-size:0.68rem;font-weight:500;border:1px solid var(--border);background:var(--bg2);color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.15s;user-select:none;}
 .tf-pill.active{color:#fff!important;border-color:transparent!important;}
 .tf-pill[data-tag="all"].active{background:var(--gold);}
@@ -86,8 +103,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .tf-pill[data-tag="travel"].active{background:#5a6a2a;}
 .tf-pill[data-tag="culture"].active{background:#8a2040;}
 .tf-pill[data-tag="other"].active{background:var(--muted);}
+.filter-sep{width:1px;height:16px;background:var(--border);flex-shrink:0;margin:0 0.2rem;}
+.sf-pill{padding:0.28rem 0.7rem;border-radius:3px;font-size:0.68rem;font-weight:500;border:1px solid var(--border);background:var(--bg2);color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.15s;user-select:none;}
+.sf-pill.active{color:#fff;border-color:transparent;}
+.sf-pill[data-status="learning"].active{background:#2a5c8a;}
+.sf-pill[data-status="remembered"].active{background:#2a6640;}
 
-.results-count{font-size:0.68rem;color:var(--muted);margin-bottom:0.75rem;}
+.results-count{font-size:0.65rem;color:var(--muted);margin-bottom:0.6rem;letter-spacing:0.03em;}
 
 /* WORD CARDS */
 .cards-list{display:flex;flex-direction:column;gap:0.6rem;}
@@ -103,13 +125,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .remember-btn{width:100%;margin-top:0.7rem;padding:0.45rem;background:none;border:1px solid var(--border2);border-radius:3px;font-family:'Jost',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;color:var(--muted);cursor:pointer;transition:all 0.15s;text-align:center;}
 .remember-btn:hover{border-color:rgba(90,170,128,0.4);color:var(--roman);}
 .remember-btn.is-remembered{border-color:rgba(90,170,128,0.4);color:var(--roman);background:rgba(90,170,128,0.06);}
-/* STATUS FILTER */
-.status-row{display:flex;gap:0.4rem;margin-bottom:0.6rem;}
-.sf-pill{padding:0.28rem 0.7rem;border-radius:3px;font-size:0.68rem;font-weight:500;border:1px solid var(--border);background:var(--bg2);color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.15s;user-select:none;}
-.sf-pill.active{color:#fff;border-color:transparent;}
-.sf-pill[data-status="all"].active{background:var(--gold);}
-.sf-pill[data-status="learning"].active{background:#2a5c8a;}
-.sf-pill[data-status="remembered"].active{background:#2a6640;}
 .wcard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:0.5rem;}
 .wcard-tag{padding:0.18rem 0.6rem;border-radius:3px;font-family:'Jost',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.06em;color:#fff;line-height:1.7;}
 .wcard-tag[data-tag="emotions"]{background:#7a4898;}
@@ -246,9 +261,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @keyframes pulse{from{opacity:1;}to{opacity:0.5;}}
 
 /* ── FLASH CARDS ── */
-.practice-bar{display:none;margin-bottom:0.75rem;}
-.practice-btn{width:100%;background:transparent;border:1px solid rgba(200,148,58,0.35);color:var(--gold);border-radius:5px;padding:0.65rem;font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.1em;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:0.5rem;}
-.practice-btn:active{background:rgba(200,148,58,0.08);}
 
 .fc-overlay{position:fixed;inset:0;background:var(--bg);z-index:9500;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.38s cubic-bezier(0.32,0.72,0,1);}
 .fc-overlay.open{transform:translateY(0);}
@@ -312,7 +324,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div id="app" style="display:flex;flex-direction:column;min-height:100vh;">
 
 <div class="topbar">
-  <div class="topbar-logo">My <span>Notes</span></div>
+  <div class="topbar-logo">My <span>Vocab</span></div>
   <div class="topbar-right">
     <button class="back-btn" onclick="window.location='index.html'">&#8592; INDEX</button>
   </div>
@@ -326,11 +338,31 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <button class="add-btn-top" id="add-btn-top"><span id="add-icon">&#xFF0B;</span><span id="add-label" style="display:none;">ADD</span></button>
 </div>
 
+<div class="stats-strip" id="stats-strip">
+  <div class="stat-item">
+    <span class="stat-num" id="stat-total">0</span>
+    <span class="stat-lbl">WORDS</span>
+  </div>
+  <div class="stat-vdiv"></div>
+  <div class="stat-item s-learning">
+    <span class="stat-num" id="stat-learning">0</span>
+    <span class="stat-lbl">LEARNING</span>
+  </div>
+  <div class="stat-vdiv"></div>
+  <div class="stat-item s-remembered">
+    <span class="stat-num" id="stat-remembered">0</span>
+    <span class="stat-lbl">REMEMBERED</span>
+  </div>
+</div>
+
 <div class="scroll-area">
   <div class="cloud-section">
-    <div class="cloud-toggle">
-      <button class="cv-btn active" id="cv-cloud" onclick="showCloudView()">☁ Cloud</button>
-      <button class="cv-btn" id="cv-graph" onclick="showGraphView()">⬡ Network</button>
+    <div class="cloud-toggle" style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 1rem 0;">
+      <span style="font-family:'Jost',sans-serif;font-size:0.6rem;font-weight:600;color:var(--muted);letter-spacing:0.18em;">VISUAL</span>
+      <div style="display:flex;gap:0.35rem;">
+        <button class="cv-btn active" id="cv-cloud" onclick="showCloudView()">☁ Cloud</button>
+        <button class="cv-btn" id="cv-graph" onclick="showGraphView()">⬡ Network</button>
+      </div>
     </div>
     <div class="cloud-wrap" id="cloud-wrap"></div>
     <div class="graph-wrap" id="my-graph-wrap"></div>
@@ -338,7 +370,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   </div>
 
   <div class="page">
-    <div class="section-label px">&#128218; MY VOCAB</div>
+    <div class="vocab-header">
+      <div class="section-label">&#128218; MY VOCAB</div>
+      <button class="practice-icon-btn" id="practice-btn">&#127183; PRACTICE</button>
+    </div>
 
     <div class="tag-scroll" id="tag-scroll">
       <div class="tag-row">
@@ -350,17 +385,12 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <span class="tf-pill" data-tag="travel">&#x2708;&#xFE0F; Travel</span>
         <span class="tf-pill" data-tag="culture">&#x1F64F; Culture</span>
         <span class="tf-pill" data-tag="other">&#128204; Other</span>
+        <span class="filter-sep" id="filter-sep" style="display:none;"></span>
+        <span class="sf-pill" data-status="learning" style="display:none;" id="sf-learning">📚 Learning</span>
+        <span class="sf-pill" data-status="remembered" style="display:none;" id="sf-remembered">✓ Done</span>
       </div>
     </div>
 
-    <div class="practice-bar" id="practice-bar">
-      <button class="practice-btn" id="practice-btn">&#127183; FLASH CARDS &nbsp;&mdash;&nbsp; Practice My Vocab</button>
-    </div>
-    <div class="status-row" id="status-row" style="display:none;">
-      <span class="sf-pill active" data-status="all">All</span>
-      <span class="sf-pill" data-status="learning">📚 Learning</span>
-      <span class="sf-pill" data-status="remembered">✓ Remembered</span>
-    </div>
     <p class="results-count" id="results-count"></p>
     <div class="cards-list" id="cards-container"></div>
   </div>
@@ -899,14 +929,32 @@ function renderCards(){
     return true;
   });
 
-  var hasRemembered=allWords.some(function(w){return w.remembered;});
+  var rememberedCount=allWords.filter(function(w){return w.remembered;}).length;
+  var learningCount=allWords.length-rememberedCount;
+  var hasRemembered=rememberedCount>0;
+
+  /* stats strip */
+  var strip=document.getElementById('stats-strip');
+  strip.style.display=allWords.length>0?'flex':'none';
+  document.getElementById('stat-total').textContent=allWords.length;
+  document.getElementById('stat-learning').textContent=learningCount;
+  document.getElementById('stat-remembered').textContent=rememberedCount;
+
+  /* filter visibility */
   tagScroll.style.display=allWords.length>0?'block':'none';
-  document.getElementById('status-row').style.display=hasRemembered?'flex':'none';
-  document.getElementById('practice-bar').style.display=allWords.length>0?'block':'none';
-  var statusLabel=activeStatus==='remembered'?' · ✓ Remembered':activeStatus==='learning'?' · 📚 Learning':'';
+  document.getElementById('filter-sep').style.display=hasRemembered?'':'none';
+  document.getElementById('sf-learning').style.display=hasRemembered?'':'none';
+  document.getElementById('sf-remembered').style.display=hasRemembered?'':'none';
+
+  /* sync active state on status pills */
+  document.querySelectorAll('.sf-pill').forEach(function(p){
+    p.classList.toggle('active',p.dataset.status===activeStatus);
+  });
+
   countEl.textContent=words.length+' word'+(words.length!==1?'s':'')+
     (searchQuery?' matching "'+searchQuery+'"':'')+
-    (activeTag!=='all'?' &middot; '+(TAG_LABELS[activeTag]||activeTag):'')+statusLabel;
+    (activeTag!=='all'?' · '+(TAG_LABELS[activeTag]||activeTag):'')+
+    (activeStatus!=='all'?' · '+(activeStatus==='remembered'?'✓ Done':'📚 Learning'):'');
 
   if(!allWords.length){
     container.innerHTML='<div class="empty-state"><div class="big">&#128218;</div><p>NO VOCAB YET<br><br><span style="font-size:0.7rem;font-family:Jost,sans-serif;">Tap <strong>+</strong> on any volume card<br>or use the search bar to add words.</span></p></div>';
@@ -990,9 +1038,7 @@ document.querySelectorAll('.tf-pill').forEach(function(p){
 
 document.querySelectorAll('.sf-pill').forEach(function(p){
   p.addEventListener('click',function(){
-    activeStatus=p.dataset.status;
-    document.querySelectorAll('.sf-pill').forEach(function(x){x.classList.remove('active');});
-    p.classList.add('active');
+    activeStatus=(activeStatus===p.dataset.status)?'all':p.dataset.status;
     renderCards();
   });
 });
