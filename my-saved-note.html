@@ -838,8 +838,7 @@ function initMyGraph(words,wrap){
       ctx.beginPath();ctx.arc(n.x,n.y,r,0,Math.PI*2);
       var baseAlpha=n.type==='tag'?'0.85':(n.remembered?'1.0':'0.45');
       ctx.fillStyle=ac?n.color:'rgba('+hexToRgb(n.color)+','+baseAlpha+')';ctx.fill();
-      if(n.type==='word'&&n.remembered&&!ac){ctx.beginPath();ctx.arc(n.x,n.y,r+2.5,0,Math.PI*2);ctx.strokeStyle='rgba(90,170,128,0.65)';ctx.lineWidth=1.2;ctx.stroke();}
-      if(n.type==='tag'){ctx.font='bold 8px Jost,sans-serif';ctx.fillStyle=ac?n.color:'rgba('+hexToRgb(n.color)+',0.65)';ctx.textAlign='center';ctx.fillText(n.label.toUpperCase(),n.x,n.y-r-3);}
+if(n.type==='tag'){ctx.font='bold 8px Jost,sans-serif';ctx.fillStyle=ac?n.color:'rgba('+hexToRgb(n.color)+',0.65)';ctx.textAlign='center';ctx.fillText(n.label.toUpperCase(),n.x,n.y-r-3);}
       if(ac&&!isDrag&&n.type==='word'){
         var eng=n.label,thai=n.sublabel;
         ctx.font='600 11px Jost,sans-serif';var ew=ctx.measureText(eng).width;
