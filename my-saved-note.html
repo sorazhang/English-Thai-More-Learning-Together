@@ -197,6 +197,24 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .save-btn:active:not(:disabled){background:rgba(200,148,58,0.1);}
 .save-btn:disabled{opacity:0.3;cursor:not-allowed;}
 
+/* EDIT SHEET */
+.edit-word-display{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:0.8rem 1rem;margin-bottom:1rem;border-left:2px solid var(--gold);}
+.edit-word-display .ew-eng{color:var(--eng);font-size:0.95rem;font-weight:500;margin-bottom:0.15rem;}
+.edit-word-display .ew-thai{font-family:'Noto Sans Thai',sans-serif;color:var(--thai);font-size:1.05rem;font-weight:700;line-height:1.6;margin-bottom:0.05rem;}
+.edit-word-display .ew-roman{color:var(--roman);font-size:0.78rem;font-style:italic;}
+.edit-tag-row{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.et-pill{padding:0.32rem 0.85rem;border-radius:3px;font-family:'Jost',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.05em;border:1px solid transparent;background:var(--bg3);color:var(--muted);cursor:pointer;transition:all 0.15s;user-select:none;}
+.et-pill.active{color:#fff!important;}
+.et-pill[data-tag="emotions"].active{background:#7a4898;border-color:#7a4898;}
+.et-pill[data-tag="gym"].active{background:#8a5a2a;border-color:#8a5a2a;}
+.et-pill[data-tag="food"].active{background:#2a6640;border-color:#2a6640;}
+.et-pill[data-tag="daily"].active{background:#2a5c8a;border-color:#2a5c8a;}
+.et-pill[data-tag="travel"].active{background:#5a6a2a;border-color:#5a6a2a;}
+.et-pill[data-tag="culture"].active{background:#8a2040;border-color:#8a2040;}
+.et-pill[data-tag="other"].active{background:var(--muted);border-color:var(--muted);}
+.edit-btn{background:none;border:1px solid rgba(200,148,58,0.3);color:var(--gold);font-size:0.65rem;font-family:'Jost',sans-serif;font-weight:500;letter-spacing:0.04em;padding:0.25rem 0.6rem;border-radius:3px;cursor:pointer;transition:all 0.15s;white-space:nowrap;margin-right:0.4rem;}
+.edit-btn:hover{background:rgba(200,148,58,0.08);border-color:var(--gold);}
+
 /* TOAST */
 .toast{position:fixed;bottom:calc(var(--nav-h) + 1rem);left:50%;transform:translateX(-50%) translateY(10px);background:var(--bg2);color:var(--gold);border:1px solid var(--gold);padding:0.6rem 1.2rem;border-radius:4px;font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.08em;opacity:0;transition:all 0.25s;z-index:100;white-space:nowrap;pointer-events:none;line-height:1.7;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -376,6 +394,40 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- EDIT VOCAB SHEET -->
+<div class="sheet-overlay" id="ed-overlay"></div>
+<div class="sheet" id="ed-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-hd">
+    <div class="sheet-title">EDIT VOCAB</div>
+    <button class="sheet-close" id="ed-close">&#10005;</button>
+  </div>
+  <div class="sheet-body">
+    <div class="edit-word-display" id="ed-word-display">
+      <div class="ew-eng" id="ed-eng"></div>
+      <div class="ew-thai" id="ed-thai"></div>
+      <div class="ew-roman" id="ed-roman"></div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">CATEGORY</label>
+      <div class="edit-tag-row" id="ed-tag-row">
+        <button class="et-pill" data-tag="emotions">&#128548; Emotions</button>
+        <button class="et-pill" data-tag="gym">&#x1F94A; Gym</button>
+        <button class="et-pill" data-tag="food">&#x1F35C; Food</button>
+        <button class="et-pill" data-tag="daily">&#x1F4AC; Daily</button>
+        <button class="et-pill" data-tag="travel">&#x2708;&#xFE0F; Travel</button>
+        <button class="et-pill" data-tag="culture">&#x1F64F; Culture</button>
+        <button class="et-pill" data-tag="other">&#128204; Other</button>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">MY NOTE (OPTIONAL)</label>
+      <textarea class="field-textarea" id="ed-note" placeholder="e.g. Kru says this sounds more formal &#183; remember falling tone&#8230;" style="min-height:80px;"></textarea>
+    </div>
+    <button class="save-btn" id="ed-save-btn">SAVE CHANGES</button>
+  </div>
+</div>
 
 <!-- ── FLASH CARD OVERLAY ── -->
 <div class="fc-overlay" id="fc-overlay">
@@ -853,7 +905,10 @@ function buildCard(w){
   div.innerHTML=
     '<div class="wcard-top">'+
       '<div class="wcard-tag" data-tag="'+esc(w.tag||'other')+'">'+(TAG_LABELS[w.tag]||w.tag||'Other')+'</div>'+
-      '<button class="clear-btn rm-word">REMOVE</button>'+
+      '<div style="display:flex;align-items:center;">'+
+        (w.isBmark?'':'<button class="edit-btn ed-word">EDIT</button>')+
+        '<button class="clear-btn rm-word">REMOVE</button>'+
+      '</div>'+
     '</div>'+
     '<div class="wcard-eng">'+esc(w.english)+'<span class="wcard-pos">'+esc(w.partOfSpeech||'')+'</span><button class="speak-btn-sm eng" data-text="'+escAttr(w.english)+'" data-lang="en-GB">&#128266;</button></div>'+
     '<div class="wcard-thai">'+esc(w.thai)+'<button class="speak-btn-sm tha" data-text="'+escAttr(w.thai)+'" data-lang="th-TH">&#128266;</button></div>'+
@@ -864,6 +919,8 @@ function buildCard(w){
     btn.addEventListener('click',function(e){e.stopPropagation();speak(btn.dataset.text,btn,btn.dataset.lang);});
   });
   div.querySelector('.rm-word').addEventListener('click',function(e){e.stopPropagation();removeMyWord(w.id);});
+  var edBtn=div.querySelector('.ed-word');
+  if(edBtn)edBtn.addEventListener('click',function(e){e.stopPropagation();openEditSheet(w);});
   if(exSection) div.addEventListener('click',function(){div.classList.toggle('expanded');});
   return div;
 }
@@ -920,6 +977,63 @@ function openSheet(prefill){
 function closeSheet(){document.getElementById('sheet-overlay').classList.remove('visible');document.getElementById('sheet').classList.remove('visible');}
 document.getElementById('sheet-close').addEventListener('click',closeSheet);
 document.getElementById('sheet-overlay').addEventListener('click',closeSheet);
+
+/* ── EDIT VOCAB SHEET ── */
+var _edWord=null;
+
+function openEditSheet(w){
+  _edWord=w;
+  document.getElementById('ed-eng').textContent=(w.english||'')+(w.partOfSpeech?' · '+w.partOfSpeech:'');
+  document.getElementById('ed-thai').textContent=w.thai||'';
+  document.getElementById('ed-roman').textContent=w.romanized||'';
+  document.getElementById('ed-note').value=w.note||'';
+  var cur=w.tag||'other';
+  document.querySelectorAll('.et-pill').forEach(function(p){
+    p.classList.toggle('active',p.dataset.tag===cur);
+  });
+  document.getElementById('ed-overlay').classList.add('visible');
+  document.getElementById('ed-sheet').classList.add('visible');
+  setTimeout(function(){document.getElementById('ed-note').focus();},350);
+}
+
+function closeEditSheet(){
+  document.getElementById('ed-overlay').classList.remove('visible');
+  document.getElementById('ed-sheet').classList.remove('visible');
+}
+
+function saveWordEdit(){
+  if(!_edWord)return;
+  var activePill=document.querySelector('.et-pill.active');
+  var tag=activePill?activePill.dataset.tag:(_edWord.tag||'other');
+  var note=document.getElementById('ed-note').value.trim();
+  var arr=loadMyWords();
+  arr.forEach(function(w){if(w.id===_edWord.id){w.tag=tag;w.note=note;}});
+  saveMyWords(arr);
+  if(FB_ON&&fb_db&&getUsername()){
+    userRef().child('my_words').child(_edWord.id).update({tag:tag,note:note});
+  }
+  closeEditSheet();
+  renderCloud();
+  renderCards();
+  var gw=document.getElementById('my-graph-wrap');
+  if(gw&&gw.style.display==='block'){
+    var words=loadMyWords();
+    if(window._mgRaf)cancelAnimationFrame(window._mgRaf);
+    requestAnimationFrame(function(){initMyGraph(words,gw);});
+  }
+  showToast(((_edWord.english||'').toUpperCase()||'VOCAB')+' UPDATED!');
+  _edWord=null;
+}
+
+document.getElementById('ed-close').addEventListener('click',closeEditSheet);
+document.getElementById('ed-overlay').addEventListener('click',closeEditSheet);
+document.querySelectorAll('.et-pill').forEach(function(p){
+  p.addEventListener('click',function(){
+    document.querySelectorAll('.et-pill').forEach(function(x){x.classList.remove('active');});
+    p.classList.add('active');
+  });
+});
+document.getElementById('ed-save-btn').addEventListener('click',saveWordEdit);
 document.getElementById('panel-word').addEventListener('keydown',function(e){if(e.key==='Enter')lookupWord();});
 
 async function lookupWord(){
