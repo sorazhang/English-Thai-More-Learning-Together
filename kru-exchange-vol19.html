@@ -160,6 +160,9 @@
     to   { opacity:1; transform:scale(1); }
   }
   .pill-pop.popen { display: block; }
+  @keyframes pillBounce{0%,100%{transform:translateY(0);}35%{transform:translateY(-9px);}65%{transform:translateY(-4px);}}
+  .pill-btn.pill-bounce{animation:pillBounce 0.55s ease-in-out 2;}
+
   .pp-head {
     background: #1c1710; padding: 0.65rem 1rem;
     display: flex; align-items: center; justify-content: space-between;

@@ -367,6 +367,9 @@
     to   { opacity:1; transform:scale(1); }
   }
   .pill-pop.popen { display: block; }
+  @keyframes pillBounce{0%,100%{transform:translateY(0);}35%{transform:translateY(-9px);}65%{transform:translateY(-4px);}}
+  .pill-btn.pill-bounce{animation:pillBounce 0.55s ease-in-out 2;}
+
   .pp-head {
     background: #1c1710; padding: 0.65rem 1rem;
     display: flex; align-items: center; justify-content: space-between;
@@ -1170,6 +1173,47 @@
       pop.classList.remove('popen'); btn.classList.remove('pactive');
     }
   });
+
+/* ── PILL ENHANCEMENTS: prev/next + session bounce hint ── */
+(function(){
+  var ORDER=[{"url": "kru-language-exchange.html", "label": "Vol. 1 \u00b7 Corrections & Encouragement"}, {"url": "kru-exchange-vol2.html", "label": "Vol. 2 \u00b7 Goals, Body & Fight Day"}, {"url": "kru-exchange-vol3.html", "label": "Vol. 3 \u00b7 Daily Life & Grammar"}, {"url": "kru-exchange-vol4.html", "label": "Vol. 4 \u00b7 Emotions & Culture"}, {"url": "kru-exchange-vol5.html", "label": "Vol. 5 \u00b7 Health & Plans"}, {"url": "kru-exchange-vol6.html", "label": "Vol. 6 \u00b7 Competition Preparation"}, {"url": "kru-exchange-vol7.html", "label": "Vol. 7 \u00b7 Thai Culture Deep Dive"}, {"url": "kru-exchange-vol8.html", "label": "Vol. 8 \u00b7 Fight Night \u00b7 Lumpinee"}, {"url": "kru-exchange-vol9.html", "label": "Vol. 9 \u00b7 Northern Thai Food"}, {"url": "kru-exchange-vol12.html", "label": "Vol. 12 \u00b7 Phuket & The Islands"}, {"url": "kru-exchange-vol13.html", "label": "Vol. 13 \u00b7 Bangkok Neighbourhoods"}, {"url": "kru-exchange-vol14.html", "label": "Vol. 14 \u00b7 Getting Around Thailand"}, {"url": "kru-exchange-vol15.html", "label": "Vol. 15"}, {"url": "kru-exchange-vol16.html", "label": "Vol. 16"}, {"url": "kru-exchange-vol17.html", "label": "Vol. 17"}, {"url": "kru-exchange-vol19.html", "label": "Vol. 19"}, {"url": "kru-exchange-vol21.html", "label": "Vol. 21 \u00b7 Bangkok Street Food"}, {"url": "kru-exchange-vol22.html", "label": "Vol. 22 \u00b7 Southern Thai Food"}];
+  var cur=location.pathname.replace(/^.*\//,'');
+  var idx=-1;
+  ORDER.forEach(function(v,i){if(v.url===cur)idx=i;});
+  var prev=idx>0?ORDER[idx-1]:null;
+  var next=idx>=0&&idx<ORDER.length-1?ORDER[idx+1]:null;
+
+  if(prev||next){
+    var body=document.querySelector('.pp-body');
+    if(body){
+      var row=document.createElement('div');
+      row.style.cssText='display:flex;gap:0.4rem;padding:0.5rem 0.75rem 0.2rem;';
+      function mkNav(v,dir){
+        var a=document.createElement('a');
+        a.href=v.url;
+        a.style.cssText='flex:1;display:flex;align-items:center;gap:0.3rem;padding:0.45rem 0.7rem;border-radius:6px;background:rgba(200,74,16,0.07);border:1px solid rgba(200,74,16,0.18);text-decoration:none;font-size:0.7rem;font-weight:700;color:rgba(244,238,216,0.6);letter-spacing:0.03em;transition:all 0.15s;'+(dir==='next'?'justify-content:flex-end;':'');
+        a.innerHTML=(dir==='prev'?'&#8592; ':'')+v.label.split('·')[0].trim()+(dir==='next'?' &#8594;':'');
+        a.onmouseover=function(){this.style.color='rgba(244,238,216,0.95)';this.style.background='rgba(200,74,16,0.14)';};
+        a.onmouseout=function(){this.style.color='rgba(244,238,216,0.6)';this.style.background='rgba(200,74,16,0.07)';};
+        return a;
+      }
+      if(prev)row.appendChild(mkNav(prev,'prev'));
+      if(next)row.appendChild(mkNav(next,'next'));
+      var hr=document.createElement('div');hr.className='pp-div';
+      body.insertBefore(hr,body.firstChild);
+      body.insertBefore(row,body.firstChild);
+    }
+  }
+
+  if(!sessionStorage.getItem('pill_seen')){
+    sessionStorage.setItem('pill_seen','1');
+    setTimeout(function(){
+      var btn=document.getElementById('pill-btn');
+      if(btn){btn.classList.add('pill-bounce');setTimeout(function(){btn.classList.remove('pill-bounce');},1200);}
+    },1800);
+  }
+})();
+
 </script>
 
 
