@@ -37,13 +37,12 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* SEARCH BAR */
 .search-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0.7rem 1rem;display:flex;gap:0.6rem;align-items:center;position:sticky;top:var(--top-h);z-index:19;flex-shrink:0;}
 .search-wrap{flex:1;position:relative;}
-.search-icon{position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);font-size:0.8rem;color:var(--muted);pointer-events:none;}
+.search-icon-btn{position:absolute;left:0;top:50%;transform:translateY(-50%);width:36px;height:100%;display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:var(--muted);background:none;border:none;cursor:pointer;padding:0;transition:color 0.18s;}
+.search-icon-btn.has-query{color:var(--gold);}
+.search-icon-btn:active{opacity:0.7;}
 #search-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:0.65rem 0.8rem 0.65rem 2.2rem;font-family:'Jost',sans-serif;font-size:0.9rem;color:var(--cream);outline:none;transition:border-color 0.15s;-webkit-appearance:none;}
 #search-input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(200,148,58,0.1);}
 #search-input::placeholder{color:var(--muted);}
-.add-btn-top{background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:4px;height:38px;min-width:38px;padding:0 0.5rem;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.35rem;flex-shrink:0;transition:all 0.2s;}
-.add-btn-top.has-query{padding:0 0.85rem;font-size:0.72rem;font-weight:600;letter-spacing:0.04em;}
-.add-btn-top:active{background:rgba(200,148,58,0.1);}
 
 /* SCROLL */
 .scroll-area{flex:1;overflow-y:auto;padding-bottom:calc(var(--nav-h) + 1rem);-webkit-overflow-scrolling:touch;}
@@ -332,10 +331,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 <div class="search-bar">
   <div class="search-wrap">
-    <span class="search-icon">&#128269;</span>
-    <input id="search-input" type="search" placeholder="English, ภาษาไทย, romanized..." autocomplete="off" spellcheck="false">
+    <button class="search-icon-btn" id="add-btn-top">&#128269;</button>
+    <input id="search-input" type="search" placeholder="Search or add a word..." autocomplete="off" spellcheck="false">
   </div>
-  <button class="add-btn-top" id="add-btn-top"><span id="add-icon">&#xFF0B;</span><span id="add-label" style="display:none;">ADD</span></button>
 </div>
 
 <div class="stats-strip" id="stats-strip">
@@ -966,7 +964,7 @@ function renderCards(){
     (activeStatus!=='all'?' · '+(activeStatus==='remembered'?'✓ Done':'📚 Learning'):'');
 
   if(!allWords.length){
-    container.innerHTML='<div class="empty-state"><div class="big">&#128218;</div><p>NO VOCAB YET<br><br><span style="font-size:0.7rem;font-family:Jost,sans-serif;">Tap <strong>+</strong> on any volume card<br>or use the search bar to add words.</span></p></div>';
+    container.innerHTML='<div class="empty-state"><div class="big">&#128218;</div><p>NO VOCAB YET<br><br><span style="font-size:0.7rem;font-family:Jost,sans-serif;">Tap the bookmark on any volume card<br>or type a word in the search bar to add it.</span></p></div>';
     return;
   }
   if(!words.length){
@@ -1055,11 +1053,7 @@ document.querySelectorAll('.sf-pill').forEach(function(p){
 document.getElementById('search-input').addEventListener('input',function(){
   searchQuery=this.value.toLowerCase().trim();
   renderCards();
-  var q=this.value.trim();
-  var btn=document.getElementById('add-btn-top');
-  document.getElementById('add-icon').style.display=q?'none':'';
-  document.getElementById('add-label').style.display=q?'':'none';
-  btn.classList.toggle('has-query',!!q);
+  document.getElementById('add-btn-top').classList.toggle('has-query',!!this.value.trim());
 });
 document.getElementById('search-input').addEventListener('keydown',function(e){
   if(e.key==='Enter'){var q=this.value.trim();if(q)openSheet(q);}
