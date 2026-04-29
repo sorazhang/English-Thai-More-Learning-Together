@@ -1273,7 +1273,7 @@ function _speakBtn(btn) {
 }
 
 function _injectSpeakButtons() {
-  document.querySelectorAll('.e, .dt .e').forEach(function(el) {
+  document.querySelectorAll('.e, .eng, .dt .e, .dt .eng').forEach(function(el) {
     if (el.querySelector('.speak-btn')) return;
     var wrap = document.createElement('div'); wrap.className = 'speak-line';
     var span = document.createElement('span'); span.className = 'speak-text';
@@ -1281,7 +1281,7 @@ function _injectSpeakButtons() {
     wrap.appendChild(span); wrap.appendChild(_makeBtn('en-GB','eng','EN'));
     el.appendChild(wrap);
   });
-  document.querySelectorAll('.t, .dt .t').forEach(function(el) {
+  document.querySelectorAll('.t, .thai-script, .dt .t, .dt .thai-script').forEach(function(el) {
     if (el.querySelector('.speak-btn')) return;
     var wrap = document.createElement('div'); wrap.className = 'speak-line';
     var span = document.createElement('span'); span.className = 'speak-text';
