@@ -360,13 +360,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div class="cloud-toggle" style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 1rem 0;">
       <span style="font-family:'Jost',sans-serif;font-size:0.6rem;font-weight:600;color:var(--muted);letter-spacing:0.18em;">VISUAL</span>
       <div style="display:flex;gap:0.35rem;">
-        <button class="cv-btn active" id="cv-cloud" onclick="showCloudView()">☁ Cloud</button>
-        <button class="cv-btn" id="cv-graph" onclick="showGraphView()">⬡ Network</button>
+        <button class="cv-btn" id="cv-cloud" onclick="showCloudView()">☁ Cloud</button>
+        <button class="cv-btn active" id="cv-graph" onclick="showGraphView()">⬡ Network</button>
       </div>
     </div>
-    <div class="cloud-wrap" id="cloud-wrap"></div>
-    <div class="graph-wrap" id="my-graph-wrap"></div>
-    <div class="graph-hint" id="graph-hint" style="display:none;">✓ GOT IT on a card lights it up here</div>
+    <div class="cloud-wrap" id="cloud-wrap" style="display:none;"></div>
+    <div class="graph-wrap" id="my-graph-wrap" style="display:block;"></div>
+    <div class="graph-hint" id="graph-hint">✓ GOT IT on a card lights it up here</div>
   </div>
 
   <div class="page">
@@ -619,7 +619,7 @@ function startApp(){
     document.getElementById('name-input').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('name-save').click();});
     return;
   }
-  fetchSharedApiKey(function(){setupFirebaseSync();renderCloud();renderCards();});
+  fetchSharedApiKey(function(){setupFirebaseSync();showGraphView();renderCards();});
 }
 
 
@@ -740,7 +740,7 @@ function removeMyWord(id){
 }
 
 /* ── CLOUD / GRAPH TOGGLE ── */
-var _cvMode='cloud';
+var _cvMode='graph';
 var _mgRaf=null,_mgHov=null,_mgTouch=null,_mgTouchTimer=null;
 var _mgDrag=null,_mgDragPos={x:0,y:0},_mgCooldown=0,_mgRipple=null,_mgHintF=0;
 var HINT_END=240;
