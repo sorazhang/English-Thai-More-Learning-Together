@@ -1091,11 +1091,13 @@ function openSheet(prefill){
     document.getElementById('panel-word').value=prefill;
     document.getElementById('word-field-group').style.display='none';
     document.getElementById('lookup-section').style.display='none';
+    document.querySelector('#sheet .sheet-title').style.display='none';
     setTimeout(lookupWord,200);
   }else{
     document.getElementById('panel-word').value='';
     document.getElementById('word-field-group').style.display='';
     document.getElementById('lookup-section').style.display='';
+    document.querySelector('#sheet .sheet-title').style.display='';
     setTimeout(function(){document.getElementById('panel-word').focus();},350);
   }
 }
