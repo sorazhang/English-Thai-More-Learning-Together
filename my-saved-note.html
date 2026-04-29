@@ -44,6 +44,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #search-input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(200,148,58,0.1);}
 #search-input::placeholder{color:var(--muted);}
 
+/* ADD QUERY ROW */
+.add-query-row{padding:0.75rem 1rem 1rem;}
+.add-query-btn{width:100%;background:transparent;border:1px dashed rgba(200,148,58,0.45);color:var(--gold);border-radius:6px;padding:0.65rem 1rem;font-family:'Jost',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:0.05em;cursor:pointer;transition:all 0.18s;}
+.add-query-btn:active{background:rgba(200,148,58,0.08);}
+
 /* SCROLL */
 .scroll-area{flex:1;overflow-y:auto;padding-bottom:calc(var(--nav-h) + 1rem);-webkit-overflow-scrolling:touch;}
 
@@ -407,27 +412,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <button class="sheet-close" id="sheet-close">&#10005;</button>
   </div>
   <div class="sheet-body">
-    <div class="field-group">
+    <div class="field-group" id="word-field-group">
       <label class="field-label">VOCAB / PHRASE</label>
       <input class="field-input" id="panel-word" placeholder="e.g. nervous &#183; &#3648;&#3619;&#3655;&#3623; &#183; to shake off..." autocomplete="off" spellcheck="false">
     </div>
-    <div class="field-group">
-      <label class="field-label">CATEGORY</label>
-      <select class="field-select" id="panel-tag">
-        <option value="emotions">&#128548; Emotions</option>
-        <option value="gym">&#x1F94A; Gym</option>
-        <option value="food">&#x1F35C; Food</option>
-        <option value="daily" selected>&#x1F4AC; Daily</option>
-        <option value="travel">&#x2708;&#xFE0F; Travel</option>
-        <option value="culture">&#x1F64F; Culture</option>
-        <option value="other">&#128204; Other</option>
-      </select>
+    <div id="lookup-section">
+      <button class="lookup-btn" id="lookup-btn">&#128269; SEARCH</button>
     </div>
-    <div class="field-group">
-      <label class="field-label">NOTES (OPTIONAL)</label>
-      <textarea class="field-textarea" id="panel-note" placeholder="e.g. Kru says this sounds more natural &#183; remember falling tone&#8230;"></textarea>
-    </div>
-    <button class="lookup-btn" id="lookup-btn">&#128269; SEARCH</button>
     <div class="sheet-loading" id="sheet-loading"><div class="spinner"></div><span id="sheet-loading-text">Searching&#8230;</span></div>
     <p class="sheet-error" id="sheet-error"></p>
     <div class="preview-box" id="preview-box">
@@ -436,6 +427,22 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <div class="preview-roman" id="pv-roman"></div>
       <div class="preview-label">EXAMPLES</div>
       <div class="preview-ex" id="pv-examples"></div>
+    </div>
+    <div class="field-group" id="category-field-group" style="display:none">
+      <label class="field-label">CATEGORY</label>
+      <div class="edit-tag-row" id="st-tag-row">
+        <button class="et-pill st-pill" data-tag="emotions">&#128548; Emotions</button>
+        <button class="et-pill st-pill" data-tag="gym">&#x1F94A; Gym</button>
+        <button class="et-pill st-pill" data-tag="food">&#x1F35C; Food</button>
+        <button class="et-pill st-pill active" data-tag="daily">&#x1F4AC; Daily</button>
+        <button class="et-pill st-pill" data-tag="travel">&#x2708;&#xFE0F; Travel</button>
+        <button class="et-pill st-pill" data-tag="culture">&#x1F64F; Culture</button>
+        <button class="et-pill st-pill" data-tag="other">&#128204; Other</button>
+      </div>
+    </div>
+    <div class="field-group" id="note-field-group" style="display:none">
+      <label class="field-label">MY NOTE (OPTIONAL)</label>
+      <textarea class="field-textarea" id="panel-note" placeholder="e.g. Kru says this sounds more natural &#183; remember falling tone&#8230;"></textarea>
     </div>
     <button class="save-btn" id="save-btn" disabled>SAVE TO MY VOCAB</button>
   </div>
@@ -963,16 +970,25 @@ function renderCards(){
     (activeTag!=='all'?' · '+(TAG_LABELS[activeTag]||activeTag):'')+
     (activeStatus!=='all'?' · '+(activeStatus==='remembered'?'✓ Done':'📚 Learning'):'');
 
-  if(!allWords.length){
-    container.innerHTML='<div class="empty-state"><div class="big">&#128218;</div><p>NO VOCAB YET<br><br><span style="font-size:0.7rem;font-family:Jost,sans-serif;">Tap the bookmark on any volume card<br>or type a word in the search bar to add it.</span></p></div>';
-    return;
-  }
-  if(!words.length){
-    container.innerHTML='<div class="empty-state"><div class="big">0</div><p>NO MATCH</p></div>';
-    return;
-  }
   container.innerHTML='';
-  words.forEach(function(w){container.appendChild(buildCard(w));});
+  if(!allWords.length){
+    var emptyDiv=document.createElement('div');emptyDiv.className='empty-state';
+    emptyDiv.innerHTML='<div class="big">&#128218;</div><p>NO VOCAB YET<br><br><span style="font-size:0.7rem;font-family:Jost,sans-serif;">Tap the bookmark on any volume card<br>or search a word above to add it.</span></p>';
+    container.appendChild(emptyDiv);
+  }else if(!words.length){
+    var emptyDiv=document.createElement('div');emptyDiv.className='empty-state';
+    emptyDiv.innerHTML='<div class="big">0</div><p>NO MATCH</p>';
+    container.appendChild(emptyDiv);
+  }else{
+    words.forEach(function(w){container.appendChild(buildCard(w));});
+  }
+  if(searchQuery){
+    var q=document.getElementById('search-input').value.trim();
+    var addRow=document.createElement('div');addRow.className='add-query-row';
+    addRow.innerHTML='<button class="add-query-btn">+ Add “'+esc(q)+'” to My Vocab</button>';
+    addRow.querySelector('.add-query-btn').addEventListener('click',function(){openSheet(q);});
+    container.appendChild(addRow);
+  }
 }
 function buildCard(w){
   var div=document.createElement('div');
@@ -1068,11 +1084,18 @@ function openSheet(prefill){
   document.getElementById('sheet-loading').classList.remove('visible');
   document.getElementById('sheet-error').classList.remove('visible');
   document.getElementById('panel-note').value='';
+  document.getElementById('category-field-group').style.display='none';
+  document.getElementById('note-field-group').style.display='none';
+  document.querySelectorAll('.st-pill').forEach(function(p){p.classList.toggle('active',p.dataset.tag==='daily');});
   if(prefill){
     document.getElementById('panel-word').value=prefill;
-    setTimeout(lookupWord,350);  /* auto-trigger lookup */
+    document.getElementById('word-field-group').style.display='none';
+    document.getElementById('lookup-section').style.display='none';
+    setTimeout(lookupWord,200);
   }else{
     document.getElementById('panel-word').value='';
+    document.getElementById('word-field-group').style.display='';
+    document.getElementById('lookup-section').style.display='';
     setTimeout(function(){document.getElementById('panel-word').focus();},350);
   }
 }
@@ -1105,7 +1128,7 @@ function closeEditSheet(){
 
 function saveWordEdit(){
   if(!_edWord)return;
-  var activePill=document.querySelector('.et-pill.active');
+  var activePill=document.querySelector('#ed-tag-row .et-pill.active');
   var tag=activePill?activePill.dataset.tag:(_edWord.tag||'other');
   var note=document.getElementById('ed-note').value.trim();
   var arr=loadMyWords();
@@ -1129,9 +1152,15 @@ function saveWordEdit(){
 
 document.getElementById('ed-close').addEventListener('click',closeEditSheet);
 document.getElementById('ed-overlay').addEventListener('click',closeEditSheet);
-document.querySelectorAll('.et-pill').forEach(function(p){
+document.querySelectorAll('#ed-tag-row .et-pill').forEach(function(p){
   p.addEventListener('click',function(){
-    document.querySelectorAll('.et-pill').forEach(function(x){x.classList.remove('active');});
+    document.querySelectorAll('#ed-tag-row .et-pill').forEach(function(x){x.classList.remove('active');});
+    p.classList.add('active');
+  });
+});
+document.querySelectorAll('#st-tag-row .st-pill').forEach(function(p){
+  p.addEventListener('click',function(){
+    document.querySelectorAll('#st-tag-row .st-pill').forEach(function(x){x.classList.remove('active');});
     p.classList.add('active');
   });
 });
@@ -1180,6 +1209,8 @@ async function lookupWord(){
       btn.addEventListener('click',function(e){e.stopPropagation();speak(btn.dataset.text,btn,btn.dataset.lang);});
     });
     document.getElementById('preview-box').classList.add('visible');
+    document.getElementById('category-field-group').style.display='';
+    document.getElementById('note-field-group').style.display='';
     document.getElementById('save-btn').disabled=false;
   }catch(err){
     var msg=err.message||'Could not search. Check API key.';
@@ -1197,7 +1228,8 @@ document.getElementById('lookup-btn').addEventListener('click',lookupWord);
 document.getElementById('save-btn').addEventListener('click',function(){
   if(!pendingWord)return;
   var note=document.getElementById('panel-note').value.trim();
-  var tag=document.getElementById('panel-tag').value;
+  var activeStPill=document.querySelector('.st-pill.active');
+  var tag=activeStPill?activeStPill.dataset.tag:'daily';
   var id='my_'+Date.now();
   var by=getUsername()||'Me';
   var wordEntry=Object.assign({},pendingWord,{id:id,tag:tag,note:note,addedBy:by,savedAt:new Date().toISOString()});
