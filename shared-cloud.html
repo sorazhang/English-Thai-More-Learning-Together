@@ -55,6 +55,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .recent-eng{font-size:0.85rem;font-weight:500;color:var(--cream);flex:1;}
 .recent-thai{font-family:'Noto Sans Thai',sans-serif;font-size:0.85rem;font-weight:600;color:var(--muted);}
 .recent-by{font-size:0.62rem;color:var(--muted);letter-spacing:0.04em;white-space:nowrap;}
+.recent-save{background:none;border:1px solid rgba(200,148,58,0.3);color:var(--gold);font-size:0.6rem;font-family:'Jost',sans-serif;font-weight:700;letter-spacing:0.06em;padding:0.22rem 0.55rem;border-radius:3px;cursor:pointer;white-space:nowrap;transition:all 0.15s;flex-shrink:0;}
+.recent-save:hover{background:rgba(200,148,58,0.1);border-color:var(--gold);}
+.recent-save.saved{color:var(--roman);border-color:rgba(90,170,128,0.35);cursor:default;}
+.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--bg2);border:1px solid var(--border);color:var(--gold);font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;padding:0.6rem 1.2rem;border-radius:4px;opacity:0;transition:opacity 0.2s,transform 0.2s;pointer-events:none;white-space:nowrap;z-index:9999;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
 /* NO CONFIG */
 .no-config{text-align:center;padding:4rem 1.5rem;color:var(--muted);}
@@ -77,6 +82,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 
 <div id="main-content"></div>
+<div class="toast" id="cloud-toast"></div>
 
 <script>
 /* ── FIREBASE CONFIG — must match the one in my-saved-note.html ── */
@@ -104,6 +110,29 @@ function colorForUser(name){
 }
 
 function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* ── MY VOCAB HELPERS ── */
+var NAME_KEY='kruexchange_username';
+var MY_KEY='kruexchange_my_words';
+function getUsername(){return localStorage.getItem(NAME_KEY)||'';}
+function safeKey(n){return(n||'').toLowerCase().replace(/[.#$\/\[\]\s]+/g,'_').replace(/^_|_$/g,'').slice(0,64)||'user';}
+function loadMyWords(){try{return JSON.parse(localStorage.getItem(MY_KEY)||'[]');}catch(e){return[];}}
+function isAlreadySaved(english){return loadMyWords().some(function(w){return(w.english||'').toLowerCase()===(english||'').toLowerCase();});}
+function showCloudToast(msg){var t=document.getElementById('cloud-toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
+
+function saveToMyVocab(w,btn){
+  if(isAlreadySaved(w.english)){showCloudToast('ALREADY IN YOUR VOCAB');return;}
+  var id='my_'+Date.now();
+  var username=getUsername();
+  var entry={id:id,english:w.english,thai:w.thai,romanized:w.romanized||'',partOfSpeech:w.partOfSpeech||'',tag:w.tag||'other',note:w.note||'',examples:w.examples||[],addedBy:username||w.addedBy||'',savedAt:new Date().toISOString()};
+  var arr=loadMyWords();arr.unshift(entry);
+  try{localStorage.setItem(MY_KEY,JSON.stringify(arr));}catch(e){}
+  if(FB_ON&&db&&username){
+    db.ref('users/'+safeKey(username)).child('my_words').child(id).set(entry);
+  }
+  btn.textContent='✓ SAVED';btn.classList.add('saved');btn.disabled=true;
+  showCloudToast((w.english||'').toUpperCase()+' SAVED TO MY VOCAB!');
+}
 
 /* ── RENDER NO-CONFIG STATE ── */
 function renderNoConfig(){
@@ -162,20 +191,34 @@ function renderPage(words){
       '</div>'+
 
       '<div class="section-label" style="margin-top:1.2rem;margin-bottom:0;">&#128336; RECENT ADDITIONS</div>'+
-      '<div class="recent-list">'+
-        recent.map(function(w){
+      '<div class="recent-list" id="recent-list">'+
+        recent.map(function(w,i){
           var c=colorForUser(w.addedBy);
+          var already=isAlreadySaved(w.english);
           return '<div class="recent-row">'+
             '<div class="recent-dot" style="background:'+c+';box-shadow:0 0 6px '+c+'66;"></div>'+
             '<div class="recent-eng">'+esc(w.english)+'</div>'+
             '<div class="recent-thai">'+esc(w.thai)+'</div>'+
             '<div class="recent-by">'+esc(anonMap[w.addedBy]||w.addedBy)+'</div>'+
+            '<button class="recent-save'+(already?' saved':'')+'" data-idx="'+i+'"'+(already?' disabled':'')+'>'+
+              (already?'✓ SAVED':'+ SAVE')+
+            '</button>'+
           '</div>';
         }).join('')+
       '</div>'+
     '</div>';
 
   document.getElementById('main-content').innerHTML=html;
+
+  /* wire save buttons */
+  var recentWords=recent;
+  document.getElementById('recent-list').querySelectorAll('.recent-save').forEach(function(btn){
+    if(btn.disabled)return;
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      saveToMyVocab(recentWords[parseInt(btn.dataset.idx)],btn);
+    });
+  });
   initGraph(words, document.getElementById('graph-wrap'));
 }
 
