@@ -277,12 +277,34 @@ if(!FB_ON){
 .tab-icon{font-size:1.15rem;line-height:1;}
 .tab-label{font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;}
 </style>
+<!-- Volume nav action sheet -->
+<div id="vol-sheet" style="display:none;position:fixed;inset:0;z-index:9100;background:rgba(0,0,0,0.55);" onclick="document.getElementById('vol-sheet').style.display='none'">
+  <div onclick="event.stopPropagation()" style="position:absolute;bottom:56px;left:0;right:0;background:#1c1810;border-top:1px solid rgba(200,148,58,0.3);padding:0.25rem 0;">
+    <div onclick="location.href='index.html'" style="padding:1rem 1.5rem;color:#f0e8d8;font-family:'Jost',sans-serif;font-size:0.95rem;display:flex;align-items:center;gap:0.75rem;cursor:pointer;border-bottom:1px solid rgba(200,148,58,0.1);">
+      <span style="font-size:1.1rem;">📋</span><span>Volume List</span>
+    </div>
+    <div id="vol-sheet-back" style="display:none;padding:1rem 1.5rem;color:#f0e8d8;font-family:'Jost',sans-serif;font-size:0.95rem;align-items:center;gap:0.75rem;cursor:pointer;">
+      <span style="font-size:1.1rem;">↩</span><span id="vol-sheet-label">Back to Vol.</span>
+    </div>
+  </div>
+</div>
 <nav class="tab-bar">
-  <a class="tab-item" href="index.html"><span class="tab-icon">🥊</span><span class="tab-label">Volumes</span></a>
+  <a class="tab-item" href="index.html" onclick="showVolSheet(event)"><span class="tab-icon">🥊</span><span class="tab-label">Volumes</span></a>
   <a class="tab-item active" href="shared-cloud.html"><span class="tab-icon">🔥</span><span class="tab-label">Trending</span></a>
   <a class="tab-item" href="my-saved-note.html"><span class="tab-icon">🔖</span><span class="tab-label">My Notes</span></a>
 </nav>
 <script>
+function showVolSheet(e){
+  e.preventDefault();
+  var stored=null;
+  try{stored=JSON.parse(localStorage.getItem('ke_last_vol'));}catch(e2){}
+  if(!stored){location.href='index.html';return;}
+  var backRow=document.getElementById('vol-sheet-back');
+  document.getElementById('vol-sheet-label').textContent='Back to '+stored.label;
+  backRow.style.display='flex';
+  backRow.onclick=function(ev){ev.stopPropagation();location.href=stored.url;};
+  document.getElementById('vol-sheet').style.display='block';
+}
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
     navigator.serviceWorker.register('/sw.js');
