@@ -253,12 +253,11 @@
   .pill-btn.pactive .pill-arrow { transform: rotate(180deg); }
 
   .pill-pop {
-    position: fixed; bottom: calc(56px + 4.2rem); right: 1.6rem;
-    width: min(320px, calc(100vw - 3.2rem));
-    background: #0f0c09; border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px; z-index: 299; display: none;
-    box-shadow: 0 16px 48px rgba(0,0,0,0.65);
-    transform-origin: bottom right;
+    position: fixed; bottom: 56px; left: 0; right: 0; width: 100%;
+    max-height: 70vh; background: #0f0c09; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px 12px 0 0; z-index: 9001; display: none;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.7);
+    transform-origin: bottom center;
     animation: pillPop 0.18s cubic-bezier(0.34,1.56,0.64,1) both;
     overflow: hidden;
   }
@@ -278,7 +277,7 @@
   .pp-title { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(244,238,216,0.35); }
   .pp-home { font-size: 0.68rem; font-weight: 700; color: rgba(244,238,216,0.55); text-decoration: none; transition: color 0.15s; font-family: inherit; }
   .pp-home:hover { color: rgba(244,238,216,0.9); }
-  .pp-body { max-height: 380px; overflow-y: auto; padding: 0.7rem 0 0.5rem; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+  .pp-body { max-height: calc(70vh - 48px); overflow-y: auto; padding: 0.7rem 0 0.5rem; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
   .pp-cat { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.45rem 1rem 0.25rem; display: block; }
   .pp-cat.muay   { color: rgba(200,74,16,0.75); }
   .pp-cat.lang   { color: rgba(180,140,20,0.75); }
@@ -872,11 +871,7 @@
 
 
 <!-- ══ FLOATING PILL NAV ══ -->
-<button class="pill-btn" id="pill-btn" onclick="pillToggle()">
-  <span class="pill-icon">🥊</span>
-  Volumes
-  <span class="pill-arrow">▲</span>
-</button>
+
 
 <div class="pill-pop" id="pill-pop">
   <div class="pp-head">
@@ -958,18 +953,18 @@
 <script>
   function pillToggle() {
     var pop = document.getElementById('pill-pop');
-    var btn = document.getElementById('pill-btn');
+    var btn = document.getElementById('vol-tab-btn');
     if (pop.classList.contains('popen')) {
-      pop.classList.remove('popen'); btn.classList.remove('pactive');
+      pop.classList.remove('popen'); if(btn)btn.classList.remove('pactive');
     } else {
-      pop.classList.add('popen'); btn.classList.add('pactive');
+      pop.classList.add('popen'); if(btn)btn.classList.add('pactive');
     }
   }
   document.addEventListener('click', function(e) {
     var pop = document.getElementById('pill-pop');
-    var btn = document.getElementById('pill-btn');
-    if (!pop.contains(e.target) && !btn.contains(e.target)) {
-      pop.classList.remove('popen'); btn.classList.remove('pactive');
+    var btn = document.getElementById('vol-tab-btn');
+    if (!pop.contains(e.target) && (!btn||!btn.contains(e.target))) {
+      pop.classList.remove('popen'); if(btn)btn.classList.remove('pactive');
     }
   });
 
@@ -1007,7 +1002,7 @@
   if(!sessionStorage.getItem('pill_seen')){
     sessionStorage.setItem('pill_seen','1');
     setTimeout(function(){
-      var btn=document.getElementById('pill-btn');
+      var btn=document.getElementById('vol-tab-btn');
       if(btn){btn.classList.add('pill-bounce');setTimeout(function(){btn.classList.remove('pill-bounce');},1200);}
     },1800);
   }
@@ -1194,13 +1189,14 @@ function _injectBookmarks() {
 _injectBookmarks();
 </script><style>
 .tab-bar{position:fixed;bottom:0;left:0;right:0;height:56px;background:#131109;border-top:1px solid rgba(200,148,58,0.18);display:flex;align-items:stretch;z-index:9000;font-family:'Jost',system-ui,sans-serif;padding-bottom:env(safe-area-inset-bottom);}
+button.tab-item{background:none;border:none;padding:0;cursor:pointer;font-family:inherit;}
 .tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:rgba(122,112,96,0.8);transition:color 0.15s;}
 .tab-item.active{color:#c8943a;}
 .tab-icon{font-size:1.15rem;line-height:1;}
 .tab-label{font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;}
 </style>
 <nav class="tab-bar">
-  <a class="tab-item active" href="index.html"><span class="tab-icon">🥊</span><span class="tab-label">Volumes</span></a>
+  <button class="tab-item active" id="vol-tab-btn" onclick="pillToggle()"><span class="tab-icon">🥊</span><span class="tab-label">Volumes</span></button>
   <a class="tab-item" href="shared-cloud.html"><span class="tab-icon">🔥</span><span class="tab-label">Trending</span></a>
   <a class="tab-item" href="my-saved-note.html"><span class="tab-icon">🔖</span><span class="tab-label">My Notes</span></a>
 </nav>
