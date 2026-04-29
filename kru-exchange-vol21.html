@@ -1283,105 +1283,87 @@ _injectBookmarks();
 })();
 </script>
 <script>
-/* ── SELECT TEXT → ADD TO VOCAB ── */
+/* ── CARD VOCAB BUTTON ── */
 (function(){
-  var _style=document.createElement('style');
-  _style.textContent='.sel-chip{position:fixed;bottom:calc(56px + 0.6rem);left:0.6rem;right:0.6rem;background:#1c1810;border:1px solid rgba(200,148,58,0.42);border-radius:7px;padding:0.55rem 0.75rem;display:flex;align-items:center;gap:0.55rem;z-index:8200;box-shadow:0 4px 18px rgba(0,0,0,0.55);transform:translateY(10px);opacity:0;pointer-events:none;transition:transform 0.22s ease,opacity 0.22s ease;}'
-  +'.sel-chip.show{transform:translateY(0);opacity:1;pointer-events:auto;}'
-  +'.sel-chip-word{flex:1;font-family:Jost,sans-serif;font-size:0.76rem;color:#d8cdb8;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}'
-  +'.sel-chip-btn{background:rgba(200,148,58,0.13);border:1px solid rgba(200,148,58,0.42);color:#c8943a;font-family:Jost,sans-serif;font-size:0.63rem;font-weight:700;letter-spacing:0.07em;padding:0.33rem 0.7rem;border-radius:4px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background 0.15s;}'
-  +'.sel-chip-btn:disabled{opacity:0.45;cursor:default;}'
-  +'.sel-chip-btn:not(:disabled):active{background:rgba(200,148,58,0.25);}'
-  +'.sel-chip-x{background:none;border:none;color:#7a7060;font-size:0.85rem;cursor:pointer;padding:0.15rem 0.3rem;flex-shrink:0;line-height:1;}'
-  +'.sel-vtoast{position:fixed;bottom:calc(56px + 4.2rem);left:50%;transform:translateX(-50%) translateY(8px);background:#131109;border:1px solid rgba(200,148,58,0.28);color:#c8943a;padding:0.48rem 1.1rem;border-radius:4px;font-family:Jost,sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.06em;opacity:0;transition:all 0.22s;z-index:8300;pointer-events:none;white-space:nowrap;}'
-  +'.sel-vtoast.show{opacity:1;transform:translateX(-50%) translateY(0);}'
-  +'.sel-vtoast.ok{color:#5aaa80;border-color:rgba(90,170,128,0.4);}'
-  +'.sel-vtoast.err{color:#c86060;border-color:rgba(200,96,96,0.4);}';
-  document.head.appendChild(_style);
+  var _vs=document.createElement('style');
+  _vs.textContent=
+    '.vocab-btn{position:absolute;bottom:0.75rem;right:calc(1rem + 32px);width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1.5px solid var(--border,rgba(200,148,58,0.18));background:transparent;cursor:pointer;color:var(--muted,#7a7060);padding:0;z-index:2;transition:all 0.18s;font-size:0.72rem;font-family:Jost,sans-serif;font-weight:700;}'
+   +'.vocab-btn:hover{border-color:#5aaa80;color:#5aaa80;background:rgba(90,170,128,0.08);}'
+   +'.vocab-btn.saved{border-color:#5aaa80;color:#5aaa80;background:rgba(90,170,128,0.12);}'
+   +'.vocab-btn.saving{opacity:0.5;cursor:default;}'
+   +'.vb-toast{position:fixed;bottom:calc(56px + 0.8rem);left:50%;transform:translateX(-50%) translateY(8px);background:#131109;border:1px solid rgba(200,148,58,0.28);color:#c8943a;padding:0.48rem 1.1rem;border-radius:4px;font-family:Jost,sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.06em;opacity:0;transition:all 0.22s;z-index:9100;pointer-events:none;white-space:nowrap;}'
+   +'.vb-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}'
+   +'.vb-toast.ok{color:#5aaa80;border-color:rgba(90,170,128,0.4);}'
+   +'.vb-toast.err{color:#c86060;border-color:rgba(200,96,96,0.35);}';
+  document.head.appendChild(_vs);
 
-  var chip=document.createElement('div');chip.className='sel-chip';chip.id='sel-chip';
-  chip.innerHTML='<span class="sel-chip-word" id="sel-chip-word"></span><button class="sel-chip-btn" id="sel-chip-btn">&#128218; ADD TO VOCAB</button><button class="sel-chip-x" id="sel-chip-x" title="Dismiss">&#10005;</button>';
-  document.body.appendChild(chip);
-  var vtoast=document.createElement('div');vtoast.className='sel-vtoast';vtoast.id='sel-vtoast';
-  document.body.appendChild(vtoast);
-
-  var _wordEl=document.getElementById('sel-chip-word');
-  var _btn=document.getElementById('sel-chip-btn');
-  var _x=document.getElementById('sel-chip-x');
-  var _cur='';var _toastT=null;
-
-  function showChip(t){_cur=t;_wordEl.textContent='“'+t+'”';_btn.textContent='📚 ADD TO VOCAB';_btn.disabled=false;chip.classList.add('show');}
-  function hideChip(){chip.classList.remove('show');_cur='';}
-  function vToast(msg,type){
-    var el=document.getElementById('sel-vtoast');
-    el.textContent=msg;el.className='sel-vtoast '+(type||'')+' show';
-    clearTimeout(_toastT);_toastT=setTimeout(function(){el.classList.remove('show');},2800);
-  }
-
-  var _selT;
-  document.addEventListener('selectionchange',function(){
-    clearTimeout(_selT);
-    _selT=setTimeout(function(){
-      var sel=window.getSelection();
-      var t=sel?sel.toString().trim():'';
-      if(t.length>=2&&t.length<=80){showChip(t);}
-      else if(t.length===0){hideChip();}
-    },320);
-  });
-  _x.addEventListener('click',function(e){e.stopPropagation();hideChip();});
+  var _vt=document.createElement('div');_vt.className='vb-toast';_vt.id='vb-toast';
+  document.body.appendChild(_vt);
+  var _vtT=null;
+  function vbToast(msg,type){var el=document.getElementById('vb-toast');el.textContent=msg;el.className='vb-toast '+(type||'')+' show';clearTimeout(_vtT);_vtT=setTimeout(function(){el.classList.remove('show');},2600);}
 
   function safeKey(n){return(n||'').toLowerCase().replace(/[.#$\/\[\]\s]+/g,'_').replace(/^_|_$/g,'').slice(0,64)||'user';}
   function getUsername(){return localStorage.getItem('kruexchange_username')||'';}
-  function getApiKey(){try{var s=JSON.parse(localStorage.getItem('kruexchange_session')||'null');return s?s.apiKey:'';}catch(e){return '';}}
+  function getSavedIds(){try{return JSON.parse(localStorage.getItem('kruexchange_my_words')||'[]').map(function(w){return w.id;});}catch(e){return[];}}
   function getDb(){try{var FC={apiKey:'AIzaSyADe8cPmF8Tcw8TDAqxW-_iQrRirLTPzFI',databaseURL:'https://kruexchange-default-rtdb.asia-southeast1.firebasedatabase.app',projectId:'kruexchange',appId:'1:1087057646157:web:55a0b1b0ca27d596fd4204'};if(!firebase.apps.length)firebase.initializeApp(FC);return firebase.database();}catch(e){return null;}}
   var _VCATS={'1':'gym','2':'gym','3':'daily','4':'daily','5':'daily','6':'gym','7':'culture','8':'gym','9':'food','12':'travel','13':'travel','14':'travel','15':'culture','16':'daily','17':'daily','19':'daily','21':'food','22':'food'};
-  var _VPROMPT='You are a Thai language teacher. Given a word or phrase in English or Thai, return ONLY valid JSON, no markdown: {"english":"word","thai":"Thai script","romanized":"romanized with tone marks","partOfSpeech":"noun/verb/etc","examples":[{"english":"sentence","thai":"Thai","romanized":"romanized"},{"english":"sentence","thai":"Thai","romanized":"romanized"}]}. Examples should be practical and Muay Thai / daily life context.';
 
-  _btn.addEventListener('click',function(){
-    var word=_cur;if(!word)return;
-    _btn.disabled=true;_btn.textContent='Looking up…';
-    var apiKey=getApiKey();
-    if(!apiKey){
-      var db=getDb();
-      if(db){db.ref('config/apiKey').once('value',function(snap){
-        var k=snap.val();
-        if(k){var sess={};try{sess=JSON.parse(localStorage.getItem('kruexchange_session')||'{}');}catch(e){}
-          sess.apiKey=k;localStorage.setItem('kruexchange_session',JSON.stringify(sess));doLookup(word);}
-        else{vToast('⚠ Open My Notes once to activate','err');_btn.disabled=false;_btn.textContent='📚 ADD TO VOCAB';}
-      });}else{vToast('⚠ No connection','err');_btn.disabled=false;_btn.textContent='📚 ADD TO VOCAB';}
-      return;
-    }
-    doLookup(word);
-  });
+  function cardText(card,cls1,cls2){
+    var el=card.querySelector(cls1)||card.querySelector(cls2);
+    if(!el)return'';
+    var st=el.querySelector('.speak-text');
+    return(st?st:el).textContent.trim();
+  }
 
-  async function doLookup(word){
-    var apiKey=getApiKey();
-    try{
-      var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:_VPROMPT,messages:[{role:'user',content:word}]})});
-      var data=await res.json();
-      if(data.error)throw new Error(data.error.message||'API error');
-      var raw=(data.content||[]).map(function(b){return b.text||'';}).join('');
-      var result=JSON.parse(raw.replace(/```json|```/g,'').trim());
-      var db=getDb();var username=getUsername();
-      var vol=typeof _BM_VOL!=='undefined'?_BM_VOL:'0';
-      var tag=_VCATS[vol]||'other';
-      var id='my_'+Date.now();
-      var entry=Object.assign({},result,{id:id,tag:tag,note:'',addedBy:username||'Me',savedAt:new Date().toISOString()});
-      if(db&&username){
-        db.ref('users/'+safeKey(username)+'/my_words/'+id).set(entry);
-        db.ref('shared_words').push(Object.assign({},result,{tag:tag,addedBy:username,savedAt:new Date().toISOString()}));
-      }else{
-        try{var arr=JSON.parse(localStorage.getItem('kruexchange_my_words')||'[]');arr.unshift(entry);localStorage.setItem('kruexchange_my_words',JSON.stringify(arr));}catch(e){}
-      }
-      vToast('✓ “'+(result.english||word)+'” saved to My Vocab!','ok');
-      hideChip();
-    }catch(err){
-      vToast('⚠ '+(err.message||'Could not look up'),'err');
-      _btn.disabled=false;_btn.textContent='📚 ADD TO VOCAB';
+  function cardId(card){
+    var sec=card.closest('.section');var num=card.querySelector('.card-num,.num');
+    var vol=typeof _BM_VOL!=='undefined'?_BM_VOL:'0';
+    return'mv_v'+vol+'_'+(sec?sec.id:'x')+'_'+(num?num.textContent.trim().replace(/\s+/g,''):'0');
+  }
+
+  function injectVocabBtns(){
+    var savedIds=getSavedIds();
+    document.querySelectorAll('.card').forEach(function(card){
+      if(card.querySelector('.vocab-btn'))return;
+      var eng=cardText(card,'.eng','.e');
+      if(!eng)return;  // skip cards with no English text
+      var id=cardId(card);
+      var btn=document.createElement('button');
+      btn.className='vocab-btn'+(savedIds.indexOf(id)!==-1?' saved':'');
+      btn.title='Save to My Vocab';
+      btn.setAttribute('aria-label','Save to My Vocab');
+      btn.innerHTML=savedIds.indexOf(id)!==-1?'&#10003;':'+';
+      btn.addEventListener('click',function(e){
+        e.stopPropagation();
+        if(btn.classList.contains('saving')||btn.classList.contains('saved'))return;
+        var thai=cardText(card,'.thai-script','.t');
+        var rom=cardText(card,'.roman','.r');
+        saveVocab(id,eng,thai,rom,btn);
+      });
+      card.appendChild(btn);
+    });
+  }
+
+  function saveVocab(id,eng,thai,rom,btn){
+    btn.classList.add('saving');btn.innerHTML='…';
+    var db=getDb();var username=getUsername();
+    var vol=typeof _BM_VOL!=='undefined'?_BM_VOL:'0';
+    var tag=_VCATS[vol]||'other';
+    var entry={id:id,english:eng,thai:thai,romanized:rom,partOfSpeech:'',examples:[],tag:tag,note:'',addedBy:username||'Me',savedAt:new Date().toISOString()};
+    if(db&&username){
+      db.ref('users/'+safeKey(username)+'/my_words/'+id).set(entry,function(err){
+        if(err){vbToast('⚠ Could not save','err');btn.classList.remove('saving');btn.innerHTML='+';}
+        else{btn.classList.remove('saving');btn.classList.add('saved');btn.innerHTML='&#10003;';vbToast('✓ "'+eng.slice(0,30)+(eng.length>30?'…':'')+'" saved to My Vocab','ok');}
+      });
+      db.ref('shared_words').push({english:eng,thai:thai,romanized:rom,tag:tag,addedBy:username,savedAt:new Date().toISOString()});
+    }else{
+      try{var arr=JSON.parse(localStorage.getItem('kruexchange_my_words')||'[]');arr.unshift(entry);localStorage.setItem('kruexchange_my_words',JSON.stringify(arr));}catch(er){}
+      btn.classList.remove('saving');btn.classList.add('saved');btn.innerHTML='&#10003;';
+      vbToast('✓ "'+eng.slice(0,30)+'" saved to My Vocab','ok');
     }
   }
+
+  injectVocabBtns();
 })();
 </script>
 
