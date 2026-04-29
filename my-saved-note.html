@@ -93,9 +93,22 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .wcard{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:0.9rem 1rem 0.8rem;position:relative;overflow:hidden;animation:fadeUp 0.2s ease;cursor:pointer;transition:border-color 0.15s;}
 .wcard:hover,.wcard:active{border-color:rgba(200,148,58,0.45);}
 .wcard.mine{border-color:rgba(200,148,58,0.2);}
+.wcard.remembered{border-color:rgba(90,170,128,0.25);opacity:0.75;}
+.wcard.remembered:hover{border-color:rgba(90,170,128,0.5);opacity:1;}
 .wcard::before{content:'';position:absolute;top:0;left:0;bottom:0;width:2px;}
 .wcard.mine::before{background:var(--gold);}
 .wcard.bmark::before{background:var(--eng);}
+.wcard.remembered::before{background:var(--roman);}
+.remember-btn{width:100%;margin-top:0.7rem;padding:0.45rem;background:none;border:1px solid var(--border2);border-radius:3px;font-family:'Jost',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;color:var(--muted);cursor:pointer;transition:all 0.15s;text-align:center;}
+.remember-btn:hover{border-color:rgba(90,170,128,0.4);color:var(--roman);}
+.remember-btn.is-remembered{border-color:rgba(90,170,128,0.4);color:var(--roman);background:rgba(90,170,128,0.06);}
+/* STATUS FILTER */
+.status-row{display:flex;gap:0.4rem;margin-bottom:0.6rem;}
+.sf-pill{padding:0.28rem 0.7rem;border-radius:3px;font-size:0.68rem;font-weight:500;border:1px solid var(--border);background:var(--bg2);color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.15s;user-select:none;}
+.sf-pill.active{color:#fff;border-color:transparent;}
+.sf-pill[data-status="all"].active{background:var(--gold);}
+.sf-pill[data-status="learning"].active{background:#2a5c8a;}
+.sf-pill[data-status="remembered"].active{background:#2a6640;}
 .wcard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:0.5rem;}
 .wcard-tag{padding:0.18rem 0.6rem;border-radius:3px;font-family:'Jost',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.06em;color:#fff;line-height:1.7;}
 .wcard-tag[data-tag="emotions"]{background:#7a4898;}
@@ -341,6 +354,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div class="practice-bar" id="practice-bar">
       <button class="practice-btn" id="practice-btn">&#127183; FLASH CARDS &nbsp;&mdash;&nbsp; Practice My Vocab</button>
     </div>
+    <div class="status-row" id="status-row" style="display:none;">
+      <span class="sf-pill active" data-status="all">All</span>
+      <span class="sf-pill" data-status="learning">📚 Learning</span>
+      <span class="sf-pill" data-status="remembered">✓ Remembered</span>
+    </div>
     <p class="results-count" id="results-count"></p>
     <div class="cards-list" id="cards-container"></div>
   </div>
@@ -535,6 +553,7 @@ var MY_KEY='kruexchange_my_words';
 var SESS_KEY='kruexchange_session';
 
 var activeTag='all';
+var activeStatus='all';
 var searchQuery='';
 var pendingWord=null;
 var currentRole='student';
@@ -868,15 +887,20 @@ function renderCards(){
 
   var words=allWords.filter(function(w){
     if(activeTag!=='all'&&w.tag!==activeTag)return false;
+    if(activeStatus==='remembered'&&!w.remembered)return false;
+    if(activeStatus==='learning'&&w.remembered)return false;
     if(!matchesSearch(w,searchQuery))return false;
     return true;
   });
 
+  var hasRemembered=allWords.some(function(w){return w.remembered;});
   tagScroll.style.display=allWords.length>0?'block':'none';
+  document.getElementById('status-row').style.display=hasRemembered?'flex':'none';
   document.getElementById('practice-bar').style.display=allWords.length>0?'block':'none';
+  var statusLabel=activeStatus==='remembered'?' · ✓ Remembered':activeStatus==='learning'?' · 📚 Learning':'';
   countEl.textContent=words.length+' word'+(words.length!==1?'s':'')+
     (searchQuery?' matching "'+searchQuery+'"':'')+
-    (activeTag!=='all'?' &middot; '+(TAG_LABELS[activeTag]||activeTag):'');
+    (activeTag!=='all'?' &middot; '+(TAG_LABELS[activeTag]||activeTag):'')+statusLabel;
 
   if(!allWords.length){
     container.innerHTML='<div class="empty-state"><div class="big">&#128218;</div><p>NO VOCAB YET<br><br><span style="font-size:0.7rem;font-family:Jost,sans-serif;">Tap <strong>+</strong> on any volume card<br>or use the search bar to add words.</span></p></div>';
@@ -891,7 +915,7 @@ function renderCards(){
 }
 function buildCard(w){
   var div=document.createElement('div');
-  div.className='wcard'+(w.isBmark?' bmark':' mine');
+  div.className='wcard'+(w.isBmark?' bmark':' mine')+(w.remembered?' remembered':'');
   var exHtml=(w.examples||[]).map(function(ex){
     return '<div class="ex-block">'+
       '<div class="ex-en"><span>'+esc(ex.english)+'</span><button class="speak-btn-sm eng" data-text="'+esc(ex.english)+'" data-lang="en-GB">&#128266;</button></div>'+
@@ -913,7 +937,8 @@ function buildCard(w){
     '<div class="wcard-eng">'+esc(w.english)+'<span class="wcard-pos">'+esc(w.partOfSpeech||'')+'</span><button class="speak-btn-sm eng" data-text="'+escAttr(w.english)+'" data-lang="en-GB">&#128266;</button></div>'+
     '<div class="wcard-thai">'+esc(w.thai)+'<button class="speak-btn-sm tha" data-text="'+escAttr(w.thai)+'" data-lang="th-TH">&#128266;</button></div>'+
     '<div class="wcard-roman">'+esc(w.romanized)+'</div>'+
-    exSection;
+    exSection+
+    (w.isBmark?'':'<button class="remember-btn'+(w.remembered?' is-remembered':'')+'">'+(w.remembered?'✓ REMEMBERED · tap to undo':'✓ GOT IT')+'</button>');
 
   div.querySelectorAll('.speak-btn-sm').forEach(function(btn){
     btn.addEventListener('click',function(e){e.stopPropagation();speak(btn.dataset.text,btn,btn.dataset.lang);});
@@ -921,8 +946,21 @@ function buildCard(w){
   div.querySelector('.rm-word').addEventListener('click',function(e){e.stopPropagation();removeMyWord(w.id);});
   var edBtn=div.querySelector('.ed-word');
   if(edBtn)edBtn.addEventListener('click',function(e){e.stopPropagation();openEditSheet(w);});
+  var remBtn=div.querySelector('.remember-btn');
+  if(remBtn)remBtn.addEventListener('click',function(e){e.stopPropagation();toggleRemembered(w.id);});
   if(exSection) div.addEventListener('click',function(){div.classList.toggle('expanded');});
   return div;
+}
+
+function toggleRemembered(id){
+  var arr=loadMyWords();
+  var word=null;
+  arr.forEach(function(w){if(w.id===id){w.remembered=!w.remembered;word=w;}});
+  saveMyWords(arr);
+  if(FB_ON&&fb_db&&getUsername()&&word){
+    userRef().child('my_words').child(id).update({remembered:word.remembered});
+  }
+  renderCards();
 }
 
 function matchesSearch(w,q){if(!q)return true;return(w.english||'').toLowerCase().indexOf(q)>-1||(w.thai||'').indexOf(q)>-1||(w.romanized||'').toLowerCase().indexOf(q)>-1;}
@@ -939,6 +977,15 @@ document.querySelectorAll('.tf-pill').forEach(function(p){
   p.addEventListener('click',function(){
     activeTag=p.dataset.tag;
     document.querySelectorAll('.tf-pill').forEach(function(x){x.classList.remove('active');});
+    p.classList.add('active');
+    renderCards();
+  });
+});
+
+document.querySelectorAll('.sf-pill').forEach(function(p){
+  p.addEventListener('click',function(){
+    activeStatus=p.dataset.status;
+    document.querySelectorAll('.sf-pill').forEach(function(x){x.classList.remove('active');});
     p.classList.add('active');
     renderCards();
   });
