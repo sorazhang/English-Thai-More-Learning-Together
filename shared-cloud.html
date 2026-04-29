@@ -462,7 +462,7 @@ if(!FB_ON){
   firebase.initializeApp(FB_CONFIG);
   var db=firebase.database();
   /* real-time listener */
-  db.ref('shared_words').on('value',function(snap){
+  db.ref('shared_words').limitToLast(500).on('value',function(snap){
     var words=[];
     snap.forEach(function(child){words.push(Object.assign({id:child.key},child.val()));});
     if(!words.length){
