@@ -343,7 +343,8 @@
     position: absolute;
     bottom: 0.75rem; right: 1rem;
     width: 26px; height: 26px;
-    display: flex; align-items: center; justify-content: center;
+    display: none;
+    align-items: center; justify-content: center;
     border-radius: 6px;
     border: 1.5px solid var(--border);
     background: transparent;
@@ -1331,7 +1332,7 @@ button.tab-item{background:none;border:none;padding:0;cursor:pointer;font-family
 (function(){
   var _vs=document.createElement('style');
   _vs.textContent=
-    '.vocab-btn{position:absolute;bottom:0.75rem;right:calc(1rem + 32px);width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1.5px solid var(--border,rgba(200,148,58,0.18));background:transparent;cursor:pointer;color:var(--muted,#7a7060);padding:0;z-index:2;transition:all 0.18s;font-size:0.72rem;font-family:Jost,sans-serif;font-weight:700;}'
+    '.vocab-btn{position:absolute;bottom:0.75rem;right:1rem;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1.5px solid var(--border,rgba(200,148,58,0.18));background:transparent;cursor:pointer;color:var(--muted,#7a7060);padding:0;z-index:2;transition:all 0.18s;}'
    +'.vocab-btn:hover{border-color:#5aaa80;color:#5aaa80;background:rgba(90,170,128,0.08);}'
    +'.vocab-btn.saved{border-color:#5aaa80;color:#5aaa80;background:rgba(90,170,128,0.12);}'
    +'.vocab-btn.saving{opacity:0.5;cursor:default;}'
@@ -1376,7 +1377,7 @@ button.tab-item{background:none;border:none;padding:0;cursor:pointer;font-family
       btn.className='vocab-btn'+(savedIds.indexOf(id)!==-1?' saved':'');
       btn.title='Save to My Vocab';
       btn.setAttribute('aria-label','Save to My Vocab');
-      btn.innerHTML=savedIds.indexOf(id)!==-1?'&#10003;':'+';
+      btn.innerHTML=savedIds.indexOf(id)!==-1?_bmFilled:_bmOutline;
       btn.addEventListener('click',function(e){
         e.stopPropagation();
         if(btn.classList.contains('saving')||btn.classList.contains('saved'))return;
@@ -1397,12 +1398,12 @@ button.tab-item{background:none;border:none;padding:0;cursor:pointer;font-family
     if(db&&username){
       db.ref('users/'+safeKey(username)+'/my_words/'+id).set(entry,function(err){
         if(err){vbToast('⚠ Could not save','err');btn.classList.remove('saving');btn.innerHTML='+';}
-        else{btn.classList.remove('saving');btn.classList.add('saved');btn.innerHTML='&#10003;';vbToast('✓ "'+eng.slice(0,30)+(eng.length>30?'…':'')+'" saved to My Vocab','ok');}
+        else{btn.classList.remove('saving');btn.classList.add('saved');btn.innerHTML=_bmFilled;vbToast('✓ "'+eng.slice(0,30)+(eng.length>30?'…':'')+'" saved to My Vocab','ok');}
       });
       db.ref('shared_words').push({english:eng,thai:thai,romanized:rom,tag:tag,addedBy:username,savedAt:new Date().toISOString()});
     }else{
       try{var arr=JSON.parse(localStorage.getItem('kruexchange_my_words')||'[]');arr.unshift(entry);localStorage.setItem('kruexchange_my_words',JSON.stringify(arr));}catch(er){}
-      btn.classList.remove('saving');btn.classList.add('saved');btn.innerHTML='&#10003;';
+      btn.classList.remove('saving');btn.classList.add('saved');btn.innerHTML=_bmFilled;
       vbToast('✓ "'+eng.slice(0,30)+'" saved to My Vocab','ok');
     }
   }
