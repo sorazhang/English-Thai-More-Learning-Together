@@ -356,21 +356,11 @@ function initGraph(words,wrap){
       }
     }
 
-    /* intro hint — pulse rings + label, fades out after ~4 s */
+    /* intro hint — fading label only */
     if(hintF<HINT_END&&!drag){
       hintF++;
       var p=hintF/HINT_END;
       var hA=p<0.12?p/0.12:p>0.78?(1-p)/0.22:1;
-      /* slow expanding ring on every node */
-      var pulse=(hintF%70)/70;
-      nodes.forEach(function(n){
-        var pr=n.radius+pulse*18;
-        var pa=(1-pulse)*0.28*hA;
-        ctx.beginPath();ctx.arc(n.x,n.y,pr,0,Math.PI*2);
-        ctx.strokeStyle='rgba('+hexToRgb(n.color)+','+pa.toFixed(3)+')';
-        ctx.lineWidth=1;ctx.stroke();
-      });
-      /* label */
       ctx.font='500 11px Jost,sans-serif';
       ctx.textAlign='center';
       ctx.fillStyle='rgba(122,112,96,'+(hA*0.85).toFixed(2)+')';
