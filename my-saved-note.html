@@ -931,7 +931,7 @@ if(n.type==='tag'){ctx.font='bold 8px Jost,sans-serif';ctx.fillStyle=ac?n.color:
 }
 
 /* ── AI ENCOURAGEMENT ── */
-var _ENC_KEY='kruexchange_encourage_v1';
+var _ENC_KEY='kruexchange_encourage_v2';
 var _encFetching=false;
 async function fetchEncouragement(words){
   if(_encFetching)return;
@@ -940,12 +940,12 @@ async function fetchEncouragement(words){
   try{
     var cached=JSON.parse(localStorage.getItem(_ENC_KEY)||'null');
     if(cached&&Math.abs(cached.count-words.length)<4&&Date.now()-cached.ts<86400000){
-      textEl.className='ai-encourage-text';textEl.textContent=cached.sentence;encEl.style.display='';return;
+      textEl.className='ai-encourage-text';textEl.textContent=cached.sentence;encEl.style.display='block';return;
     }
   }catch(e){}
   var apiKey=getApiKey();if(!apiKey)return;
   _encFetching=true;
-  textEl.className='ai-encourage-text loading';textEl.textContent='…';encEl.style.display='';
+  textEl.className='ai-encourage-text loading';textEl.textContent='…';encEl.style.display='block';
   var sample=words.slice(0,15).map(function(w){return w.english;}).join(', ');
   try{
     var res=await fetch('https://api.anthropic.com/v1/messages',{
@@ -958,7 +958,7 @@ async function fetchEncouragement(words){
     if(data.content&&data.content[0]){
       var sentence=data.content[0].text.trim();
       localStorage.setItem(_ENC_KEY,JSON.stringify({sentence:sentence,count:words.length,ts:Date.now()}));
-      textEl.className='ai-encourage-text';textEl.textContent=sentence;
+      textEl.className='ai-encourage-text';textEl.textContent=sentence;encEl.style.display='block';
     }
   }catch(e){encEl.style.display='none';}
   finally{_encFetching=false;}
