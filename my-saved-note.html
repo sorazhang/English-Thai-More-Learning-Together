@@ -88,9 +88,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .vocab-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;}
 .vocab-header .section-label{margin-bottom:0;flex:1;}
 .vocab-header .section-label::after{display:none;}
-.practice-icon-btn{background:none;border:1px solid rgba(200,148,58,0.35);color:var(--gold);font-family:'Jost',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.08em;padding:0.28rem 0.7rem;border-radius:3px;cursor:pointer;white-space:nowrap;transition:all 0.15s;flex-shrink:0;}
-.practice-icon-btn:hover{background:rgba(200,148,58,0.08);}
-.practice-icon-btn:active{background:rgba(200,148,58,0.12);}
+.practice-bar{display:none;background:linear-gradient(90deg,rgba(200,148,58,0.09),rgba(200,148,58,0.04));border:1px solid rgba(200,148,58,0.22);border-radius:8px;padding:0.75rem 1rem;align-items:center;gap:0.85rem;cursor:pointer;margin-bottom:0.85rem;transition:all 0.18s;-webkit-tap-highlight-color:transparent;}
+.practice-bar:active{background:rgba(200,148,58,0.14);}
+.practice-bar-icon{font-size:1.5rem;flex-shrink:0;}
+.practice-bar-body{flex:1;}
+.practice-bar-title{font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:700;color:var(--gold);letter-spacing:0.06em;}
+.practice-bar-sub{font-family:'Jost',sans-serif;font-size:0.64rem;color:var(--muted);margin-top:0.15rem;}
+.practice-bar-arrow{color:var(--gold);font-size:1.2rem;opacity:0.65;flex-shrink:0;}
 
 /* TAG PILLS */
 .tag-scroll{overflow-x:auto;margin-bottom:0.75rem;scrollbar-width:none;display:none;}
@@ -359,7 +363,15 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <div class="page">
     <div class="vocab-header">
       <div class="section-label">&#128218; MY VOCAB</div>
-      <button class="practice-icon-btn" id="practice-btn">&#127183; PRACTICE</button>
+    </div>
+
+    <div class="practice-bar" id="practice-btn" role="button">
+      <div class="practice-bar-icon">&#127183;</div>
+      <div class="practice-bar-body">
+        <div class="practice-bar-title">FLASH CARD PRACTICE</div>
+        <div class="practice-bar-sub" id="practice-bar-sub">Quiz yourself on your saved words</div>
+      </div>
+      <div class="practice-bar-arrow">&#8250;</div>
     </div>
 
     <div class="tag-scroll" id="tag-scroll">
@@ -976,6 +988,14 @@ function renderCards(){
   /* GOT IT nudge: show when < 50% remembered */
   var hintEl=document.getElementById('got-hint');
   if(hintEl)hintEl.style.display=(allWords.length>=3&&!searchQuery&&rememberedCount/allWords.length<0.5)?'block':'none';
+
+  /* practice bar */
+  var practiceBar=document.getElementById('practice-btn');
+  var practiceSub=document.getElementById('practice-bar-sub');
+  if(practiceBar){
+    practiceBar.style.display=allWords.length>0?'flex':'none';
+    if(practiceSub)practiceSub.textContent=allWords.length+' word'+(allWords.length!==1?'s':'')+' · tap to quiz yourself';
+  }
 
   /* filter visibility */
   tagScroll.style.display=allWords.length>0?'block':'none';
