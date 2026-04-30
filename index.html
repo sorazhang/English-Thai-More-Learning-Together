@@ -375,15 +375,19 @@
     transform: translateY(-60%);
     z-index: 0;
     pointer-events: none;
-    opacity: 0.18;
-    animation: fadeUp 1s 0.5s ease both;
   }
 
   .pixel-fighter img {
     width: clamp(90px, 16vw, 140px);
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-    filter: drop-shadow(0 0 10px rgba(200,148,58,0.3));
+    opacity: 0.22;
+    animation: fighterGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes fighterGlow {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(200,148,58,0.2)); opacity: 0.18; }
+    50%       { filter: drop-shadow(0 0 22px rgba(200,148,58,0.55)); opacity: 0.28; }
   }
 
   /* hero content sits above the dim fighter */
