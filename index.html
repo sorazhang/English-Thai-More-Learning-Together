@@ -84,14 +84,13 @@
     animation: fadeUp 0.8s ease both;
   }
 
-  /* Thai temple silhouette — screen blend makes dark bg invisible, gold stays */
+  /* Thai temple silhouette — transparent PNG, dim watermark behind text */
   .hero-tag::before {
     content: '';
     position: absolute;
     inset: 0;
     background: url('icons/thai-temple.png') center top / contain no-repeat;
-    mix-blend-mode: screen;
-    opacity: 0.55;
+    opacity: 0.45;
     display: block;
     z-index: 0;
   }
