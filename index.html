@@ -183,7 +183,7 @@
   /* Featured first card — spans 2 cols on large screens */
   .vol-card {
     background: var(--bg2);
-    border: 1px solid var(--border2);
+    border: 1px solid rgba(200,148,58,0.22);
     border-radius: 10px;
     overflow: hidden;
     text-decoration: none;
@@ -191,6 +191,13 @@
     transition: all 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     animation: fadeUp 0.6s ease both;
+    cursor: pointer;
+  }
+
+  .vol-card:active {
+    transform: scale(0.97);
+    border-color: rgba(200,148,58,0.6);
+    background: var(--bg3);
   }
 
   .vol-card:nth-child(1) { animation-delay: 0.05s; }
@@ -200,12 +207,11 @@
   .vol-card:nth-child(5) { animation-delay: 0.33s; }
 
   .vol-card:hover {
-    border-color: rgba(200,148,58,0.45);
+    border-color: rgba(200,148,58,0.55);
     transform: translateY(-4px);
     box-shadow: 0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(200,148,58,0.12);
   }
 
-  .vol-card:hover .card-arrow { transform: translateX(4px); opacity: 1; }
   .vol-card:hover .vol-bg-num { opacity: 0.09; }
 
   /* colour strip top */
@@ -282,15 +288,26 @@
 
   /* open button */
   .vol-open {
-    display: flex; align-items: center; gap: 0.5rem;
+    display: flex; align-items: center; justify-content: space-between;
     font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
     text-transform: uppercase; color: var(--gold);
-    margin-top: 0.4rem;
+    margin-top: 0.8rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid rgba(200,148,58,0.12);
   }
 
   .card-arrow {
-    display: inline-block;
-    transition: all 0.22s; opacity: 0.6;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(200,148,58,0.12);
+    border: 1px solid rgba(200,148,58,0.3);
+    font-size: 0.8rem;
+    transition: all 0.22s;
+  }
+
+  .vol-card:hover .card-arrow {
+    background: rgba(200,148,58,0.22);
+    transform: translateX(3px);
   }
 
   /* ── STATS ROW ── */
