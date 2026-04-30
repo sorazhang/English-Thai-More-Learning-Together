@@ -366,8 +366,35 @@
     .hero::before { font-size: 5rem; bottom: 5rem; }
   }
 
-  /* PIXEL FIGHTER */
-  .pixel-fighter { display: none; }
+  /* PIXEL FIGHTER — appears briefly then walks off */
+  .pixel-fighter {
+    position: fixed;
+    bottom: 56px; /* above bottom nav */
+    right: -200px;
+    z-index: 10;
+    pointer-events: none;
+    animation: fighterCameo 5s 0.8s ease forwards;
+  }
+
+  .pixel-fighter img {
+    width: clamp(72px, 14vw, 110px);
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    filter: drop-shadow(0 0 14px rgba(200,148,58,0.45));
+    animation: fighterBob 0.9s ease-in-out infinite;
+  }
+
+  @keyframes fighterBob {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-6px); }
+  }
+
+  @keyframes fighterCameo {
+    0%   { right: -200px; opacity: 0; }
+    15%  { right: 12px;   opacity: 1; }
+    70%  { right: 12px;   opacity: 1; }
+    100% { right: -200px; opacity: 0; }
+  }
 
   /* ── VOLUME SEARCH ── */
   .vol-search-wrap {
