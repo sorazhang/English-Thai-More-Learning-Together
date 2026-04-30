@@ -447,19 +447,25 @@
 
   /* ── VOLUME SEARCH ── */
   .vol-search-sticky {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    padding: 0.75rem 1rem;
-    margin: 0 -2rem 1.5rem;
-    background: rgba(10,9,6,0.88);
+    position: fixed;
+    top: var(--top-h);
+    left: 0; right: 0;
+    z-index: 18;
+    padding: 0.6rem 1rem;
+    background: rgba(10,9,6,0.92);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(200,148,58,0.1);
-    transition: box-shadow 0.2s;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
   }
 
-  .vol-search-sticky.scrolled {
+  .vol-search-sticky.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
     box-shadow: 0 4px 24px rgba(0,0,0,0.5);
   }
 
@@ -971,8 +977,9 @@
 <script>
 (function(){
   var sticky = document.getElementById('search-sticky');
+  var heroH = document.querySelector('.hero').offsetHeight + 48;
   window.addEventListener('scroll', function(){
-    sticky.classList.toggle('scrolled', window.scrollY > 10);
+    sticky.classList.toggle('show', window.scrollY > heroH);
   }, {passive: true});
 
   var input = document.getElementById('vol-search');
