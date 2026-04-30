@@ -397,9 +397,26 @@
   }
 
   /* ── VOLUME SEARCH ── */
+  .vol-search-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: 0.75rem 1rem;
+    margin: 0 -2rem 1.5rem;
+    background: rgba(10,9,6,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,148,58,0.1);
+    transition: box-shadow 0.2s;
+  }
+
+  .vol-search-sticky.scrolled {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  }
+
   .vol-search-wrap {
     max-width: 520px;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto;
     position: relative;
   }
 
@@ -502,9 +519,11 @@
     <div class="div-line"></div>
   </div>
 
-  <div class="vol-search-wrap">
-    <span class="vol-search-icon">🔍</span>
-    <input id="vol-search" type="search" placeholder="Search topics, themes, vol number…" autocomplete="off" spellcheck="false">
+  <div class="vol-search-sticky" id="search-sticky">
+    <div class="vol-search-wrap">
+      <span class="vol-search-icon">🔍</span>
+      <input id="vol-search" type="search" placeholder="Search topics, themes, vol number…" autocomplete="off" spellcheck="false">
+    </div>
   </div>
   <p class="vol-no-results" id="vol-no-results">No volumes match — try a different topic.</p>
 
@@ -884,6 +903,11 @@
 
 <script>
 (function(){
+  var sticky = document.getElementById('search-sticky');
+  window.addEventListener('scroll', function(){
+    sticky.classList.toggle('scrolled', window.scrollY > 10);
+  }, {passive: true});
+
   var input = document.getElementById('vol-search');
   var noResults = document.getElementById('vol-no-results');
   var cards = document.querySelectorAll('.vol-card');
