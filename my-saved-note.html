@@ -921,7 +921,7 @@ if(n.type==='tag'){ctx.font='bold 8px Jost,sans-serif';ctx.fillStyle=ac?n.color:
   canvas.addEventListener('mouseleave',function(){_mgHov=null;endDrag();});
   canvas.addEventListener('touchstart',function(e){var pos=cpos(e);var n=nearest(pos,28);if(n){startDrag(n,pos);if(_mgTouchTimer)clearTimeout(_mgTouchTimer);}},{passive:true});
   canvas.addEventListener('touchmove',function(e){if(_mgDrag)_mgDragPos=cpos(e);},{passive:true});
-  canvas.addEventListener('touchend',function(e){var pos=null;if(e.changedTouches&&e.changedTouches.length){var t=e.changedTouches[0],rect=canvas.getBoundingClientRect();pos={x:(t.clientX-rect.left)*(W/rect.width),y:(t.clientY-rect.top)*(H/rect.height)};}endDrag();if(pos&&_gotItRect&&pos.x>=_gotItRect.x&&pos.x<=_gotItRect.x+_gotItRect.w&&pos.y>=_gotItRect.y&&pos.y<=_gotItRect.y+_gotItRect.h){fireGotIt(_gotItRect.node);return;}_mgTouchTimer=setTimeout(function(){_mgTouch=null;},1600);},{passive:true});
+  canvas.addEventListener('touchend',function(e){var pos=null;if(e.changedTouches&&e.changedTouches.length){var t=e.changedTouches[0],rect=canvas.getBoundingClientRect();pos={x:(t.clientX-rect.left)*(W/rect.width),y:(t.clientY-rect.top)*(H/rect.height)};}endDrag();if(pos&&_gotItRect&&pos.x>=_gotItRect.x&&pos.x<=_gotItRect.x+_gotItRect.w&&pos.y>=_gotItRect.y&&pos.y<=_gotItRect.y+_gotItRect.h){fireGotIt(_gotItRect.node);return;}_mgTouchTimer=setTimeout(function(){_mgTouch=null;},10000);},{passive:true});
 
   function startMgLoop(){
     function frame(){

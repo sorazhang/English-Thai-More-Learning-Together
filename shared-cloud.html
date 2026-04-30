@@ -451,7 +451,7 @@ function initGraph(words,wrap){
   },{passive:true});
   canvas.addEventListener('touchend',function(){
     endDrag();
-    _gTouchTimer=setTimeout(function(){_gTouched=null;},1600);
+    _gTouchTimer=setTimeout(function(){_gTouched=null;},10000);
   },{passive:true});
 
   /* RAF — physics only during drag or cooldown */
