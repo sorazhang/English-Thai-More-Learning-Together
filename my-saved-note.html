@@ -76,17 +76,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .section-label{font-family:'Jost',sans-serif;font-size:0.62rem;font-weight:600;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.6rem;}
 .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
 
-/* STATS STRIP */
-.stats-strip{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:0.5rem 1rem;gap:0;}
-.ai-encourage{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:0.35rem 1.25rem 0.45rem;text-align:center;}
-.ai-encourage-text{font-family:'Jost',sans-serif;font-size:0.72rem;font-style:italic;color:rgba(200,148,58,0.85);line-height:1.4;}
-.ai-encourage-text.loading{color:var(--muted);font-style:normal;letter-spacing:0.06em;font-size:0.62rem;}
-.stat-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.1rem;}
-.stat-num{font-family:'Jost',sans-serif;font-size:1rem;font-weight:700;line-height:1;color:var(--cream);}
-.stat-lbl{font-family:'Jost',sans-serif;font-size:0.52rem;font-weight:600;letter-spacing:0.14em;color:var(--muted);}
-.stat-item.s-learning .stat-num{color:#5a9acc;}
-.stat-item.s-remembered .stat-num{color:var(--roman);}
-.stat-vdiv{width:1px;background:var(--border);align-self:stretch;margin:0.1rem 0;}
+/* ENCOURAGE STRIP */
+.ai-encourage{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:0.55rem 1.25rem 0.6rem;text-align:center;}
+.ai-encourage-text{font-family:'Jost',sans-serif;font-size:0.74rem;font-style:italic;color:rgba(200,148,58,0.9);line-height:1.5;}
+.ai-encourage-text.loading{color:var(--muted);font-style:normal;letter-spacing:0.1em;font-size:0.6rem;}
 
 /* VOCAB HEADER */
 .vocab-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;}
@@ -343,22 +336,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 
 <div class="ai-encourage" id="ai-encourage"><span class="ai-encourage-text" id="ai-encourage-text"></span></div>
-<div class="stats-strip" id="stats-strip">
-  <div class="stat-item">
-    <span class="stat-num" id="stat-total">0</span>
-    <span class="stat-lbl">WORDS</span>
-  </div>
-  <div class="stat-vdiv"></div>
-  <div class="stat-item s-learning">
-    <span class="stat-num" id="stat-learning">0</span>
-    <span class="stat-lbl">LEARNING</span>
-  </div>
-  <div class="stat-vdiv"></div>
-  <div class="stat-item s-remembered">
-    <span class="stat-num" id="stat-remembered">0</span>
-    <span class="stat-lbl">REMEMBERED</span>
-  </div>
-</div>
 
 <div class="scroll-area">
   <div class="cloud-section">
@@ -931,33 +908,39 @@ if(n.type==='tag'){ctx.font='bold 8px Jost,sans-serif';ctx.fillStyle=ac?n.color:
 }
 
 /* ── AI ENCOURAGEMENT ── */
-var _ENC_KEY='kruexchange_encourage_v2';
+var _ENC_KEY='kruexchange_encourage_v3';
 var _encFetching=false;
-async function fetchEncouragement(words){
+async function fetchEncouragement(words,rememberedCount){
   if(_encFetching)return;
   var encEl=document.getElementById('ai-encourage');
   var textEl=document.getElementById('ai-encourage-text');
+  var total=words.length;
+  var weekAgo=Date.now()-7*24*3600*1000;
+  var weekCount=words.filter(function(w){return w.savedAt&&new Date(w.savedAt).getTime()>=weekAgo;}).length||total;
   try{
     var cached=JSON.parse(localStorage.getItem(_ENC_KEY)||'null');
-    if(cached&&Math.abs(cached.count-words.length)<4&&Date.now()-cached.ts<86400000){
+    if(cached&&cached.count===total&&cached.remembered===rememberedCount&&Date.now()-cached.ts<86400000){
       textEl.className='ai-encourage-text';textEl.textContent=cached.sentence;encEl.style.display='block';return;
     }
   }catch(e){}
   var apiKey=getApiKey();if(!apiKey)return;
   _encFetching=true;
   textEl.className='ai-encourage-text loading';textEl.textContent='…';encEl.style.display='block';
-  var sample=words.slice(0,15).map(function(w){return w.english;}).join(', ');
+  var sample=words.slice(0,12).map(function(w){return w.english;}).join(', ');
+  var prompt='A Thai-English learner has saved '+total+' words total, '+weekCount+' in the last week, and marked '+rememberedCount+' as remembered. '+
+    'Their words include: '+sample+'. '+
+    'Write 2 short warm sentences: first mention the numbers naturally (saved, remembered), then say what conversational skill they are building based on the words. Max 30 words total. No quotes. Friendly tone.';
   try{
     var res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:60,
-        messages:[{role:'user',content:'Write one warm encouraging sentence (max 12 words) for a Thai-English learner who saved these words: '+sample+'. Be specific to the words. No quotes.'}]})
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:80,
+        messages:[{role:'user',content:prompt}]})
     });
     var data=await res.json();
     if(data.content&&data.content[0]){
       var sentence=data.content[0].text.trim();
-      localStorage.setItem(_ENC_KEY,JSON.stringify({sentence:sentence,count:words.length,ts:Date.now()}));
+      localStorage.setItem(_ENC_KEY,JSON.stringify({sentence:sentence,count:total,remembered:rememberedCount,ts:Date.now()}));
       textEl.className='ai-encourage-text';textEl.textContent=sentence;encEl.style.display='block';
     }
   }catch(e){encEl.style.display='none';}
@@ -980,18 +963,10 @@ function renderCards(){
   });
 
   var rememberedCount=allWords.filter(function(w){return w.remembered;}).length;
-  var learningCount=allWords.length-rememberedCount;
   var hasRemembered=rememberedCount>0;
 
-  /* stats strip */
-  var strip=document.getElementById('stats-strip');
-  strip.style.display=allWords.length>0?'flex':'none';
-  document.getElementById('stat-total').textContent=allWords.length;
-  document.getElementById('stat-learning').textContent=learningCount;
-  document.getElementById('stat-remembered').textContent=rememberedCount;
-
-  /* AI encouragement */
-  if(allWords.length>=3&&!searchQuery)fetchEncouragement(allWords);
+  /* AI encouragement with embedded stats */
+  if(allWords.length>=3&&!searchQuery)fetchEncouragement(allWords,rememberedCount);
 
   /* filter visibility */
   tagScroll.style.display=allWords.length>0?'block':'none';
