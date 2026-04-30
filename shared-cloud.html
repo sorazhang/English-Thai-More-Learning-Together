@@ -23,6 +23,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 /* TOPBAR */
 .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 1rem;height:var(--top-h);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;}
+.topbar-home{display:flex;align-items:center;gap:0.4rem;text-decoration:none;opacity:0.85;transition:opacity 0.15s;}
+.topbar-home:active{opacity:1;}
+.topbar-temple{height:28px;width:auto;opacity:0.75;}
+.topbar-brand{font-family:'Jost',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);}
 .topbar-logo{font-family:'Playfair Display',serif;font-style:italic;font-size:1.3rem;font-weight:700;color:var(--gold);line-height:1;letter-spacing:0.01em;}
 .topbar-logo span{color:var(--gold2);font-style:normal;}
 .back-btn{background:none;border:1px solid var(--border);color:var(--muted);font-size:0.72rem;padding:0.3rem 0.7rem;border-radius:3px;cursor:pointer;font-family:'Jost',sans-serif;font-weight:500;letter-spacing:0.04em;transition:all 0.15s;text-decoration:none;display:inline-block;}
@@ -76,6 +80,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <body>
 
 <div class="topbar">
+  <a class="topbar-home" href="index.html">
+    <img src="icons/thai-temple.png" class="topbar-temple" alt="">
+    <span class="topbar-brand">🥊 KruExchange</span>
+  </a>
   <div class="topbar-logo"><span>Trending Vocab</span></div>
 </div>
 
