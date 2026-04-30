@@ -1,4 +1,4 @@
-const CACHE = 'kruexchange-v19';
+const CACHE = 'kruexchange-v20';
 
 const STATIC = [
   '/index.html',
@@ -24,6 +24,7 @@ const STATIC = [
   '/kru-exchange-vol22.html',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
+  '/icons/thai-temple.png',
   '/manifest.json'
 ];
 
