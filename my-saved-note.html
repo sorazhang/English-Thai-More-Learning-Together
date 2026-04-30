@@ -902,7 +902,7 @@ if(n.type==='tag'){ctx.font='bold 8px Jost,sans-serif';ctx.fillStyle=ac?n.color:
     var _acNode=_mgHov||_mgTouch;
     if(_acNode&&!_mgDrag&&_acNode.type==='word'&&!_acNode.remembered){
       var gbw=96,gbh=28,gbx=W/2-gbw/2,gby=H-36;
-      ctx.font='500 10px Jost,sans-serif';ctx.fillStyle='rgba(200,148,58,0.85)';ctx.textAlign='center';ctx.fillText('If you remember this,',W/2,gby-6);
+      ctx.font='500 9px Jost,sans-serif';ctx.fillStyle='rgba(200,148,58,0.85)';ctx.textAlign='center';ctx.fillText('If you remember it, click the',W/2,gby-17);ctx.fillText('Got it button — the dot will light up',W/2,gby-5);
       roundRect(gbx,gby,gbw,gbh,14);ctx.fillStyle='rgba(90,170,128,0.18)';ctx.fill();ctx.strokeStyle='rgba(90,170,128,0.8)';ctx.lineWidth=1.3;ctx.stroke();
       ctx.font='600 12px Jost,sans-serif';ctx.fillStyle='rgba(90,170,128,1)';ctx.textAlign='center';ctx.fillText('✓ GOT IT',W/2,gby+18);ctx.textAlign='left';
       _gotItRect={x:gbx,y:gby,w:gbw,h:gbh,node:_acNode};
