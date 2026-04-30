@@ -468,6 +468,7 @@
   }
   .notes-pill:hover { background: rgba(184,120,32,0.25); }
 
+.vol-home-bar{position:sticky;top:0;z-index:200;background:var(--bg2, #131109);border-bottom:1px solid rgba(200,148,58,0.15);padding:0 1rem;height:40px;display:flex;align-items:center;}.vol-home-link{display:flex;align-items:center;gap:0.4rem;text-decoration:none;opacity:0.85;transition:opacity 0.15s;}.vol-home-link:active{opacity:1;}.vol-home-temple{height:24px;width:auto;opacity:0.75;}.vol-home-link span{font-family:Jost,sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#c8943a;}
 </style>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -477,6 +478,7 @@
 </head>
 <body>
 
+<div class="vol-home-bar"><a class="vol-home-link" href="index.html"><img src="icons/thai-temple.png" class="vol-home-temple" alt=""><span>🥊 KruExchange</span></a></div>
 <header>
   <div class="header-stripe"></div>
   <div class="header-bg-text">VI</div>
@@ -1321,6 +1323,7 @@ button.tab-item{background:none;border:none;padding:0;cursor:pointer;font-family
 .tab-item.active{color:#c8943a;}
 .tab-icon{font-size:1.15rem;line-height:1;}
 .tab-label{font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;}
+.vol-home-bar{position:sticky;top:0;z-index:200;background:var(--bg2, #131109);border-bottom:1px solid rgba(200,148,58,0.15);padding:0 1rem;height:40px;display:flex;align-items:center;}.vol-home-link{display:flex;align-items:center;gap:0.4rem;text-decoration:none;opacity:0.85;transition:opacity 0.15s;}.vol-home-link:active{opacity:1;}.vol-home-temple{height:24px;width:auto;opacity:0.75;}.vol-home-link span{font-family:Jost,sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#c8943a;}
 </style>
 <nav class="tab-bar">
   <a class="tab-item active" href="index.html"><span class="tab-icon">🥊</span><span class="tab-label">All Volumes</span></a>

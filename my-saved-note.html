@@ -26,6 +26,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 /* TOPBAR */
 .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 1rem;height:var(--top-h);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;flex-shrink:0;}
+.topbar-home{display:flex;align-items:center;gap:0.4rem;text-decoration:none;opacity:0.85;transition:opacity 0.15s;}
+.topbar-home:active{opacity:1;}
+.topbar-temple{height:28px;width:auto;opacity:0.75;}
+.topbar-brand{font-family:'Jost',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);}
 .topbar-logo{font-family:'Playfair Display',serif;font-style:italic;font-size:1.3rem;font-weight:700;color:var(--gold);letter-spacing:0.01em;line-height:1;}
 .topbar-logo span{color:var(--gold2);font-style:normal;}
 .topbar-right{display:flex;align-items:center;gap:0.6rem;}
@@ -336,6 +340,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div id="app" style="display:flex;flex-direction:column;min-height:100vh;">
 
 <div class="topbar">
+  <a class="topbar-home" href="index.html">
+    <img src="icons/thai-temple.png" class="topbar-temple" alt="">
+    <span class="topbar-brand">🥊 KruExchange</span>
+  </a>
   <div class="topbar-logo">My <span>Vocab</span></div>
   <div class="topbar-right"></div>
 </div>
