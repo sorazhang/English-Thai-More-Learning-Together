@@ -80,6 +80,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .ai-encourage{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:0.55rem 1.25rem 0.6rem;text-align:center;}
 .ai-encourage-text{font-family:'Jost',sans-serif;font-size:0.74rem;font-style:italic;color:rgba(200,148,58,0.9);line-height:1.5;}
 .ai-encourage-text.loading{color:var(--muted);font-style:normal;letter-spacing:0.1em;font-size:0.6rem;}
+.got-hint{display:none;background:rgba(90,170,128,0.06);border-bottom:1px solid rgba(90,170,128,0.18);padding:0.5rem 1.25rem;text-align:center;}
+.got-hint-text{font-family:'Jost',sans-serif;font-size:0.7rem;color:rgba(90,170,128,0.9);line-height:1.5;}
+.got-hint-text strong{font-weight:700;}
 
 /* VOCAB HEADER */
 .vocab-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;}
@@ -336,6 +339,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 
 <div class="ai-encourage" id="ai-encourage"><span class="ai-encourage-text" id="ai-encourage-text"></span></div>
+<div class="got-hint" id="got-hint">
+  <span class="got-hint-text">You're less than halfway through — try tapping a <strong>dim dot</strong> in the network above, then tap <strong>✓ GOT IT</strong> to light it up!</span>
+</div>
 
 <div class="scroll-area">
   <div class="cloud-section">
@@ -967,6 +973,10 @@ function renderCards(){
 
   /* AI encouragement with embedded stats */
   if(allWords.length>=3&&!searchQuery)fetchEncouragement(allWords,rememberedCount);
+
+  /* GOT IT nudge: show when < 50% remembered */
+  var hintEl=document.getElementById('got-hint');
+  if(hintEl)hintEl.style.display=(allWords.length>=3&&!searchQuery&&rememberedCount/allWords.length<0.5)?'block':'none';
 
   /* filter visibility */
   tagScroll.style.display=allWords.length>0?'block':'none';
