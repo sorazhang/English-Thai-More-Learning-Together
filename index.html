@@ -51,6 +51,7 @@
     text-align: center;
     padding: 2.2rem 2rem 1.4rem;
     position: relative;
+    overflow: hidden;
     background:
       radial-gradient(ellipse 100% 200% at 50% 0%, rgba(200,148,58,0.08) 0%, transparent 70%);
   }
@@ -366,34 +367,29 @@
     .hero::before { font-size: 5rem; bottom: 5rem; }
   }
 
-  /* PIXEL FIGHTER — appears briefly then walks off */
+  /* PIXEL FIGHTER — dim decorative element in hero right corner */
   .pixel-fighter {
-    position: fixed;
-    bottom: 56px; /* above bottom nav */
-    right: -200px;
-    z-index: 10;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-60%);
+    z-index: 0;
     pointer-events: none;
-    animation: fighterCameo 5s 0.8s ease forwards;
+    opacity: 0.18;
+    animation: fadeUp 1s 0.5s ease both;
   }
 
   .pixel-fighter img {
-    width: clamp(72px, 14vw, 110px);
+    width: clamp(90px, 16vw, 140px);
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-    filter: drop-shadow(0 0 14px rgba(200,148,58,0.45));
-    animation: fighterBob 0.9s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(200,148,58,0.3));
   }
 
-  @keyframes fighterBob {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-6px); }
-  }
-
-  @keyframes fighterCameo {
-    0%   { right: -200px; opacity: 0; }
-    15%  { right: 12px;   opacity: 1; }
-    70%  { right: 12px;   opacity: 1; }
-    100% { right: -200px; opacity: 0; }
+  /* hero content sits above the dim fighter */
+  .hero-tag, .hero h1, .hero-thai, .hero-sub, .legend-row {
+    position: relative;
+    z-index: 1;
   }
 
   /* ── VOLUME SEARCH ── */
