@@ -901,10 +901,10 @@ if(n.type==='tag'){ctx.font='bold 8px Jost,sans-serif';ctx.fillStyle=ac?n.color:
     });
     var _acNode=_mgHov||_mgTouch;
     if(_acNode&&!_mgDrag&&_acNode.type==='word'&&!_acNode.remembered){
-      var gbw=96,gbh=28,gbx=W/2-gbw/2,gby=H-36;
+      var gbw=160,gbh=44,gbx=W/2-gbw/2,gby=H-52;
       ctx.font='500 9px Jost,sans-serif';ctx.fillStyle='rgba(200,148,58,0.85)';ctx.textAlign='center';ctx.fillText('If you remember it, click the',W/2,gby-17);ctx.fillText('Got it button — the dot will light up',W/2,gby-5);
       roundRect(gbx,gby,gbw,gbh,14);ctx.fillStyle='rgba(90,170,128,0.18)';ctx.fill();ctx.strokeStyle='rgba(90,170,128,0.8)';ctx.lineWidth=1.3;ctx.stroke();
-      ctx.font='600 12px Jost,sans-serif';ctx.fillStyle='rgba(90,170,128,1)';ctx.textAlign='center';ctx.fillText('✓ GOT IT',W/2,gby+18);ctx.textAlign='left';
+      ctx.font='700 13px Jost,sans-serif';ctx.fillStyle='rgba(90,170,128,1)';ctx.textAlign='center';ctx.fillText('✓ GOT IT',W/2,gby+27);ctx.textAlign='left';
       _gotItRect={x:gbx,y:gby,w:gbw,h:gbh,node:_acNode};
     }else{_gotItRect=null;}
     if(_mgRipple){_mgRipple.r+=2.5;_mgRipple.alpha*=0.91;if(_mgRipple.alpha<0.02){_mgRipple=null;}else{ctx.beginPath();ctx.arc(_mgRipple.x,_mgRipple.y,_mgRipple.r,0,Math.PI*2);ctx.strokeStyle='rgba('+hexToRgb(_mgRipple.color)+','+_mgRipple.alpha.toFixed(3)+')';ctx.lineWidth=1.6;ctx.stroke();}}
@@ -915,11 +915,11 @@ if(n.type==='tag'){ctx.font='bold 8px Jost,sans-serif';ctx.fillStyle=ac?n.color:
   function endDrag(){if(!_mgDrag)return;_mgRipple={x:_mgDrag.x,y:_mgDrag.y,r:_mgDrag.radius*1.5,alpha:0.75,color:_mgDrag.color};_mgCooldown=70;_mgDrag=null;}
   function fireGotIt(n){n.remembered=true;_mgRipple={x:n.x,y:n.y,r:n.radius*2,alpha:0.9,color:n.color};_mgTouch=null;_mgHov=null;_gotItRect=null;toggleRemembered(n.id);}
 
-  canvas.addEventListener('mousedown',function(e){var n=nearest(cpos(e),20);if(n){startDrag(n,cpos(e));canvas.style.cursor='grabbing';e.preventDefault();}});
+  canvas.addEventListener('mousedown',function(e){var pos=cpos(e);if(_gotItRect&&pos.x>=_gotItRect.x&&pos.x<=_gotItRect.x+_gotItRect.w&&pos.y>=_gotItRect.y&&pos.y<=_gotItRect.y+_gotItRect.h){return;}var n=nearest(pos,20);if(n){startDrag(n,pos);canvas.style.cursor='grabbing';e.preventDefault();}});
   canvas.addEventListener('mousemove',function(e){var pos=cpos(e);if(_mgDrag){_mgDragPos=pos;}else{_mgHov=nearest(pos);canvas.style.cursor=_mgHov?'grab':'default';}});
   canvas.addEventListener('mouseup',function(e){var pos=cpos(e);endDrag();if(_gotItRect&&pos.x>=_gotItRect.x&&pos.x<=_gotItRect.x+_gotItRect.w&&pos.y>=_gotItRect.y&&pos.y<=_gotItRect.y+_gotItRect.h){fireGotIt(_gotItRect.node);return;}canvas.style.cursor=_mgHov?'grab':'default';});
   canvas.addEventListener('mouseleave',function(){_mgHov=null;endDrag();});
-  canvas.addEventListener('touchstart',function(e){var pos=cpos(e);var n=nearest(pos,28);if(n){startDrag(n,pos);if(_mgTouchTimer)clearTimeout(_mgTouchTimer);}},{passive:true});
+  canvas.addEventListener('touchstart',function(e){var pos=cpos(e);if(_gotItRect&&pos.x>=_gotItRect.x&&pos.x<=_gotItRect.x+_gotItRect.w&&pos.y>=_gotItRect.y&&pos.y<=_gotItRect.y+_gotItRect.h){return;}var n=nearest(pos,28);if(n){startDrag(n,pos);if(_mgTouchTimer)clearTimeout(_mgTouchTimer);}},{passive:true});
   canvas.addEventListener('touchmove',function(e){if(_mgDrag)_mgDragPos=cpos(e);},{passive:true});
   canvas.addEventListener('touchend',function(e){var pos=null;if(e.changedTouches&&e.changedTouches.length){var t=e.changedTouches[0],rect=canvas.getBoundingClientRect();pos={x:(t.clientX-rect.left)*(W/rect.width),y:(t.clientY-rect.top)*(H/rect.height)};}endDrag();if(pos&&_gotItRect&&pos.x>=_gotItRect.x&&pos.x<=_gotItRect.x+_gotItRect.w&&pos.y>=_gotItRect.y&&pos.y<=_gotItRect.y+_gotItRect.h){fireGotIt(_gotItRect.node);return;}_mgTouchTimer=setTimeout(function(){_mgTouch=null;},10000);},{passive:true});
 
