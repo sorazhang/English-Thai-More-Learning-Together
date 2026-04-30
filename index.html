@@ -51,7 +51,6 @@
     text-align: center;
     padding: 2.2rem 2rem 1.4rem;
     position: relative;
-    overflow: hidden;
     background:
       radial-gradient(ellipse 100% 200% at 50% 0%, rgba(200,148,58,0.08) 0%, transparent 70%);
   }
@@ -76,7 +75,8 @@
     display: inline-flex; align-items: center; gap: 0.6rem;
     font-size: 0.68rem; font-weight: 600; letter-spacing: 0.28em;
     text-transform: uppercase; color: var(--gold);
-    padding: 80px 2.4rem 0.6rem;
+    padding: 130px 2.4rem 0.8rem;
+    min-width: 280px;
     border: none; border-radius: 0;
     background: none;
     position: relative;
@@ -84,14 +84,16 @@
     animation: fadeUp 0.8s ease both;
   }
 
-  /* Thai temple silhouette — transparent PNG, dim watermark behind text */
+  /* Thai temple silhouette — wider than the text so the roof has room */
   .hero-tag::before {
     content: '';
     position: absolute;
-    inset: 0;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 360px;
+    height: 196px; /* 360 × 327/600 */
     background: url('icons/thai-temple.png') center top / contain no-repeat;
     opacity: 0.45;
-    display: block;
     z-index: 0;
   }
 
