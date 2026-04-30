@@ -354,7 +354,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     </div>
     <div class="cloud-wrap" id="cloud-wrap" style="display:none;"></div>
     <div class="graph-wrap" id="my-graph-wrap" style="display:block;"></div>
-    <div class="graph-hint" id="graph-hint">✓ GOT IT on a card lights it up here</div>
   </div>
 
   <div class="page">
@@ -746,7 +745,7 @@ function showCloudView(){
   _cvMode='cloud';
   document.getElementById('cloud-wrap').style.display='';
   document.getElementById('my-graph-wrap').style.display='none';
-  document.getElementById('graph-hint').style.display='none';
+
   document.getElementById('cv-cloud').classList.add('active');
   document.getElementById('cv-graph').classList.remove('active');
   if(_mgRaf){cancelAnimationFrame(_mgRaf);_mgRaf=null;}
@@ -754,7 +753,7 @@ function showCloudView(){
 function showGraphView(){
   _cvMode='graph';
   document.getElementById('cloud-wrap').style.display='none';
-  document.getElementById('graph-hint').style.display='block';
+
   var gw=document.getElementById('my-graph-wrap');
   gw.style.display='block';
   document.getElementById('cv-cloud').classList.remove('active');
