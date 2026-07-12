@@ -305,6 +305,7 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   position:relative;padding:1rem;margin-bottom:.7rem;
 }
 .session-card:active{transform:scale(.99)}
+.session-upcoming{border-color:rgba(90,170,128,.28);background:linear-gradient(135deg,rgba(90,170,128,.06),rgba(11,9,7,0))}
 .session-card::before{
   content:'';position:absolute;inset:0 0 auto 0;height:3px;
   background:linear-gradient(90deg,var(--gold),var(--gold2));
@@ -934,6 +935,63 @@ const SEED = {
         {th:'เจอกันพรุ่งนี้นะ',en:'See you tomorrow!'}
       ],
       note:'Thai has two time systems: the formal 24-hour clock (นาฬิกา) and an informal 6-hour cycle system. Locals use the informal system daily — e.g. บ่ายสองโมง = 2 PM (literally "afternoon two bells").'
+    },
+    {
+      id:'s4',date:'2026-07-19',location:'Loop Café & Stay',
+      topicEn:'Colors & Descriptions',topicTh:'สีและการบรรยาย',
+      vocab:[
+        {th:'สีแดง',rom:'sǐi daeng',en:'Red'},
+        {th:'สีน้ำเงิน',rom:'sǐi nám ngern',en:'Blue'},
+        {th:'สีเขียว',rom:'sǐi khǐao',en:'Green'},
+        {th:'สวย',rom:'sǔay',en:'Beautiful'},
+        {th:'ใหญ่',rom:'yài',en:'Big'},
+        {th:'เล็ก',rom:'lék',en:'Small'}
+      ],
+      phrases:[
+        {th:'นั่นสวยมากเลย',en:'That\'s so beautiful!'},
+        {th:'เสื้อสีอะไร?',en:'What color is the shirt?'},
+        {th:'ใหญ่หรือเล็ก?',en:'Big or small?'},
+        {th:'ฉันชอบสีนี้',en:'I like this color'}
+      ],
+      note:'Colors in Thai use the word สี (sǐi) meaning "color" before each hue — สีแดง (red), สีน้ำเงิน (blue). You can drop สี in casual speech once the context is clear, just like English. Adjectives in Thai always come AFTER the noun: กาแฟร้อน = coffee hot = hot coffee.'
+    },
+    {
+      id:'s5',date:'2026-07-26',location:'Mango Café',
+      topicEn:'At the Market',topicTh:'ที่ตลาด',
+      vocab:[
+        {th:'ตลาด',rom:'dtalàat',en:'Market'},
+        {th:'ราคา',rom:'raa-khaa',en:'Price'},
+        {th:'ถูก',rom:'thùuk',en:'Cheap'},
+        {th:'แพง',rom:'phaeng',en:'Expensive'},
+        {th:'ต่อรอง',rom:'dtò-rong',en:'To negotiate'},
+        {th:'ผัก',rom:'phàk',en:'Vegetables'}
+      ],
+      phrases:[
+        {th:'ราคาเท่าไหร่?',en:'How much is this?'},
+        {th:'ลดราคาได้ไหม?',en:'Can you lower the price?'},
+        {th:'ถูกกว่านี้ได้ไหม?',en:'Can it be any cheaper?'},
+        {th:'แพงไปหน่อยนะ',en:'That\'s a bit expensive'}
+      ],
+      note:'Bargaining is totally normal and expected at Thai markets — the vendor sets a starting price and expects negotiation. Always smile and stay friendly! Start by offering about 60–70% of the asking price and meet somewhere in the middle. Never bargain aggressively; a light, playful tone goes a long way.'
+    },
+    {
+      id:'s6',date:'2026-08-02',location:'The Bean Café',
+      topicEn:'Directions & Getting Around',topicTh:'ทิศทางและการเดินทาง',
+      vocab:[
+        {th:'ซ้าย',rom:'sáai',en:'Left'},
+        {th:'ขวา',rom:'khwǎa',en:'Right'},
+        {th:'ตรงไป',rom:'trong pai',en:'Straight ahead'},
+        {th:'ใกล้',rom:'glâi',en:'Near'},
+        {th:'ไกล',rom:'glai',en:'Far'},
+        {th:'สี่แยก',rom:'sìi yàek',en:'Intersection / Crossroads'}
+      ],
+      phrases:[
+        {th:'ไปที่นั่นยังไง?',en:'How do I get there?'},
+        {th:'ใกล้แค่ไหน?',en:'How near is it?'},
+        {th:'เลี้ยวซ้าย/ขวาตรงนี้',en:'Turn left/right here'},
+        {th:'ขอถามหน่อยได้ไหม?',en:'Excuse me, may I ask?'}
+      ],
+      note:'ใกล้ (near) and ไกล (far) sound deceptively similar to learners — the key is the tone. ใกล้ has a falling tone and ไกล has a mid tone. A good trick: think of ไกล rhyming with "glide" — you glide far away. Practice tones carefully or you might accidentally tell someone your destination is far when you mean near!'
     }
   ],
   cards:[
@@ -976,7 +1034,16 @@ var annCtx={journalId:null,editingId:null,selStart:0,selEnd:0,selText:''};
 
 function loadData(){
   var raw=localStorage.getItem('nita_data');
-  if(raw){try{return JSON.parse(raw);}catch(e){}}
+  if(raw){
+    try{
+      var d=JSON.parse(raw);
+      var ids=d.sessions.map(function(s){return s.id;});
+      SEED.sessions.forEach(function(s){
+        if(ids.indexOf(s.id)===-1) d.sessions.push(s);
+      });
+      return d;
+    }catch(e){}
+  }
   localStorage.setItem('nita_data',JSON.stringify(SEED));
   return JSON.parse(JSON.stringify(SEED));
 }
@@ -1065,8 +1132,19 @@ function navTo(t){
 function renderSessions(){
   document.getElementById('sessions-list').style.display='';
   document.getElementById('session-detail').style.display='none';
-  document.getElementById('sessions-list').innerHTML=S.sessions.map(function(s){
-    return '<div class="session-card" onclick="openSession(\''+s.id+'\')">'+'<div class="sc-meta">'+esc(fmtDate(s.date))+' &middot; '+esc(s.location)+'</div>'+'<div class="sc-topic">'+esc(s.topicTh)+'</div>'+'<div class="sc-sub">'+esc(s.topicEn)+'</div>'+'<div class="sc-pills">'+'<span class="pill pill-g">'+s.vocab.length+' vocab</span>'+'<span class="pill pill-m">'+s.phrases.length+' phrases</span>'+'</div></div>';
+  var today=new Date().toISOString().slice(0,10);
+  var sorted=S.sessions.slice().sort(function(a,b){return a.date<b.date?1:-1;});
+  document.getElementById('sessions-list').innerHTML=sorted.map(function(s){
+    var upcoming=s.date>=today;
+    var badge=upcoming?'<span class="pill pill-v" style="font-size:.63rem;vertical-align:middle;margin-left:.35rem">📅 Upcoming</span>':'';
+    return '<div class="session-card'+(upcoming?' session-upcoming':'')+'" onclick="openSession(\''+s.id+'\')">'
+      +'<div class="sc-meta">'+esc(fmtDate(s.date))+' · '+esc(s.location)+badge+'</div>'
+      +'<div class="sc-topic">'+esc(s.topicTh)+'</div>'
+      +'<div class="sc-sub">'+esc(s.topicEn)+'</div>'
+      +'<div class="sc-pills">'
+      +'<span class="pill pill-g">'+s.vocab.length+' vocab</span>'
+      +'<span class="pill pill-m">'+s.phrases.length+' phrases</span>'
+      +'</div></div>';
   }).join('');
 }
 function openSession(id){
