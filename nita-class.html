@@ -64,14 +64,12 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 }
 .g-label-main{font-family:'Prompt',sans-serif;font-size:.75rem;font-weight:600;color:var(--gold2)}
 .g-label-sub{font-size:.65rem;color:var(--cream2);opacity:.8;margin-top:.05rem}
-/* placeholder when image missing */
 .g-ph{
   width:100%;height:100%;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:.5rem;
   background:linear-gradient(135deg,#1C1510,#2A1E12);
   color:var(--muted);font-size:2.2rem;
 }
-/* drag hint strip */
 .g-hint{
   position:absolute;top:10px;right:10px;z-index:2;
   background:rgba(11,9,7,.6);border:1px solid rgba(200,148,58,.2);
@@ -85,7 +83,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   padding:1rem 1.2rem 1.4rem;
   display:flex;flex-direction:column;gap:.85rem;
 }
-/* brand row */
 .w-brand{display:flex;align-items:center;gap:.7rem}
 .w-logo{
   width:44px;height:44px;border-radius:13px;flex-shrink:0;
@@ -100,13 +97,11 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .w-tagline{font-size:.74rem;color:var(--muted);margin-top:.05rem}
-/* about */
 .w-about{
   background:var(--card);border:1px solid var(--border2);border-radius:12px;
   padding:.7rem .9rem;font-size:.83rem;color:var(--cream2);line-height:1.7;
 }
 .w-about strong{color:var(--gold2);font-family:'Prompt',sans-serif}
-/* next event */
 .w-event{
   background:linear-gradient(135deg,rgba(200,148,58,.11),rgba(224,173,80,.04));
   border:1px solid var(--border);border-radius:14px;
@@ -129,7 +124,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   border:1px solid rgba(90,170,128,.22);border-radius:20px;
   padding:.2rem .65rem;font-size:.72rem;font-family:'Prompt',sans-serif;
 }
-/* testimonials */
 .w-reviews-lbl{
   font-family:'Prompt',sans-serif;font-size:.62rem;color:var(--muted);
   text-transform:uppercase;letter-spacing:.07em;
@@ -144,7 +138,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 .wr-quote::before{content:'\201C';color:var(--gold);font-size:1em;margin-right:1px}
 .wr-quote::after{content:'\201D';color:var(--gold);font-size:1em;margin-left:1px}
 .wr-author{font-size:.68rem;color:var(--muted);margin-top:.28rem;font-family:'Prompt',sans-serif}
-/* login */
 .w-login{display:flex;flex-direction:column;gap:.55rem}
 .w-input{
   width:100%;background:var(--card);border:1px solid var(--border);
@@ -228,8 +221,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 .sc-topic{font-family:'Prompt',sans-serif;font-size:.95rem;font-weight:600;color:var(--cream);margin-bottom:.12rem}
 .sc-sub{font-size:.8rem;color:var(--cream2)}
 .sc-pills{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.55rem}
-
-/* Session detail */
 .detail-title{font-family:'Prompt',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:.2rem}
 .detail-meta{font-size:.8rem;color:var(--muted);margin-bottom:1rem}
 .section-label{
@@ -263,8 +254,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   font-size:.95rem;font-weight:600;margin-top:1rem;
 }
 .btn-full:active{opacity:.88}
-
-/* Add session form */
 .add-form{
   background:var(--card);border:1px solid var(--border);border-radius:14px;
   padding:1rem;margin-bottom:.75rem;display:none;
@@ -412,8 +401,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   background:rgba(200,148,58,.09);border:1px solid var(--border);border-radius:10px;
   padding:.65rem 1rem;text-align:center;font-size:.85rem;color:var(--gold2);margin-top:.75rem;
 }
-
-/* ── Teacher queue ────────────────────────────────────────── */
 .queue-sec{margin-bottom:1.25rem}
 .queue-lbl{
   font-family:'Prompt',sans-serif;font-size:.72rem;color:var(--muted);
@@ -430,8 +417,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 }
 .overall-ta:focus{border-color:var(--gold)}
 .overall-ta::placeholder{color:var(--muted)}
-
-/* ── Annotation popup ─────────────────────────────────────── */
 #annot-popup{
   position:fixed;z-index:500;background:var(--card2);border:1px solid var(--border);
   border-radius:14px;padding:1rem;width:min(320px,92vw);
@@ -456,8 +441,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 .pop-save{background:var(--gold);color:#0B0907}
 .pop-del{background:var(--red-soft);color:var(--red);border:1px solid rgba(226,104,90,.2)}
 .pop-can{background:var(--card);color:var(--cream2);border:1px solid var(--border)}
-
-/* ── Toast ────────────────────────────────────────────────── */
 #toast{
   position:fixed;bottom:calc(var(--nav-h) + 14px);left:50%;
   transform:translateX(-50%) translateY(16px);
@@ -481,62 +464,62 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
     <div class="gallery-track">
       <!-- Set 1 -->
       <div class="g-photo">
-        <img src="images/nita/cafe-garden.jpg" alt="Café garden"
+        <img src="images/nita/IMG-20260712-WA0006.jpg" alt="Café garden"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="g-ph" style="display:none">🌿</div>
         <div class="g-label"><div class="g-label-main">Loop Café Garden</div><div class="g-label-sub">Our open-air classroom</div></div>
       </div>
       <div class="g-photo">
-        <img src="images/nita/class-materials.jpg" alt="Class materials"
+        <img src="images/nita/IMG-20260712-WA0007.jpg" alt="Class materials"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="g-ph" style="display:none">🏃</div>
+        <div class="g-ph" style="display:none">🃏</div>
         <div class="g-label"><div class="g-label-main">Ready to Learn</div><div class="g-label-sub">Flashcards &amp; worksheets</div></div>
       </div>
       <div class="g-photo">
-        <img src="images/nita/class-group1.jpg" alt="Students in garden"
+        <img src="images/nita/IMG-20260712-WA0008.jpg" alt="Students in garden"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="g-ph" style="display:none">👥</div>
         <div class="g-label"><div class="g-label-main">Session in Full Swing</div><div class="g-label-sub">Real conversations, real Thai</div></div>
       </div>
       <div class="g-photo">
-        <img src="images/nita/nita-teaching.jpg" alt="Kru Nita teaching"
+        <img src="images/nita/IMG-20260712-WA0009.jpg" alt="Kru Nita teaching"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="g-ph" style="display:none">👩‍🏫</div>
         <div class="g-label"><div class="g-label-main">Kru Nita in Action</div><div class="g-label-sub">Small groups, big progress</div></div>
       </div>
       <div class="g-photo">
-        <img src="images/nita/class-aerial.jpg" alt="Aerial class view"
+        <img src="images/nita/IMG-20260712-WA0010.jpg" alt="Aerial class view"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="g-ph" style="display:none">🌳</div>
         <div class="g-label"><div class="g-label-main">The Full Experience</div><div class="g-label-sub">Under the trees at Loop Café</div></div>
       </div>
       <!-- Set 2 (duplicate for seamless loop) -->
       <div class="g-photo">
-        <img src="images/nita/cafe-garden.jpg" alt="" aria-hidden="true"
+        <img src="images/nita/IMG-20260712-WA0006.jpg" alt="" aria-hidden="true"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="g-ph" style="display:none">🌿</div>
         <div class="g-label"><div class="g-label-main">Loop Café Garden</div><div class="g-label-sub">Our open-air classroom</div></div>
       </div>
       <div class="g-photo">
-        <img src="images/nita/class-materials.jpg" alt="" aria-hidden="true"
+        <img src="images/nita/IMG-20260712-WA0007.jpg" alt="" aria-hidden="true"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="g-ph" style="display:none">🏃</div>
+        <div class="g-ph" style="display:none">🃏</div>
         <div class="g-label"><div class="g-label-main">Ready to Learn</div><div class="g-label-sub">Flashcards &amp; worksheets</div></div>
       </div>
       <div class="g-photo">
-        <img src="images/nita/class-group1.jpg" alt="" aria-hidden="true"
+        <img src="images/nita/IMG-20260712-WA0008.jpg" alt="" aria-hidden="true"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="g-ph" style="display:none">👥</div>
         <div class="g-label"><div class="g-label-main">Session in Full Swing</div><div class="g-label-sub">Real conversations, real Thai</div></div>
       </div>
       <div class="g-photo">
-        <img src="images/nita/nita-teaching.jpg" alt="" aria-hidden="true"
+        <img src="images/nita/IMG-20260712-WA0009.jpg" alt="" aria-hidden="true"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="g-ph" style="display:none">👩‍🏫</div>
         <div class="g-label"><div class="g-label-main">Kru Nita in Action</div><div class="g-label-sub">Small groups, big progress</div></div>
       </div>
       <div class="g-photo">
-        <img src="images/nita/class-aerial.jpg" alt="" aria-hidden="true"
+        <img src="images/nita/IMG-20260712-WA0010.jpg" alt="" aria-hidden="true"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="g-ph" style="display:none">🌳</div>
         <div class="g-label"><div class="g-label-main">The Full Experience</div><div class="g-label-sub">Under the trees at Loop Café</div></div>
@@ -546,8 +529,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 
   <!-- BOTTOM HALF: info + login -->
   <div class="w-panel">
-
-    <!-- Brand -->
     <div class="w-brand">
       <div class="w-logo">🥋</div>
       <div class="w-brand-text">
@@ -555,15 +536,11 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
         <div class="w-tagline">Thai classes at the local café · Chiang Mai</div>
       </div>
     </div>
-
-    <!-- About -->
     <div class="w-about">
       <strong>Kru Nita</strong> brings Thai language to life in a relaxed, garden café setting.
       Small groups, real conversations, flashcards under the trees — no textbooks, no pressure.
       Just you, Thai, and a great cup of coffee. ☕
     </div>
-
-    <!-- Next event -->
     <div class="w-event">
       <div class="we-badge">📅 Next Session</div>
       <div class="we-title">Thai for Everyday Life</div>
@@ -573,8 +550,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
       <div class="we-row"><span class="ei">💰</span><span>300 THB per person (coffee included)</span></div>
       <div class="we-spots">✓ 4 spots remaining</div>
     </div>
-
-    <!-- Testimonials -->
     <div class="w-reviews-lbl">⭐ What students say</div>
     <div class="w-reviews">
       <div class="w-review">
@@ -593,14 +568,11 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
         <div class="wr-author">— Jens K., Germany 🇩🇪</div>
       </div>
     </div>
-
-    <!-- Login -->
     <div class="w-login">
       <input id="name-input" class="w-input" type="text" placeholder="Your name…" autocomplete="given-name">
       <button class="btn-gold" onclick="loginStudent()">Start Learning →</button>
       <button class="btn-link" onclick="loginNita()">I'm Kru Nita (teacher login)</button>
     </div>
-
   </div>
 </div>
 
@@ -610,10 +582,7 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
     <div class="topbar-brand">เรียนกับนิตา</div>
     <button class="role-badge" id="role-badge" onclick="switchRole()"></button>
   </div>
-
   <div class="content">
-
-    <!-- ── NOTES VIEW ── -->
     <div id="view-notes" class="view">
       <div class="sec-head">
         <div class="sec-title">📚 Class Notes</div>
@@ -642,8 +611,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
         <button class="btn-full" onclick="addSessionCards()">Add This Session's Vocab to My Cards</button>
       </div>
     </div>
-
-    <!-- ── CARDS VIEW ── -->
     <div id="view-cards" class="view">
       <div class="sec-head">
         <div class="sec-title">🃏 My Cards <span id="card-count" style="color:var(--muted);font-size:.85rem;font-family:'Sarabun',sans-serif;font-weight:400"></span></div>
@@ -664,11 +631,7 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
       </div>
       <div class="cards-grid" id="cards-grid"></div>
     </div>
-
-    <!-- ── JOURNAL / REVIEWS VIEW ── -->
     <div id="view-journal" class="view">
-
-      <!-- Student journal -->
       <div id="student-journal">
         <div class="entry-editor" id="entry-editor">
           <div class="sec-head"><div class="sec-title">✏️ New Entry</div></div>
@@ -692,8 +655,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
           <div id="journal-list"></div>
         </div>
       </div>
-
-      <!-- Teacher reviews -->
       <div id="teacher-reviews" style="display:none">
         <div id="review-editor" style="display:none">
           <button class="back-btn" onclick="closeReview()">← Back</button>
@@ -709,18 +670,15 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
           <div id="review-queue"></div>
         </div>
       </div>
-
     </div>
-  </div><!-- .content -->
-
+  </div>
   <nav class="bottom-nav">
     <div class="tab active" id="tab-notes" onclick="navTo('notes')"><div class="ti">📚</div><div>Notes</div></div>
     <div class="tab" id="tab-cards" onclick="navTo('cards')"><div class="ti">🃏</div><div>Cards</div></div>
     <div class="tab" id="tab-journal" onclick="navTo('journal')"><div class="ti">📓</div><div id="tab-j-lbl">Journal</div></div>
   </nav>
-</div><!-- #app -->
+</div>
 
-<!-- Study mode overlay -->
 <div id="study-mode">
   <div class="study-hdr">
     <button class="btn-sm" onclick="endStudy()">✕ Exit</button>
@@ -747,7 +705,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   </div>
 </div>
 
-<!-- Annotation popup -->
 <div id="annot-popup">
   <div class="pop-sel" id="pop-sel"></div>
   <input class="pop-input" id="pop-corr" placeholder="Correction…">
@@ -762,9 +719,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 <div id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════
-//  SEED DATA
-// ═══════════════════════════════════════
 const SEED = {
   sessions:[
     {
@@ -852,17 +806,11 @@ const SEED = {
   ]
 };
 
-// ═══════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════
 var S = {user:'',role:'student',sessions:[],cards:[],entries:[]};
 var studyQ=[], studyIdx=0;
 var currentSessionId=null, currentReviewId=null;
 var annCtx={journalId:null,editingId:null,selStart:0,selEnd:0,selText:''};
 
-// ═══════════════════════════════════════
-//  STORAGE
-// ═══════════════════════════════════════
 function loadData(){
   var raw=localStorage.getItem('nita_data');
   if(raw){try{return JSON.parse(raw);}catch(e){}}
@@ -870,14 +818,8 @@ function loadData(){
   return JSON.parse(JSON.stringify(SEED));
 }
 function save(){
-  localStorage.setItem('nita_data',JSON.stringify({
-    sessions:S.sessions,cards:S.cards,entries:S.entries
-  }));
+  localStorage.setItem('nita_data',JSON.stringify({sessions:S.sessions,cards:S.cards,entries:S.entries}));
 }
-
-// ═══════════════════════════════════════
-//  AUTH
-// ═══════════════════════════════════════
 function loginStudent(){
   var name=document.getElementById('name-input').value.trim();
   if(!name){toast('Please enter your name');return;}
@@ -897,27 +839,20 @@ function startApp(user,role){
   S.sessions=d.sessions; S.cards=d.cards; S.entries=d.entries;
   document.getElementById('welcome').classList.add('out');
   document.getElementById('app').classList.add('visible');
-  updateBadge();
-  applyRoleUI();
-  navTo('notes');
+  updateBadge(); applyRoleUI(); navTo('notes');
 }
 function switchRole(){
   var nr=S.role==='teacher'?'student':'teacher';
   S.role=nr;
-  if(nr==='student'){
-    var ls=localStorage.getItem('nita_last_student')||'Alex';
-    S.user=ls;
-  } else {
-    S.user='Kru Nita';
-  }
+  if(nr==='student'){var ls=localStorage.getItem('nita_last_student')||'Alex';S.user=ls;}
+  else{S.user='Kru Nita';}
   localStorage.setItem('nita_role',nr);
   localStorage.setItem('nita_user',S.user);
   updateBadge(); applyRoleUI(); navTo('notes');
   toast('Switched to '+(nr==='teacher'?'teacher':'student')+' view');
 }
 function updateBadge(){
-  document.getElementById('role-badge').textContent=
-    S.role==='teacher'?'👩‍🏫 Kru Nita':'🎓 '+S.user;
+  document.getElementById('role-badge').textContent=S.role==='teacher'?'👩‍🏫 Kru Nita':'🎓 '+S.user;
 }
 function applyRoleUI(){
   var isT=S.role==='teacher';
@@ -926,10 +861,6 @@ function applyRoleUI(){
   document.getElementById('teacher-reviews').style.display=isT?'':'none';
   document.getElementById('tab-j-lbl').textContent=isT?'Reviews':'Journal';
 }
-
-// ═══════════════════════════════════════
-//  NAVIGATION
-// ═══════════════════════════════════════
 function navTo(t){
   ['notes','cards','journal'].forEach(function(v){
     document.getElementById('view-'+v).classList.remove('active');
@@ -942,10 +873,6 @@ function navTo(t){
   if(t==='cards') renderCards();
   if(t==='journal'){S.role==='teacher'?renderNitaQueue():renderJournalList();}
 }
-
-// ═══════════════════════════════════════
-//  NOTES
-// ═══════════════════════════════════════
 function renderSessions(){
   document.getElementById('sessions-list').style.display='';
   document.getElementById('session-detail').style.display='none';
@@ -953,7 +880,6 @@ function renderSessions(){
     return '<div class="session-card" onclick="openSession(\''+s.id+'\')">'+'<div class="sc-meta">'+esc(fmtDate(s.date))+' &middot; '+esc(s.location)+'</div>'+'<div class="sc-topic">'+esc(s.topicTh)+'</div>'+'<div class="sc-sub">'+esc(s.topicEn)+'</div>'+'<div class="sc-pills">'+'<span class="pill pill-g">'+s.vocab.length+' vocab</span>'+'<span class="pill pill-m">'+s.phrases.length+' phrases</span>'+'</div></div>';
   }).join('');
 }
-
 function openSession(id){
   var s=S.sessions.find(function(x){return x.id===id;});
   if(!s) return;
@@ -970,70 +896,50 @@ function openSession(id){
   }).join('');
   document.getElementById('sd-note').textContent=s.note;
 }
-
 function closeSession(){
   currentSessionId=null;
   document.getElementById('session-detail').style.display='none';
   document.getElementById('sessions-list').style.display='';
 }
-
 function addSessionCards(){
   var s=S.sessions.find(function(x){return x.id===currentSessionId;});
   if(!s) return;
   var added=0;
   s.vocab.forEach(function(v){
     if(!S.cards.find(function(c){return c.thai===v.th;})){
-      S.cards.push({
-        id:'c'+Date.now()+'r'+Math.random().toString(36).slice(2,6),
-        thai:v.th,rom:v.rom,en:v.en,cat:s.topicEn,status:'new'
-      });
+      S.cards.push({id:'c'+Date.now()+'r'+Math.random().toString(36).slice(2,6),thai:v.th,rom:v.rom,en:v.en,cat:s.topicEn,status:'new'});
       added++;
     }
   });
   save();
   toast(added?'Added '+added+' card'+(added>1?'s':'')+' to your deck!':'All vocab already in your deck');
 }
-
-function toggleAddSession(){
-  document.getElementById('add-session-form').classList.toggle('open');
-}
+function toggleAddSession(){document.getElementById('add-session-form').classList.toggle('open');}
 function saveSession(){
   var en=document.getElementById('sf-en').value.trim();
   var th=document.getElementById('sf-th').value.trim();
   var loc=document.getElementById('sf-loc').value.trim();
   var note=document.getElementById('sf-note').value.trim();
   if(!en||!th){toast('Please fill in both topic fields');return;}
-  S.sessions.unshift({
-    id:'s'+Date.now(),date:new Date().toISOString().slice(0,10),
-    location:loc||'Café class',topicEn:en,topicTh:th,
-    vocab:[],phrases:[],note:note||''
-  });
+  S.sessions.unshift({id:'s'+Date.now(),date:new Date().toISOString().slice(0,10),location:loc||'Café class',topicEn:en,topicTh:th,vocab:[],phrases:[],note:note||''});
   save();
   ['sf-en','sf-th','sf-loc','sf-note'].forEach(function(id){document.getElementById(id).value='';});
   document.getElementById('add-session-form').classList.remove('open');
-  renderSessions();
-  toast('Session added!');
+  renderSessions(); toast('Session added!');
 }
-
-// ═══════════════════════════════════════
-//  CARDS
-// ═══════════════════════════════════════
 function renderCards(){
   document.getElementById('card-count').textContent='('+S.cards.length+')';
   document.getElementById('cards-grid').innerHTML=S.cards.map(function(c){
     return '<div class="card-item'+(c.status==='known'?' known':'')+'" onclick="toggleCardStatus(\''+c.id+'\')">'+'<div class="known-mark">✓</div>'+'<div class="ci-thai">'+esc(c.thai)+'</div>'+'<div class="ci-rom">'+esc(c.rom)+'</div>'+'<div class="ci-en">'+esc(c.en)+'</div>'+'<div class="ci-cat"><span class="pill pill-g">'+esc(c.cat)+'</span></div>'+'</div>';
   }).join('');
 }
-
 function toggleCardStatus(id){
   var c=S.cards.find(function(x){return x.id===id;});
   if(!c) return;
   c.status=c.status==='known'?'learning':'known';
   save(); renderCards();
 }
-function toggleAddCard(){
-  document.getElementById('add-card-form').classList.toggle('open');
-}
+function toggleAddCard(){document.getElementById('add-card-form').classList.toggle('open');}
 function saveNewCard(){
   var thai=document.getElementById('cf-thai').value.trim();
   var rom=document.getElementById('cf-rom').value.trim();
@@ -1044,21 +950,13 @@ function saveNewCard(){
   save();
   ['cf-thai','cf-rom','cf-en','cf-cat'].forEach(function(id){document.getElementById(id).value='';});
   document.getElementById('add-card-form').classList.remove('open');
-  renderCards();
-  toast('Card added!');
+  renderCards(); toast('Card added!');
 }
-
-// ═══════════════════════════════════════
-//  STUDY MODE
-// ═══════════════════════════════════════
 function startStudy(){
   studyQ=S.cards.filter(function(c){return c.status!=='known';});
   if(!studyQ.length) studyQ=S.cards.slice();
   if(!studyQ.length){toast('No cards to study!');return;}
-  for(var i=studyQ.length-1;i>0;i--){
-    var j=Math.floor(Math.random()*(i+1));
-    var tmp=studyQ[i];studyQ[i]=studyQ[j];studyQ[j]=tmp;
-  }
+  for(var i=studyQ.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=studyQ[i];studyQ[i]=studyQ[j];studyQ[j]=tmp;}
   studyIdx=0;
   document.getElementById('study-mode').classList.add('open');
   loadStudyCard();
@@ -1075,19 +973,12 @@ function loadStudyCard(){
 }
 function flipCard(){document.getElementById('flip-card').classList.toggle('flipped');}
 function studyNext(ok){
-  if(ok){
-    var c=S.cards.find(function(x){return x.id===studyQ[studyIdx].id;});
-    if(c){c.status='known';save();}
-  }
+  if(ok){var c=S.cards.find(function(x){return x.id===studyQ[studyIdx].id;});if(c){c.status='known';save();}}
   studyIdx++;
   if(studyIdx>=studyQ.length){endStudy();renderCards();toast('Study session complete!');return;}
   loadStudyCard();
 }
 function endStudy(){document.getElementById('study-mode').classList.remove('open');}
-
-// ═══════════════════════════════════════
-//  JOURNAL (STUDENT)
-// ═══════════════════════════════════════
 function renderJournalList(){
   closeEntryRead(); closeEditor();
   var mine=S.entries.filter(function(e){return e.author===S.user||S.user==='Alex';});
@@ -1115,20 +1006,14 @@ function saveDraft(){
   var title=document.getElementById('entry-title-in').value.trim();
   var body=document.getElementById('entry-body-in').value.trim();
   if(!title||!body){toast('Please fill in title and body');return;}
-  S.entries.push({
-    id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,
-    date:new Date().toISOString().slice(0,10),status:'draft',annotations:[],nitaComment:''
-  });
+  S.entries.push({id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,date:new Date().toISOString().slice(0,10),status:'draft',annotations:[],nitaComment:''});
   save(); closeEditor(); renderJournalList(); toast('Draft saved!');
 }
 function submitJournal(){
   var title=document.getElementById('entry-title-in').value.trim();
   var body=document.getElementById('entry-body-in').value.trim();
   if(!title||!body){toast('Please fill in title and body');return;}
-  S.entries.push({
-    id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,
-    date:new Date().toISOString().slice(0,10),status:'submitted',annotations:[],nitaComment:''
-  });
+  S.entries.push({id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,date:new Date().toISOString().slice(0,10),status:'submitted',annotations:[],nitaComment:''});
   save(); closeEditor(); renderJournalList(); toast('Submitted to Kru Nita!');
 }
 function openEntry(id){
@@ -1145,33 +1030,19 @@ function openEntry(id){
     fb.innerHTML='<div class="feedback-box"><div class="feedback-lbl">👩‍🏫 Nita\'s Feedback</div><div class="feedback-txt">'+esc(e.nitaComment)+'</div></div>';
   } else if(e.status==='submitted'){
     fb.innerHTML='<div class="pending-notice">📤 Submitted — waiting for Kru Nita\'s review</div>';
-  } else {
-    fb.innerHTML='';
-  }
+  } else {fb.innerHTML='';}
 }
 function closeEntryRead(){
   document.getElementById('entry-read').classList.remove('open');
   document.getElementById('journal-list-area').style.display='';
 }
-
-// ═══════════════════════════════════════
-//  TEACHER REVIEWS
-// ═══════════════════════════════════════
 function renderNitaQueue(){
   closeReview();
   var waiting=S.entries.filter(function(e){return e.status==='submitted';});
   var done=S.entries.filter(function(e){return e.status==='reviewed';});
   var html='';
-  if(waiting.length){
-    html+='<div class="queue-sec"><div class="queue-lbl">⏳ Waiting for Review ('+waiting.length+')</div>';
-    html+=waiting.map(reviewCard).join('');
-    html+='</div>';
-  }
-  if(done.length){
-    html+='<div class="queue-sec"><div class="queue-lbl">✓ Already Reviewed ('+done.length+')</div>';
-    html+=done.map(reviewCard).join('');
-    html+='</div>';
-  }
+  if(waiting.length){html+='<div class="queue-sec"><div class="queue-lbl">⏳ Waiting for Review ('+waiting.length+')</div>';html+=waiting.map(reviewCard).join('');html+='</div>';}
+  if(done.length){html+='<div class="queue-sec"><div class="queue-lbl">✓ Already Reviewed ('+done.length+')</div>';html+=done.map(reviewCard).join('');html+='</div>';}
   if(!waiting.length&&!done.length) html='<div class="empty-msg">No journal entries submitted yet.</div>';
   document.getElementById('review-queue').innerHTML=html;
 }
@@ -1194,8 +1065,7 @@ function openReview(id){
   body.ontouchend=onPossibleSelection;
 }
 function renderReviewBody(e){
-  document.getElementById('rv-body').innerHTML=
-    renderAnnotatedText(e.body,e.annotations,{interactive:true,journalId:e.id});
+  document.getElementById('rv-body').innerHTML=renderAnnotatedText(e.body,e.annotations,{interactive:true,journalId:e.id});
 }
 function closeReview(){
   currentReviewId=null; annCtx.journalId=null;
@@ -1211,17 +1081,12 @@ function sendReview(){
   e.nitaComment=document.getElementById('rv-comment').value.trim();
   save(); closeReview(); renderNitaQueue(); toast('Feedback sent!');
 }
-
-// ═══════════════════════════════════════
-//  ANNOTATION SYSTEM
-// ═══════════════════════════════════════
 function renderAnnotatedText(body,annotations,opts){
   opts=opts||{};
   var interactive=opts.interactive||false;
   var jid=opts.journalId||null;
   var anns=(annotations||[]).slice().sort(function(a,b){return a.start-b.start;});
-  var result='';
-  var cursor=0;
+  var result='';var cursor=0;
   anns.forEach(function(a){
     if(a.start>cursor) result+=mkSeg(body.slice(cursor,a.start),cursor,interactive);
     result+=renderChip(a,{interactive:interactive,journalId:jid});
@@ -1230,26 +1095,18 @@ function renderAnnotatedText(body,annotations,opts){
   if(cursor<body.length) result+=mkSeg(body.slice(cursor),cursor,interactive);
   return result;
 }
-
 function mkSeg(text,start,interactive){
   if(!text) return '';
   return '<span class="seg" data-start="'+start+'">'+esc(text)+'</span>';
 }
-
 function renderChip(a,opts){
   var interactive=opts&&opts.interactive;
   var jid=opts&&opts.journalId;
   var click=interactive?' onclick="editAnnotation(\''+jid+'\',\''+a.id+'\')"':'';
-  var noteHtml=a.note?
-    '<button class="chip-nb" onclick="toggleNote(\''+a.id+'\');event.stopPropagation()">💬</button>'+'<span class="chip-note" id="cn-'+a.id+'">'+esc(a.note)+'</span>':'';
+  var noteHtml=a.note?'<button class="chip-nb" onclick="toggleNote(\''+a.id+'\');event.stopPropagation()">💬</button>'+'<span class="chip-note" id="cn-'+a.id+'">'+esc(a.note)+'</span>':'';
   return '<span class="chip"'+click+'>'+'<span class="chip-orig">'+esc(a.original)+'</span>'+'<span class="chip-arrow">→</span>'+'<span class="chip-corr">'+esc(a.correction)+'</span>'+noteHtml+'</span>';
 }
-
-function toggleNote(id){
-  var el=document.getElementById('cn-'+id);
-  if(el) el.classList.toggle('open');
-}
-
+function toggleNote(id){var el=document.getElementById('cn-'+id);if(el) el.classList.toggle('open');}
 function onPossibleSelection(){
   setTimeout(function(){
     var sel=window.getSelection();
@@ -1274,7 +1131,6 @@ function onPossibleSelection(){
     openAnnotPopup(rect);
   },10);
 }
-
 function findSeg(node){
   var n=node;
   while(n&&n!==document.body){
@@ -1283,18 +1139,11 @@ function findSeg(node){
   }
   return null;
 }
-
 function openAnnotPopup(rect){
   var popup=document.getElementById('annot-popup');
   document.getElementById('pop-sel').textContent=annCtx.selText;
-  document.getElementById('pop-corr').value=annCtx.editingId?
-    (function(){var e=S.entries.find(function(x){return x.id===annCtx.journalId;});
-    var a=e&&e.annotations.find(function(a){return a.id===annCtx.editingId;});
-    return a?a.correction:'';}()):'';
-  document.getElementById('pop-note').value=annCtx.editingId?
-    (function(){var e=S.entries.find(function(x){return x.id===annCtx.journalId;});
-    var a=e&&e.annotations.find(function(a){return a.id===annCtx.editingId;});
-    return a&&a.note?a.note:'';}()):'';
+  document.getElementById('pop-corr').value=annCtx.editingId?(function(){var e=S.entries.find(function(x){return x.id===annCtx.journalId;});var a=e&&e.annotations.find(function(a){return a.id===annCtx.editingId;});return a?a.correction:'';}()):'';
+  document.getElementById('pop-note').value=annCtx.editingId?(function(){var e=S.entries.find(function(x){return x.id===annCtx.journalId;});var a=e&&e.annotations.find(function(a){return a.id===annCtx.editingId;});return a&&a.note?a.note:'';}()):'';
   document.getElementById('pop-del').style.display=annCtx.editingId?'':'none';
   var pw=Math.min(320,window.innerWidth*0.9);
   var top=rect?(rect.bottom+window.scrollY+8):(window.innerHeight/2);
@@ -1306,12 +1155,7 @@ function openAnnotPopup(rect){
   popup.classList.add('open');
   document.getElementById('pop-corr').focus();
 }
-
-function closeAnnotPopup(){
-  document.getElementById('annot-popup').classList.remove('open');
-  annCtx.editingId=null;
-}
-
+function closeAnnotPopup(){document.getElementById('annot-popup').classList.remove('open');annCtx.editingId=null;}
 function saveAnnotation(){
   var corr=document.getElementById('pop-corr').value.trim();
   if(!corr){toast('Please enter a correction');return;}
@@ -1322,15 +1166,10 @@ function saveAnnotation(){
     var ann=e.annotations.find(function(a){return a.id===annCtx.editingId;});
     if(ann){ann.correction=corr;ann.note=note;}
   } else {
-    e.annotations.push({
-      id:'a'+Date.now(),
-      start:annCtx.selStart,end:annCtx.selEnd,
-      original:annCtx.selText,correction:corr,note:note
-    });
+    e.annotations.push({id:'a'+Date.now(),start:annCtx.selStart,end:annCtx.selEnd,original:annCtx.selText,correction:corr,note:note});
   }
   save(); closeAnnotPopup(); renderReviewBody(e); toast('Annotation saved!');
 }
-
 function deleteAnnotation(){
   if(!annCtx.editingId) return;
   var e=S.entries.find(function(x){return x.id===annCtx.journalId;});
@@ -1338,31 +1177,18 @@ function deleteAnnotation(){
   e.annotations=e.annotations.filter(function(a){return a.id!==annCtx.editingId;});
   save(); closeAnnotPopup(); renderReviewBody(e); toast('Annotation removed');
 }
-
 function editAnnotation(journalId,annId){
   var e=S.entries.find(function(x){return x.id===journalId;});
   if(!e) return;
   var ann=e.annotations.find(function(a){return a.id===annId;});
   if(!ann) return;
-  annCtx.journalId=journalId;
-  annCtx.editingId=annId;
-  annCtx.selText=ann.original;
-  annCtx.selStart=ann.start;
-  annCtx.selEnd=ann.end;
-  var cx=window.innerWidth/2;
-  var cy=window.innerHeight/2;
+  annCtx.journalId=journalId;annCtx.editingId=annId;
+  annCtx.selText=ann.original;annCtx.selStart=ann.start;annCtx.selEnd=ann.end;
+  var cx=window.innerWidth/2;var cy=window.innerHeight/2;
   openAnnotPopup({bottom:cy+20,left:cx-140,top:cy-200});
 }
-
-// ═══════════════════════════════════════
-//  UTILS
-// ═══════════════════════════════════════
 function esc(s){
-  return String(s)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 function fmtDate(d){
   var dt=new Date(d+'T00:00:00');
@@ -1370,26 +1196,15 @@ function fmtDate(d){
 }
 function toast(msg){
   var t=document.getElementById('toast');
-  t.textContent=msg;
-  t.classList.add('show');
-  clearTimeout(t._t);
+  t.textContent=msg;t.classList.add('show');clearTimeout(t._t);
   t._t=setTimeout(function(){t.classList.remove('show');},2600);
 }
-
-// ═══════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════
 (function(){
   var user=localStorage.getItem('nita_user');
   var role=localStorage.getItem('nita_role');
   if(user&&role){startApp(user,role);return;}
-  // Welcome screen: press Enter on name input
-  document.getElementById('name-input').addEventListener('keydown',function(e){
-    if(e.key==='Enter') loginStudent();
-  });
-  document.addEventListener('keydown',function(e){
-    if(e.key==='Escape') closeAnnotPopup();
-  });
+  document.getElementById('name-input').addEventListener('keydown',function(e){if(e.key==='Enter') loginStudent();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape') closeAnnotPopup();});
 })();
 </script>
 </body>
