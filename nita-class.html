@@ -76,6 +76,34 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   border-radius:20px;padding:.18rem .55rem;font-size:.62rem;
   color:var(--gold2);font-family:'Prompt',sans-serif;backdrop-filter:blur(4px);
 }
+/* CTA overlay on carousel */
+.g-cta{
+  position:absolute;bottom:0;left:0;right:0;z-index:3;
+  padding:.75rem 1rem 1rem;
+  background:linear-gradient(to top,rgba(11,9,7,.94) 0%,rgba(11,9,7,.6) 65%,transparent 100%);
+  display:flex;flex-direction:column;gap:.5rem;
+}
+.g-input{
+  width:100%;background:rgba(22,17,12,.78);border:1px solid rgba(200,148,58,.35);
+  border-radius:12px;padding:.68rem 1rem;color:var(--cream);font-size:1rem;
+  transition:border-color .2s;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.g-input:focus{border-color:var(--gold);outline:none}
+.g-input::placeholder{color:rgba(200,188,168,.5)}
+
+/* Featured testimonial */
+.w-feat-review{
+  background:linear-gradient(135deg,rgba(200,148,58,.1),rgba(224,173,80,.03));
+  border:1px solid var(--border);border-radius:14px;
+  padding:1.1rem 1rem 1rem;text-align:center;
+}
+.wfr-stars{color:var(--gold2);font-size:.7rem;letter-spacing:3px;margin-bottom:.55rem}
+.wfr-quote{
+  font-size:1.05rem;color:var(--cream);line-height:1.78;font-style:italic;
+}
+.wfr-quote::before{content:'\201C';color:var(--gold);font-size:2.6rem;line-height:0;vertical-align:-.5em;margin-right:.04rem;font-family:'Prompt',sans-serif;}
+.wfr-quote::after{content:'\201D';color:var(--gold);font-size:2.6rem;line-height:0;vertical-align:-.5em;margin-left:.04rem;font-family:'Prompt',sans-serif;}
+.wfr-author{font-size:.7rem;color:var(--muted);margin-top:.55rem;font-family:'Prompt',sans-serif;}
 
 /* Bottom half — info + login */
 .w-panel{
@@ -525,6 +553,11 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
         <div class="g-label"><div class="g-label-main">The Full Experience</div><div class="g-label-sub">Under the trees at Loop Café</div></div>
       </div>
     </div>
+    <!-- CTA overlay on carousel -->
+    <div class="g-cta">
+      <input id="name-input" class="g-input" type="text" placeholder="Your name…" autocomplete="given-name">
+      <button class="btn-gold" onclick="loginStudent()">Start Learning →</button>
+    </div>
   </div>
 
   <!-- BOTTOM HALF: info + login -->
@@ -550,13 +583,15 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
       <div class="we-row"><span class="ei">💰</span><span>300 THB per person (coffee included)</span></div>
       <div class="we-spots">✓ 4 spots remaining</div>
     </div>
-    <div class="w-reviews-lbl">⭐ What students say</div>
+    <!-- Featured testimonial -->
+    <div class="w-feat-review">
+      <div class="wfr-stars">★ ★ ★ ★ ★</div>
+      <div class="wfr-quote">This is fantastic! Nita makes Thai so approachable. I learned more in two hours than months of language apps.</div>
+      <div class="wfr-author">— Sarah M., Australia 🇦🇺</div>
+    </div>
+    <!-- Compact reviews -->
+    <div class="w-reviews-lbl">⭐ What people say</div>
     <div class="w-reviews">
-      <div class="w-review">
-        <div class="wr-stars">★ ★ ★ ★ ★</div>
-        <div class="wr-quote">This is fantastic! Nita makes Thai so approachable. I learned more in two hours than months of language apps.</div>
-        <div class="wr-author">— Sarah M., Australia 🇦🇺</div>
-      </div>
       <div class="w-review">
         <div class="wr-stars">★ ★ ★ ★ ★</div>
         <div class="wr-quote">The café vibe is perfect — relaxed, fun, and the small group means you actually get to practice speaking Thai out loud.</div>
@@ -568,11 +603,7 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
         <div class="wr-author">— Jens K., Germany 🇩🇪</div>
       </div>
     </div>
-    <div class="w-login">
-      <input id="name-input" class="w-input" type="text" placeholder="Your name…" autocomplete="given-name">
-      <button class="btn-gold" onclick="loginStudent()">Start Learning →</button>
-      <button class="btn-link" onclick="loginNita()">I'm Kru Nita (teacher login)</button>
-    </div>
+    <button class="btn-link" onclick="loginNita()">I'm Kru Nita (teacher login)</button>
   </div>
 </div>
 
@@ -930,7 +961,7 @@ function saveSession(){
 function renderCards(){
   document.getElementById('card-count').textContent='('+S.cards.length+')';
   document.getElementById('cards-grid').innerHTML=S.cards.map(function(c){
-    return '<div class="card-item'+(c.status==='known'?' known':'')+'" onclick="toggleCardStatus(\''+c.id+'\')">'+'<div class="known-mark">✓</div>'+'<div class="ci-thai">'+esc(c.thai)+'</div>'+'<div class="ci-rom">'+esc(c.rom)+'</div>'+'<div class="ci-en">'+esc(c.en)+'</div>'+'<div class="ci-cat"><span class="pill pill-g">'+esc(c.cat)+'</span></div>'+'</div>';
+    return '<div class="card-item'+(c.status==='known'?' known':'')+' " onclick="toggleCardStatus(\''+c.id+'\')">'+'<div class="known-mark">✓</div>'+'<div class="ci-thai">'+esc(c.thai)+'</div>'+'<div class="ci-rom">'+esc(c.rom)+'</div>'+'<div class="ci-en">'+esc(c.en)+'</div>'+'<div class="ci-cat"><span class="pill pill-g">'+esc(c.cat)+'</span></div>'+'</div>';
   }).join('');
 }
 function toggleCardStatus(id){
@@ -1102,7 +1133,7 @@ function mkSeg(text,start,interactive){
 function renderChip(a,opts){
   var interactive=opts&&opts.interactive;
   var jid=opts&&opts.journalId;
-  var click=interactive?' onclick="editAnnotation(\''+jid+'\',\''+a.id+'\')"':'';
+  var click=interactive?' onclick="editAnnotation(\''+jid+'\',\''+a.id+'\'")'':'';
   var noteHtml=a.note?'<button class="chip-nb" onclick="toggleNote(\''+a.id+'\');event.stopPropagation()">💬</button>'+'<span class="chip-note" id="cn-'+a.id+'">'+esc(a.note)+'</span>':'';
   return '<span class="chip"'+click+'>'+'<span class="chip-orig">'+esc(a.original)+'</span>'+'<span class="chip-arrow">→</span>'+'<span class="chip-corr">'+esc(a.correction)+'</span>'+noteHtml+'</span>';
 }
