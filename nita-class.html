@@ -24,46 +24,143 @@ h1,h2,h3,.ui{font-family:'Prompt',sans-serif}
 button{font-family:inherit;cursor:pointer;border:none;outline:none;background:none}
 input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 
-/* ── Welcome ─────────────────────────────────────────────── */
+/* ── Welcome (2-half design) ─────────────────────────────── */
 #welcome{
   position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;padding:2rem 1.5rem;z-index:100;gap:1.2rem;
-  transition:opacity .4s,transform .4s;
+  z-index:100;transition:opacity .4s,transform .4s;overflow:hidden;
 }
 #welcome.out{opacity:0;transform:scale(.96);pointer-events:none}
-.w-logo{
-  width:80px;height:80px;border-radius:22px;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  display:grid;place-items:center;font-size:2.4rem;
-  box-shadow:0 8px 32px rgba(200,148,58,.4);
+
+/* Top half — scrolling photo gallery */
+.w-gallery{
+  height:50%;flex-shrink:0;position:relative;overflow:hidden;background:#080603;
 }
+.w-gallery::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(11,9,7,.25) 0%,transparent 30%,transparent 60%,rgba(11,9,7,.6) 100%);
+}
+.gallery-track{
+  display:flex;height:100%;width:max-content;
+  animation:gallery-scroll 28s linear infinite;
+}
+.gallery-track:hover{animation-play-state:paused}
+@keyframes gallery-scroll{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+.g-photo{
+  width:72vw;max-width:320px;height:100%;flex-shrink:0;
+  position:relative;overflow:hidden;margin-right:6px;
+}
+.g-photo img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:brightness(.82) saturate(1.15);transition:filter .3s;
+}
+.g-photo:hover img{filter:brightness(.95) saturate(1.2)}
+.g-label{
+  position:absolute;bottom:0;left:0;right:0;z-index:1;
+  background:linear-gradient(to top,rgba(11,9,7,.88) 0%,transparent 100%);
+  padding:.55rem .7rem .5rem;
+}
+.g-label-main{font-family:'Prompt',sans-serif;font-size:.75rem;font-weight:600;color:var(--gold2)}
+.g-label-sub{font-size:.65rem;color:var(--cream2);opacity:.8;margin-top:.05rem}
+/* placeholder when image missing */
+.g-ph{
+  width:100%;height:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.5rem;
+  background:linear-gradient(135deg,#1C1510,#2A1E12);
+  color:var(--muted);font-size:2.2rem;
+}
+/* drag hint strip */
+.g-hint{
+  position:absolute;top:10px;right:10px;z-index:2;
+  background:rgba(11,9,7,.6);border:1px solid rgba(200,148,58,.2);
+  border-radius:20px;padding:.18rem .55rem;font-size:.62rem;
+  color:var(--gold2);font-family:'Prompt',sans-serif;backdrop-filter:blur(4px);
+}
+
+/* Bottom half — info + login */
+.w-panel{
+  flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:1rem 1.2rem 1.4rem;
+  display:flex;flex-direction:column;gap:.85rem;
+}
+/* brand row */
+.w-brand{display:flex;align-items:center;gap:.7rem}
+.w-logo{
+  width:44px;height:44px;border-radius:13px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:grid;place-items:center;font-size:1.5rem;
+  box-shadow:0 4px 16px rgba(200,148,58,.4);
+}
+.w-brand-text{}
 .w-title{
-  font-family:'Prompt',sans-serif;font-size:2rem;font-weight:700;text-align:center;
+  font-family:'Prompt',sans-serif;font-size:1.3rem;font-weight:700;line-height:1.15;
   background:linear-gradient(135deg,var(--gold),var(--gold2));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-.w-sub{color:var(--cream2);font-size:.9rem;text-align:center;max-width:280px;line-height:1.7}
-.w-pillars{display:flex;gap:1.5rem;margin:.25rem 0}
-.w-pillar{display:flex;flex-direction:column;align-items:center;gap:.35rem;font-size:.75rem;color:var(--cream2)}
-.w-pillar span:first-child{
-  width:48px;height:48px;border-radius:12px;border:1px solid var(--border);
-  background:var(--card);display:grid;place-items:center;font-size:1.4rem;
+.w-tagline{font-size:.74rem;color:var(--muted);margin-top:.05rem}
+/* about */
+.w-about{
+  background:var(--card);border:1px solid var(--border2);border-radius:12px;
+  padding:.7rem .9rem;font-size:.83rem;color:var(--cream2);line-height:1.7;
 }
+.w-about strong{color:var(--gold2);font-family:'Prompt',sans-serif}
+/* next event */
+.w-event{
+  background:linear-gradient(135deg,rgba(200,148,58,.11),rgba(224,173,80,.04));
+  border:1px solid var(--border);border-radius:14px;
+  padding:.8rem 1rem;position:relative;overflow:hidden;
+}
+.w-event::before{
+  content:'';position:absolute;inset:0 0 auto 0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+.we-badge{
+  font-family:'Prompt',sans-serif;font-size:.62rem;color:var(--gold);
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;
+}
+.we-title{font-family:'Prompt',sans-serif;font-size:.98rem;font-weight:600;color:var(--cream);margin-bottom:.4rem}
+.we-row{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--cream2);margin-bottom:.2rem}
+.we-row .ei{font-size:.85rem;width:18px;text-align:center;flex-shrink:0}
+.we-spots{
+  display:inline-flex;align-items:center;gap:.3rem;margin-top:.55rem;
+  background:rgba(90,170,128,.14);color:var(--green);
+  border:1px solid rgba(90,170,128,.22);border-radius:20px;
+  padding:.2rem .65rem;font-size:.72rem;font-family:'Prompt',sans-serif;
+}
+/* testimonials */
+.w-reviews-lbl{
+  font-family:'Prompt',sans-serif;font-size:.62rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.07em;
+}
+.w-reviews{display:flex;flex-direction:column;gap:.5rem}
+.w-review{
+  background:var(--card2);border:1px solid var(--border2);border-radius:11px;
+  padding:.65rem .85rem;
+}
+.wr-stars{color:var(--gold2);font-size:.6rem;letter-spacing:2px;margin-bottom:.22rem}
+.wr-quote{font-size:.83rem;color:var(--cream2);line-height:1.65;font-style:italic}
+.wr-quote::before{content:'\201C';color:var(--gold);font-size:1em;margin-right:1px}
+.wr-quote::after{content:'\201D';color:var(--gold);font-size:1em;margin-left:1px}
+.wr-author{font-size:.68rem;color:var(--muted);margin-top:.28rem;font-family:'Prompt',sans-serif}
+/* login */
+.w-login{display:flex;flex-direction:column;gap:.55rem}
 .w-input{
-  width:100%;max-width:300px;background:var(--card);border:1px solid var(--border);
-  border-radius:12px;padding:.75rem 1rem;color:var(--cream);font-size:1rem;
+  width:100%;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:.72rem 1rem;color:var(--cream);font-size:1rem;
   transition:border-color .2s;
 }
 .w-input:focus{border-color:var(--gold)}
 .w-input::placeholder{color:var(--muted)}
 .btn-gold{
-  width:100%;max-width:300px;background:linear-gradient(135deg,var(--gold),var(--gold2));
-  color:#0B0907;border-radius:12px;padding:.85rem;font-family:'Prompt',sans-serif;
+  width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#0B0907;border-radius:12px;padding:.82rem;font-family:'Prompt',sans-serif;
   font-size:1rem;font-weight:600;letter-spacing:.02em;
   box-shadow:0 4px 18px rgba(200,148,58,.35);transition:transform .15s,box-shadow .15s;
 }
 .btn-gold:active{transform:scale(.97);box-shadow:0 2px 8px rgba(200,148,58,.25)}
-.btn-link{background:none;color:var(--gold);font-size:.88rem;padding:.3rem;text-decoration:underline;text-decoration-color:rgba(200,148,58,.35)}
+.btn-link{background:none;color:var(--gold);font-size:.85rem;padding:.25rem;text-decoration:underline;text-decoration-color:rgba(200,148,58,.35);text-align:center}
 
 /* ── App Shell ────────────────────────────────────────────── */
 #app{display:none;flex-direction:column;height:100%;position:fixed;inset:0}
@@ -377,17 +474,134 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 
 <!-- ══════════════ WELCOME ══════════════ -->
 <div id="welcome">
-  <div class="w-logo">🥋</div>
-  <div class="w-title">เรียนกับนิตา</div>
-  <div class="w-sub">Kru Nita's café-based Thai classes — notes, flashcards &amp; journal in one place</div>
-  <div class="w-pillars">
-    <div class="w-pillar"><span>📚</span>Notes</div>
-    <div class="w-pillar"><span>🃏</span>Cards</div>
-    <div class="w-pillar"><span>📓</span>Journal</div>
+
+  <!-- TOP HALF: scrolling photo gallery -->
+  <div class="w-gallery">
+    <div class="g-hint">← swipe</div>
+    <div class="gallery-track">
+      <!-- Set 1 -->
+      <div class="g-photo">
+        <img src="images/nita/cafe-garden.jpg" alt="Café garden"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">🌿</div>
+        <div class="g-label"><div class="g-label-main">Loop Café Garden</div><div class="g-label-sub">Our open-air classroom</div></div>
+      </div>
+      <div class="g-photo">
+        <img src="images/nita/class-materials.jpg" alt="Class materials"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">🏃</div>
+        <div class="g-label"><div class="g-label-main">Ready to Learn</div><div class="g-label-sub">Flashcards &amp; worksheets</div></div>
+      </div>
+      <div class="g-photo">
+        <img src="images/nita/class-group1.jpg" alt="Students in garden"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">👥</div>
+        <div class="g-label"><div class="g-label-main">Session in Full Swing</div><div class="g-label-sub">Real conversations, real Thai</div></div>
+      </div>
+      <div class="g-photo">
+        <img src="images/nita/nita-teaching.jpg" alt="Kru Nita teaching"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">👩‍🏫</div>
+        <div class="g-label"><div class="g-label-main">Kru Nita in Action</div><div class="g-label-sub">Small groups, big progress</div></div>
+      </div>
+      <div class="g-photo">
+        <img src="images/nita/class-aerial.jpg" alt="Aerial class view"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">🌳</div>
+        <div class="g-label"><div class="g-label-main">The Full Experience</div><div class="g-label-sub">Under the trees at Loop Café</div></div>
+      </div>
+      <!-- Set 2 (duplicate for seamless loop) -->
+      <div class="g-photo">
+        <img src="images/nita/cafe-garden.jpg" alt="" aria-hidden="true"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">🌿</div>
+        <div class="g-label"><div class="g-label-main">Loop Café Garden</div><div class="g-label-sub">Our open-air classroom</div></div>
+      </div>
+      <div class="g-photo">
+        <img src="images/nita/class-materials.jpg" alt="" aria-hidden="true"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">🏃</div>
+        <div class="g-label"><div class="g-label-main">Ready to Learn</div><div class="g-label-sub">Flashcards &amp; worksheets</div></div>
+      </div>
+      <div class="g-photo">
+        <img src="images/nita/class-group1.jpg" alt="" aria-hidden="true"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">👥</div>
+        <div class="g-label"><div class="g-label-main">Session in Full Swing</div><div class="g-label-sub">Real conversations, real Thai</div></div>
+      </div>
+      <div class="g-photo">
+        <img src="images/nita/nita-teaching.jpg" alt="" aria-hidden="true"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">👩‍🏫</div>
+        <div class="g-label"><div class="g-label-main">Kru Nita in Action</div><div class="g-label-sub">Small groups, big progress</div></div>
+      </div>
+      <div class="g-photo">
+        <img src="images/nita/class-aerial.jpg" alt="" aria-hidden="true"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">🌳</div>
+        <div class="g-label"><div class="g-label-main">The Full Experience</div><div class="g-label-sub">Under the trees at Loop Café</div></div>
+      </div>
+    </div>
   </div>
-  <input id="name-input" class="w-input" type="text" placeholder="Your name…" autocomplete="given-name">
-  <button class="btn-gold" onclick="loginStudent()">Start Learning</button>
-  <button class="btn-link" onclick="loginNita()">I'm Kru Nita (teacher login)</button>
+
+  <!-- BOTTOM HALF: info + login -->
+  <div class="w-panel">
+
+    <!-- Brand -->
+    <div class="w-brand">
+      <div class="w-logo">🥋</div>
+      <div class="w-brand-text">
+        <div class="w-title">เรียนกับนิตา</div>
+        <div class="w-tagline">Thai classes at the local café · Chiang Mai</div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div class="w-about">
+      <strong>Kru Nita</strong> brings Thai language to life in a relaxed, garden café setting.
+      Small groups, real conversations, flashcards under the trees — no textbooks, no pressure.
+      Just you, Thai, and a great cup of coffee. ☕
+    </div>
+
+    <!-- Next event -->
+    <div class="w-event">
+      <div class="we-badge">📅 Next Session</div>
+      <div class="we-title">Thai for Everyday Life</div>
+      <div class="we-row"><span class="ei">🗓</span><span>Saturday, 26 July 2025</span></div>
+      <div class="we-row"><span class="ei">⏰</span><span>10:00 AM – 12:00 PM</span></div>
+      <div class="we-row"><span class="ei">📍</span><span>Loop Café &amp; Stay, Chiang Mai</span></div>
+      <div class="we-row"><span class="ei">💰</span><span>300 THB per person (coffee included)</span></div>
+      <div class="we-spots">✓ 4 spots remaining</div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="w-reviews-lbl">⭐ What students say</div>
+    <div class="w-reviews">
+      <div class="w-review">
+        <div class="wr-stars">★ ★ ★ ★ ★</div>
+        <div class="wr-quote">This is fantastic! Nita makes Thai so approachable. I learned more in two hours than months of language apps.</div>
+        <div class="wr-author">— Sarah M., Australia 🇦🇺</div>
+      </div>
+      <div class="w-review">
+        <div class="wr-stars">★ ★ ★ ★ ★</div>
+        <div class="wr-quote">The café vibe is perfect — relaxed, fun, and the small group means you actually get to practice speaking Thai out loud.</div>
+        <div class="wr-author">— Marco R., Italy 🇮🇹</div>
+      </div>
+      <div class="w-review">
+        <div class="wr-stars">★ ★ ★ ★ ★</div>
+        <div class="wr-quote">I've tried many Thai classes but this one clicks. Nita is patient, funny, and genuinely loves teaching. Highly recommend!</div>
+        <div class="wr-author">— Jens K., Germany 🇩🇪</div>
+      </div>
+    </div>
+
+    <!-- Login -->
+    <div class="w-login">
+      <input id="name-input" class="w-input" type="text" placeholder="Your name…" autocomplete="given-name">
+      <button class="btn-gold" onclick="loginStudent()">Start Learning →</button>
+      <button class="btn-link" onclick="loginNita()">I'm Kru Nita (teacher login)</button>
+    </div>
+
+  </div>
 </div>
 
 <!-- ══════════════ APP SHELL ══════════════ -->
