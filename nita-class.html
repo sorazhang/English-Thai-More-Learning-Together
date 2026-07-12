@@ -81,8 +81,9 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   position:absolute;bottom:0;left:0;right:0;z-index:3;
   padding:.75rem 1rem 1rem;
   background:linear-gradient(to top,rgba(11,9,7,.94) 0%,rgba(11,9,7,.6) 65%,transparent 100%);
-  display:flex;flex-direction:column;gap:.5rem;
+  display:flex;flex-direction:row;align-items:center;gap:.5rem;
 }
+.g-cta .btn-gold{width:auto;flex-shrink:0;padding:.68rem 1.1rem;font-size:.95rem;white-space:nowrap}
 .g-input{
   width:100%;background:rgba(22,17,12,.78);border:1px solid rgba(200,148,58,.35);
   border-radius:12px;padding:.68rem 1rem;color:var(--cream);font-size:1rem;
@@ -182,6 +183,27 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 }
 .btn-gold:active{transform:scale(.97);box-shadow:0 2px 8px rgba(200,148,58,.25)}
 .btn-link{background:none;color:var(--gold);font-size:.85rem;padding:.25rem;text-decoration:underline;text-decoration-color:rgba(200,148,58,.35);text-align:center}
+
+/* Nita footer */
+.w-footer{border-top:1px solid var(--border2);padding-top:.9rem}
+.wf-intro{display:flex;gap:.72rem;align-items:flex-start;margin-bottom:.72rem}
+.wf-avatar{
+  width:50px;height:50px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:grid;place-items:center;font-size:1.6rem;
+  border:2px solid rgba(200,148,58,.3);
+}
+.wf-name{font-family:'Prompt',sans-serif;font-size:.92rem;font-weight:600;color:var(--cream);margin-bottom:.18rem}
+.wf-bio{font-size:.8rem;color:var(--cream2);line-height:1.65}
+.wf-social{display:flex;gap:.55rem;flex-wrap:wrap}
+.wf-link{
+  display:inline-flex;align-items:center;gap:.35rem;
+  background:var(--card2);border:1px solid var(--border);border-radius:20px;
+  padding:.3rem .75rem;font-size:.8rem;color:var(--gold2);text-decoration:none;
+  font-family:'Prompt',sans-serif;transition:background .15s;
+}
+.wf-link:active{background:var(--card)}
+.wf-icon{font-size:.9rem}
 
 /* ── App Shell ────────────────────────────────────────────── */
 #app{display:none;flex-direction:column;height:100%;position:fixed;inset:0}
@@ -604,6 +626,24 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
       </div>
     </div>
     <button class="btn-link" onclick="loginNita()">I'm Kru Nita (teacher login)</button>
+    <!-- Nita's footer bio -->
+    <div class="w-footer">
+      <div class="wf-intro">
+        <div class="wf-avatar">🌸</div>
+        <div>
+          <div class="wf-name">Nita Suwannarat · ครูนิตา</div>
+          <div class="wf-bio">Native Thai speaker and language teacher with 8+ years of experience. I believe every conversation over coffee is a chance to learn something real. Come join us at the café! 🌺</div>
+        </div>
+      </div>
+      <div class="wf-social">
+        <a class="wf-link" href="https://instagram.com/krunitathai" target="_blank" rel="noopener">
+          <span class="wf-icon">📷</span><span>@krunitathai</span>
+        </a>
+        <a class="wf-link" href="https://facebook.com/KruNitaThai" target="_blank" rel="noopener">
+          <span class="wf-icon">👤</span><span>Kru Nita Thai</span>
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1133,7 +1173,7 @@ function mkSeg(text,start,interactive){
 function renderChip(a,opts){
   var interactive=opts&&opts.interactive;
   var jid=opts&&opts.journalId;
-  var click=interactive?' onclick="editAnnotation(\''+jid+'\',\''+a.id+'\'")'':'';
+  var click=interactive?' onclick="editAnnotation(\''+jid+'\',\''+a.id+'\')"':'';
   var noteHtml=a.note?'<button class="chip-nb" onclick="toggleNote(\''+a.id+'\');event.stopPropagation()">💬</button>'+'<span class="chip-note" id="cn-'+a.id+'">'+esc(a.note)+'</span>':'';
   return '<span class="chip"'+click+'>'+'<span class="chip-orig">'+esc(a.original)+'</span>'+'<span class="chip-arrow">→</span>'+'<span class="chip-corr">'+esc(a.correction)+'</span>'+noteHtml+'</span>';
 }
