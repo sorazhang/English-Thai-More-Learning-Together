@@ -192,6 +192,46 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 .btn-gold:active{transform:scale(.97);box-shadow:0 2px 8px rgba(200,148,58,.25)}
 .btn-link{background:none;color:var(--gold);font-size:.85rem;padding:.25rem;text-decoration:underline;text-decoration-color:rgba(200,148,58,.35);text-align:center}
 
+/* 3-column feature grid */
+.wfg{
+  display:flex;gap:.75rem;overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;padding:0 0 .5rem;scrollbar-width:none;
+}
+.wfg::-webkit-scrollbar{display:none}
+.wfg-card{
+  min-width:82vw;max-width:300px;flex-shrink:0;scroll-snap-align:start;
+  background:var(--card);border:1px solid var(--border2);border-radius:16px;
+  padding:1.1rem 1rem 1rem;display:flex;flex-direction:column;gap:.6rem;
+}
+.wfg-featured{
+  border-color:rgba(200,148,58,.45);
+  background:linear-gradient(160deg,rgba(200,148,58,.09) 0%,var(--card) 60%);
+}
+.wfg-label{
+  font-family:'Prompt',sans-serif;font-size:.6rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--gold);
+}
+.wfg-featured .wfg-label{color:var(--gold2)}
+.wfg-headline{
+  font-family:'Prompt',sans-serif;font-size:1rem;font-weight:700;
+  color:var(--cream);line-height:1.3;
+}
+.wfg-desc{font-size:.78rem;color:var(--cream2);line-height:1.65}
+.wfg-items{display:flex;flex-direction:column;gap:.55rem;flex:1}
+.wfg-item{display:flex;gap:.55rem;align-items:flex-start}
+.wfg-num{
+  font-family:'Prompt',sans-serif;font-size:.65rem;font-weight:700;
+  color:var(--muted);flex-shrink:0;width:18px;padding-top:.18rem;line-height:1;
+}
+.wfg-item-title{font-family:'Prompt',sans-serif;font-size:.8rem;font-weight:600;color:var(--cream);margin-bottom:.1rem}
+.wfg-item-body{font-size:.74rem;color:var(--cream2);line-height:1.55}
+.wfg-cta{margin-top:auto;padding-top:.4rem}
+.wfg-btn{
+  display:inline-block;font-size:.78rem;color:var(--gold2);
+  font-family:'Prompt',sans-serif;text-decoration:none;
+}
+.wfg-spots{font-size:.74rem;color:var(--muted);font-family:'Prompt',sans-serif}
+
 /* Nita footer */
 .w-footer{border-top:1px solid var(--border2);padding-top:.9rem}
 .wf-intro{display:flex;gap:.72rem;align-items:flex-start;margin-bottom:.72rem}
@@ -639,59 +679,72 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
       <input id="name-input" class="w-input" type="text" placeholder="Your name…" autocomplete="given-name">
       <button class="btn-gold" onclick="loginStudent()">Start Learning →</button>
     </div>
-    <div class="w-about">
-      <strong>Kru Nita</strong> brings Thai language to life in a relaxed, garden café setting.
-      Small groups, real conversations, flashcards under the trees — no textbooks, no pressure.
-      Just you, Thai, and a great cup of coffee. ☕
-    </div>
-    <!-- Upcoming sessions carousel -->
-    <div class="w-reviews-lbl">📅 Upcoming Sessions</div>
-    <div class="w-sessions-track">
-      <div class="w-session-card">
-        <div class="we-badge">Next up</div>
-        <div class="we-title">Thai for Everyday Life</div>
-        <div class="we-row"><span class="ei">🗓</span><span>Sat, 26 Jul 2025</span></div>
-        <div class="we-row"><span class="ei">⏰</span><span>10:00 AM – 12:00 PM</span></div>
-        <div class="we-row"><span class="ei">📍</span><span>Loop Café &amp; Stay</span></div>
-        <div class="we-row"><span class="ei">💰</span><span>300 THB (coffee incl.)</span></div>
-        <div class="we-spots">✓ 4 spots remaining</div>
+    <!-- 3-column feature cards -->
+    <div class="wfg">
+      <!-- Card 1: About Nita (featured) -->
+      <div class="wfg-card wfg-featured">
+        <div class="wfg-label">Your Teacher</div>
+        <div class="wfg-headline">Thai language, the natural way.</div>
+        <div class="wfg-desc">Small groups, real conversations — no textbooks, no pressure. Just you, Thai, and a great cup of coffee.</div>
+        <div class="wfg-items">
+          <div class="wfg-item">
+            <div class="wfg-num">01</div>
+            <div><div class="wfg-item-title">Show up</div><div class="wfg-item-body">Just bring curiosity. No Thai experience needed.</div></div>
+          </div>
+          <div class="wfg-item">
+            <div class="wfg-num">02</div>
+            <div><div class="wfg-item-title">Speak from day one</div><div class="wfg-item-body">We talk Thai from the very first class, in a safe and friendly setting.</div></div>
+          </div>
+          <div class="wfg-item">
+            <div class="wfg-num">03</div>
+            <div><div class="wfg-item-title">Take it home</div><div class="wfg-item-body">Flashcards and journal entries keep the learning alive between sessions.</div></div>
+          </div>
+        </div>
+        <div class="wfg-cta">
+          <a class="wfg-btn" href="https://instagram.com/easythaiwithnita" target="_blank" rel="noopener">📷 @easythaiwithnita →</a>
+        </div>
       </div>
-      <div class="w-session-card">
-        <div class="we-badge">Coming soon</div>
-        <div class="we-title">Thai Café Phrases &amp; Ordering</div>
-        <div class="we-row"><span class="ei">🗓</span><span>Sat, 2 Aug 2025</span></div>
-        <div class="we-row"><span class="ei">⏰</span><span>10:00 AM – 12:00 PM</span></div>
-        <div class="we-row"><span class="ei">📍</span><span>The Bean Café</span></div>
-        <div class="we-row"><span class="ei">💰</span><span>300 THB (coffee incl.)</span></div>
-        <div class="we-spots">✓ 6 spots remaining</div>
+      <!-- Card 2: Upcoming Sessions -->
+      <div class="wfg-card">
+        <div class="wfg-label">Upcoming Sessions</div>
+        <div class="wfg-headline">Join us at the café.</div>
+        <div class="wfg-desc">Drop-in classes every Saturday morning. Small groups, relaxed pace, great coffee.</div>
+        <div class="wfg-items">
+          <div class="wfg-item">
+            <div class="wfg-num">→</div>
+            <div><div class="wfg-item-title">Colors &amp; Descriptions</div><div class="wfg-item-body">Jul 19 · Loop Café &amp; Stay</div></div>
+          </div>
+          <div class="wfg-item">
+            <div class="wfg-num">→</div>
+            <div><div class="wfg-item-title">At the Market</div><div class="wfg-item-body">Jul 26 · Mango Café</div></div>
+          </div>
+          <div class="wfg-item">
+            <div class="wfg-num">→</div>
+            <div><div class="wfg-item-title">Directions &amp; Getting Around</div><div class="wfg-item-body">Aug 2 · The Bean Café</div></div>
+          </div>
+        </div>
+        <div class="wfg-cta">
+          <div class="wfg-spots">300 THB per class · coffee included</div>
+        </div>
       </div>
-      <div class="w-session-card">
-        <div class="we-badge">Coming soon</div>
-        <div class="we-title">Thai Numbers &amp; Market Talk</div>
-        <div class="we-row"><span class="ei">🗓</span><span>Sat, 9 Aug 2025</span></div>
-        <div class="we-row"><span class="ei">⏰</span><span>10:00 AM – 12:00 PM</span></div>
-        <div class="we-row"><span class="ei">📍</span><span>Bloom Coffee</span></div>
-        <div class="we-row"><span class="ei">💰</span><span>300 THB (coffee incl.)</span></div>
-        <div class="we-spots">✓ 8 spots remaining</div>
-      </div>
-    </div>
-    <!-- Reviews carousel -->
-    <div class="w-reviews-lbl">⭐ What people say</div>
-    <div class="w-reviews">
-      <div class="w-review">
-        <div class="wr-stars">★ ★ ★ ★ ★</div>
-        <div class="wr-quote">This is fantastic! Nita makes Thai so approachable. I learned more in two hours than months of language apps.</div>
-        <div class="wr-author">— Sarah M., Australia 🇦🇺</div>
-      </div>
-      <div class="w-review">
-        <div class="wr-stars">★ ★ ★ ★ ★</div>
-        <div class="wr-quote">The café vibe is perfect — relaxed, fun, and the small group means you actually get to practice speaking Thai out loud.</div>
-        <div class="wr-author">— Marco R., Italy 🇮🇹</div>
-      </div>
-      <div class="w-review">
-        <div class="wr-stars">★ ★ ★ ★ ★</div>
-        <div class="wr-quote">I've tried many Thai classes but this one clicks. Nita is patient, funny, and genuinely loves teaching. Highly recommend!</div>
-        <div class="wr-author">— Jens K., Germany 🇩🇪</div>
+      <!-- Card 3: Reviews -->
+      <div class="wfg-card">
+        <div class="wfg-label">What People Say</div>
+        <div class="wfg-headline">Students love it.</div>
+        <div class="wfg-items">
+          <div class="wfg-item">
+            <div class="wfg-num">★</div>
+            <div><div class="wfg-item-title">"This is fantastic!"</div><div class="wfg-item-body">I learned more in two hours than months of apps. — Sarah M., Australia 🇦🇺</div></div>
+          </div>
+          <div class="wfg-item">
+            <div class="wfg-num">★</div>
+            <div><div class="wfg-item-title">"The café vibe is perfect."</div><div class="wfg-item-body">Relaxed, fun — you actually speak Thai out loud. — Marco R., Italy 🇮🇹</div></div>
+          </div>
+          <div class="wfg-item">
+            <div class="wfg-num">★</div>
+            <div><div class="wfg-item-title">"This one clicks."</div><div class="wfg-item-body">Nita is patient, funny, and loves teaching. — Jens K., Germany 🇩🇪</div></div>
+          </div>
+        </div>
       </div>
     </div>
     <button class="btn-link" onclick="loginNita()">I'm Kru Nita (teacher login)</button>
