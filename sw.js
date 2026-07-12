@@ -1,9 +1,10 @@
-const CACHE = 'kruexchange-v38';
+const CACHE = 'kruexchange-v39';
 
 const STATIC = [
   '/index.html',
   '/my-saved-note.html',
   '/shared-cloud.html',
+  '/nita-class.html',
   '/kru-language-exchange.html',
   '/kru-exchange-vol2.html',
   '/kru-exchange-vol3.html',
