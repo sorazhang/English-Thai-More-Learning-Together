@@ -227,6 +227,12 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   font-family:'Prompt',sans-serif;transition:background .2s;
 }
 .role-badge:active{background:var(--card2)}
+.logout-btn{
+  background:none;border:none;color:var(--muted);font-size:1rem;
+  padding:.28rem .4rem;border-radius:8px;transition:color .15s,background .15s;
+  flex-shrink:0;
+}
+.logout-btn:active{color:var(--cream);background:var(--card2)}
 .content{flex:1;overflow-y:auto;position:relative;-webkit-overflow-scrolling:touch}
 .view{display:none;padding:1rem 1rem calc(1.25rem + var(--nav-h));animation:fadeUp .28s ease}
 .view.active{display:block}
@@ -681,6 +687,7 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   <div class="topbar">
     <div class="topbar-brand">เรียนกับนิตา</div>
     <button class="role-badge" id="role-badge" onclick="switchRole()"></button>
+    <button class="logout-btn" onclick="logout()" title="Log out">⬅</button>
   </div>
   <div class="content">
     <div id="view-notes" class="view">
@@ -950,6 +957,15 @@ function switchRole(){
   localStorage.setItem('nita_user',S.user);
   updateBadge(); applyRoleUI(); navTo('notes');
   toast('Switched to '+(nr==='teacher'?'teacher':'student')+' view');
+}
+function logout(){
+  localStorage.removeItem('nita_user');
+  localStorage.removeItem('nita_role');
+  S.user=null; S.role=null;
+  document.getElementById('app').classList.remove('visible');
+  var w=document.getElementById('welcome');
+  w.classList.remove('out');
+  document.getElementById('name-input').value='';
 }
 function updateBadge(){
   document.getElementById('role-badge').textContent=S.role==='teacher'?'👩‍🏫 Kru Nita':'🎓 '+S.user;
