@@ -193,13 +193,12 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 .btn-link{background:none;color:var(--gold);font-size:.85rem;padding:.25rem;text-decoration:underline;text-decoration-color:rgba(200,148,58,.35);text-align:center}
 
 /* 3-column feature grid */
-.wfg{
-  display:flex;gap:.75rem;overflow-x:auto;scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;padding:0 0 .5rem;scrollbar-width:none;
+.wfg{display:flex;flex-direction:column;gap:.75rem}
+@media(min-width:640px){
+  .wfg{flex-direction:row;align-items:flex-start}
+  .wfg-card{flex:1;min-width:0}
 }
-.wfg::-webkit-scrollbar{display:none}
 .wfg-card{
-  min-width:82vw;max-width:300px;flex-shrink:0;scroll-snap-align:start;
   background:var(--card);border:1px solid var(--border2);border-radius:16px;
   padding:1.1rem 1rem 1rem;display:flex;flex-direction:column;gap:.6rem;
 }
