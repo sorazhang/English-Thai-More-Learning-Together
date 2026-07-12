@@ -218,8 +218,13 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 #app.visible{display:flex}
 .topbar{
   height:52px;background:var(--bg2);border-bottom:1px solid var(--border2);
-  display:flex;align-items:center;padding:0 1rem;gap:.75rem;flex-shrink:0;z-index:10;
+  display:flex;align-items:center;padding:0 .75rem;gap:.6rem;flex-shrink:0;z-index:10;
 }
+.hamburger{
+  background:none;border:none;color:var(--cream2);font-size:1.3rem;line-height:1;
+  padding:.28rem .4rem;border-radius:8px;transition:color .15s;flex-shrink:0;
+}
+.hamburger:active{color:var(--gold2)}
 .topbar-brand{font-family:'Prompt',sans-serif;font-weight:600;font-size:1.05rem;color:var(--gold2);flex:1}
 .role-badge{
   background:var(--card);border:1px solid var(--border);border-radius:20px;
@@ -227,27 +232,50 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   font-family:'Prompt',sans-serif;transition:background .2s;
 }
 .role-badge:active{background:var(--card2)}
-.logout-btn{
-  background:none;border:none;color:var(--muted);font-size:1rem;
-  padding:.28rem .4rem;border-radius:8px;transition:color .15s,background .15s;
-  flex-shrink:0;
-}
-.logout-btn:active{color:var(--cream);background:var(--card2)}
 .content{flex:1;overflow-y:auto;position:relative;-webkit-overflow-scrolling:touch}
-.view{display:none;padding:1rem 1rem calc(1.25rem + var(--nav-h));animation:fadeUp .28s ease}
+.view{display:none;padding:1rem 1rem 2rem;animation:fadeUp .28s ease}
 .view.active{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.bottom-nav{
-  height:var(--nav-h);background:var(--bg2);border-top:1px solid var(--border2);
-  display:flex;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,0);
+.bottom-nav{display:none}
+/* ── Left drawer nav ─────────────────────────────────────── */
+#nav-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:199;
+  display:none;
 }
-.tab{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:2px;font-size:.64rem;font-family:'Prompt',sans-serif;color:var(--muted);
-  cursor:pointer;transition:color .2s;
+#nav-backdrop.open{display:block}
+#sidenav{
+  position:fixed;top:0;left:-270px;bottom:0;width:260px;
+  background:var(--bg2);border-right:1px solid var(--border2);
+  z-index:200;transition:left .25s ease;
+  display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top,0);
 }
-.tab .ti{font-size:1.25rem;line-height:1}
-.tab.active{color:var(--gold2)}
+#sidenav.open{left:0}
+.sn-user{
+  display:flex;align-items:center;gap:.7rem;
+  padding:1.2rem 1.1rem .95rem;border-bottom:1px solid var(--border2);
+}
+.sn-avatar{
+  width:44px;height:44px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:grid;place-items:center;font-size:1.5rem;
+  border:2px solid rgba(200,148,58,.3);
+}
+.sn-name{font-family:'Prompt',sans-serif;font-size:.92rem;font-weight:600;color:var(--cream)}
+.sn-role-lbl{font-size:.72rem;color:var(--muted);margin-top:.1rem;font-family:'Prompt',sans-serif}
+.sn-nav{flex:1;padding:.5rem 0}
+.sn-item{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.78rem 1.1rem;font-size:.92rem;color:var(--cream2);
+  cursor:pointer;transition:background .15s,color .15s;
+  font-family:'Prompt',sans-serif;
+}
+.sn-item:active{background:var(--card);color:var(--cream)}
+.sn-item.active{background:rgba(200,148,58,.1);color:var(--gold2)}
+.sn-icon{font-size:1.1rem;width:26px;text-align:center;flex-shrink:0}
+.sn-footer{border-top:1px solid var(--border2);padding:.4rem 0;padding-bottom:env(safe-area-inset-bottom,.4rem)}
+.sn-logout{color:var(--muted)}
+.sn-logout:active{color:var(--red)!important;background:var(--red-soft)!important}
 
 /* ── Common ───────────────────────────────────────────────── */
 .sec-head{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0 .8rem}
@@ -682,12 +710,40 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   </div>
 </div>
 
+<!-- ══════════════ LEFT DRAWER NAV ══════════════ -->
+<div id="nav-backdrop" onclick="closeNav()"></div>
+<div id="sidenav">
+  <div class="sn-user">
+    <div class="sn-avatar" id="sn-avatar">🎓</div>
+    <div>
+      <div class="sn-name" id="sn-name"></div>
+      <div class="sn-role-lbl" id="sn-role-lbl"></div>
+    </div>
+  </div>
+  <div class="sn-nav">
+    <div class="sn-item active" id="sn-notes" onclick="navTo('notes');closeNav()">
+      <span class="sn-icon">📚</span><span>Session Notes</span>
+    </div>
+    <div class="sn-item" id="sn-cards" onclick="navTo('cards');closeNav()">
+      <span class="sn-icon">🃏</span><span>My Vocabulary</span>
+    </div>
+    <div class="sn-item" id="sn-journal" onclick="navTo('journal');closeNav()">
+      <span class="sn-icon">📓</span><span id="sn-j-lbl">My Journal</span>
+    </div>
+  </div>
+  <div class="sn-footer">
+    <div class="sn-item sn-logout" onclick="logout()">
+      <span class="sn-icon">🚪</span><span>Log Out</span>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════════ APP SHELL ══════════════ -->
 <div id="app">
   <div class="topbar">
+    <button class="hamburger" onclick="openNav()">☰</button>
     <div class="topbar-brand">เรียนกับนิตา</div>
     <button class="role-badge" id="role-badge" onclick="switchRole()"></button>
-    <button class="logout-btn" onclick="logout()" title="Log out">⬅</button>
   </div>
   <div class="content">
     <div id="view-notes" class="view">
@@ -946,7 +1002,7 @@ function startApp(user,role){
   S.sessions=d.sessions; S.cards=d.cards; S.entries=d.entries;
   document.getElementById('welcome').classList.add('out');
   document.getElementById('app').classList.add('visible');
-  updateBadge(); applyRoleUI(); navTo('notes');
+  updateBadge(); applyRoleUI(); updateSideNav(); navTo('notes');
 }
 function switchRole(){
   var nr=S.role==='teacher'?'student':'teacher';
@@ -955,16 +1011,31 @@ function switchRole(){
   else{S.user='Kru Nita';}
   localStorage.setItem('nita_role',nr);
   localStorage.setItem('nita_user',S.user);
-  updateBadge(); applyRoleUI(); navTo('notes');
+  updateBadge(); applyRoleUI(); updateSideNav(); navTo('notes');
   toast('Switched to '+(nr==='teacher'?'teacher':'student')+' view');
 }
+function openNav(){
+  document.getElementById('sidenav').classList.add('open');
+  document.getElementById('nav-backdrop').classList.add('open');
+}
+function closeNav(){
+  document.getElementById('sidenav').classList.remove('open');
+  document.getElementById('nav-backdrop').classList.remove('open');
+}
+function updateSideNav(){
+  var isT=S.role==='teacher';
+  document.getElementById('sn-name').textContent=S.user||'';
+  document.getElementById('sn-role-lbl').textContent=isT?'Teacher · Kru Nita':'Student';
+  document.getElementById('sn-avatar').textContent=isT?'🌸':'🎓';
+  document.getElementById('sn-j-lbl').textContent=isT?'Reviews':'My Journal';
+}
 function logout(){
+  closeNav();
   localStorage.removeItem('nita_user');
   localStorage.removeItem('nita_role');
   S.user=null; S.role=null;
   document.getElementById('app').classList.remove('visible');
-  var w=document.getElementById('welcome');
-  w.classList.remove('out');
+  document.getElementById('welcome').classList.remove('out');
   document.getElementById('name-input').value='';
 }
 function updateBadge(){
@@ -980,10 +1051,12 @@ function applyRoleUI(){
 function navTo(t){
   ['notes','cards','journal'].forEach(function(v){
     document.getElementById('view-'+v).classList.remove('active');
-    document.getElementById('tab-'+v).classList.remove('active');
+    var tb=document.getElementById('tab-'+v); if(tb) tb.classList.remove('active');
+    var sn=document.getElementById('sn-'+v); if(sn) sn.classList.remove('active');
   });
   document.getElementById('view-'+t).classList.add('active');
-  document.getElementById('tab-'+t).classList.add('active');
+  var tb=document.getElementById('tab-'+t); if(tb) tb.classList.add('active');
+  var sn=document.getElementById('sn-'+t); if(sn) sn.classList.add('active');
   closeAnnotPopup();
   if(t==='notes') renderSessions();
   if(t==='cards') renderCards();
