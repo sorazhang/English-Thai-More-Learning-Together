@@ -4,6 +4,1179 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0B0907">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>เรียนกับนิตา</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0907;--bg2:#141108;--card:#1C1712;--card2:#241E17;
+  --gold:#C8943A;--gold2:#E0AD50;--cream:#F0E8D8;--cream2:#C8BCA8;
+  --muted:#7A7060;--border:rgba(200,148,58,0.18);--border2:rgba(200,148,58,0.08);
+  --red:#E2685A;--red-soft:rgba(226,104,90,0.15);--green:#5AAA80;
+  --nav-h:60px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--cream);font-family:'Sarabun',sans-serif;font-size:16px;line-height:1.6;overscroll-behavior:none}
+h1,h2,h3,.ui{font-family:'Prompt',sans-serif}
+button{font-family:inherit;cursor:pointer;border:none;outline:none;background:none}
+input,textarea{font-family:'Sarabun',sans-serif;outline:none}
+
+/* ── Welcome ─────────────────────────────────────────────── */
+#welcome{
+  position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:2rem 1.5rem;z-index:100;gap:1.2rem;
+  transition:opacity .4s,transform .4s;
+}
+#welcome.out{opacity:0;transform:scale(.96);pointer-events:none}
+.w-logo{
+  width:80px;height:80px;border-radius:22px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:grid;place-items:center;font-size:2.4rem;
+  box-shadow:0 8px 32px rgba(200,148,58,.4);
+}
+.w-title{
+  font-family:'Prompt',sans-serif;font-size:2rem;font-weight:700;text-align:center;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.w-sub{color:var(--cream2);font-size:.9rem;text-align:center;max-width:280px;line-height:1.7}
+.w-pillars{display:flex;gap:1.5rem;margin:.25rem 0}
+.w-pillar{display:flex;flex-direction:column;align-items:center;gap:.35rem;font-size:.75rem;color:var(--cream2)}
+.w-pillar span:first-child{
+  width:48px;height:48px;border-radius:12px;border:1px solid var(--border);
+  background:var(--card);display:grid;place-items:center;font-size:1.4rem;
+}
+.w-input{
+  width:100%;max-width:300px;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:.75rem 1rem;color:var(--cream);font-size:1rem;
+  transition:border-color .2s;
+}
+.w-input:focus{border-color:var(--gold)}
+.w-input::placeholder{color:var(--muted)}
+.btn-gold{
+  width:100%;max-width:300px;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#0B0907;border-radius:12px;padding:.85rem;font-family:'Prompt',sans-serif;
+  font-size:1rem;font-weight:600;letter-spacing:.02em;
+  box-shadow:0 4px 18px rgba(200,148,58,.35);transition:transform .15s,box-shadow .15s;
+}
+.btn-gold:active{transform:scale(.97);box-shadow:0 2px 8px rgba(200,148,58,.25)}
+.btn-link{background:none;color:var(--gold);font-size:.88rem;padding:.3rem;text-decoration:underline;text-decoration-color:rgba(200,148,58,.35)}
+
+/* ── App Shell ────────────────────────────────────────────── */
+#app{display:none;flex-direction:column;height:100%;position:fixed;inset:0}
+#app.visible{display:flex}
+.topbar{
+  height:52px;background:var(--bg2);border-bottom:1px solid var(--border2);
+  display:flex;align-items:center;padding:0 1rem;gap:.75rem;flex-shrink:0;z-index:10;
+}
+.topbar-brand{font-family:'Prompt',sans-serif;font-weight:600;font-size:1.05rem;color:var(--gold2);flex:1}
+.role-badge{
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  padding:.28rem .75rem;font-size:.78rem;color:var(--gold2);cursor:pointer;
+  font-family:'Prompt',sans-serif;transition:background .2s;
+}
+.role-badge:active{background:var(--card2)}
+.content{flex:1;overflow-y:auto;position:relative;-webkit-overflow-scrolling:touch}
+.view{display:none;padding:1rem 1rem calc(1.25rem + var(--nav-h));animation:fadeUp .28s ease}
+.view.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.bottom-nav{
+  height:var(--nav-h);background:var(--bg2);border-top:1px solid var(--border2);
+  display:flex;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,0);
+}
+.tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;font-size:.64rem;font-family:'Prompt',sans-serif;color:var(--muted);
+  cursor:pointer;transition:color .2s;
+}
+.tab .ti{font-size:1.25rem;line-height:1}
+.tab.active{color:var(--gold2)}
+
+/* ── Common ───────────────────────────────────────────────── */
+.sec-head{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0 .8rem}
+.sec-title{font-family:'Prompt',sans-serif;font-size:1.1rem;font-weight:600;color:var(--cream)}
+.btn-sm{
+  background:var(--card);border:1px solid var(--border);border-radius:8px;
+  padding:.38rem .7rem;font-size:.8rem;color:var(--gold2);
+  font-family:'Prompt',sans-serif;transition:background .15s;
+}
+.btn-sm:active{background:var(--card2)}
+.btn-sm.pri{background:var(--gold);color:#0B0907;border-color:transparent}
+.pill{display:inline-block;padding:.12rem .5rem;border-radius:20px;font-size:.7rem;font-family:'Prompt',sans-serif}
+.pill-g{background:rgba(200,148,58,.16);color:var(--gold2)}
+.pill-v{background:rgba(90,170,128,.16);color:var(--green)}
+.pill-r{background:var(--red-soft);color:var(--red)}
+.pill-m{background:rgba(122,112,96,.16);color:var(--muted)}
+.back-btn{
+  display:flex;align-items:center;gap:.3rem;color:var(--gold);font-size:.9rem;
+  padding:.3rem 0;margin-bottom:.75rem;cursor:pointer;background:none;border:none;
+  font-family:'Sarabun',sans-serif;
+}
+
+/* ── Session cards ────────────────────────────────────────── */
+.session-card{
+  background:var(--card);border:1px solid var(--border2);border-radius:14px;
+  overflow:hidden;cursor:pointer;transition:transform .15s,border-color .2s;
+  position:relative;padding:1rem;margin-bottom:.7rem;
+}
+.session-card:active{transform:scale(.99)}
+.session-card::before{
+  content:'';position:absolute;inset:0 0 auto 0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+.sc-meta{font-size:.74rem;color:var(--muted);margin-bottom:.25rem}
+.sc-topic{font-family:'Prompt',sans-serif;font-size:.95rem;font-weight:600;color:var(--cream);margin-bottom:.12rem}
+.sc-sub{font-size:.8rem;color:var(--cream2)}
+.sc-pills{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.55rem}
+
+/* Session detail */
+.detail-title{font-family:'Prompt',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:.2rem}
+.detail-meta{font-size:.8rem;color:var(--muted);margin-bottom:1rem}
+.section-label{
+  font-family:'Prompt',sans-serif;font-size:.72rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.06em;margin:.8rem 0 .5rem;
+}
+.vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.vocab-card{
+  background:var(--card2);border:1px solid var(--border2);border-radius:10px;
+  padding:.6rem .7rem;
+}
+.vc-th{font-size:1.1rem;font-weight:600;color:var(--gold2)}
+.vc-rom{font-size:.7rem;color:var(--cream2);font-style:italic}
+.vc-en{font-size:.78rem;color:var(--cream2);margin-top:.05rem}
+.phrase-item{
+  background:var(--card2);border:1px solid var(--border2);border-radius:10px;
+  padding:.6rem .75rem;margin-bottom:.45rem;
+}
+.ph-th{font-size:.95rem;color:var(--cream)}
+.ph-en{font-size:.78rem;color:var(--muted);margin-top:.1rem}
+.nita-box{
+  background:linear-gradient(135deg,rgba(200,148,58,.09),rgba(224,173,80,.04));
+  border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-top:.85rem;
+}
+.nita-label{font-family:'Prompt',sans-serif;font-size:.72rem;color:var(--gold);
+  text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem}
+.nita-note{font-size:.88rem;color:var(--cream2);line-height:1.75}
+.btn-full{
+  width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#0B0907;border-radius:12px;padding:.82rem;font-family:'Prompt',sans-serif;
+  font-size:.95rem;font-weight:600;margin-top:1rem;
+}
+.btn-full:active{opacity:.88}
+
+/* Add session form */
+.add-form{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:1rem;margin-bottom:.75rem;display:none;
+}
+.add-form.open{display:block;animation:fadeUp .2s ease}
+.form-row{margin-bottom:.6rem}
+.form-row label{display:block;font-size:.74rem;color:var(--muted);margin-bottom:.22rem;font-family:'Prompt',sans-serif}
+.form-input{
+  width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;
+  padding:.58rem .75rem;color:var(--cream);font-size:.92rem;transition:border-color .2s;
+}
+.form-input:focus{border-color:var(--gold)}
+.form-input::placeholder{color:var(--muted)}
+.form-actions{display:flex;gap:.5rem;margin-top:.65rem}
+.form-actions button{flex:1}
+
+/* ── Flashcards ──────────────────────────────────────────── */
+.cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-top:.5rem}
+.card-item{
+  background:var(--card);border:1px solid var(--border2);border-radius:12px;
+  padding:.75rem .7rem;position:relative;overflow:hidden;cursor:pointer;
+  transition:border-color .2s,transform .15s;
+}
+.card-item:active{transform:scale(.97)}
+.card-item.known{border-color:rgba(90,170,128,.38)}
+.card-item::before{
+  content:'';position:absolute;inset:0 0 auto 0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+.card-item.known::before{background:linear-gradient(90deg,var(--green),#7BC89A)}
+.ci-thai{font-size:1.1rem;font-weight:600;color:var(--gold2);margin-top:.15rem;line-height:1.35}
+.ci-rom{font-size:.7rem;color:var(--cream2);font-style:italic;margin-top:.05rem}
+.ci-en{font-size:.78rem;color:var(--cream2);margin-top:.08rem}
+.ci-cat{margin-top:.4rem}
+.known-mark{
+  position:absolute;top:.45rem;right:.5rem;font-size:.8rem;color:var(--green);
+  opacity:0;transition:opacity .2s;
+}
+.card-item.known .known-mark{opacity:1}
+
+/* ── Study mode ──────────────────────────────────────────── */
+#study-mode{
+  position:fixed;inset:0;background:var(--bg);z-index:200;
+  display:none;flex-direction:column;
+}
+#study-mode.open{display:flex}
+.study-hdr{
+  padding:1rem;display:flex;align-items:center;gap:.75rem;
+  border-bottom:1px solid var(--border2);flex-shrink:0;
+}
+.study-prog-bar{flex:1;height:6px;background:var(--card2);border-radius:3px;overflow:hidden}
+.study-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:3px;transition:width .4s ease}
+.study-body{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:1.5rem;gap:2rem;
+}
+.flip-wrapper{perspective:900px;width:100%;max-width:340px;height:200px;cursor:pointer}
+.flip-card{
+  width:100%;height:100%;position:relative;transform-style:preserve-3d;
+  transition:transform .5s cubic-bezier(.4,.2,.2,1);
+}
+.flip-card.flipped{transform:rotateY(180deg)}
+.flip-face{
+  position:absolute;inset:0;border-radius:16px;backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:1.5rem;border:1px solid var(--border);background:var(--card);
+  box-shadow:0 8px 32px rgba(0,0,0,.45);
+}
+.flip-face::before{
+  content:'';position:absolute;inset:0 0 auto 0;height:3px;
+  border-radius:16px 16px 0 0;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+.flip-back{transform:rotateY(180deg);background:var(--card2)}
+.flip-thai{font-size:2rem;font-weight:600;color:var(--gold2)}
+.flip-hint{font-size:.75rem;color:var(--muted);margin-top:.5rem}
+.flip-en{font-size:1.4rem;color:var(--cream);font-weight:500;text-align:center}
+.flip-rom{font-size:.85rem;color:var(--cream2);font-style:italic;margin-top:.3rem}
+.study-acts{display:flex;gap:1rem;width:100%;max-width:340px}
+.btn-study{flex:1;padding:.82rem;border-radius:12px;font-family:'Prompt',sans-serif;font-size:.92rem;font-weight:600}
+.btn-nope{background:var(--red-soft);color:var(--red);border:1px solid rgba(226,104,90,.22)}
+.btn-got{background:rgba(90,170,128,.16);color:var(--green);border:1px solid rgba(90,170,128,.22)}
+.study-ct{font-size:.85rem;color:var(--muted);text-align:center}
+
+/* ── Journal ─────────────────────────────────────────────── */
+.journal-card{
+  background:var(--card);border:1px solid var(--border2);border-radius:14px;
+  overflow:hidden;cursor:pointer;transition:transform .15s;
+  position:relative;padding:.9rem 1rem;margin-bottom:.7rem;
+}
+.journal-card:active{transform:scale(.99)}
+.journal-card::before{
+  content:'';position:absolute;inset:0 0 auto 0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+.jc-title{font-family:'Prompt',sans-serif;font-size:.98rem;font-weight:600;color:var(--cream);margin-bottom:.22rem}
+.jc-preview{font-size:.82rem;color:var(--muted);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.jc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:.55rem}
+.jc-date{font-size:.72rem;color:var(--muted)}
+.entry-editor{display:none}
+.entry-editor.open{display:block;animation:fadeUp .22s ease}
+.entry-field{
+  width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:.75rem;color:var(--cream);font-size:1rem;line-height:1.75;resize:vertical;
+  min-height:140px;margin-bottom:.5rem;
+}
+.entry-field:focus{border-color:var(--gold)}
+.entry-title-in{
+  width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:.65rem .8rem;color:var(--cream);font-size:1rem;margin-bottom:.6rem;
+}
+.entry-title-in:focus{border-color:var(--gold)}
+.editor-acts{display:flex;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap}
+.entry-read{display:none}
+.entry-read.open{display:block;animation:fadeUp .22s ease}
+.ann-text{
+  font-size:1rem;line-height:2.1;color:var(--cream);
+  background:var(--card);border:1px solid var(--border2);border-radius:12px;
+  padding:1rem;margin-bottom:.75rem;word-break:break-all;
+}
+.ann-text.interactive .seg{cursor:text}
+.ann-text.interactive .seg:hover{background:rgba(200,148,58,.07);border-radius:3px}
+.chip{display:inline;cursor:pointer}
+.chip-orig{text-decoration:line-through;color:var(--red);font-size:.9em}
+.chip-arrow{color:var(--muted);font-size:.75em;margin:0 2px}
+.chip-corr{color:var(--green);font-weight:600}
+.chip-nb{
+  display:inline-block;background:none;border:none;font-size:.7em;cursor:pointer;
+  color:var(--muted);vertical-align:super;padding:0 2px;
+}
+.chip-note{
+  display:none;background:var(--card2);border:1px solid var(--border);border-radius:6px;
+  padding:.28rem .5rem;font-size:.78rem;color:var(--cream2);margin:0 3px;
+}
+.chip-note.open{display:inline-block}
+.feedback-box{
+  background:var(--card2);border:1px solid var(--border);border-radius:12px;
+  padding:.9rem 1rem;margin-top:.75rem;
+}
+.feedback-lbl{font-family:'Prompt',sans-serif;font-size:.72rem;color:var(--gold);
+  text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem}
+.feedback-txt{font-size:.88rem;color:var(--cream2);line-height:1.75}
+.pending-notice{
+  background:rgba(200,148,58,.09);border:1px solid var(--border);border-radius:10px;
+  padding:.65rem 1rem;text-align:center;font-size:.85rem;color:var(--gold2);margin-top:.75rem;
+}
+
+/* ── Teacher queue ────────────────────────────────────────── */
+.queue-sec{margin-bottom:1.25rem}
+.queue-lbl{
+  font-family:'Prompt',sans-serif;font-size:.72rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;
+}
+.review-hint{
+  font-size:.8rem;color:var(--muted);background:rgba(200,148,58,.07);
+  border:1px solid var(--border2);border-radius:8px;padding:.55rem .8rem;margin-bottom:.75rem;
+}
+.overall-ta{
+  width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:.7rem .8rem;color:var(--cream);font-size:.9rem;resize:vertical;
+  min-height:88px;margin:.75rem 0;
+}
+.overall-ta:focus{border-color:var(--gold)}
+.overall-ta::placeholder{color:var(--muted)}
+
+/* ── Annotation popup ─────────────────────────────────────── */
+#annot-popup{
+  position:fixed;z-index:500;background:var(--card2);border:1px solid var(--border);
+  border-radius:14px;padding:1rem;width:min(320px,92vw);
+  box-shadow:0 16px 48px rgba(0,0,0,.65);display:none;
+}
+#annot-popup.open{display:block;animation:fadeUp .18s ease}
+.pop-sel{
+  font-size:.85rem;color:var(--muted);margin-bottom:.6rem;
+  border-left:2px solid var(--gold);padding-left:.6rem;word-break:break-all;
+}
+.pop-input{
+  width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;
+  padding:.52rem .7rem;color:var(--cream);font-size:.9rem;margin-bottom:.45rem;
+}
+.pop-input:focus{border-color:var(--gold)}
+.pop-input::placeholder{color:var(--muted)}
+.pop-acts{display:flex;gap:.45rem}
+.pop-acts button{
+  flex:1;padding:.52rem;border-radius:8px;font-size:.8rem;
+  font-family:'Prompt',sans-serif;font-weight:500;
+}
+.pop-save{background:var(--gold);color:#0B0907}
+.pop-del{background:var(--red-soft);color:var(--red);border:1px solid rgba(226,104,90,.2)}
+.pop-can{background:var(--card);color:var(--cream2);border:1px solid var(--border)}
+
+/* ── Toast ────────────────────────────────────────────────── */
+#toast{
+  position:fixed;bottom:calc(var(--nav-h) + 14px);left:50%;
+  transform:translateX(-50%) translateY(16px);
+  background:var(--card2);border:1px solid var(--border);border-radius:30px;
+  padding:.48rem 1.25rem;font-size:.84rem;color:var(--cream2);
+  opacity:0;transition:opacity .25s,transform .25s;z-index:1000;
+  white-space:nowrap;font-family:'Prompt',sans-serif;pointer-events:none;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty-msg{color:var(--muted);text-align:center;padding:2.5rem 0;font-size:.9rem}
+</style>
 </head>
-<body><p>Loading...</p></body>
+<body>
+
+<!-- ══════════════ WELCOME ══════════════ -->
+<div id="welcome">
+  <div class="w-logo">🥋</div>
+  <div class="w-title">เรียนกับนิตา</div>
+  <div class="w-sub">Kru Nita's café-based Thai classes — notes, flashcards &amp; journal in one place</div>
+  <div class="w-pillars">
+    <div class="w-pillar"><span>📚</span>Notes</div>
+    <div class="w-pillar"><span>🃏</span>Cards</div>
+    <div class="w-pillar"><span>📓</span>Journal</div>
+  </div>
+  <input id="name-input" class="w-input" type="text" placeholder="Your name…" autocomplete="given-name">
+  <button class="btn-gold" onclick="loginStudent()">Start Learning</button>
+  <button class="btn-link" onclick="loginNita()">I'm Kru Nita (teacher login)</button>
+</div>
+
+<!-- ══════════════ APP SHELL ══════════════ -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-brand">เรียนกับนิตา</div>
+    <button class="role-badge" id="role-badge" onclick="switchRole()"></button>
+  </div>
+
+  <div class="content">
+
+    <!-- ── NOTES VIEW ── -->
+    <div id="view-notes" class="view">
+      <div class="sec-head">
+        <div class="sec-title">📚 Class Notes</div>
+        <button class="btn-sm pri" id="add-session-btn" onclick="toggleAddSession()" style="display:none">+ Add Session</button>
+      </div>
+      <div class="add-form" id="add-session-form">
+        <div class="form-row"><label>Topic (English)</label><input class="form-input" id="sf-en" placeholder="e.g. Greetings"></div>
+        <div class="form-row"><label>Topic (Thai)</label><input class="form-input" id="sf-th" placeholder="e.g. การทักทาย"></div>
+        <div class="form-row"><label>Location</label><input class="form-input" id="sf-loc" placeholder="e.g. Mango Café"></div>
+        <div class="form-row"><label>Nita's Note</label><textarea class="form-input" id="sf-note" rows="2" style="resize:vertical"></textarea></div>
+        <div class="form-actions">
+          <button class="btn-sm" onclick="toggleAddSession()">Cancel</button>
+          <button class="btn-sm pri" onclick="saveSession()">Save Session</button>
+        </div>
+      </div>
+      <div id="sessions-list"></div>
+      <div id="session-detail" style="display:none">
+        <button class="back-btn" onclick="closeSession()">← Back</button>
+        <div class="detail-title" id="sd-title"></div>
+        <div class="detail-meta" id="sd-meta"></div>
+        <div class="section-label">Vocabulary</div>
+        <div class="vocab-grid" id="sd-vocab"></div>
+        <div class="section-label" style="margin-top:1rem">Key Phrases</div>
+        <div id="sd-phrases"></div>
+        <div class="nita-box"><div class="nita-label">👩‍🏫 Nita's Note</div><div class="nita-note" id="sd-note"></div></div>
+        <button class="btn-full" onclick="addSessionCards()">Add This Session's Vocab to My Cards</button>
+      </div>
+    </div>
+
+    <!-- ── CARDS VIEW ── -->
+    <div id="view-cards" class="view">
+      <div class="sec-head">
+        <div class="sec-title">🃏 My Cards <span id="card-count" style="color:var(--muted);font-size:.85rem;font-family:'Sarabun',sans-serif;font-weight:400"></span></div>
+        <div style="display:flex;gap:.4rem">
+          <button class="btn-sm" onclick="toggleAddCard()">+ Add</button>
+          <button class="btn-sm pri" onclick="startStudy()">Study</button>
+        </div>
+      </div>
+      <div class="add-form" id="add-card-form">
+        <div class="form-row"><label>Thai</label><input class="form-input" id="cf-thai" placeholder="สวัสดี"></div>
+        <div class="form-row"><label>Romanized</label><input class="form-input" id="cf-rom" placeholder="sawadee"></div>
+        <div class="form-row"><label>English</label><input class="form-input" id="cf-en" placeholder="Hello"></div>
+        <div class="form-row"><label>Category</label><input class="form-input" id="cf-cat" placeholder="Greetings"></div>
+        <div class="form-actions">
+          <button class="btn-sm" onclick="toggleAddCard()">Cancel</button>
+          <button class="btn-sm pri" onclick="saveNewCard()">Save Card</button>
+        </div>
+      </div>
+      <div class="cards-grid" id="cards-grid"></div>
+    </div>
+
+    <!-- ── JOURNAL / REVIEWS VIEW ── -->
+    <div id="view-journal" class="view">
+
+      <!-- Student journal -->
+      <div id="student-journal">
+        <div class="entry-editor" id="entry-editor">
+          <div class="sec-head"><div class="sec-title">✏️ New Entry</div></div>
+          <input class="entry-title-in" id="entry-title-in" placeholder="Entry title…">
+          <textarea class="entry-field" id="entry-body-in" placeholder="Write in Thai…"></textarea>
+          <div class="editor-acts">
+            <button class="btn-sm" onclick="closeEditor()">Cancel</button>
+            <button class="btn-sm" onclick="saveDraft()">Save Draft</button>
+            <button class="btn-sm pri" onclick="submitJournal()">Submit to Nita</button>
+          </div>
+        </div>
+        <div class="entry-read" id="entry-read">
+          <button class="back-btn" onclick="closeEntryRead()">← Back</button>
+          <div class="detail-title" id="er-title"></div>
+          <div class="detail-meta" id="er-meta"></div>
+          <div class="ann-text" id="er-body"></div>
+          <div id="er-feedback"></div>
+        </div>
+        <div id="journal-list-area">
+          <button class="btn-full" style="margin-bottom:1rem" onclick="openEditor()">✏️ Write New Entry</button>
+          <div id="journal-list"></div>
+        </div>
+      </div>
+
+      <!-- Teacher reviews -->
+      <div id="teacher-reviews" style="display:none">
+        <div id="review-editor" style="display:none">
+          <button class="back-btn" onclick="closeReview()">← Back</button>
+          <div class="detail-title" id="rv-title"></div>
+          <div class="detail-meta" id="rv-meta"></div>
+          <div class="review-hint">Select any word or phrase in the text below to add a correction.</div>
+          <div class="ann-text interactive" id="rv-body"></div>
+          <textarea class="overall-ta" id="rv-comment" placeholder="Overall comment for the student…"></textarea>
+          <button class="btn-full" onclick="sendReview()">Send Feedback</button>
+        </div>
+        <div id="review-list-area">
+          <div class="sec-head"><div class="sec-title">📓 Journal Reviews</div></div>
+          <div id="review-queue"></div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- .content -->
+
+  <nav class="bottom-nav">
+    <div class="tab active" id="tab-notes" onclick="navTo('notes')"><div class="ti">📚</div><div>Notes</div></div>
+    <div class="tab" id="tab-cards" onclick="navTo('cards')"><div class="ti">🃏</div><div>Cards</div></div>
+    <div class="tab" id="tab-journal" onclick="navTo('journal')"><div class="ti">📓</div><div id="tab-j-lbl">Journal</div></div>
+  </nav>
+</div><!-- #app -->
+
+<!-- Study mode overlay -->
+<div id="study-mode">
+  <div class="study-hdr">
+    <button class="btn-sm" onclick="endStudy()">✕ Exit</button>
+    <div class="study-prog-bar"><div class="study-prog-fill" id="study-prog"></div></div>
+    <div class="study-ct" id="study-ct"></div>
+  </div>
+  <div class="study-body">
+    <div class="flip-wrapper" onclick="flipCard()">
+      <div class="flip-card" id="flip-card">
+        <div class="flip-face flip-front">
+          <div class="flip-thai" id="flip-thai"></div>
+          <div class="flip-hint">tap to reveal</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="flip-en" id="flip-en"></div>
+          <div class="flip-rom" id="flip-rom"></div>
+        </div>
+      </div>
+    </div>
+    <div class="study-acts">
+      <button class="btn-study btn-nope" onclick="studyNext(false)">Still Learning</button>
+      <button class="btn-study btn-got" onclick="studyNext(true)">Got It ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- Annotation popup -->
+<div id="annot-popup">
+  <div class="pop-sel" id="pop-sel"></div>
+  <input class="pop-input" id="pop-corr" placeholder="Correction…">
+  <input class="pop-input" id="pop-note" placeholder="Optional note (grammar tip, etc.)…">
+  <div class="pop-acts">
+    <button class="pop-save" onclick="saveAnnotation()">Save</button>
+    <button class="pop-del" id="pop-del" onclick="deleteAnnotation()">Delete</button>
+    <button class="pop-can" onclick="closeAnnotPopup()">Cancel</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════
+//  SEED DATA
+// ═══════════════════════════════════════
+const SEED = {
+  sessions:[
+    {
+      id:'s1',date:'2025-07-05',location:'Mango Café',
+      topicEn:'Greetings & Introduction',topicTh:'การทักทายและการแนะนำตัว',
+      vocab:[
+        {th:'สวัสดี',rom:'sawadee',en:'Hello / Goodbye'},
+        {th:'ขอบคุณ',rom:'khob khun',en:'Thank you'},
+        {th:'ชื่อ',rom:'chûe',en:'Name'},
+        {th:'ยินดีที่ได้รู้จัก',rom:'yin dee thi dai ruu jak',en:'Nice to meet you'},
+        {th:'มาจากไหน',rom:'maa jaak nai',en:'Where are you from?'}
+      ],
+      phrases:[
+        {th:'ผม/ฉันชื่อ…',en:'My name is…'},
+        {th:'คุณชื่ออะไร?',en:'What\'s your name?'},
+        {th:'ยินดีที่ได้รู้จักครับ/ค่ะ',en:'Nice to meet you (polite)'}
+      ],
+      note:'Remember to add ครับ (men) or ค่ะ (women) at the end of sentences to sound polite. Thai politeness particles are not optional in formal situations — Thais will immediately notice their absence!'
+    },
+    {
+      id:'s2',date:'2025-07-12',location:'The Bean Café',
+      topicEn:'Ordering at the Café',topicTh:'การสั่งอาหารที่คาเฟ่',
+      vocab:[
+        {th:'กาแฟ',rom:'gaa-fae',en:'Coffee'},
+        {th:'น้ำ',rom:'náam',en:'Water'},
+        {th:'อร่อย',rom:'a-roi',en:'Delicious'},
+        {th:'เผ็ด',rom:'pèt',en:'Spicy'},
+        {th:'เท่าไหร่',rom:'tao rai',en:'How much?'}
+      ],
+      phrases:[
+        {th:'ขอ… หนึ่งแก้วครับ/ค่ะ',en:'One … please'},
+        {th:'เผ็ดน้อยได้ไหม?',en:'Can you make it less spicy?'},
+        {th:'อร่อยมากเลยครับ/ค่ะ',en:'This is very delicious!'}
+      ],
+      note:'Thai uses classifiers (ลักษณนาม) after numbers — e.g. หนึ่งแก้ว (one glass), สองจาน (two plates). The classifier changes depending on the type of object. This takes practice!'
+    },
+    {
+      id:'s3',date:'2025-07-19',location:'Bloom Coffee',
+      topicEn:'Numbers & Time',topicTh:'ตัวเลขและเวลา',
+      vocab:[
+        {th:'หนึ่ง',rom:'nùeng',en:'One'},
+        {th:'สอง',rom:'sǒng',en:'Two'},
+        {th:'สาม',rom:'sǎam',en:'Three'},
+        {th:'ตอนนี้',rom:'dton née',en:'Right now / Currently'},
+        {th:'วันนี้',rom:'wan née',en:'Today'}
+      ],
+      phrases:[
+        {th:'ตอนนี้กี่โมง?',en:'What time is it now?'},
+        {th:'วันนี้วันอะไร?',en:'What day is it today?'},
+        {th:'เจอกันพรุ่งนี้นะ',en:'See you tomorrow!'}
+      ],
+      note:'Thai has two time systems: the formal 24-hour clock (นาฬิกา) and an informal 6-hour cycle system. Locals use the informal system daily — e.g. บ่ายสองโมง = 2 PM (literally "afternoon two bells").'
+    }
+  ],
+  cards:[
+    {id:'c1',thai:'สวัสดี',rom:'sawadee',en:'Hello / Goodbye',cat:'Greetings',status:'known'},
+    {id:'c2',thai:'ขอบคุณ',rom:'khob khun',en:'Thank you',cat:'Greetings',status:'known'},
+    {id:'c3',thai:'กาแฟ',rom:'gaa-fae',en:'Coffee',cat:'Café',status:'learning'},
+    {id:'c4',thai:'อร่อย',rom:'a-roi',en:'Delicious',cat:'Café',status:'learning'},
+    {id:'c5',thai:'เท่าไหร่',rom:'tao rai',en:'How much?',cat:'Shopping',status:'new'},
+    {id:'c6',thai:'หนึ่ง',rom:'nùeng',en:'One',cat:'Numbers',status:'known'},
+    {id:'c7',thai:'สอง',rom:'sǒng',en:'Two',cat:'Numbers',status:'learning'},
+    {id:'c8',thai:'วันนี้',rom:'wan née',en:'Today',cat:'Time',status:'new'}
+  ],
+  entries:[
+    {
+      id:'j1',author:'Alex',authorDisplay:'Alex',title:'วันแรกที่คาเฟ่',
+      date:'2025-07-06',
+      body:'วันนี้ฉันไปคาเฟ่กับเพื่อน ฉันสั่งกาแฟหนึ่งแก้ว กาแฟอร่อยมาก ฉันพูดภาษาไทยกับพนักงาน เขาใจดีมาก',
+      status:'reviewed',
+      annotations:[
+        {id:'a1',start:42,end:50,original:'พูดภาษา',correction:'พูดภาษาไทย',note:'Always include ไทย after พูดภาษา to specify the language'},
+        {id:'a2',start:61,end:63,original:'เขา',correction:'พนักงาน',note:'Use พนักงาน (staff/employee) instead of เขา (he) for clarity'}
+      ],
+      nitaComment:'Very good first entry Alex! Your sentence structure is natural and easy to follow. Keep practising the polite particles ครับ/ค่ะ at the end of your sentences — it will make a big difference!'
+    },
+    {
+      id:'j2',author:'Alex',authorDisplay:'Alex',title:'ฉันชอบอาหารไทย',
+      date:'2025-07-13',
+      body:'ฉันชอบอาหารไทยมาก อาหารไทยอร่อยและเผ็ด วันนี้ฉันกินส้มตำกับข้าวเหนียว ฉันกินเผ็ดมากไม่ได้ แต่ฉันพยายาม',
+      status:'submitted',
+      annotations:[],
+      nitaComment:''
+    }
+  ]
+};
+
+// ═══════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════
+var S = {user:'',role:'student',sessions:[],cards:[],entries:[]};
+var studyQ=[], studyIdx=0;
+var currentSessionId=null, currentReviewId=null;
+var annCtx={journalId:null,editingId:null,selStart:0,selEnd:0,selText:''};
+
+// ═══════════════════════════════════════
+//  STORAGE
+// ═══════════════════════════════════════
+function loadData(){
+  var raw=localStorage.getItem('nita_data');
+  if(raw){try{return JSON.parse(raw);}catch(e){}}
+  localStorage.setItem('nita_data',JSON.stringify(SEED));
+  return JSON.parse(JSON.stringify(SEED));
+}
+function save(){
+  localStorage.setItem('nita_data',JSON.stringify({
+    sessions:S.sessions,cards:S.cards,entries:S.entries
+  }));
+}
+
+// ═══════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════
+function loginStudent(){
+  var name=document.getElementById('name-input').value.trim();
+  if(!name){toast('Please enter your name');return;}
+  localStorage.setItem('nita_user',name);
+  localStorage.setItem('nita_role','student');
+  localStorage.setItem('nita_last_student',name);
+  startApp(name,'student');
+}
+function loginNita(){
+  localStorage.setItem('nita_user','Kru Nita');
+  localStorage.setItem('nita_role','teacher');
+  startApp('Kru Nita','teacher');
+}
+function startApp(user,role){
+  S.user=user; S.role=role;
+  var d=loadData();
+  S.sessions=d.sessions; S.cards=d.cards; S.entries=d.entries;
+  document.getElementById('welcome').classList.add('out');
+  document.getElementById('app').classList.add('visible');
+  updateBadge();
+  applyRoleUI();
+  navTo('notes');
+}
+function switchRole(){
+  var nr=S.role==='teacher'?'student':'teacher';
+  S.role=nr;
+  if(nr==='student'){
+    var ls=localStorage.getItem('nita_last_student')||'Alex';
+    S.user=ls;
+  } else {
+    S.user='Kru Nita';
+  }
+  localStorage.setItem('nita_role',nr);
+  localStorage.setItem('nita_user',S.user);
+  updateBadge(); applyRoleUI(); navTo('notes');
+  toast('Switched to '+(nr==='teacher'?'teacher':'student')+' view');
+}
+function updateBadge(){
+  document.getElementById('role-badge').textContent=
+    S.role==='teacher'?'👩‍🏫 Kru Nita':'🎓 '+S.user;
+}
+function applyRoleUI(){
+  var isT=S.role==='teacher';
+  document.getElementById('add-session-btn').style.display=isT?'':'none';
+  document.getElementById('student-journal').style.display=isT?'none':'';
+  document.getElementById('teacher-reviews').style.display=isT?'':'none';
+  document.getElementById('tab-j-lbl').textContent=isT?'Reviews':'Journal';
+}
+
+// ═══════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════
+function navTo(t){
+  ['notes','cards','journal'].forEach(function(v){
+    document.getElementById('view-'+v).classList.remove('active');
+    document.getElementById('tab-'+v).classList.remove('active');
+  });
+  document.getElementById('view-'+t).classList.add('active');
+  document.getElementById('tab-'+t).classList.add('active');
+  closeAnnotPopup();
+  if(t==='notes') renderSessions();
+  if(t==='cards') renderCards();
+  if(t==='journal'){S.role==='teacher'?renderNitaQueue():renderJournalList();}
+}
+
+// ═══════════════════════════════════════
+//  NOTES
+// ═══════════════════════════════════════
+function renderSessions(){
+  document.getElementById('sessions-list').style.display='';
+  document.getElementById('session-detail').style.display='none';
+  document.getElementById('sessions-list').innerHTML=S.sessions.map(function(s){
+    return '<div class="session-card" onclick="openSession(\''+s.id+'\')">'+'<div class="sc-meta">'+esc(fmtDate(s.date))+' &middot; '+esc(s.location)+'</div>'+'<div class="sc-topic">'+esc(s.topicTh)+'</div>'+'<div class="sc-sub">'+esc(s.topicEn)+'</div>'+'<div class="sc-pills">'+'<span class="pill pill-g">'+s.vocab.length+' vocab</span>'+'<span class="pill pill-m">'+s.phrases.length+' phrases</span>'+'</div></div>';
+  }).join('');
+}
+
+function openSession(id){
+  var s=S.sessions.find(function(x){return x.id===id;});
+  if(!s) return;
+  currentSessionId=id;
+  document.getElementById('sessions-list').style.display='none';
+  document.getElementById('session-detail').style.display='block';
+  document.getElementById('sd-title').textContent=s.topicTh+' — '+s.topicEn;
+  document.getElementById('sd-meta').textContent=fmtDate(s.date)+' · '+s.location;
+  document.getElementById('sd-vocab').innerHTML=s.vocab.map(function(v){
+    return '<div class="vocab-card">'+'<div class="vc-th">'+esc(v.th)+'</div>'+'<div class="vc-rom">'+esc(v.rom)+'</div>'+'<div class="vc-en">'+esc(v.en)+'</div>'+'</div>';
+  }).join('');
+  document.getElementById('sd-phrases').innerHTML=s.phrases.map(function(p){
+    return '<div class="phrase-item">'+'<div class="ph-th">'+esc(p.th)+'</div>'+'<div class="ph-en">'+esc(p.en)+'</div>'+'</div>';
+  }).join('');
+  document.getElementById('sd-note').textContent=s.note;
+}
+
+function closeSession(){
+  currentSessionId=null;
+  document.getElementById('session-detail').style.display='none';
+  document.getElementById('sessions-list').style.display='';
+}
+
+function addSessionCards(){
+  var s=S.sessions.find(function(x){return x.id===currentSessionId;});
+  if(!s) return;
+  var added=0;
+  s.vocab.forEach(function(v){
+    if(!S.cards.find(function(c){return c.thai===v.th;})){
+      S.cards.push({
+        id:'c'+Date.now()+'r'+Math.random().toString(36).slice(2,6),
+        thai:v.th,rom:v.rom,en:v.en,cat:s.topicEn,status:'new'
+      });
+      added++;
+    }
+  });
+  save();
+  toast(added?'Added '+added+' card'+(added>1?'s':'')+' to your deck!':'All vocab already in your deck');
+}
+
+function toggleAddSession(){
+  document.getElementById('add-session-form').classList.toggle('open');
+}
+function saveSession(){
+  var en=document.getElementById('sf-en').value.trim();
+  var th=document.getElementById('sf-th').value.trim();
+  var loc=document.getElementById('sf-loc').value.trim();
+  var note=document.getElementById('sf-note').value.trim();
+  if(!en||!th){toast('Please fill in both topic fields');return;}
+  S.sessions.unshift({
+    id:'s'+Date.now(),date:new Date().toISOString().slice(0,10),
+    location:loc||'Café class',topicEn:en,topicTh:th,
+    vocab:[],phrases:[],note:note||''
+  });
+  save();
+  ['sf-en','sf-th','sf-loc','sf-note'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('add-session-form').classList.remove('open');
+  renderSessions();
+  toast('Session added!');
+}
+
+// ═══════════════════════════════════════
+//  CARDS
+// ═══════════════════════════════════════
+function renderCards(){
+  document.getElementById('card-count').textContent='('+S.cards.length+')';
+  document.getElementById('cards-grid').innerHTML=S.cards.map(function(c){
+    return '<div class="card-item'+(c.status==='known'?' known':'')+'" onclick="toggleCardStatus(\''+c.id+'\')">'+'<div class="known-mark">✓</div>'+'<div class="ci-thai">'+esc(c.thai)+'</div>'+'<div class="ci-rom">'+esc(c.rom)+'</div>'+'<div class="ci-en">'+esc(c.en)+'</div>'+'<div class="ci-cat"><span class="pill pill-g">'+esc(c.cat)+'</span></div>'+'</div>';
+  }).join('');
+}
+
+function toggleCardStatus(id){
+  var c=S.cards.find(function(x){return x.id===id;});
+  if(!c) return;
+  c.status=c.status==='known'?'learning':'known';
+  save(); renderCards();
+}
+function toggleAddCard(){
+  document.getElementById('add-card-form').classList.toggle('open');
+}
+function saveNewCard(){
+  var thai=document.getElementById('cf-thai').value.trim();
+  var rom=document.getElementById('cf-rom').value.trim();
+  var en=document.getElementById('cf-en').value.trim();
+  var cat=document.getElementById('cf-cat').value.trim();
+  if(!thai||!en){toast('Thai and English fields are required');return;}
+  S.cards.push({id:'c'+Date.now(),thai:thai,rom:rom,en:en,cat:cat||'General',status:'new'});
+  save();
+  ['cf-thai','cf-rom','cf-en','cf-cat'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('add-card-form').classList.remove('open');
+  renderCards();
+  toast('Card added!');
+}
+
+// ═══════════════════════════════════════
+//  STUDY MODE
+// ═══════════════════════════════════════
+function startStudy(){
+  studyQ=S.cards.filter(function(c){return c.status!=='known';});
+  if(!studyQ.length) studyQ=S.cards.slice();
+  if(!studyQ.length){toast('No cards to study!');return;}
+  for(var i=studyQ.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=studyQ[i];studyQ[i]=studyQ[j];studyQ[j]=tmp;
+  }
+  studyIdx=0;
+  document.getElementById('study-mode').classList.add('open');
+  loadStudyCard();
+}
+function loadStudyCard(){
+  var total=studyQ.length;
+  document.getElementById('study-prog').style.width=((studyIdx/total)*100)+'%';
+  document.getElementById('study-ct').textContent=(studyIdx+1)+'/'+total;
+  var c=studyQ[studyIdx];
+  document.getElementById('flip-thai').textContent=c.thai;
+  document.getElementById('flip-en').textContent=c.en;
+  document.getElementById('flip-rom').textContent=c.rom;
+  document.getElementById('flip-card').classList.remove('flipped');
+}
+function flipCard(){document.getElementById('flip-card').classList.toggle('flipped');}
+function studyNext(ok){
+  if(ok){
+    var c=S.cards.find(function(x){return x.id===studyQ[studyIdx].id;});
+    if(c){c.status='known';save();}
+  }
+  studyIdx++;
+  if(studyIdx>=studyQ.length){endStudy();renderCards();toast('Study session complete!');return;}
+  loadStudyCard();
+}
+function endStudy(){document.getElementById('study-mode').classList.remove('open');}
+
+// ═══════════════════════════════════════
+//  JOURNAL (STUDENT)
+// ═══════════════════════════════════════
+function renderJournalList(){
+  closeEntryRead(); closeEditor();
+  var mine=S.entries.filter(function(e){return e.author===S.user||S.user==='Alex';});
+  document.getElementById('journal-list').innerHTML=mine.length?mine.map(function(e){
+    return '<div class="journal-card" onclick="openEntry(\''+e.id+'\')">'+'<div class="jc-title">'+esc(e.title)+'</div>'+'<div class="jc-preview">'+esc(e.body.slice(0,80))+(e.body.length>80?'…':'')+'</div>'+'<div class="jc-foot"><div class="jc-date">'+fmtDate(e.date)+'</div>'+statusPill(e.status)+'</div>'+'</div>';
+  }).join(''):'<div class="empty-msg">No entries yet. Write your first entry!</div>';
+}
+function statusPill(s){
+  if(s==='reviewed') return '<span class="pill pill-v">✓ Reviewed</span>';
+  if(s==='submitted') return '<span class="pill pill-g">📤 Submitted</span>';
+  return '<span class="pill pill-m">Draft</span>';
+}
+function openEditor(){
+  document.getElementById('journal-list-area').style.display='none';
+  document.getElementById('entry-read').classList.remove('open');
+  document.getElementById('entry-editor').classList.add('open');
+  document.getElementById('entry-title-in').value='';
+  document.getElementById('entry-body-in').value='';
+}
+function closeEditor(){
+  document.getElementById('entry-editor').classList.remove('open');
+  document.getElementById('journal-list-area').style.display='';
+}
+function saveDraft(){
+  var title=document.getElementById('entry-title-in').value.trim();
+  var body=document.getElementById('entry-body-in').value.trim();
+  if(!title||!body){toast('Please fill in title and body');return;}
+  S.entries.push({
+    id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,
+    date:new Date().toISOString().slice(0,10),status:'draft',annotations:[],nitaComment:''
+  });
+  save(); closeEditor(); renderJournalList(); toast('Draft saved!');
+}
+function submitJournal(){
+  var title=document.getElementById('entry-title-in').value.trim();
+  var body=document.getElementById('entry-body-in').value.trim();
+  if(!title||!body){toast('Please fill in title and body');return;}
+  S.entries.push({
+    id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,
+    date:new Date().toISOString().slice(0,10),status:'submitted',annotations:[],nitaComment:''
+  });
+  save(); closeEditor(); renderJournalList(); toast('Submitted to Kru Nita!');
+}
+function openEntry(id){
+  var e=S.entries.find(function(x){return x.id===id;});
+  if(!e) return;
+  document.getElementById('journal-list-area').style.display='none';
+  document.getElementById('entry-editor').classList.remove('open');
+  document.getElementById('entry-read').classList.add('open');
+  document.getElementById('er-title').textContent=e.title;
+  document.getElementById('er-meta').textContent=fmtDate(e.date);
+  document.getElementById('er-body').innerHTML=renderAnnotatedText(e.body,e.annotations,{interactive:false});
+  var fb=document.getElementById('er-feedback');
+  if(e.status==='reviewed'&&e.nitaComment){
+    fb.innerHTML='<div class="feedback-box"><div class="feedback-lbl">👩‍🏫 Nita\'s Feedback</div><div class="feedback-txt">'+esc(e.nitaComment)+'</div></div>';
+  } else if(e.status==='submitted'){
+    fb.innerHTML='<div class="pending-notice">📤 Submitted — waiting for Kru Nita\'s review</div>';
+  } else {
+    fb.innerHTML='';
+  }
+}
+function closeEntryRead(){
+  document.getElementById('entry-read').classList.remove('open');
+  document.getElementById('journal-list-area').style.display='';
+}
+
+// ═══════════════════════════════════════
+//  TEACHER REVIEWS
+// ═══════════════════════════════════════
+function renderNitaQueue(){
+  closeReview();
+  var waiting=S.entries.filter(function(e){return e.status==='submitted';});
+  var done=S.entries.filter(function(e){return e.status==='reviewed';});
+  var html='';
+  if(waiting.length){
+    html+='<div class="queue-sec"><div class="queue-lbl">⏳ Waiting for Review ('+waiting.length+')</div>';
+    html+=waiting.map(reviewCard).join('');
+    html+='</div>';
+  }
+  if(done.length){
+    html+='<div class="queue-sec"><div class="queue-lbl">✓ Already Reviewed ('+done.length+')</div>';
+    html+=done.map(reviewCard).join('');
+    html+='</div>';
+  }
+  if(!waiting.length&&!done.length) html='<div class="empty-msg">No journal entries submitted yet.</div>';
+  document.getElementById('review-queue').innerHTML=html;
+}
+function reviewCard(e){
+  return '<div class="journal-card" onclick="openReview(\''+e.id+'\')">'+'<div class="jc-title">'+esc(e.title)+'</div>'+'<div class="jc-preview">By '+esc(e.authorDisplay)+' &mdash; '+esc(e.body.slice(0,60))+'…</div>'+'<div class="jc-foot"><div class="jc-date">'+fmtDate(e.date)+'</div>'+statusPill(e.status)+'</div>'+'</div>';
+}
+function openReview(id){
+  var e=S.entries.find(function(x){return x.id===id;});
+  if(!e) return;
+  currentReviewId=id;
+  annCtx.journalId=id; annCtx.editingId=null;
+  document.getElementById('review-list-area').style.display='none';
+  document.getElementById('review-editor').style.display='block';
+  document.getElementById('rv-title').textContent=e.title;
+  document.getElementById('rv-meta').textContent='By '+e.authorDisplay+' · '+fmtDate(e.date);
+  document.getElementById('rv-comment').value=e.nitaComment||'';
+  renderReviewBody(e);
+  var body=document.getElementById('rv-body');
+  body.onmouseup=onPossibleSelection;
+  body.ontouchend=onPossibleSelection;
+}
+function renderReviewBody(e){
+  document.getElementById('rv-body').innerHTML=
+    renderAnnotatedText(e.body,e.annotations,{interactive:true,journalId:e.id});
+}
+function closeReview(){
+  currentReviewId=null; annCtx.journalId=null;
+  document.getElementById('review-editor').style.display='none';
+  document.getElementById('review-list-area').style.display='';
+  closeAnnotPopup();
+}
+function sendReview(){
+  var id=currentReviewId;
+  var e=S.entries.find(function(x){return x.id===id;});
+  if(!e) return;
+  e.status='reviewed';
+  e.nitaComment=document.getElementById('rv-comment').value.trim();
+  save(); closeReview(); renderNitaQueue(); toast('Feedback sent!');
+}
+
+// ═══════════════════════════════════════
+//  ANNOTATION SYSTEM
+// ═══════════════════════════════════════
+function renderAnnotatedText(body,annotations,opts){
+  opts=opts||{};
+  var interactive=opts.interactive||false;
+  var jid=opts.journalId||null;
+  var anns=(annotations||[]).slice().sort(function(a,b){return a.start-b.start;});
+  var result='';
+  var cursor=0;
+  anns.forEach(function(a){
+    if(a.start>cursor) result+=mkSeg(body.slice(cursor,a.start),cursor,interactive);
+    result+=renderChip(a,{interactive:interactive,journalId:jid});
+    cursor=a.end;
+  });
+  if(cursor<body.length) result+=mkSeg(body.slice(cursor),cursor,interactive);
+  return result;
+}
+
+function mkSeg(text,start,interactive){
+  if(!text) return '';
+  return '<span class="seg" data-start="'+start+'">'+esc(text)+'</span>';
+}
+
+function renderChip(a,opts){
+  var interactive=opts&&opts.interactive;
+  var jid=opts&&opts.journalId;
+  var click=interactive?' onclick="editAnnotation(\''+jid+'\',\''+a.id+'\')"':'';
+  var noteHtml=a.note?
+    '<button class="chip-nb" onclick="toggleNote(\''+a.id+'\');event.stopPropagation()">💬</button>'+'<span class="chip-note" id="cn-'+a.id+'">'+esc(a.note)+'</span>':'';
+  return '<span class="chip"'+click+'>'+'<span class="chip-orig">'+esc(a.original)+'</span>'+'<span class="chip-arrow">→</span>'+'<span class="chip-corr">'+esc(a.correction)+'</span>'+noteHtml+'</span>';
+}
+
+function toggleNote(id){
+  var el=document.getElementById('cn-'+id);
+  if(el) el.classList.toggle('open');
+}
+
+function onPossibleSelection(){
+  setTimeout(function(){
+    var sel=window.getSelection();
+    if(!sel||sel.isCollapsed||!sel.toString().trim()) return;
+    var range=sel.getRangeAt(0);
+    var startSeg=findSeg(range.startContainer);
+    var endSeg=findSeg(range.endContainer);
+    if(!startSeg||!endSeg) return;
+    var ss=parseInt(startSeg.dataset.start,10);
+    var es=parseInt(endSeg.dataset.start,10);
+    var absStart=ss+range.startOffset;
+    var absEnd=es+range.endOffset;
+    if(absStart>=absEnd) return;
+    var e=S.entries.find(function(x){return x.id===annCtx.journalId;});
+    if(!e) return;
+    annCtx.editingId=null;
+    annCtx.selStart=absStart;
+    annCtx.selEnd=absEnd;
+    annCtx.selText=e.body.slice(absStart,absEnd);
+    var rect=range.getBoundingClientRect();
+    sel.removeAllRanges();
+    openAnnotPopup(rect);
+  },10);
+}
+
+function findSeg(node){
+  var n=node;
+  while(n&&n!==document.body){
+    if(n.nodeType===1&&n.classList&&n.classList.contains('seg')) return n;
+    n=n.parentNode;
+  }
+  return null;
+}
+
+function openAnnotPopup(rect){
+  var popup=document.getElementById('annot-popup');
+  document.getElementById('pop-sel').textContent=annCtx.selText;
+  document.getElementById('pop-corr').value=annCtx.editingId?
+    (function(){var e=S.entries.find(function(x){return x.id===annCtx.journalId;});
+    var a=e&&e.annotations.find(function(a){return a.id===annCtx.editingId;});
+    return a?a.correction:'';}()):'';
+  document.getElementById('pop-note').value=annCtx.editingId?
+    (function(){var e=S.entries.find(function(x){return x.id===annCtx.journalId;});
+    var a=e&&e.annotations.find(function(a){return a.id===annCtx.editingId;});
+    return a&&a.note?a.note:'';}()):'';
+  document.getElementById('pop-del').style.display=annCtx.editingId?'':'none';
+  var pw=Math.min(320,window.innerWidth*0.9);
+  var top=rect?(rect.bottom+window.scrollY+8):(window.innerHeight/2);
+  var left=rect?rect.left:Math.max(8,(window.innerWidth-pw)/2);
+  if(left+pw>window.innerWidth-8) left=window.innerWidth-pw-8;
+  if(top+220>window.innerHeight+window.scrollY&&rect) top=rect.top+window.scrollY-228;
+  popup.style.top=Math.max(8,top)+'px';
+  popup.style.left=Math.max(8,left)+'px';
+  popup.classList.add('open');
+  document.getElementById('pop-corr').focus();
+}
+
+function closeAnnotPopup(){
+  document.getElementById('annot-popup').classList.remove('open');
+  annCtx.editingId=null;
+}
+
+function saveAnnotation(){
+  var corr=document.getElementById('pop-corr').value.trim();
+  if(!corr){toast('Please enter a correction');return;}
+  var note=document.getElementById('pop-note').value.trim();
+  var e=S.entries.find(function(x){return x.id===annCtx.journalId;});
+  if(!e) return;
+  if(annCtx.editingId){
+    var ann=e.annotations.find(function(a){return a.id===annCtx.editingId;});
+    if(ann){ann.correction=corr;ann.note=note;}
+  } else {
+    e.annotations.push({
+      id:'a'+Date.now(),
+      start:annCtx.selStart,end:annCtx.selEnd,
+      original:annCtx.selText,correction:corr,note:note
+    });
+  }
+  save(); closeAnnotPopup(); renderReviewBody(e); toast('Annotation saved!');
+}
+
+function deleteAnnotation(){
+  if(!annCtx.editingId) return;
+  var e=S.entries.find(function(x){return x.id===annCtx.journalId;});
+  if(!e) return;
+  e.annotations=e.annotations.filter(function(a){return a.id!==annCtx.editingId;});
+  save(); closeAnnotPopup(); renderReviewBody(e); toast('Annotation removed');
+}
+
+function editAnnotation(journalId,annId){
+  var e=S.entries.find(function(x){return x.id===journalId;});
+  if(!e) return;
+  var ann=e.annotations.find(function(a){return a.id===annId;});
+  if(!ann) return;
+  annCtx.journalId=journalId;
+  annCtx.editingId=annId;
+  annCtx.selText=ann.original;
+  annCtx.selStart=ann.start;
+  annCtx.selEnd=ann.end;
+  var cx=window.innerWidth/2;
+  var cy=window.innerHeight/2;
+  openAnnotPopup({bottom:cy+20,left:cx-140,top:cy-200});
+}
+
+// ═══════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════
+function esc(s){
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+function fmtDate(d){
+  var dt=new Date(d+'T00:00:00');
+  return dt.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+}
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t=setTimeout(function(){t.classList.remove('show');},2600);
+}
+
+// ═══════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════
+(function(){
+  var user=localStorage.getItem('nita_user');
+  var role=localStorage.getItem('nita_role');
+  if(user&&role){startApp(user,role);return;}
+  // Welcome screen: press Enter on name input
+  document.getElementById('name-input').addEventListener('keydown',function(e){
+    if(e.key==='Enter') loginStudent();
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape') closeAnnotPopup();
+  });
+})();
+</script>
+</body>
 </html>
