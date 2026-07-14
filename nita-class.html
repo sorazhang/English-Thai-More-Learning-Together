@@ -69,18 +69,37 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   display:flex;flex-direction:column;gap:.85rem;
 }
 .gallery-track{
-  display:flex;width:max-content;
-  animation:gallery-scroll 40s linear infinite;
-}
-.gallery-track:hover{animation-play-state:paused}
-@keyframes gallery-scroll{
-  0%{transform:translateX(0)}
-  100%{transform:translateX(-50%)}
+  display:flex;
+  transition:transform .45s cubic-bezier(.4,0,.2,1);
+  will-change:transform;
 }
 .g-photo{
   width:100vw;flex-shrink:0;
   position:relative;overflow:hidden;
 }
+/* Arrow nav buttons */
+.g-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:5;
+  background:rgba(11,9,7,.55);border:1px solid rgba(200,148,58,.3);
+  border-radius:50%;width:42px;height:42px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;line-height:1;color:var(--gold2);cursor:pointer;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  transition:background .2s,border-color .2s;user-select:none;
+}
+.g-arrow:hover{background:rgba(200,148,58,.22);border-color:rgba(200,148,58,.6)}
+.g-arrow.prev{left:.65rem}
+.g-arrow.next{right:.65rem}
+/* Dot indicators */
+.g-dots{
+  position:absolute;bottom:.55rem;left:50%;transform:translateX(-50%);
+  display:flex;gap:.4rem;z-index:5;pointer-events:none;
+}
+.g-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,.3);transition:background .25s,transform .25s;
+}
+.g-dot.active{background:var(--gold2);transform:scale(1.35)}
 .g-photo img{
   width:100%;height:auto;display:block;
   filter:brightness(.82) saturate(1.15);transition:filter .3s;
@@ -664,8 +683,7 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   <div class="w-hero">
   <div class="w-gallery">
 
-    <div class="gallery-track">
-      <!-- Set 1 -->
+    <div class="gallery-track" id="gallery-track">
       <div class="g-photo">
         <img src="images/nita/IMG-20260712-WA0006.jpg" alt="Café garden"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -696,37 +714,15 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
         <div class="g-ph" style="display:none">🌳</div>
         <div class="g-label"><div class="g-label-main">The Full Experience</div><div class="g-label-sub">Under the trees at Loop Café</div></div>
       </div>
-      <!-- Set 2 (duplicate for seamless loop) -->
-      <div class="g-photo">
-        <img src="images/nita/IMG-20260712-WA0006.jpg" alt="" aria-hidden="true"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="g-ph" style="display:none">🌿</div>
-        <div class="g-label"><div class="g-label-main">Loop Café Garden</div><div class="g-label-sub">Our open-air classroom</div></div>
-      </div>
-      <div class="g-photo">
-        <img src="images/nita/IMG-20260712-WA0007.jpg" alt="" aria-hidden="true"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="g-ph" style="display:none">🃏</div>
-        <div class="g-label"><div class="g-label-main">Ready to Learn</div><div class="g-label-sub">Flashcards &amp; worksheets</div></div>
-      </div>
-      <div class="g-photo">
-        <img src="images/nita/IMG-20260712-WA0008.jpg" alt="" aria-hidden="true"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="g-ph" style="display:none">👥</div>
-        <div class="g-label"><div class="g-label-main">Session in Full Swing</div><div class="g-label-sub">Real conversations, real Thai</div></div>
-      </div>
-      <div class="g-photo">
-        <img src="images/nita/IMG-20260712-WA0009.jpg" alt="" aria-hidden="true"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="g-ph" style="display:none">👩‍🏫</div>
-        <div class="g-label"><div class="g-label-main">Kru Nita in Action</div><div class="g-label-sub">Small groups, big progress</div></div>
-      </div>
-      <div class="g-photo">
-        <img src="images/nita/IMG-20260712-WA0010.jpg" alt="" aria-hidden="true"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="g-ph" style="display:none">🌳</div>
-        <div class="g-label"><div class="g-label-main">The Full Experience</div><div class="g-label-sub">Under the trees at Loop Café</div></div>
-      </div>
+    </div>
+    <button class="g-arrow prev" onclick="galleryMove(-1)" aria-label="Previous photo">&#8249;</button>
+    <button class="g-arrow next" onclick="galleryMove(1)" aria-label="Next photo">&#8250;</button>
+    <div class="g-dots" id="g-dots">
+      <div class="g-dot active"></div>
+      <div class="g-dot"></div>
+      <div class="g-dot"></div>
+      <div class="g-dot"></div>
+      <div class="g-dot"></div>
     </div>
   </div>
   <!-- Login overlay -->
@@ -1182,6 +1178,24 @@ function loadData(){
 function save(){
   localStorage.setItem('nita_data',JSON.stringify({sessions:S.sessions,cards:S.cards,entries:S.entries}));
 }
+/* ── Photo gallery ── */
+var galleryIdx=0,GALLERY_TOTAL=5,galleryTouchX=0;
+function galleryMove(dir){
+  galleryIdx=(galleryIdx+dir+GALLERY_TOTAL)%GALLERY_TOTAL;
+  var track=document.getElementById('gallery-track');
+  if(track) track.style.transform='translateX(calc(-'+galleryIdx+'*100vw))';
+  document.querySelectorAll('.g-dot').forEach(function(d,i){d.classList.toggle('active',i===galleryIdx);});
+}
+(function(){
+  var g=document.querySelector('.w-gallery');
+  if(!g) return;
+  g.addEventListener('touchstart',function(e){galleryTouchX=e.touches[0].clientX;},{passive:true});
+  g.addEventListener('touchend',function(e){
+    var dx=e.changedTouches[0].clientX-galleryTouchX;
+    if(Math.abs(dx)>40) galleryMove(dx<0?1:-1);
+  },{passive:true});
+})();
+
 document.getElementById('name-input').addEventListener('focus',function(){
   setTimeout(function(){document.getElementById('name-input').scrollIntoView({behavior:'smooth',block:'center'});},320);
 });
