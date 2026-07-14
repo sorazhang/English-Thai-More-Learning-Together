@@ -1632,11 +1632,22 @@ function statusPill(s){
 }
 /* ── Journal image helpers ── */
 var jImgs=[];
+var MAX_IMG_BYTES=2*1024*1024; /* 2 MB limit per image */
 function handleJournalImages(input){
-  Array.from(input.files).forEach(function(file){
+  var skipped=0;
+  var files=Array.from(input.files);
+  files.forEach(function(file){
+    /* Reject files that are wildly oversized even before compression (>15 MB) */
+    if(file.size>15*1024*1024){skipped++;
+      if(skipped===files.length) toast('Images too large to process (max ~15 MB original)');
+      return;
+    }
     var reader=new FileReader();
     reader.onload=function(e){
       resizeJImg(e.target.result,function(resized){
+        if(resized===null){
+          toast('One image could not fit under 2 MB — skipped');return;
+        }
         jImgs.push(resized);
         renderJImgStrip();
       });
@@ -1653,7 +1664,16 @@ function resizeJImg(src,cb){
     var c=document.createElement('canvas');
     c.width=w;c.height=h;
     c.getContext('2d').drawImage(img,0,0,w,h);
-    cb(c.toDataURL('image/jpeg',0.78));
+    /* Try reducing quality until output is under MAX_IMG_BYTES */
+    var quality=0.78;
+    var result;
+    while(quality>=0.3){
+      result=c.toDataURL('image/jpeg',quality);
+      /* base64 overhead: actual bytes ≈ length * 0.75 */
+      if(result.length*0.75<=MAX_IMG_BYTES) break;
+      quality=Math.round((quality-0.1)*10)/10;
+    }
+    cb(result.length*0.75<=MAX_IMG_BYTES?result:null);
   };
   img.src=src;
 }
