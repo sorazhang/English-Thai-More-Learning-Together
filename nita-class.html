@@ -680,6 +680,15 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 #img-viewer.open{display:flex}
 #img-viewer-img{max-width:96vw;max-height:90vh;border-radius:8px;object-fit:contain}
 #img-viewer-close{position:absolute;top:.9rem;right:.9rem;color:#fff;font-size:1.5rem;cursor:pointer;background:rgba(0,0,0,.45);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:none}
+.btn-share-ig{
+  width:100%;margin-top:1.1rem;padding:.82rem;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;gap:.55rem;
+  font-family:'Prompt',sans-serif;font-size:.95rem;font-weight:600;
+  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+  color:#fff;cursor:pointer;border:none;transition:opacity .2s;
+}
+.btn-share-ig:active{opacity:.85}
+.share-ig-icon{font-size:1.2rem;line-height:1}
 
 .entry-editor{display:none}
 .entry-editor.open{display:block;animation:fadeUp .22s ease}
@@ -1077,6 +1086,10 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
           <div id="er-images"></div>
           <div class="ann-text" id="er-body"></div>
           <div id="er-feedback"></div>
+          <button class="btn-share-ig" id="btn-share-ig" onclick="shareJournal()">
+            <span class="share-ig-icon">📸</span>
+            <span>Share to Instagram</span>
+          </button>
         </div>
         <div id="journal-list-area">
           <button class="btn-full" style="margin-bottom:1rem" onclick="openEditor()">✏️ Write New Entry</button>
@@ -1693,7 +1706,9 @@ function submitJournal(){
   S.entries.push({id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,images:jImgs.slice(),date:new Date().toISOString().slice(0,10),status:'submitted',annotations:[],nitaComment:''});
   save(); closeEditor(); renderJournalList(); toast('Submitted to Kru Nita!');
 }
+var currentJournalId=null;
 function openEntry(id){
+  currentJournalId=id;
   var e=S.entries.find(function(x){return x.id===id;});
   if(!e) return;
   document.getElementById('journal-list-area').style.display='none';
@@ -1709,6 +1724,38 @@ function openEntry(id){
   } else if(e.status==='submitted'){
     fb.innerHTML='<div class="pending-notice">📤 Submitted — waiting for Kru Nita\'s review</div>';
   } else {fb.innerHTML='';}
+}
+function shareJournal(){
+  var e=S.entries.find(function(x){return x.id===currentJournalId;});
+  if(!e) return;
+  var caption=e.title+'\n\n'+e.body+'\n\n#EasyThaiWithNita #เรียนภาษาไทย #ThaiLanguage #HuaHin';
+  /* Build File objects from stored base64 images */
+  var files=(e.images||[]).map(function(b64,i){
+    var parts=b64.split(','),mime=parts[0].match(/:(.*?);/)[1];
+    var bin=atob(parts[1]),len=bin.length,arr=new Uint8Array(len);
+    for(var j=0;j<len;j++) arr[j]=bin.charCodeAt(j);
+    return new File([arr],'thai-journal-'+(i+1)+'.jpg',{type:mime});
+  });
+  /* Try Web Share API with files (works on iOS/Android share sheet → Instagram) */
+  if(files.length&&navigator.canShare&&navigator.canShare({files:files})){
+    navigator.share({files:files,text:caption,title:e.title})
+      .catch(function(err){if(err.name!=='AbortError') toast('Could not open share sheet');});
+    return;
+  }
+  /* Web Share without files (text only) */
+  if(navigator.share){
+    navigator.share({title:e.title,text:caption})
+      .catch(function(err){if(err.name!=='AbortError') toast('Could not open share sheet');});
+    return;
+  }
+  /* Desktop fallback: copy caption + download images */
+  if(files.length){
+    var url=URL.createObjectURL(files[0]);
+    var a=document.createElement('a');a.href=url;a.download=files[0].name;a.click();
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  }
+  navigator.clipboard&&navigator.clipboard.writeText(caption);
+  toast('Caption copied! Image saved — paste into Instagram.');
 }
 function closeEntryRead(){
   document.getElementById('entry-read').classList.remove('open');
