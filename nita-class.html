@@ -24,20 +24,51 @@ h1,h2,h3,.ui{font-family:'Prompt',sans-serif}
 button{font-family:inherit;cursor:pointer;border:none;outline:none;background:none}
 input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 
-/* ── Welcome (2-half design) ─────────────────────────────── */
+/* ── Welcome ─────────────────────────────────────────────── */
 #welcome{
-  position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;
-  z-index:100;transition:opacity .4s,transform .4s;overflow:hidden;
+  position:fixed;inset:0;background:var(--bg);
+  z-index:100;transition:opacity .4s,transform .4s;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
 }
 #welcome.out{opacity:0;transform:scale(.96);pointer-events:none}
 
-/* Top half — scrolling photo gallery */
-.w-gallery{
-  height:50%;flex-shrink:0;position:relative;overflow:hidden;background:#080603;
-}
+/* Hero — full-viewport carousel with overlay */
+.w-hero{position:relative;height:100svh;min-height:520px;overflow:hidden}
+.w-gallery{position:absolute;inset:0;background:#080603}
 .w-gallery::after{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(to bottom,rgba(11,9,7,.25) 0%,transparent 30%,transparent 60%,rgba(11,9,7,.6) 100%);
+  background:linear-gradient(to bottom,rgba(11,9,7,.3) 0%,transparent 25%,transparent 45%,rgba(11,9,7,.5) 70%);
+}
+
+/* Login overlay on hero */
+.w-hero-overlay{
+  position:absolute;bottom:0;left:0;right:0;z-index:4;
+  padding:.7rem 1.1rem 1.1rem;
+  background:linear-gradient(to top,
+    rgba(11,9,7,1) 0%,rgba(11,9,7,.98) 30%,
+    rgba(11,9,7,.82) 54%,rgba(11,9,7,.3) 74%,transparent 100%);
+}
+.who-title{
+  font-family:'Prompt',sans-serif;font-size:2rem;font-weight:700;line-height:1.1;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:.12rem;
+}
+.who-tagline{font-size:.76rem;color:var(--cream2);opacity:.8;margin-bottom:.85rem}
+.w-scroll-hint{
+  text-align:center;font-size:.6rem;color:var(--muted);
+  font-family:'Prompt',sans-serif;padding:.55rem 0 0;letter-spacing:.06em;
+  animation:hint-bounce 2.2s ease infinite;
+}
+@keyframes hint-bounce{
+  0%,100%{transform:translateY(0);opacity:.5}
+  50%{transform:translateY(3px);opacity:.9}
+}
+
+/* Below-fold content */
+.w-below{
+  background:var(--bg);padding:1.2rem 1.2rem 1.5rem;
+  display:flex;flex-direction:column;gap:.85rem;
 }
 .gallery-track{
   display:flex;height:100%;width:max-content;
@@ -176,8 +207,9 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 .wr-quote::after{content:'\201D';color:var(--gold);font-size:1em;margin-left:1px}
 .wr-author{font-size:.68rem;color:var(--muted);margin-top:.28rem;font-family:'Prompt',sans-serif}
 .w-login{
-  background:var(--card);border:1px solid var(--border2);border-radius:18px;
-  padding:1.5rem 1.25rem 1.25rem;display:flex;flex-direction:column;gap:.8rem;
+  background:rgba(18,14,9,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(200,148,58,.22);border-radius:18px;
+  padding:1.25rem 1.1rem 1.1rem;display:flex;flex-direction:column;gap:.75rem;
 }
 .wl-headline{
   font-family:'Prompt',sans-serif;font-size:1.25rem;font-weight:700;
@@ -630,7 +662,8 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 <!-- ══════════════ WELCOME ══════════════ -->
 <div id="welcome">
 
-  <!-- TOP HALF: scrolling photo gallery -->
+  <!-- HERO: full-viewport carousel + login overlay -->
+  <div class="w-hero">
   <div class="w-gallery">
     <div class="g-hint">← swipe</div>
     <div class="gallery-track">
@@ -698,17 +731,10 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
       </div>
     </div>
   </div>
-
-  <!-- BOTTOM HALF: info + login -->
-  <div class="w-panel">
-    <div class="w-brand">
-      <div class="w-logo">🥋</div>
-      <div class="w-brand-text">
-        <div class="w-title">เรียนกับนิตา</div>
-        <div class="w-tagline">Thai classes at the local café · Hua Hin</div>
-      </div>
-    </div>
-    <!-- Login -->
+  <!-- Login overlay -->
+  <div class="w-hero-overlay">
+    <div class="who-title">เรียนกับนิตา</div>
+    <div class="who-tagline">Thai classes at the local café · Hua Hin</div>
     <div class="w-login">
       <div class="wl-headline">Log in to continue<br>your Thai journey</div>
       <div class="wl-input-wrap">
@@ -723,6 +749,12 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
         </button>
       </div>
     </div>
+    <div class="w-scroll-hint">↓ learn more</div>
+  </div>
+  </div><!-- end .w-hero -->
+
+  <!-- BELOW FOLD: feature cards + footer -->
+  <div class="w-below">
     <!-- 3-column feature cards -->
     <div class="wfg">
       <!-- Card 1: About Nita (featured) -->
@@ -810,7 +842,7 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
       </div>
     </div>
     <div class="w-copyright">© 2026 Nita — Easy Thai With Nita</div>
-  </div>
+  </div><!-- end .w-below -->
 </div>
 
 <!-- ══════════════ LEFT DRAWER NAV ══════════════ -->
@@ -1152,6 +1184,9 @@ function loadData(){
 function save(){
   localStorage.setItem('nita_data',JSON.stringify({sessions:S.sessions,cards:S.cards,entries:S.entries}));
 }
+document.getElementById('name-input').addEventListener('focus',function(){
+  setTimeout(function(){document.getElementById('name-input').scrollIntoView({behavior:'smooth',block:'center'});},320);
+});
 function loginStudent(){
   var name=document.getElementById('name-input').value.trim();
   if(!name){toast('Please enter your name');return;}
