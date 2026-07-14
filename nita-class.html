@@ -175,7 +175,24 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 .wr-quote::before{content:'\201C';color:var(--gold);font-size:1em;margin-right:1px}
 .wr-quote::after{content:'\201D';color:var(--gold);font-size:1em;margin-left:1px}
 .wr-author{font-size:.68rem;color:var(--muted);margin-top:.28rem;font-family:'Prompt',sans-serif}
-.w-login{display:flex;flex-direction:column;gap:.55rem}
+.w-login{display:flex;flex-direction:column;gap:.65rem;padding:.1rem 0}
+.wl-headline{
+  font-family:'Prompt',sans-serif;font-size:1.15rem;font-weight:700;
+  color:var(--cream);text-align:center;line-height:1.35;margin-bottom:.1rem;
+}
+.wl-field{display:flex;flex-direction:column;gap:.3rem}
+.wl-label{font-size:.78rem;color:var(--cream2);font-family:'Prompt',sans-serif;font-weight:500;padding-left:.2rem}
+.wl-divider{
+  display:flex;align-items:center;gap:.7rem;
+  color:var(--muted);font-size:.72rem;font-family:'Prompt',sans-serif;
+}
+.wl-divider::before,.wl-divider::after{content:'';flex:1;height:1px;background:var(--border2)}
+.wl-alt-btn{
+  width:100%;background:none;border:1px solid var(--border);border-radius:12px;
+  padding:.78rem;color:var(--cream2);font-family:'Prompt',sans-serif;
+  font-size:.9rem;font-weight:500;transition:background .15s,border-color .15s,color .15s;
+}
+.wl-alt-btn:active{background:var(--card);border-color:var(--gold);color:var(--gold2)}
 .w-input{
   width:100%;background:var(--card);border:1px solid var(--border);
   border-radius:12px;padding:.72rem 1rem;color:var(--cream);font-size:1rem;
@@ -675,8 +692,14 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
     </div>
     <!-- Login -->
     <div class="w-login">
-      <input id="name-input" class="w-input" type="text" placeholder="Your name…" autocomplete="given-name">
+      <div class="wl-headline">Begin your Thai journey</div>
+      <div class="wl-field">
+        <label class="wl-label" for="name-input">Your name</label>
+        <input id="name-input" class="w-input" type="text" placeholder="e.g. Sarah" autocomplete="given-name">
+      </div>
       <button class="btn-gold" onclick="loginStudent()">Start Learning →</button>
+      <div class="wl-divider"><span>other options</span></div>
+      <button class="wl-alt-btn" onclick="loginNita()">👩‍🏫 I'm Kru Nita (Teacher Login)</button>
     </div>
     <!-- 3-column feature cards -->
     <div class="wfg">
@@ -746,7 +769,6 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
         </div>
       </div>
     </div>
-    <button class="btn-link" onclick="loginNita()">I'm Kru Nita (teacher login)</button>
     <!-- Nita's footer bio -->
     <div class="w-footer">
       <div class="wf-intro">
