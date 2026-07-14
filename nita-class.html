@@ -426,6 +426,55 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
   font-family:'Sarabun',sans-serif;
 }
 
+/* ── Dashboard (student home) ────────────────────────────── */
+.dash-greeting{padding:1.1rem 0 .9rem;border-bottom:1px solid var(--border2);margin-bottom:1rem}
+.dash-hi{
+  font-family:'Prompt',sans-serif;font-size:1.4rem;font-weight:700;line-height:1.2;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:.22rem;
+}
+.dash-sub{font-size:.82rem;color:var(--cream2);line-height:1.5}
+.dash-slabel{
+  font-family:'Prompt',sans-serif;font-size:.68rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.07em;margin:.95rem 0 .45rem;
+}
+.dash-next{
+  background:linear-gradient(135deg,rgba(200,148,58,.12),rgba(224,173,80,.04));
+  border:1px solid rgba(200,148,58,.3);border-radius:14px;
+  padding:1rem 1.1rem;position:relative;overflow:hidden;
+  cursor:pointer;transition:border-color .2s;
+}
+.dash-next:active{border-color:rgba(200,148,58,.6)}
+.dash-next::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));}
+.dash-next-date{font-size:.72rem;color:var(--gold2);font-family:'Prompt',sans-serif;margin-bottom:.25rem}
+.dash-next-topic{font-family:'Prompt',sans-serif;font-size:1.05rem;font-weight:600;color:var(--cream);margin-bottom:.15rem}
+.dash-next-loc{font-size:.8rem;color:var(--muted)}
+.dash-next-none{
+  background:var(--card);border:1px solid var(--border2);border-radius:14px;
+  padding:.9rem 1.1rem;color:var(--muted);font-size:.85rem;text-align:center;
+}
+.dash-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.dash-stat{
+  background:var(--card);border:1px solid var(--border2);border-radius:12px;
+  padding:.9rem .4rem .75rem;text-align:center;
+}
+.dash-stat-n{
+  font-family:'Prompt',sans-serif;font-size:1.9rem;font-weight:700;line-height:1;margin-bottom:.18rem;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.dash-stat-l{font-size:.63rem;color:var(--muted);font-family:'Prompt',sans-serif;text-transform:uppercase;letter-spacing:.04em}
+.dash-shortcuts{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.2rem}
+.dash-sc{
+  background:var(--card);border:1px solid var(--border2);border-radius:12px;
+  padding:.9rem .5rem .8rem;display:flex;flex-direction:column;align-items:center;gap:.38rem;
+  font-size:.73rem;color:var(--cream2);font-family:'Prompt',sans-serif;
+  cursor:pointer;transition:border-color .2s;
+}
+.dash-sc:active{border-color:var(--gold);background:var(--card2)}
+.dash-sc-icon{font-size:1.5rem;line-height:1}
+
 /* ── Session cards ────────────────────────────────────────── */
 .session-card{
   background:var(--card);border:1px solid var(--border2);border-radius:14px;
@@ -850,7 +899,10 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
     </div>
   </div>
   <div class="sn-nav">
-    <div class="sn-item active" id="sn-notes" onclick="navTo('notes');closeNav()">
+    <div class="sn-item active" id="sn-home" onclick="navTo('home');closeNav()">
+      <span class="sn-icon">🏠</span><span>Home</span>
+    </div>
+    <div class="sn-item" id="sn-notes" onclick="navTo('notes');closeNav()">
       <span class="sn-icon">📚</span><span>Session Notes</span>
     </div>
     <div class="sn-item" id="sn-cards" onclick="navTo('cards');closeNav()">
@@ -875,6 +927,26 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
     <button class="role-badge" id="role-badge" onclick="switchRole()"></button>
   </div>
   <div class="content">
+    <div id="view-home" class="view active">
+      <div class="dash-greeting">
+        <div class="dash-hi" id="dash-hi">สวัสดี!</div>
+        <div class="dash-sub" id="dash-sub">Keep up the great work with your Thai 🌟</div>
+      </div>
+      <div class="dash-slabel">Next Session</div>
+      <div id="dash-next-session"></div>
+      <div class="dash-slabel">Your Progress</div>
+      <div class="dash-stats">
+        <div class="dash-stat"><div class="dash-stat-n" id="stat-sessions">0</div><div class="dash-stat-l">Sessions</div></div>
+        <div class="dash-stat"><div class="dash-stat-n" id="stat-words">0</div><div class="dash-stat-l">Words</div></div>
+        <div class="dash-stat"><div class="dash-stat-n" id="stat-entries">0</div><div class="dash-stat-l">Journal</div></div>
+      </div>
+      <div class="dash-slabel">Quick Access</div>
+      <div class="dash-shortcuts">
+        <button class="dash-sc" onclick="navTo('notes')"><div class="dash-sc-icon">📚</div><div>Notes</div></button>
+        <button class="dash-sc" onclick="navTo('cards')"><div class="dash-sc-icon">🃏</div><div>Study</div></button>
+        <button class="dash-sc" onclick="navTo('journal')"><div class="dash-sc-icon">📓</div><div>Journal</div></button>
+      </div>
+    </div>
     <div id="view-notes" class="view">
       <div class="sec-head">
         <div class="sec-title">📚 Class Notes</div>
@@ -965,7 +1037,8 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
     </div>
   </div>
   <nav class="bottom-nav">
-    <div class="tab active" id="tab-notes" onclick="navTo('notes')"><div class="ti">📚</div><div>Notes</div></div>
+    <div class="tab active" id="tab-home" onclick="navTo('home')"><div class="ti">🏠</div><div>Home</div></div>
+    <div class="tab" id="tab-notes" onclick="navTo('notes')"><div class="ti">📚</div><div>Notes</div></div>
     <div class="tab" id="tab-cards" onclick="navTo('cards')"><div class="ti">🃏</div><div>Cards</div></div>
     <div class="tab" id="tab-journal" onclick="navTo('journal')"><div class="ti">📓</div><div id="tab-j-lbl">Journal</div></div>
   </nav>
@@ -1218,7 +1291,7 @@ function startApp(user,role){
   S.sessions=d.sessions; S.cards=d.cards; S.entries=d.entries;
   document.getElementById('welcome').classList.add('out');
   document.getElementById('app').classList.add('visible');
-  updateBadge(); applyRoleUI(); updateSideNav(); navTo('notes');
+  updateBadge(); applyRoleUI(); updateSideNav(); navTo(role==='student'?'home':'notes');
 }
 function switchRole(){
   var nr=S.role==='teacher'?'student':'teacher';
@@ -1227,7 +1300,7 @@ function switchRole(){
   else{S.user='Kru Nita';}
   localStorage.setItem('nita_role',nr);
   localStorage.setItem('nita_user',S.user);
-  updateBadge(); applyRoleUI(); updateSideNav(); navTo('notes');
+  updateBadge(); applyRoleUI(); updateSideNav(); navTo(nr==='student'?'home':'notes');
   toast('Switched to '+(nr==='teacher'?'teacher':'student')+' view');
 }
 function openNav(){
@@ -1263,20 +1336,48 @@ function applyRoleUI(){
   document.getElementById('student-journal').style.display=isT?'none':'';
   document.getElementById('teacher-reviews').style.display=isT?'':'none';
   document.getElementById('tab-j-lbl').textContent=isT?'Reviews':'Journal';
+  var tabHome=document.getElementById('tab-home');
+  var snHome=document.getElementById('sn-home');
+  if(tabHome) tabHome.style.display=isT?'none':'';
+  if(snHome) snHome.style.display=isT?'none':'';
 }
 function navTo(t){
-  ['notes','cards','journal'].forEach(function(v){
-    document.getElementById('view-'+v).classList.remove('active');
+  ['home','notes','cards','journal'].forEach(function(v){
+    var view=document.getElementById('view-'+v); if(view) view.classList.remove('active');
     var tb=document.getElementById('tab-'+v); if(tb) tb.classList.remove('active');
     var sn=document.getElementById('sn-'+v); if(sn) sn.classList.remove('active');
   });
-  document.getElementById('view-'+t).classList.add('active');
+  var view=document.getElementById('view-'+t); if(view) view.classList.add('active');
   var tb=document.getElementById('tab-'+t); if(tb) tb.classList.add('active');
   var sn=document.getElementById('sn-'+t); if(sn) sn.classList.add('active');
   closeAnnotPopup();
+  if(t==='home') renderHome();
   if(t==='notes') renderSessions();
   if(t==='cards') renderCards();
   if(t==='journal'){S.role==='teacher'?renderNitaQueue():renderJournalList();}
+}
+function renderHome(){
+  var today=new Date().toISOString().slice(0,10);
+  var hr=new Date().getHours();
+  var greet=hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
+  document.getElementById('dash-hi').textContent=greet+', '+S.user+'! 👋';
+  document.getElementById('dash-sub').textContent='Keep up the great work with your Thai 🌟';
+  var upcoming=S.sessions.filter(function(s){return s.date>=today;})
+    .sort(function(a,b){return a.date<b.date?-1:1;})[0];
+  var nxt=document.getElementById('dash-next-session');
+  if(upcoming){
+    nxt.innerHTML='<div class="dash-next" onclick="navTo(\'notes\')">'
+      +'<div class="dash-next-date">📅 '+esc(fmtDate(upcoming.date))+'</div>'
+      +'<div class="dash-next-topic">'+esc(upcoming.topicEn)+'</div>'
+      +'<div class="dash-next-loc">'+esc(upcoming.location)+'</div>'
+      +'</div>';
+  } else {
+    nxt.innerHTML='<div class="dash-next-none">No upcoming sessions — check back soon!</div>';
+  }
+  var pastCount=S.sessions.filter(function(s){return s.date<today;}).length;
+  document.getElementById('stat-sessions').textContent=pastCount;
+  document.getElementById('stat-words').textContent=S.cards.length;
+  document.getElementById('stat-entries').textContent=S.entries.length;
 }
 function renderSessions(){
   document.getElementById('sessions-list').style.display='';
