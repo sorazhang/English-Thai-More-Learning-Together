@@ -663,6 +663,24 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
 .jc-preview{font-size:.82rem;color:var(--muted);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .jc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:.55rem}
 .jc-date{font-size:.72rem;color:var(--muted)}
+/* Journal image upload */
+.jimg-strip{display:flex;gap:.5rem;overflow-x:auto;padding:.3rem 0 .55rem;scrollbar-width:none}
+.jimg-strip:empty{display:none}
+.jimg-strip::-webkit-scrollbar{display:none}
+.jimg-thumb{position:relative;flex-shrink:0;width:76px;height:76px;border-radius:9px;overflow:hidden;border:1px solid var(--border)}
+.jimg-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.jimg-rm{
+  position:absolute;top:3px;right:3px;width:20px;height:20px;
+  background:rgba(11,9,7,.78);color:#fff;border-radius:50%;
+  font-size:.75rem;line-height:20px;text-align:center;cursor:pointer;border:none;
+}
+.entry-imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.5rem;margin:.65rem 0}
+.entry-img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;cursor:pointer;border:1px solid var(--border2);display:block}
+#img-viewer{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:600;display:none;align-items:center;justify-content:center}
+#img-viewer.open{display:flex}
+#img-viewer-img{max-width:96vw;max-height:90vh;border-radius:8px;object-fit:contain}
+#img-viewer-close{position:absolute;top:.9rem;right:.9rem;color:#fff;font-size:1.5rem;cursor:pointer;background:rgba(0,0,0,.45);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:none}
+
 .entry-editor{display:none}
 .entry-editor.open{display:block;animation:fadeUp .22s ease}
 .entry-field{
@@ -1043,7 +1061,10 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
           <div class="sec-head"><div class="sec-title">✏️ New Entry</div></div>
           <input class="entry-title-in" id="entry-title-in" placeholder="Entry title…">
           <textarea class="entry-field" id="entry-body-in" placeholder="Write in Thai…"></textarea>
+          <div class="jimg-strip" id="journal-img-strip"></div>
+          <input type="file" id="journal-img-input" accept="image/*" multiple style="display:none" onchange="handleJournalImages(this)">
           <div class="editor-acts">
+            <button class="btn-sm" onclick="document.getElementById('journal-img-input').click()">📷 Photo</button>
             <button class="btn-sm" onclick="closeEditor()">Cancel</button>
             <button class="btn-sm" onclick="saveDraft()">Save Draft</button>
             <button class="btn-sm pri" onclick="submitJournal()">Submit to Nita</button>
@@ -1053,6 +1074,7 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
           <button class="back-btn" onclick="closeEntryRead()">← Back</button>
           <div class="detail-title" id="er-title"></div>
           <div class="detail-meta" id="er-meta"></div>
+          <div id="er-images"></div>
           <div class="ann-text" id="er-body"></div>
           <div id="er-feedback"></div>
         </div>
@@ -1068,6 +1090,7 @@ input,textarea{font-family:'Sarabun',sans-serif;outline:none}
           <div class="detail-meta" id="rv-meta"></div>
           <div class="review-hint">Select any word or phrase in the text below to add a correction.</div>
           <div class="ann-text interactive" id="rv-body"></div>
+          <div id="rv-images"></div>
           <textarea class="overall-ta" id="rv-comment" placeholder="Overall comment for the student…"></textarea>
           <button class="btn-full" onclick="sendReview()">Send Feedback</button>
         </div>
@@ -1594,7 +1617,58 @@ function statusPill(s){
   if(s==='submitted') return '<span class="pill pill-g">📤 Submitted</span>';
   return '<span class="pill pill-m">Draft</span>';
 }
+/* ── Journal image helpers ── */
+var jImgs=[];
+function handleJournalImages(input){
+  Array.from(input.files).forEach(function(file){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      resizeJImg(e.target.result,function(resized){
+        jImgs.push(resized);
+        renderJImgStrip();
+      });
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value='';
+}
+function resizeJImg(src,cb){
+  var img=new Image();
+  img.onload=function(){
+    var maxW=1200,w=img.width,h=img.height;
+    if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+    var c=document.createElement('canvas');
+    c.width=w;c.height=h;
+    c.getContext('2d').drawImage(img,0,0,w,h);
+    cb(c.toDataURL('image/jpeg',0.78));
+  };
+  img.src=src;
+}
+function renderJImgStrip(){
+  var strip=document.getElementById('journal-img-strip');
+  if(!strip) return;
+  strip.innerHTML=jImgs.map(function(src,i){
+    return '<div class="jimg-thumb"><img src="'+src+'"><button class="jimg-rm" onclick="removeJImg('+i+')">×</button></div>';
+  }).join('');
+}
+function removeJImg(i){jImgs.splice(i,1);renderJImgStrip();}
+function renderEntryImgs(images,containerId){
+  var el=document.getElementById(containerId);
+  if(!el) return;
+  if(!images||!images.length){el.innerHTML='';return;}
+  el.innerHTML='<div class="entry-imgs">'+images.map(function(src){
+    return '<img class="entry-img" src="'+src+'" onclick="viewImg(this.src)">';
+  }).join('')+'</div>';
+}
+function viewImg(src){
+  document.getElementById('img-viewer-img').src=src;
+  document.getElementById('img-viewer').classList.add('open');
+}
+function closeImgViewer(){document.getElementById('img-viewer').classList.remove('open');}
+
 function openEditor(){
+  jImgs=[];
+  renderJImgStrip();
   document.getElementById('journal-list-area').style.display='none';
   document.getElementById('entry-read').classList.remove('open');
   document.getElementById('entry-editor').classList.add('open');
@@ -1609,14 +1683,14 @@ function saveDraft(){
   var title=document.getElementById('entry-title-in').value.trim();
   var body=document.getElementById('entry-body-in').value.trim();
   if(!title||!body){toast('Please fill in title and body');return;}
-  S.entries.push({id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,date:new Date().toISOString().slice(0,10),status:'draft',annotations:[],nitaComment:''});
+  S.entries.push({id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,images:jImgs.slice(),date:new Date().toISOString().slice(0,10),status:'draft',annotations:[],nitaComment:''});
   save(); closeEditor(); renderJournalList(); toast('Draft saved!');
 }
 function submitJournal(){
   var title=document.getElementById('entry-title-in').value.trim();
   var body=document.getElementById('entry-body-in').value.trim();
   if(!title||!body){toast('Please fill in title and body');return;}
-  S.entries.push({id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,date:new Date().toISOString().slice(0,10),status:'submitted',annotations:[],nitaComment:''});
+  S.entries.push({id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,images:jImgs.slice(),date:new Date().toISOString().slice(0,10),status:'submitted',annotations:[],nitaComment:''});
   save(); closeEditor(); renderJournalList(); toast('Submitted to Kru Nita!');
 }
 function openEntry(id){
@@ -1627,6 +1701,7 @@ function openEntry(id){
   document.getElementById('entry-read').classList.add('open');
   document.getElementById('er-title').textContent=e.title;
   document.getElementById('er-meta').textContent=fmtDate(e.date);
+  renderEntryImgs(e.images,'er-images');
   document.getElementById('er-body').innerHTML=renderAnnotatedText(e.body,e.annotations,{interactive:false});
   var fb=document.getElementById('er-feedback');
   if(e.status==='reviewed'&&e.nitaComment){
@@ -1663,6 +1738,7 @@ function openReview(id){
   document.getElementById('rv-meta').textContent='By '+e.authorDisplay+' · '+fmtDate(e.date);
   document.getElementById('rv-comment').value=e.nitaComment||'';
   renderReviewBody(e);
+  renderEntryImgs(e.images,'rv-images');
   var body=document.getElementById('rv-body');
   body.onmouseup=onPossibleSelection;
   body.ontouchend=onPossibleSelection;
@@ -1814,5 +1890,9 @@ function toast(msg){
   document.addEventListener('keydown',function(e){if(e.key==='Escape') closeAnnotPopup();});
 })();
 </script>
+<div id="img-viewer" onclick="closeImgViewer()">
+  <button id="img-viewer-close" onclick="closeImgViewer()">✕</button>
+  <img id="img-viewer-img" src="" alt="">
+</div>
 </body>
 </html>
