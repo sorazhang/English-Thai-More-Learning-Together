@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Easy Thai With Nita">
+<meta name="application-name" content="Easy Thai With Nita">
+<meta name="description" content="Learn Thai with Nita — small-group café classes in Hua Hin. Track your vocabulary, journal your progress, and get personal feedback.">
+<meta property="og:title" content="Easy Thai With Nita">
+<meta property="og:description" content="Small-group Thai classes at the café in Hua Hin. Learn naturally, speak from day one.">
+<meta property="og:url" content="https://easythaiwithnita.online">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Easy Thai With Nita">
+<meta name="twitter:description" content="Small-group Thai classes at the café in Hua Hin.">
+<link rel="canonical" href="https://easythaiwithnita.online">
+<title>Easy Thai With Nita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF1F5;--bg2:#E4E8EE;--card:#FFFFFF;--card2:#F6F8FA;
+  --gold:#84CC16;--gold2:#4A7C0F;
+  --blue:#4D7A9E;--blue2:#6B95B8;
+  --cream:#1A1A1A;--cream2:#4A5568;
+  --muted:#6B7888;--border:rgba(77,122,158,0.22);--border2:rgba(77,122,158,0.12);
+  --red:#C94030;--red-soft:rgba(201,64,48,0.10);--green:#2F8A60;
+  --nav-h:60px;
+}
+/* Dark theme overrides */
+html[data-theme="dark"]{
+  --bg:#0B0907;--bg2:#141108;--card:#1C1712;--card2:#241E17;
+  --gold:#84CC16;--gold2:#A3E635;
+  --blue:#7AAACF;--blue2:#9BBFD8;
+  --cream:#F0E8D8;--cream2:#C8BCA8;
+  --muted:#7A7060;--border:rgba(132,204,22,0.22);--border2:rgba(132,204,22,0.11);
+  --red:#E2685A;--red-soft:rgba(226,104,90,0.15);--green:#5AAA80;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--cream);font-family:'IBM Plex Sans Thai',sans-serif;font-size:16px;line-height:1.6;overscroll-behavior:none}
+h1,h2,h3,.ui{font-family:'Kanit',sans-serif}
+button{font-family:inherit;cursor:pointer;border:none;outline:none;background:none}
+input,textarea{font-family:'IBM Plex Sans Thai',sans-serif;outline:none}
+
+/* ── Welcome ─────────────────────────────────────────────── */
+#welcome{
+  position:fixed;inset:0;background:var(--bg);
+  z-index:100;transition:opacity .4s,transform .4s;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+#welcome.out{opacity:0;transform:scale(.96);pointer-events:none}
+
+/* Hero — full-viewport carousel with overlay */
+.w-hero{position:relative;overflow:hidden}
+.w-gallery{position:relative;background:#080603;overflow:hidden}
+.w-gallery::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(11,9,7,.35) 0%,transparent 25%,transparent 65%,rgba(11,9,7,.9) 100%);
+}
+
+/* Login section below photo carousel */
+.w-hero-overlay{
+  position:relative;z-index:4;
+  padding:.7rem 1.1rem 1.1rem;
+  background:var(--bg);
+}
+.who-title{
+  font-family:'Kanit',sans-serif;font-size:2rem;font-weight:700;line-height:1.1;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:.12rem;
+}
+.who-tagline{font-size:.76rem;color:var(--cream2);opacity:.8;margin-bottom:.85rem}
+.w-scroll-hint{
+  text-align:center;font-size:.6rem;color:var(--muted);
+  font-family:'Kanit',sans-serif;padding:.55rem 0 0;letter-spacing:.06em;
+  animation:hint-bounce 2.2s ease infinite;
+}
+@keyframes hint-bounce{
+  0%,100%{transform:translateY(0);opacity:.5}
+  50%{transform:translateY(3px);opacity:.9}
+}
+
+/* Below-fold content */
+.w-below{
+  background:var(--bg);padding:1.2rem 1.2rem 1.5rem;
+  display:flex;flex-direction:column;gap:.85rem;
+}
+.gallery-track{
+  display:flex;
+  transition:transform .45s cubic-bezier(.4,0,.2,1);
+  will-change:transform;
+}
+.g-photo{
+  width:100vw;flex-shrink:0;
+  position:relative;overflow:hidden;
+}
+/* Arrow nav buttons */
+.g-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:5;
+  background:rgba(11,9,7,.55);border:1px solid rgba(132,204,22,.3);
+  border-radius:50%;width:42px;height:42px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;line-height:1;color:var(--gold2);cursor:pointer;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  transition:background .2s,border-color .2s;user-select:none;
+}
+.g-arrow:hover{background:rgba(132,204,22,.22);border-color:rgba(132,204,22,.6)}
+.g-arrow.prev{left:.65rem}
+.g-arrow.next{right:.65rem}
+/* Dot indicators */
+.g-dots{
+  position:absolute;bottom:.55rem;left:50%;transform:translateX(-50%);
+  display:flex;gap:.4rem;z-index:5;pointer-events:none;
+}
+.g-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,.3);transition:background .25s,transform .25s;
+}
+.g-dot.active{background:var(--gold2);transform:scale(1.35)}
+.g-photo img{
+  width:100%;height:auto;display:block;
+  filter:brightness(.82) saturate(1.15);transition:filter .3s;
+}
+.g-photo:hover img{filter:brightness(.95) saturate(1.2)}
+.g-label{
+  position:absolute;bottom:0;left:0;right:0;z-index:1;
+  background:linear-gradient(to top,rgba(11,9,7,.88) 0%,transparent 100%);
+  padding:.55rem .7rem .5rem;
+}
+.g-label-main{font-family:'Kanit',sans-serif;font-size:.75rem;font-weight:600;color:var(--gold2)}
+.g-label-sub{font-size:.65rem;color:var(--cream2);opacity:.8;margin-top:.05rem}
+.g-ph{
+  width:100%;height:56.25vw;min-height:200px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.5rem;
+  background:linear-gradient(135deg,#1C1510,#2A1E12);
+  color:var(--muted);font-size:2.2rem;
+}
+.g-hint{
+  position:absolute;top:10px;right:10px;z-index:2;
+  background:rgba(11,9,7,.6);border:1px solid rgba(132,204,22,.2);
+  border-radius:20px;padding:.18rem .55rem;font-size:.62rem;
+  color:var(--gold2);font-family:'Kanit',sans-serif;backdrop-filter:blur(4px);
+}
+/* Sessions swipe carousel */
+.w-sessions-track{
+  display:flex;gap:.7rem;overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;padding:0 0 .5rem;
+  scrollbar-width:none;
+}
+.w-sessions-track::-webkit-scrollbar{display:none}
+.w-session-card{
+  min-width:78vw;max-width:290px;flex-shrink:0;scroll-snap-align:start;
+  background:linear-gradient(135deg,rgba(132,204,22,.11),rgba(163,230,53,.04));
+  border:1px solid var(--border);border-radius:14px;
+  padding:.8rem 1rem;position:relative;overflow:hidden;
+}
+.w-session-card::before{
+  content:'';position:absolute;inset:0 0 auto 0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+
+/* Featured testimonial */
+.w-feat-review{
+  background:linear-gradient(135deg,rgba(132,204,22,.1),rgba(163,230,53,.03));
+  border:1px solid var(--border);border-radius:14px;
+  padding:1.1rem 1rem 1rem;text-align:center;
+}
+.wfr-stars{color:var(--gold2);font-size:.7rem;letter-spacing:3px;margin-bottom:.55rem}
+.wfr-quote{
+  font-size:1.05rem;color:var(--cream);line-height:1.78;font-style:italic;
+}
+.wfr-quote::before{content:'\201C';color:var(--gold);font-size:2.6rem;line-height:0;vertical-align:-.5em;margin-right:.04rem;font-family:'Kanit',sans-serif;}
+.wfr-quote::after{content:'\201D';color:var(--gold);font-size:2.6rem;line-height:0;vertical-align:-.5em;margin-left:.04rem;font-family:'Kanit',sans-serif;}
+.wfr-author{font-size:.7rem;color:var(--muted);margin-top:.55rem;font-family:'Kanit',sans-serif;}
+
+/* Bottom half — info + login */
+.w-panel{
+  flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:1rem 1.2rem 1.4rem;
+  display:flex;flex-direction:column;gap:.85rem;
+}
+.w-brand{display:flex;align-items:center;gap:.7rem}
+.w-logo{
+  width:44px;height:44px;border-radius:13px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:grid;place-items:center;font-size:1.5rem;
+  box-shadow:0 4px 16px rgba(132,204,22,.4);
+}
+.w-brand-text{}
+.w-title{
+  font-family:'Kanit',sans-serif;font-size:1.3rem;font-weight:700;line-height:1.15;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.w-tagline{font-size:.74rem;color:var(--muted);margin-top:.05rem}
+.w-about{
+  background:var(--card);border:1px solid var(--border2);border-radius:12px;
+  padding:.7rem .9rem;font-size:.83rem;color:var(--cream2);line-height:1.7;
+}
+.w-about strong{color:var(--gold2);font-family:'Kanit',sans-serif}
+.w-event{
+  background:linear-gradient(135deg,rgba(132,204,22,.11),rgba(163,230,53,.04));
+  border:1px solid var(--border);border-radius:14px;
+  padding:.8rem 1rem;position:relative;overflow:hidden;
+}
+.w-event::before{
+  content:'';position:absolute;inset:0 0 auto 0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+.we-badge{
+  font-family:'Kanit',sans-serif;font-size:.62rem;color:var(--gold);
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;
+}
+.we-title{font-family:'Kanit',sans-serif;font-size:.98rem;font-weight:600;color:var(--cream);margin-bottom:.4rem}
+.we-row{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--cream2);margin-bottom:.2rem}
+.we-row .ei{font-size:.85rem;width:18px;text-align:center;flex-shrink:0}
+.we-spots{
+  display:inline-flex;align-items:center;gap:.3rem;margin-top:.55rem;
+  background:rgba(90,170,128,.14);color:var(--green);
+  border:1px solid rgba(90,170,128,.22);border-radius:20px;
+  padding:.2rem .65rem;font-size:.72rem;font-family:'Kanit',sans-serif;
+}
+.w-reviews-lbl{
+  font-family:'Kanit',sans-serif;font-size:.62rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.07em;
+}
+.w-reviews{
+  display:flex;gap:.6rem;overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;padding:0 0 .5rem;
+  scrollbar-width:none;
+}
+.w-reviews::-webkit-scrollbar{display:none}
+.w-review{
+  min-width:78vw;max-width:280px;flex-shrink:0;scroll-snap-align:start;
+  background:var(--card2);border:1px solid var(--border2);border-radius:11px;
+  padding:.75rem .9rem;
+}
+.wr-stars{color:var(--gold2);font-size:.6rem;letter-spacing:2px;margin-bottom:.22rem}
+.wr-quote{font-size:.83rem;color:var(--cream2);line-height:1.65;font-style:italic}
+.wr-quote::before{content:'\201C';color:var(--gold);font-size:1em;margin-right:1px}
+.wr-quote::after{content:'\201D';color:var(--gold);font-size:1em;margin-left:1px}
+.wr-author{font-size:.68rem;color:var(--muted);margin-top:.28rem;font-family:'Kanit',sans-serif}
+.w-login{
+  background:var(--card);
+  border:1px solid var(--border);border-radius:18px;
+  padding:1.25rem 1.1rem 1.1rem;display:flex;flex-direction:column;gap:.75rem;
+  box-shadow:0 2px 12px rgba(77,122,158,0.10);
+}
+.wl-headline{
+  font-family:'Kanit',sans-serif;font-size:1.25rem;font-weight:700;
+  color:var(--cream);text-align:center;line-height:1.35;margin-bottom:.1rem;
+}
+.wl-input-wrap{
+  border:1.5px solid var(--border);border-radius:10px;
+  padding:.7rem 1rem .55rem;background:var(--bg2);
+  transition:border-color .2s;
+}
+.wl-input-wrap:focus-within{border-color:var(--blue)}
+.wl-float-label{
+  display:block;font-family:'Kanit',sans-serif;font-size:.7rem;font-weight:700;
+  color:var(--cream2);margin-bottom:.22rem;
+}
+.wl-input-wrap input{
+  width:100%;background:none;border:none;outline:none;
+  color:var(--cream);font-size:.98rem;font-family:'IBM Plex Sans Thai',sans-serif;
+}
+.wl-input-wrap input::placeholder{color:var(--muted)}
+.wl-divider{
+  display:flex;align-items:center;gap:.65rem;
+  color:var(--muted);font-size:.7rem;font-family:'Kanit',sans-serif;
+}
+.wl-divider::before,.wl-divider::after{content:'';flex:1;height:1px;background:var(--border2)}
+.wl-options{display:flex;justify-content:center;gap:.65rem}
+.wl-opt-btn{
+  display:flex;align-items:center;gap:.5rem;
+  background:none;border:1.5px solid var(--border);border-radius:10px;
+  padding:.6rem 1.1rem;color:var(--cream2);font-family:'Kanit',sans-serif;
+  font-size:.82rem;font-weight:500;transition:border-color .15s,background .15s,color .15s;
+}
+.wl-opt-btn:active{border-color:var(--gold);color:var(--gold2);background:rgba(132,204,22,.07)}
+.w-input{
+  width:100%;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:.72rem 1rem;color:var(--cream);font-size:1rem;
+  transition:border-color .2s;
+}
+.w-input:focus{border-color:var(--blue)}
+.w-input::placeholder{color:var(--muted)}
+.btn-gold{
+  width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#0B0907;border-radius:12px;padding:.82rem;font-family:'Kanit',sans-serif;
+  font-size:1rem;font-weight:600;letter-spacing:.02em;
+  box-shadow:0 4px 18px rgba(132,204,22,.35);transition:transform .15s,box-shadow .15s;
+}
+.btn-gold:active{transform:scale(.97);box-shadow:0 2px 8px rgba(132,204,22,.25)}
+.btn-link{background:none;color:var(--gold);font-size:.85rem;padding:.25rem;text-decoration:underline;text-decoration-color:rgba(132,204,22,.35);text-align:center}
+
+/* 3-column feature grid */
+.wfg{display:flex;flex-direction:column;gap:.75rem}
+@media(min-width:640px){
+  .wfg{flex-direction:row;align-items:flex-start}
+  .wfg-card{flex:1;min-width:0}
+}
+.wfg-card{
+  background:var(--card);border:1px solid var(--border2);border-radius:16px;
+  padding:1.1rem 1rem 1rem;display:flex;flex-direction:column;gap:.6rem;
+}
+.wfg-featured{
+  border-color:rgba(132,204,22,.45);
+  background:linear-gradient(160deg,rgba(132,204,22,.09) 0%,var(--card) 60%);
+}
+.wfg-label{
+  font-family:'Kanit',sans-serif;font-size:.6rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--gold);
+}
+.wfg-featured .wfg-label{color:var(--gold2)}
+.wfg-headline{
+  font-family:'Kanit',sans-serif;font-size:1rem;font-weight:700;
+  color:var(--cream);line-height:1.3;
+}
+.wfg-desc{font-size:.78rem;color:var(--cream2);line-height:1.65}
+.wfg-items{display:flex;flex-direction:column;gap:.55rem;flex:1}
+.wfg-item{display:flex;gap:.55rem;align-items:flex-start}
+.wfg-num{
+  font-family:'Kanit',sans-serif;font-size:.65rem;font-weight:700;
+  color:var(--muted);flex-shrink:0;width:18px;padding-top:.18rem;line-height:1;
+}
+.wfg-item-title{font-family:'Kanit',sans-serif;font-size:.8rem;font-weight:600;color:var(--cream);margin-bottom:.1rem}
+.wfg-item-body{font-size:.74rem;color:var(--cream2);line-height:1.55}
+.wfg-cta{margin-top:auto;padding-top:.4rem}
+.wfg-btn{
+  display:inline-block;font-size:.78rem;color:var(--gold2);
+  font-family:'Kanit',sans-serif;text-decoration:none;
+}
+.wfg-spots{font-size:.74rem;color:var(--muted);font-family:'Kanit',sans-serif}
+
+/* Nita footer */
+.w-footer{border-top:1px solid var(--border2);padding-top:.9rem}
+.wf-intro{display:flex;gap:.72rem;align-items:flex-start;margin-bottom:.72rem}
+.wf-avatar{
+  width:50px;height:50px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:grid;place-items:center;font-size:1.6rem;
+  border:2px solid rgba(132,204,22,.3);
+}
+.wf-name{font-family:'Kanit',sans-serif;font-size:.92rem;font-weight:600;color:var(--cream);margin-bottom:.18rem}
+.wf-bio{font-size:.8rem;color:var(--cream2);line-height:1.65}
+.wf-social{display:flex;gap:.55rem;flex-wrap:wrap}
+.wf-link{
+  display:inline-flex;align-items:center;gap:.35rem;
+  background:var(--card2);border:1px solid var(--border);border-radius:20px;
+  padding:.3rem .75rem;font-size:.8rem;color:var(--gold2);text-decoration:none;
+  font-family:'Kanit',sans-serif;transition:background .15s;
+}
+.wf-link:active{background:var(--card)}
+.wf-icon{font-size:.9rem}
+.w-copyright{
+  text-align:center;font-size:.68rem;color:var(--muted);
+  padding:.6rem 0 .2rem;opacity:.7;font-family:'Kanit',sans-serif;
+  letter-spacing:.02em;
+}
+
+/* ── App Shell ────────────────────────────────────────────── */
+#app{display:none;flex-direction:column;height:100%;position:fixed;inset:0}
+#app.visible{display:flex}
+.topbar{
+  height:52px;background:var(--card);border-bottom:1px solid var(--border2);
+  display:flex;align-items:center;padding:0 .75rem;gap:.6rem;flex-shrink:0;z-index:10;
+  box-shadow:0 1px 0 var(--border2);
+}
+.hamburger{
+  background:none;border:none;color:var(--cream2);font-size:1.3rem;line-height:1;
+  padding:.28rem .4rem;border-radius:8px;transition:color .15s;flex-shrink:0;
+}
+.hamburger:active{color:var(--blue)}
+.topbar-brand{font-family:'Kanit',sans-serif;font-weight:600;font-size:1.05rem;color:var(--gold2);flex:1}
+.role-badge{
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  padding:.28rem .75rem;font-size:.78rem;color:var(--gold2);cursor:pointer;
+  font-family:'Kanit',sans-serif;transition:background .2s;
+}
+.role-badge:active{background:var(--card2)}
+.content{flex:1;overflow-y:auto;position:relative;-webkit-overflow-scrolling:touch}
+.view{display:none;padding:1rem 1rem 2rem;animation:fadeUp .28s ease}
+.view.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.bottom-nav{display:none}
+/* ── Left drawer nav ─────────────────────────────────────── */
+#nav-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:199;
+  display:none;
+}
+#nav-backdrop.open{display:block}
+#sidenav{
+  position:fixed;top:0;left:-270px;bottom:0;width:260px;
+  background:var(--bg2);border-right:1px solid var(--border2);
+  z-index:200;transition:left .25s ease;
+  display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top,0);
+}
+#sidenav.open{left:0}
+.sn-user{
+  display:flex;align-items:center;gap:.7rem;
+  padding:1.2rem 1.1rem .95rem;border-bottom:1px solid var(--border2);
+}
+.sn-avatar{
+  width:44px;height:44px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:grid;place-items:center;font-size:1.5rem;
+  border:2px solid rgba(132,204,22,.3);
+}
+.sn-name{font-family:'Kanit',sans-serif;font-size:.92rem;font-weight:600;color:var(--cream)}
+.sn-role-lbl{font-size:.72rem;color:var(--muted);margin-top:.1rem;font-family:'Kanit',sans-serif}
+.sn-nav{flex:1;padding:.5rem 0}
+.sn-item{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.78rem 1.1rem;font-size:.92rem;color:var(--cream2);
+  cursor:pointer;transition:background .15s,color .15s;
+  font-family:'Kanit',sans-serif;
+}
+.sn-item:active{background:var(--card);color:var(--cream)}
+.sn-item.active{background:rgba(77,122,158,.12);color:var(--blue)}
+.sn-icon{font-size:1.1rem;width:26px;text-align:center;flex-shrink:0}
+.sn-footer{border-top:1px solid var(--border2);padding:.4rem 0;padding-bottom:env(safe-area-inset-bottom,.4rem)}
+.sn-logout{color:var(--muted)}
+.sn-logout:active{color:var(--red)!important;background:var(--red-soft)!important}
+
+/* ── Common ───────────────────────────────────────────────── */
+.sec-head{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0 .8rem}
+.sec-title{font-family:'Kanit',sans-serif;font-size:1.1rem;font-weight:600;color:var(--cream)}
+.btn-sm{
+  background:var(--card);border:1px solid var(--border);border-radius:8px;
+  padding:.38rem .7rem;font-size:.8rem;color:var(--blue);
+  font-family:'Kanit',sans-serif;transition:background .15s;
+}
+.btn-sm:active{background:var(--card2)}
+.btn-sm.pri{background:var(--gold);color:#0B0907;border-color:transparent}
+.pill{display:inline-block;padding:.12rem .5rem;border-radius:20px;font-size:.7rem;font-family:'Kanit',sans-serif}
+.pill-g{background:rgba(132,204,22,.16);color:var(--gold2)}
+.pill-v{background:rgba(90,170,128,.16);color:var(--green)}
+.pill-r{background:var(--red-soft);color:var(--red)}
+.pill-m{background:rgba(122,112,96,.16);color:var(--muted)}
+.back-btn{
+  display:flex;align-items:center;gap:.3rem;color:var(--blue);font-size:.9rem;
+  padding:.3rem 0;margin-bottom:.75rem;cursor:pointer;background:none;border:none;
+  font-family:'IBM Plex Sans Thai',sans-serif;
+}
+
+/* ── Dashboard (student home) ────────────────────────────── */
+.dash-greeting{padding:1.1rem 0 .9rem;border-bottom:1px solid var(--border2);margin-bottom:1rem}
+.dash-hi{
+  font-family:'Kanit',sans-serif;font-size:1.4rem;font-weight:700;line-height:1.2;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:.22rem;
+}
+.dash-sub{font-size:.82rem;color:var(--cream2);line-height:1.5}
+.dash-slabel{
+  font-family:'Kanit',sans-serif;font-size:.68rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.07em;margin:.95rem 0 .45rem;
+}
+.dash-next{
+  background:linear-gradient(135deg,rgba(132,204,22,.12),rgba(163,230,53,.04));
+  border:1px solid rgba(132,204,22,.3);border-radius:14px;
+  padding:1rem 1.1rem;position:relative;overflow:hidden;
+  cursor:pointer;transition:border-color .2s;
+}
+.dash-next:active{border-color:rgba(132,204,22,.6)}
+.dash-next::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));}
+.dash-next-date{font-size:.72rem;color:var(--gold2);font-family:'Kanit',sans-serif;margin-bottom:.25rem}
+.dash-next-topic{font-family:'Kanit',sans-serif;font-size:1.05rem;font-weight:600;color:var(--cream);margin-bottom:.15rem}
+.dash-next-loc{font-size:.8rem;color:var(--muted)}
+.dash-next-none{
+  background:var(--card);border:1px solid var(--border2);border-radius:14px;
+  padding:.9rem 1.1rem;color:var(--muted);font-size:.85rem;text-align:center;
+}
+.dash-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.dash-stat{
+  background:var(--card);border:1px solid var(--border2);border-radius:12px;
+  padding:.9rem .4rem .75rem;text-align:center;
+}
+.dash-stat-n{
+  font-family:'Kanit',sans-serif;font-size:1.9rem;font-weight:700;line-height:1;margin-bottom:.18rem;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.dash-stat-l{font-size:.63rem;color:var(--muted);font-family:'Kanit',sans-serif;text-transform:uppercase;letter-spacing:.04em}
+.dash-shortcuts{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.2rem}
+.dash-sc{
+  background:var(--card);border:1px solid var(--border2);border-radius:12px;
+  padding:.9rem .5rem .8rem;display:flex;flex-direction:column;align-items:center;gap:.38rem;
+  font-size:.73rem;color:var(--cream2);font-family:'Kanit',sans-serif;
+  cursor:pointer;transition:border-color .2s;
+}
+.dash-sc:active{border-color:var(--blue);background:var(--card2)}
+.dash-sc-icon{font-size:1.5rem;line-height:1}
+
+/* ── Account Settings ────────────────────────────────────── */
+.set-group{
+  background:var(--card);border:1px solid var(--border2);border-radius:14px;
+  overflow:hidden;margin-bottom:.85rem;
+}
+.set-group-label{
+  font-family:'Kanit',sans-serif;font-size:.67rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.07em;padding:.55rem 1rem .3rem;
+}
+.set-row{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.85rem 1rem;border-top:1px solid var(--border2);
+}
+.set-row:first-of-type{border-top:none}
+.set-row-action{cursor:pointer;transition:background .15s}
+.set-row-action:active{background:var(--card2)}
+.set-row-title{font-size:.92rem;color:var(--cream);font-family:'Kanit',sans-serif;font-weight:500}
+.set-row-sub{font-size:.74rem;color:var(--muted);margin-top:.06rem}
+.theme-pills{
+  display:flex;background:var(--card2);border-radius:20px;padding:.22rem;gap:.22rem;flex-shrink:0;
+}
+.theme-pill{
+  padding:.3rem .78rem;border-radius:16px;font-size:.78rem;font-family:'Kanit',sans-serif;
+  color:var(--muted);transition:background .2s,color .2s,box-shadow .2s;cursor:pointer;
+}
+.theme-pill.active{
+  background:var(--bg);color:var(--cream);
+  box-shadow:0 1px 5px rgba(0,0,0,.22);
+}
+
+/* ── Session cards ────────────────────────────────────────── */
+.session-card{
+  background:var(--card);border:1px solid var(--border2);border-radius:14px;
+  overflow:hidden;cursor:pointer;transition:transform .15s,border-color .2s;
+  position:relative;padding:1rem;margin-bottom:.7rem;
+}
+.session-card:active{transform:scale(.99)}
+.session-upcoming{border-color:rgba(47,138,96,.32);background:linear-gradient(135deg,rgba(47,138,96,.07),transparent)}
+.session-card::before{
+  content:'';position:absolute;inset:0 0 auto 0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+.sc-meta{font-size:.74rem;color:var(--muted);margin-bottom:.25rem}
+.sc-topic{font-family:'Kanit',sans-serif;font-size:.95rem;font-weight:600;color:var(--cream);margin-bottom:.12rem}
+.sc-sub{font-size:.8rem;color:var(--cream2)}
+.sc-pills{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.55rem}
+.detail-title{font-family:'Kanit',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:.2rem}
+.detail-meta{font-size:.8rem;color:var(--muted);margin-bottom:1rem}
+.section-label{
+  font-family:'Kanit',sans-serif;font-size:.72rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.06em;margin:.8rem 0 .5rem;
+}
+.vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.vocab-card{
+  background:var(--card2);border:1px solid var(--border2);border-radius:10px;
+  padding:.6rem .7rem;
+}
+.vc-th{font-size:1.1rem;font-weight:600;color:var(--gold2)}
+.vc-rom{font-size:.7rem;color:var(--cream2);font-style:italic}
+.vc-en{font-size:.78rem;color:var(--cream2);margin-top:.05rem}
+.phrase-item{
+  background:var(--card2);border:1px solid var(--border2);border-radius:10px;
+  padding:.6rem .75rem;margin-bottom:.45rem;
+}
+.ph-th{font-size:.95rem;color:var(--cream)}
+.ph-en{font-size:.78rem;color:var(--muted);margin-top:.1rem}
+.nita-box{
+  background:linear-gradient(135deg,rgba(132,204,22,.09),rgba(163,230,53,.04));
+  border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-top:.85rem;
+}
+.nita-label{font-family:'Kanit',sans-serif;font-size:.72rem;color:var(--gold);
+  text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem}
+.nita-note{font-size:.88rem;color:var(--cream2);line-height:1.75}
+.btn-full{
+  width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#0B0907;border-radius:12px;padding:.82rem;font-family:'Kanit',sans-serif;
+  font-size:.95rem;font-weight:600;margin-top:1rem;
+}
+.btn-full:active{opacity:.88}
+.add-form{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:1rem;margin-bottom:.75rem;display:none;
+}
+.add-form.open{display:block;animation:fadeUp .2s ease}
+.form-row{margin-bottom:.6rem}
+.form-row label{display:block;font-size:.74rem;color:var(--muted);margin-bottom:.22rem;font-family:'Kanit',sans-serif}
+.form-input{
+  width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;
+  padding:.58rem .75rem;color:var(--cream);font-size:.92rem;transition:border-color .2s;
+}
+.form-input:focus{border-color:var(--blue)}
+.form-input::placeholder{color:var(--muted)}
+.form-actions{display:flex;gap:.5rem;margin-top:.65rem}
+.form-actions button{flex:1}
+
+/* ── Flashcards ──────────────────────────────────────────── */
+.cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-top:.5rem}
+.card-item{
+  background:var(--card);border:1px solid var(--border2);border-radius:12px;
+  padding:.75rem .7rem;position:relative;overflow:hidden;cursor:pointer;
+  transition:border-color .2s,transform .15s;
+}
+.card-item:active{transform:scale(.97)}
+.card-item.known{border-color:rgba(90,170,128,.38)}
+.card-item::before{
+  content:'';position:absolute;inset:0 0 auto 0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+.card-item.known::before{background:linear-gradient(90deg,var(--green),#7BC89A)}
+.ci-thai{font-size:1.1rem;font-weight:600;color:var(--gold2);margin-top:.15rem;line-height:1.35}
+.ci-rom{font-size:.7rem;color:var(--cream2);font-style:italic;margin-top:.05rem}
+.ci-en{font-size:.78rem;color:var(--cream2);margin-top:.08rem}
+.ci-cat{margin-top:.4rem}
+.known-mark{
+  position:absolute;top:.45rem;right:.5rem;font-size:.8rem;color:var(--green);
+  opacity:0;transition:opacity .2s;
+}
+.card-item.known .known-mark{opacity:1}
+
+/* ── Study mode ──────────────────────────────────────────── */
+#study-mode{
+  position:fixed;inset:0;background:var(--bg);z-index:200;
+  display:none;flex-direction:column;
+}
+#study-mode.open{display:flex}
+.study-hdr{
+  padding:1rem;display:flex;align-items:center;gap:.75rem;
+  border-bottom:1px solid var(--border2);flex-shrink:0;
+}
+.study-prog-bar{flex:1;height:6px;background:var(--card2);border-radius:3px;overflow:hidden}
+.study-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:3px;transition:width .4s ease}
+.study-body{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:1.5rem;gap:2rem;
+}
+.flip-wrapper{perspective:900px;width:100%;max-width:340px;height:200px;cursor:pointer}
+.flip-card{
+  width:100%;height:100%;position:relative;transform-style:preserve-3d;
+  transition:transform .5s cubic-bezier(.4,.2,.2,1);
+}
+.flip-card.flipped{transform:rotateY(180deg)}
+.flip-face{
+  position:absolute;inset:0;border-radius:16px;backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:1.5rem;border:1px solid var(--border);background:var(--card);
+  box-shadow:0 4px 20px rgba(77,122,158,.16);
+}
+.flip-face::before{
+  content:'';position:absolute;inset:0 0 auto 0;height:3px;
+  border-radius:16px 16px 0 0;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+.flip-back{transform:rotateY(180deg);background:var(--card2)}
+.flip-thai{font-size:2rem;font-weight:600;color:var(--gold2)}
+.flip-hint{font-size:.75rem;color:var(--muted);margin-top:.5rem}
+.flip-en{font-size:1.4rem;color:var(--cream);font-weight:500;text-align:center}
+.flip-rom{font-size:.85rem;color:var(--cream2);font-style:italic;margin-top:.3rem}
+.study-acts{display:flex;gap:1rem;width:100%;max-width:340px}
+.btn-study{flex:1;padding:.82rem;border-radius:12px;font-family:'Kanit',sans-serif;font-size:.92rem;font-weight:600}
+.btn-nope{background:var(--red-soft);color:var(--red);border:1px solid rgba(226,104,90,.22)}
+.btn-got{background:rgba(90,170,128,.16);color:var(--green);border:1px solid rgba(90,170,128,.22)}
+.study-ct{font-size:.85rem;color:var(--muted);text-align:center}
+
+/* ── Journal ─────────────────────────────────────────────── */
+.journal-card{
+  background:var(--card);border:1px solid var(--border2);border-radius:14px;
+  overflow:hidden;cursor:pointer;transition:transform .15s;
+  position:relative;padding:.9rem 1rem;margin-bottom:.7rem;
+}
+.journal-card:active{transform:scale(.99)}
+.journal-card::before{
+  content:'';position:absolute;inset:0 0 auto 0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+.jc-title{font-family:'Kanit',sans-serif;font-size:.98rem;font-weight:600;color:var(--cream);margin-bottom:.22rem}
+.jc-preview{font-size:.82rem;color:var(--muted);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.jc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:.55rem}
+.jc-date{font-size:.72rem;color:var(--muted)}
+/* Journal image upload */
+.jimg-strip{display:flex;gap:.5rem;overflow-x:auto;padding:.3rem 0 .55rem;scrollbar-width:none}
+.jimg-strip:empty{display:none}
+.jimg-strip::-webkit-scrollbar{display:none}
+.jimg-thumb{position:relative;flex-shrink:0;width:76px;height:76px;border-radius:9px;overflow:hidden;border:1px solid var(--border)}
+.jimg-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.jimg-rm{
+  position:absolute;top:3px;right:3px;width:20px;height:20px;
+  background:rgba(11,9,7,.78);color:#fff;border-radius:50%;
+  font-size:.75rem;line-height:20px;text-align:center;cursor:pointer;border:none;
+}
+.entry-imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.5rem;margin:.65rem 0}
+.entry-img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;cursor:pointer;border:1px solid var(--border2);display:block}
+#img-viewer{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:600;display:none;align-items:center;justify-content:center}
+#img-viewer.open{display:flex}
+#img-viewer-img{max-width:96vw;max-height:90vh;border-radius:8px;object-fit:contain}
+#img-viewer-close{position:absolute;top:.9rem;right:.9rem;color:#fff;font-size:1.5rem;cursor:pointer;background:rgba(0,0,0,.45);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:none}
+.btn-share-ig{
+  width:100%;margin-top:1.1rem;padding:.82rem;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;gap:.55rem;
+  font-family:'Kanit',sans-serif;font-size:.95rem;font-weight:600;
+  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+  color:#fff;cursor:pointer;border:none;transition:opacity .2s;
+}
+.btn-share-ig:active{opacity:.85}
+.share-ig-icon{font-size:1.2rem;line-height:1}
+
+.entry-editor{display:none}
+.entry-editor.open{display:block;animation:fadeUp .22s ease}
+.entry-field{
+  width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:.75rem;color:var(--cream);font-size:1rem;line-height:1.75;resize:vertical;
+  min-height:140px;margin-bottom:.5rem;
+}
+.entry-field:focus{border-color:var(--blue)}
+.entry-title-in{
+  width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:.65rem .8rem;color:var(--cream);font-size:1rem;margin-bottom:.6rem;
+}
+.entry-title-in:focus{border-color:var(--blue)}
+.editor-acts{display:flex;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap}
+.entry-read{display:none}
+.entry-read.open{display:block;animation:fadeUp .22s ease}
+.ann-text{
+  font-size:1rem;line-height:2.1;color:var(--cream);
+  background:var(--card);border:1px solid var(--border2);border-radius:12px;
+  padding:1rem;margin-bottom:.75rem;word-break:break-all;
+}
+.ann-text.interactive .seg{cursor:text}
+.ann-text.interactive .seg:hover{background:rgba(132,204,22,.07);border-radius:3px}
+.chip{display:inline;cursor:pointer}
+.chip-orig{text-decoration:line-through;color:var(--red);font-size:.9em}
+.chip-arrow{color:var(--muted);font-size:.75em;margin:0 2px}
+.chip-corr{color:var(--green);font-weight:600}
+.chip-nb{
+  display:inline-block;background:none;border:none;font-size:.7em;cursor:pointer;
+  color:var(--muted);vertical-align:super;padding:0 2px;
+}
+.chip-note{
+  display:none;background:var(--card2);border:1px solid var(--border);border-radius:6px;
+  padding:.28rem .5rem;font-size:.78rem;color:var(--cream2);margin:0 3px;
+}
+.chip-note.open{display:inline-block}
+.feedback-box{
+  background:var(--card2);border:1px solid var(--border);border-radius:12px;
+  padding:.9rem 1rem;margin-top:.75rem;
+}
+.feedback-lbl{font-family:'Kanit',sans-serif;font-size:.72rem;color:var(--gold);
+  text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem}
+.feedback-txt{font-size:.88rem;color:var(--cream2);line-height:1.75}
+.pending-notice{
+  background:rgba(77,122,158,.08);border:1px solid var(--border);border-radius:10px;
+  padding:.65rem 1rem;text-align:center;font-size:.85rem;color:var(--blue);margin-top:.75rem;
+}
+.queue-sec{margin-bottom:1.25rem}
+.queue-lbl{
+  font-family:'Kanit',sans-serif;font-size:.72rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;
+}
+.review-hint{
+  font-size:.8rem;color:var(--blue);background:rgba(77,122,158,.07);
+  border:1px solid var(--border2);border-radius:8px;padding:.55rem .8rem;margin-bottom:.75rem;
+}
+.overall-ta{
+  width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:.7rem .8rem;color:var(--cream);font-size:.9rem;resize:vertical;
+  min-height:88px;margin:.75rem 0;
+}
+.overall-ta:focus{border-color:var(--blue)}
+.overall-ta::placeholder{color:var(--muted)}
+#annot-popup{
+  position:fixed;z-index:500;background:var(--card2);border:1px solid var(--border);
+  border-radius:14px;padding:1rem;width:min(320px,92vw);
+  box-shadow:0 8px 32px rgba(77,122,158,.18);display:none;
+}
+#annot-popup.open{display:block;animation:fadeUp .18s ease}
+.pop-sel{
+  font-size:.85rem;color:var(--muted);margin-bottom:.6rem;
+  border-left:2px solid var(--blue);padding-left:.6rem;word-break:break-all;
+}
+.pop-input{
+  width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;
+  padding:.52rem .7rem;color:var(--cream);font-size:.9rem;margin-bottom:.45rem;
+}
+.pop-input:focus{border-color:var(--blue)}
+.pop-input::placeholder{color:var(--muted)}
+.pop-acts{display:flex;gap:.45rem}
+.pop-acts button{
+  flex:1;padding:.52rem;border-radius:8px;font-size:.8rem;
+  font-family:'Kanit',sans-serif;font-weight:500;
+}
+.pop-save{background:var(--gold);color:#0B0907}
+.pop-del{background:var(--red-soft);color:var(--red);border:1px solid rgba(226,104,90,.2)}
+.pop-can{background:var(--card);color:var(--cream2);border:1px solid var(--border)}
+#toast{
+  position:fixed;bottom:calc(var(--nav-h) + 14px);left:50%;
+  transform:translateX(-50%) translateY(16px);
+  background:var(--card2);border:1px solid var(--border);border-radius:30px;
+  padding:.48rem 1.25rem;font-size:.84rem;color:var(--cream2);
+  opacity:0;transition:opacity .25s,transform .25s;z-index:1000;
+  white-space:nowrap;font-family:'Kanit',sans-serif;pointer-events:none;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty-msg{color:var(--muted);text-align:center;padding:2.5rem 0;font-size:.9rem}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ WELCOME ══════════════ -->
+<div id="welcome">
+
+  <!-- HERO: full-viewport carousel + login overlay -->
+  <div class="w-hero">
+  <div class="w-gallery">
+
+    <div class="gallery-track" id="gallery-track">
+      <div class="g-photo">
+        <img src="images/nita/IMG-20260712-WA0006.jpg" alt="Café garden"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">🌿</div>
+        <div class="g-label"><div class="g-label-main">Loop Café Garden</div><div class="g-label-sub">Our open-air classroom</div></div>
+      </div>
+      <div class="g-photo">
+        <img src="images/nita/IMG-20260712-WA0007.jpg" alt="Class materials"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">🃏</div>
+        <div class="g-label"><div class="g-label-main">Ready to Learn</div><div class="g-label-sub">Flashcards &amp; worksheets</div></div>
+      </div>
+      <div class="g-photo">
+        <img src="images/nita/IMG-20260712-WA0008.jpg" alt="Students in garden"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">👥</div>
+        <div class="g-label"><div class="g-label-main">Session in Full Swing</div><div class="g-label-sub">Real conversations, real Thai</div></div>
+      </div>
+      <div class="g-photo">
+        <img src="images/nita/IMG-20260712-WA0009.jpg" alt="Kru Nita teaching"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">👩‍🏫</div>
+        <div class="g-label"><div class="g-label-main">Kru Nita in Action</div><div class="g-label-sub">Small groups, big progress</div></div>
+      </div>
+      <div class="g-photo">
+        <img src="images/nita/IMG-20260712-WA0010.jpg" alt="Aerial class view"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="g-ph" style="display:none">🌳</div>
+        <div class="g-label"><div class="g-label-main">The Full Experience</div><div class="g-label-sub">Under the trees at Loop Café</div></div>
+      </div>
+    </div>
+    <button class="g-arrow prev" onclick="galleryMove(-1)" aria-label="Previous photo">&#8249;</button>
+    <button class="g-arrow next" onclick="galleryMove(1)" aria-label="Next photo">&#8250;</button>
+    <div class="g-dots" id="g-dots">
+      <div class="g-dot active"></div>
+      <div class="g-dot"></div>
+      <div class="g-dot"></div>
+      <div class="g-dot"></div>
+      <div class="g-dot"></div>
+    </div>
+  </div>
+  <!-- Login overlay -->
+  <div class="w-hero-overlay">
+    <div class="who-title">เรียนกับนิตา</div>
+    <div class="who-tagline">Thai classes at the local café · Hua Hin</div>
+    <div class="w-login">
+      <div class="wl-headline">Log in to continue<br>your Thai journey</div>
+      <div class="wl-input-wrap">
+        <label class="wl-float-label" for="name-input">Your name</label>
+        <input id="name-input" type="text" placeholder="e.g. Sarah" autocomplete="given-name">
+      </div>
+      <button class="btn-gold" onclick="loginStudent()">Continue →</button>
+      <div class="wl-divider"><span>Other log in options</span></div>
+      <div class="wl-options">
+        <button class="wl-opt-btn" onclick="loginNita()">
+          <span>👩‍🏫</span><span>Kru Nita · Teacher</span>
+        </button>
+      </div>
+    </div>
+    <div class="w-scroll-hint">↓ learn more</div>
+  </div>
+  </div><!-- end .w-hero -->
+
+  <!-- BELOW FOLD: feature cards + footer -->
+  <div class="w-below">
+    <!-- 3-column feature cards -->
+    <div class="wfg">
+      <!-- Card 1: About Nita (featured) -->
+      <div class="wfg-card wfg-featured">
+        <div class="wfg-label">Your Teacher</div>
+        <div class="wfg-headline">Thai language, the natural way.</div>
+        <div class="wfg-desc">Small groups, real conversations — no textbooks, no pressure. Just you, Thai, and a great cup of coffee.</div>
+        <div class="wfg-items">
+          <div class="wfg-item">
+            <div class="wfg-num">01</div>
+            <div><div class="wfg-item-title">Show up</div><div class="wfg-item-body">Just bring curiosity. No Thai experience needed.</div></div>
+          </div>
+          <div class="wfg-item">
+            <div class="wfg-num">02</div>
+            <div><div class="wfg-item-title">Speak from day one</div><div class="wfg-item-body">We talk Thai from the very first class, in a safe and friendly setting.</div></div>
+          </div>
+          <div class="wfg-item">
+            <div class="wfg-num">03</div>
+            <div><div class="wfg-item-title">Take it home</div><div class="wfg-item-body">Flashcards and journal entries keep the learning alive between sessions.</div></div>
+          </div>
+        </div>
+        <div class="wfg-cta">
+          <a class="wfg-btn" href="https://instagram.com/easythaiwithnita" target="_blank" rel="noopener">📷 @easythaiwithnita →</a>
+        </div>
+      </div>
+      <!-- Card 2: Upcoming Sessions -->
+      <div class="wfg-card">
+        <div class="wfg-label">Upcoming Sessions</div>
+        <div class="wfg-headline">Join us at the café.</div>
+        <div class="wfg-desc">Drop-in classes every Saturday morning. Small groups, relaxed pace, great coffee.</div>
+        <div class="wfg-items">
+          <div class="wfg-item">
+            <div class="wfg-num">→</div>
+            <div><div class="wfg-item-title">Colors &amp; Descriptions</div><div class="wfg-item-body">Jul 19 · Loop Café &amp; Stay</div></div>
+          </div>
+          <div class="wfg-item">
+            <div class="wfg-num">→</div>
+            <div><div class="wfg-item-title">At the Market</div><div class="wfg-item-body">Jul 26 · Mango Café</div></div>
+          </div>
+          <div class="wfg-item">
+            <div class="wfg-num">→</div>
+            <div><div class="wfg-item-title">Directions &amp; Getting Around</div><div class="wfg-item-body">Aug 2 · The Bean Café</div></div>
+          </div>
+        </div>
+        <div class="wfg-cta">
+          <div class="wfg-spots">Classes are free — just buy your coffee ☕</div>
+        </div>
+      </div>
+      <!-- Card 3: Reviews -->
+      <div class="wfg-card">
+        <div class="wfg-label">What People Say</div>
+        <div class="wfg-headline">Students love it.</div>
+        <div class="wfg-items">
+          <div class="wfg-item">
+            <div class="wfg-num">★</div>
+            <div><div class="wfg-item-title">"This is fantastic!"</div><div class="wfg-item-body">I learned more in two hours than months of apps. — Sarah M., Australia 🇦🇺</div></div>
+          </div>
+          <div class="wfg-item">
+            <div class="wfg-num">★</div>
+            <div><div class="wfg-item-title">"The café vibe is perfect."</div><div class="wfg-item-body">Relaxed, fun — you actually speak Thai out loud. — Marco R., Italy 🇮🇹</div></div>
+          </div>
+          <div class="wfg-item">
+            <div class="wfg-num">★</div>
+            <div><div class="wfg-item-title">"This one clicks."</div><div class="wfg-item-body">Nita is patient, funny, and loves teaching. — Jens K., Germany 🇩🇪</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Nita's footer bio -->
+    <div class="w-footer">
+      <div class="wf-intro">
+        <div class="wf-avatar">🌸</div>
+        <div>
+          <div class="wf-name">Nita</div>
+          <div class="wf-bio">Native Thai speaker and language teacher with 8+ years of experience. I believe every conversation over coffee is a chance to learn something real. Come join us at the café! 🌺</div>
+        </div>
+      </div>
+      <div class="wf-social">
+        <a class="wf-link" href="https://instagram.com/easythaiwithnita" target="_blank" rel="noopener">
+          <span class="wf-icon">📷</span><span>@easythaiwithnita</span>
+        </a>
+        <a class="wf-link" href="https://facebook.com/KruNitaThai" target="_blank" rel="noopener">
+          <span class="wf-icon">👤</span><span>Kru Nita Thai</span>
+        </a>
+      </div>
+    </div>
+    <div class="w-copyright">© 2026 Nita — Easy Thai With Nita</div>
+  </div><!-- end .w-below -->
+</div>
+
+<!-- ══════════════ LEFT DRAWER NAV ══════════════ -->
+<div id="nav-backdrop" onclick="closeNav()"></div>
+<div id="sidenav">
+  <div class="sn-user">
+    <div class="sn-avatar" id="sn-avatar">🎓</div>
+    <div>
+      <div class="sn-name" id="sn-name"></div>
+      <div class="sn-role-lbl" id="sn-role-lbl"></div>
+    </div>
+  </div>
+  <div class="sn-nav">
+    <div class="sn-item active" id="sn-home" onclick="navTo('home');closeNav()">
+      <span class="sn-icon">🌱</span><span>My Learning Space</span>
+    </div>
+    <div class="sn-item" id="sn-notes" onclick="navTo('notes');closeNav()">
+      <span class="sn-icon">📚</span><span>Session Notes</span>
+    </div>
+    <div class="sn-item" id="sn-cards" onclick="navTo('cards');closeNav()">
+      <span class="sn-icon">🃏</span><span>My Vocabulary</span>
+    </div>
+    <div class="sn-item" id="sn-journal" onclick="navTo('journal');closeNav()">
+      <span class="sn-icon">📓</span><span id="sn-j-lbl">My Journal</span>
+    </div>
+  </div>
+  <div class="sn-footer">
+    <div class="sn-item" id="sn-settings" onclick="navTo('settings');closeNav()">
+      <span class="sn-icon">⚙️</span><span>Account Settings</span>
+    </div>
+    <div class="sn-item sn-logout" onclick="logout()">
+      <span class="sn-icon">🚪</span><span>Log Out</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ APP SHELL ══════════════ -->
+<div id="app">
+  <div class="topbar">
+    <button class="hamburger" onclick="openNav()">☰</button>
+    <div class="topbar-brand">เรียนกับนิตา</div>
+    <button class="role-badge" id="role-badge" onclick="switchRole()"></button>
+  </div>
+  <div class="content">
+    <div id="view-home" class="view active">
+      <div class="dash-greeting">
+        <div class="dash-hi" id="dash-hi">สวัสดี!</div>
+        <div class="dash-sub" id="dash-sub">Keep up the great work with your Thai 🌟</div>
+      </div>
+      <div class="dash-slabel">Next Session</div>
+      <div id="dash-next-session"></div>
+      <div class="dash-slabel">Your Progress</div>
+      <div class="dash-stats">
+        <div class="dash-stat"><div class="dash-stat-n" id="stat-sessions">0</div><div class="dash-stat-l">Sessions</div></div>
+        <div class="dash-stat"><div class="dash-stat-n" id="stat-words">0</div><div class="dash-stat-l">Words</div></div>
+        <div class="dash-stat"><div class="dash-stat-n" id="stat-entries">0</div><div class="dash-stat-l">Journal</div></div>
+      </div>
+      <div class="dash-slabel">Quick Access</div>
+      <div class="dash-shortcuts">
+        <button class="dash-sc" onclick="navTo('notes')"><div class="dash-sc-icon">📚</div><div>Notes</div></button>
+        <button class="dash-sc" onclick="navTo('cards')"><div class="dash-sc-icon">🃏</div><div>Study</div></button>
+        <button class="dash-sc" onclick="navTo('journal')"><div class="dash-sc-icon">📓</div><div>Journal</div></button>
+      </div>
+    </div>
+    <div id="view-notes" class="view">
+      <div class="sec-head">
+        <div class="sec-title">📚 Class Notes</div>
+        <button class="btn-sm pri" id="add-session-btn" onclick="toggleAddSession()" style="display:none">+ Add Session</button>
+      </div>
+      <div class="add-form" id="add-session-form">
+        <div class="form-row"><label>Topic (English)</label><input class="form-input" id="sf-en" placeholder="e.g. Greetings"></div>
+        <div class="form-row"><label>Topic (Thai)</label><input class="form-input" id="sf-th" placeholder="e.g. การทักทาย"></div>
+        <div class="form-row"><label>Location</label><input class="form-input" id="sf-loc" placeholder="e.g. Mango Café"></div>
+        <div class="form-row"><label>Nita's Note</label><textarea class="form-input" id="sf-note" rows="2" style="resize:vertical"></textarea></div>
+        <div class="form-actions">
+          <button class="btn-sm" onclick="toggleAddSession()">Cancel</button>
+          <button class="btn-sm pri" onclick="saveSession()">Save Session</button>
+        </div>
+      </div>
+      <div id="sessions-list"></div>
+      <div id="session-detail" style="display:none">
+        <button class="back-btn" onclick="closeSession()">← Back</button>
+        <div class="detail-title" id="sd-title"></div>
+        <div class="detail-meta" id="sd-meta"></div>
+        <div class="section-label">Vocabulary</div>
+        <div class="vocab-grid" id="sd-vocab"></div>
+        <div class="section-label" style="margin-top:1rem">Key Phrases</div>
+        <div id="sd-phrases"></div>
+        <div class="nita-box"><div class="nita-label">👩‍🏫 Nita's Note</div><div class="nita-note" id="sd-note"></div></div>
+        <button class="btn-full" onclick="addSessionCards()">Add This Session's Vocab to My Cards</button>
+      </div>
+    </div>
+    <div id="view-cards" class="view">
+      <div class="sec-head">
+        <div class="sec-title">🃏 My Cards <span id="card-count" style="color:var(--muted);font-size:.85rem;font-family:'IBM Plex Sans Thai',sans-serif;font-weight:400"></span></div>
+        <div style="display:flex;gap:.4rem">
+          <button class="btn-sm" onclick="toggleAddCard()">+ Add</button>
+          <button class="btn-sm pri" onclick="startStudy()">Study</button>
+        </div>
+      </div>
+      <div class="add-form" id="add-card-form">
+        <div class="form-row"><label>Thai</label><input class="form-input" id="cf-thai" placeholder="สวัสดี"></div>
+        <div class="form-row"><label>Romanized</label><input class="form-input" id="cf-rom" placeholder="sawadee"></div>
+        <div class="form-row"><label>English</label><input class="form-input" id="cf-en" placeholder="Hello"></div>
+        <div class="form-row"><label>Category</label><input class="form-input" id="cf-cat" placeholder="Greetings"></div>
+        <div class="form-actions">
+          <button class="btn-sm" onclick="toggleAddCard()">Cancel</button>
+          <button class="btn-sm pri" onclick="saveNewCard()">Save Card</button>
+        </div>
+      </div>
+      <div class="cards-grid" id="cards-grid"></div>
+    </div>
+    <div id="view-journal" class="view">
+      <div id="student-journal">
+        <div class="entry-editor" id="entry-editor">
+          <div class="sec-head"><div class="sec-title">✏️ New Entry</div></div>
+          <input class="entry-title-in" id="entry-title-in" placeholder="Entry title…">
+          <textarea class="entry-field" id="entry-body-in" placeholder="Write in Thai…"></textarea>
+          <div class="jimg-strip" id="journal-img-strip"></div>
+          <input type="file" id="journal-img-input" accept="image/*" multiple style="display:none" onchange="handleJournalImages(this)">
+          <div class="editor-acts">
+            <button class="btn-sm" onclick="document.getElementById('journal-img-input').click()">📷 Photo</button>
+            <button class="btn-sm" onclick="closeEditor()">Cancel</button>
+            <button class="btn-sm" onclick="saveDraft()">Save Draft</button>
+            <button class="btn-sm pri" onclick="submitJournal()">Submit to Nita</button>
+          </div>
+        </div>
+        <div class="entry-read" id="entry-read">
+          <button class="back-btn" onclick="closeEntryRead()">← Back</button>
+          <div class="detail-title" id="er-title"></div>
+          <div class="detail-meta" id="er-meta"></div>
+          <div id="er-images"></div>
+          <div class="ann-text" id="er-body"></div>
+          <div id="er-feedback"></div>
+          <button class="btn-share-ig" id="btn-share-ig" onclick="shareJournal()">
+            <span class="share-ig-icon">📸</span>
+            <span>Share to Instagram</span>
+          </button>
+        </div>
+        <div id="journal-list-area">
+          <button class="btn-full" style="margin-bottom:1rem" onclick="openEditor()">✏️ Write New Entry</button>
+          <div id="journal-list"></div>
+        </div>
+      </div>
+      <div id="teacher-reviews" style="display:none">
+        <div id="review-editor" style="display:none">
+          <button class="back-btn" onclick="closeReview()">← Back</button>
+          <div class="detail-title" id="rv-title"></div>
+          <div class="detail-meta" id="rv-meta"></div>
+          <div class="review-hint">Select any word or phrase in the text below to add a correction.</div>
+          <div class="ann-text interactive" id="rv-body"></div>
+          <div id="rv-images"></div>
+          <textarea class="overall-ta" id="rv-comment" placeholder="Overall comment for the student…"></textarea>
+          <button class="btn-full" onclick="sendReview()">Send Feedback</button>
+        </div>
+        <div id="review-list-area">
+          <div class="sec-head"><div class="sec-title">📓 Journal Reviews</div></div>
+          <div id="review-queue"></div>
+        </div>
+      </div>
+    </div>
+    <div id="view-settings" class="view">
+      <div class="sec-head"><div class="sec-title">⚙️ Account Settings</div></div>
+
+      <div class="set-group">
+        <div class="set-group-label">Appearance</div>
+        <div class="set-row">
+          <div>
+            <div class="set-row-title">Theme</div>
+            <div class="set-row-sub">Choose how the app looks</div>
+          </div>
+          <div class="theme-pills">
+            <button class="theme-pill" id="theme-pill-dark" onclick="setTheme('dark')">🌙 Dark</button>
+            <button class="theme-pill active" id="theme-pill-light" onclick="setTheme('light')">☀️ Light</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-group">
+        <div class="set-group-label">Account</div>
+        <div class="set-row">
+          <div>
+            <div class="set-row-title" id="set-user-name">—</div>
+            <div class="set-row-sub" id="set-user-role">—</div>
+          </div>
+        </div>
+        <div class="set-row set-row-action" onclick="logout()">
+          <div class="set-row-title" style="color:var(--red)">Log Out</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav class="bottom-nav">
+    <div class="tab active" id="tab-home" onclick="navTo('home')"><div class="ti">🌱</div><div>My Space</div></div>
+    <div class="tab" id="tab-notes" onclick="navTo('notes')"><div class="ti">📚</div><div>Notes</div></div>
+    <div class="tab" id="tab-cards" onclick="navTo('cards')"><div class="ti">🃏</div><div>Cards</div></div>
+    <div class="tab" id="tab-journal" onclick="navTo('journal')"><div class="ti">📓</div><div id="tab-j-lbl">Journal</div></div>
+  </nav>
+</div>
+
+<div id="study-mode">
+  <div class="study-hdr">
+    <button class="btn-sm" onclick="endStudy()">✕ Exit</button>
+    <div class="study-prog-bar"><div class="study-prog-fill" id="study-prog"></div></div>
+    <div class="study-ct" id="study-ct"></div>
+  </div>
+  <div class="study-body">
+    <div class="flip-wrapper" onclick="flipCard()">
+      <div class="flip-card" id="flip-card">
+        <div class="flip-face flip-front">
+          <div class="flip-thai" id="flip-thai"></div>
+          <div class="flip-hint">tap to reveal</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="flip-en" id="flip-en"></div>
+          <div class="flip-rom" id="flip-rom"></div>
+        </div>
+      </div>
+    </div>
+    <div class="study-acts">
+      <button class="btn-study btn-nope" onclick="studyNext(false)">Still Learning</button>
+      <button class="btn-study btn-got" onclick="studyNext(true)">Got It ✓</button>
+    </div>
+  </div>
+</div>
+
+<div id="annot-popup">
+  <div class="pop-sel" id="pop-sel"></div>
+  <input class="pop-input" id="pop-corr" placeholder="Correction…">
+  <input class="pop-input" id="pop-note" placeholder="Optional note (grammar tip, etc.)…">
+  <div class="pop-acts">
+    <button class="pop-save" onclick="saveAnnotation()">Save</button>
+    <button class="pop-del" id="pop-del" onclick="deleteAnnotation()">Delete</button>
+    <button class="pop-can" onclick="closeAnnotPopup()">Cancel</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const SEED = {
+  sessions:[
+    {
+      id:'s1',date:'2025-07-05',location:'Mango Café',
+      topicEn:'Greetings & Introduction',topicTh:'การทักทายและการแนะนำตัว',
+      vocab:[
+        {th:'สวัสดี',rom:'sawadee',en:'Hello / Goodbye'},
+        {th:'ขอบคุณ',rom:'khob khun',en:'Thank you'},
+        {th:'ชื่อ',rom:'chûe',en:'Name'},
+        {th:'ยินดีที่ได้รู้จัก',rom:'yin dee thi dai ruu jak',en:'Nice to meet you'},
+        {th:'มาจากไหน',rom:'maa jaak nai',en:'Where are you from?'}
+      ],
+      phrases:[
+        {th:'ผม/ฉันชื่อ…',en:'My name is…'},
+        {th:'คุณชื่ออะไร?',en:'What\'s your name?'},
+        {th:'ยินดีที่ได้รู้จักครับ/ค่ะ',en:'Nice to meet you (polite)'}
+      ],
+      note:'Remember to add ครับ (men) or ค่ะ (women) at the end of sentences to sound polite. Thai politeness particles are not optional in formal situations — Thais will immediately notice their absence!'
+    },
+    {
+      id:'s2',date:'2025-07-12',location:'The Bean Café',
+      topicEn:'Ordering at the Café',topicTh:'การสั่งอาหารที่คาเฟ่',
+      vocab:[
+        {th:'กาแฟ',rom:'gaa-fae',en:'Coffee'},
+        {th:'น้ำ',rom:'náam',en:'Water'},
+        {th:'อร่อย',rom:'a-roi',en:'Delicious'},
+        {th:'เผ็ด',rom:'pèt',en:'Spicy'},
+        {th:'เท่าไหร่',rom:'tao rai',en:'How much?'}
+      ],
+      phrases:[
+        {th:'ขอ… หนึ่งแก้วครับ/ค่ะ',en:'One … please'},
+        {th:'เผ็ดน้อยได้ไหม?',en:'Can you make it less spicy?'},
+        {th:'อร่อยมากเลยครับ/ค่ะ',en:'This is very delicious!'}
+      ],
+      note:'Thai uses classifiers (ลักษณนาม) after numbers — e.g. หนึ่งแก้ว (one glass), สองจาน (two plates). The classifier changes depending on the type of object. This takes practice!'
+    },
+    {
+      id:'s3',date:'2025-07-19',location:'Bloom Coffee',
+      topicEn:'Numbers & Time',topicTh:'ตัวเลขและเวลา',
+      vocab:[
+        {th:'หนึ่ง',rom:'nùeng',en:'One'},
+        {th:'สอง',rom:'sǒng',en:'Two'},
+        {th:'สาม',rom:'sǎam',en:'Three'},
+        {th:'ตอนนี้',rom:'dton née',en:'Right now / Currently'},
+        {th:'วันนี้',rom:'wan née',en:'Today'}
+      ],
+      phrases:[
+        {th:'ตอนนี้กี่โมง?',en:'What time is it now?'},
+        {th:'วันนี้วันอะไร?',en:'What day is it today?'},
+        {th:'เจอกันพรุ่งนี้นะ',en:'See you tomorrow!'}
+      ],
+      note:'Thai has two time systems: the formal 24-hour clock (นาฬิกา) and an informal 6-hour cycle system. Locals use the informal system daily — e.g. บ่ายสองโมง = 2 PM (literally "afternoon two bells").'
+    },
+    {
+      id:'s4',date:'2026-07-19',location:'Loop Café & Stay',
+      topicEn:'Colors & Descriptions',topicTh:'สีและการบรรยาย',
+      vocab:[
+        {th:'สีแดง',rom:'sǐi daeng',en:'Red'},
+        {th:'สีน้ำเงิน',rom:'sǐi nám ngern',en:'Blue'},
+        {th:'สีเขียว',rom:'sǐi khǐao',en:'Green'},
+        {th:'สวย',rom:'sǔay',en:'Beautiful'},
+        {th:'ใหญ่',rom:'yài',en:'Big'},
+        {th:'เล็ก',rom:'lék',en:'Small'}
+      ],
+      phrases:[
+        {th:'นั่นสวยมากเลย',en:'That\'s so beautiful!'},
+        {th:'เสื้อสีอะไร?',en:'What color is the shirt?'},
+        {th:'ใหญ่หรือเล็ก?',en:'Big or small?'},
+        {th:'ฉันชอบสีนี้',en:'I like this color'}
+      ],
+      note:'Colors in Thai use the word สี (sǐi) meaning "color" before each hue — สีแดง (red), สีน้ำเงิน (blue). You can drop สี in casual speech once the context is clear, just like English. Adjectives in Thai always come AFTER the noun: กาแฟร้อน = coffee hot = hot coffee.'
+    },
+    {
+      id:'s5',date:'2026-07-26',location:'Mango Café',
+      topicEn:'At the Market',topicTh:'ที่ตลาด',
+      vocab:[
+        {th:'ตลาด',rom:'dtalàat',en:'Market'},
+        {th:'ราคา',rom:'raa-khaa',en:'Price'},
+        {th:'ถูก',rom:'thùuk',en:'Cheap'},
+        {th:'แพง',rom:'phaeng',en:'Expensive'},
+        {th:'ต่อรอง',rom:'dtò-rong',en:'To negotiate'},
+        {th:'ผัก',rom:'phàk',en:'Vegetables'}
+      ],
+      phrases:[
+        {th:'ราคาเท่าไหร่?',en:'How much is this?'},
+        {th:'ลดราคาได้ไหม?',en:'Can you lower the price?'},
+        {th:'ถูกกว่านี้ได้ไหม?',en:'Can it be any cheaper?'},
+        {th:'แพงไปหน่อยนะ',en:'That\'s a bit expensive'}
+      ],
+      note:'Bargaining is totally normal and expected at Thai markets — the vendor sets a starting price and expects negotiation. Always smile and stay friendly! Start by offering about 60–70% of the asking price and meet somewhere in the middle. Never bargain aggressively; a light, playful tone goes a long way.'
+    },
+    {
+      id:'s6',date:'2026-08-02',location:'The Bean Café',
+      topicEn:'Directions & Getting Around',topicTh:'ทิศทางและการเดินทาง',
+      vocab:[
+        {th:'ซ้าย',rom:'sáai',en:'Left'},
+        {th:'ขวา',rom:'khwǎa',en:'Right'},
+        {th:'ตรงไป',rom:'trong pai',en:'Straight ahead'},
+        {th:'ใกล้',rom:'glâi',en:'Near'},
+        {th:'ไกล',rom:'glai',en:'Far'},
+        {th:'สี่แยก',rom:'sìi yàek',en:'Intersection / Crossroads'}
+      ],
+      phrases:[
+        {th:'ไปที่นั่นยังไง?',en:'How do I get there?'},
+        {th:'ใกล้แค่ไหน?',en:'How near is it?'},
+        {th:'เลี้ยวซ้าย/ขวาตรงนี้',en:'Turn left/right here'},
+        {th:'ขอถามหน่อยได้ไหม?',en:'Excuse me, may I ask?'}
+      ],
+      note:'ใกล้ (near) and ไกล (far) sound deceptively similar to learners — the key is the tone. ใกล้ has a falling tone and ไกล has a mid tone. A good trick: think of ไกล rhyming with "glide" — you glide far away. Practice tones carefully or you might accidentally tell someone your destination is far when you mean near!'
+    }
+  ],
+  cards:[
+    {id:'c1',thai:'สวัสดี',rom:'sawadee',en:'Hello / Goodbye',cat:'Greetings',status:'known'},
+    {id:'c2',thai:'ขอบคุณ',rom:'khob khun',en:'Thank you',cat:'Greetings',status:'known'},
+    {id:'c3',thai:'กาแฟ',rom:'gaa-fae',en:'Coffee',cat:'Café',status:'learning'},
+    {id:'c4',thai:'อร่อย',rom:'a-roi',en:'Delicious',cat:'Café',status:'learning'},
+    {id:'c5',thai:'เท่าไหร่',rom:'tao rai',en:'How much?',cat:'Shopping',status:'new'},
+    {id:'c6',thai:'หนึ่ง',rom:'nùeng',en:'One',cat:'Numbers',status:'known'},
+    {id:'c7',thai:'สอง',rom:'sǒng',en:'Two',cat:'Numbers',status:'learning'},
+    {id:'c8',thai:'วันนี้',rom:'wan née',en:'Today',cat:'Time',status:'new'}
+  ],
+  entries:[
+    {
+      id:'j1',author:'Alex',authorDisplay:'Alex',title:'วันแรกที่คาเฟ่',
+      date:'2025-07-06',
+      body:'วันนี้ฉันไปคาเฟ่กับเพื่อน ฉันสั่งกาแฟหนึ่งแก้ว กาแฟอร่อยมาก ฉันพูดภาษาไทยกับพนักงาน เขาใจดีมาก',
+      status:'reviewed',
+      annotations:[
+        {id:'a1',start:42,end:50,original:'พูดภาษา',correction:'พูดภาษาไทย',note:'Always include ไทย after พูดภาษา to specify the language'},
+        {id:'a2',start:61,end:63,original:'เขา',correction:'พนักงาน',note:'Use พนักงาน (staff/employee) instead of เขา (he) for clarity'}
+      ],
+      nitaComment:'Very good first entry Alex! Your sentence structure is natural and easy to follow. Keep practising the polite particles ครับ/ค่ะ at the end of your sentences — it will make a big difference!'
+    },
+    {
+      id:'j2',author:'Alex',authorDisplay:'Alex',title:'ฉันชอบอาหารไทย',
+      date:'2025-07-13',
+      body:'ฉันชอบอาหารไทยมาก อาหารไทยอร่อยและเผ็ด วันนี้ฉันกินส้มตำกับข้าวเหนียว ฉันกินเผ็ดมากไม่ได้ แต่ฉันพยายาม',
+      status:'submitted',
+      annotations:[],
+      nitaComment:''
+    }
+  ]
+};
+
+var S = {user:'',role:'student',sessions:[],cards:[],entries:[]};
+var studyQ=[], studyIdx=0;
+var currentSessionId=null, currentReviewId=null;
+var annCtx={journalId:null,editingId:null,selStart:0,selEnd:0,selText:''};
+
+function loadData(){
+  var raw=localStorage.getItem('nita_data');
+  if(raw){
+    try{
+      var d=JSON.parse(raw);
+      var ids=d.sessions.map(function(s){return s.id;});
+      SEED.sessions.forEach(function(s){
+        if(ids.indexOf(s.id)===-1) d.sessions.push(s);
+      });
+      return d;
+    }catch(e){}
+  }
+  localStorage.setItem('nita_data',JSON.stringify(SEED));
+  return JSON.parse(JSON.stringify(SEED));
+}
+function save(){
+  localStorage.setItem('nita_data',JSON.stringify({sessions:S.sessions,cards:S.cards,entries:S.entries}));
+}
+/* ── Photo gallery ── */
+var galleryIdx=0,GALLERY_TOTAL=5,galleryTouchX=0;
+function galleryMove(dir){
+  galleryIdx=(galleryIdx+dir+GALLERY_TOTAL)%GALLERY_TOTAL;
+  var track=document.getElementById('gallery-track');
+  if(track) track.style.transform='translateX(calc(-'+galleryIdx+'*100vw))';
+  document.querySelectorAll('.g-dot').forEach(function(d,i){d.classList.toggle('active',i===galleryIdx);});
+}
+(function(){
+  var g=document.querySelector('.w-gallery');
+  if(!g) return;
+  g.addEventListener('touchstart',function(e){galleryTouchX=e.touches[0].clientX;},{passive:true});
+  g.addEventListener('touchend',function(e){
+    var dx=e.changedTouches[0].clientX-galleryTouchX;
+    if(Math.abs(dx)>40) galleryMove(dx<0?1:-1);
+  },{passive:true});
+})();
+
+document.getElementById('name-input').addEventListener('focus',function(){
+  setTimeout(function(){document.getElementById('name-input').scrollIntoView({behavior:'smooth',block:'center'});},320);
+});
+function loginStudent(){
+  var name=document.getElementById('name-input').value.trim();
+  if(!name){toast('Please enter your name');return;}
+  localStorage.setItem('nita_user',name);
+  localStorage.setItem('nita_role','student');
+  localStorage.setItem('nita_last_student',name);
+  startApp(name,'student');
+}
+function loginNita(){
+  localStorage.setItem('nita_user','Kru Nita');
+  localStorage.setItem('nita_role','teacher');
+  startApp('Kru Nita','teacher');
+}
+function startApp(user,role){
+  S.user=user; S.role=role;
+  var d=loadData();
+  S.sessions=d.sessions; S.cards=d.cards; S.entries=d.entries;
+  document.getElementById('welcome').classList.add('out');
+  document.getElementById('app').classList.add('visible');
+  updateBadge(); applyRoleUI(); updateSideNav(); navTo(role==='student'?'home':'notes');
+}
+function switchRole(){
+  var nr=S.role==='teacher'?'student':'teacher';
+  S.role=nr;
+  if(nr==='student'){var ls=localStorage.getItem('nita_last_student')||'Alex';S.user=ls;}
+  else{S.user='Kru Nita';}
+  localStorage.setItem('nita_role',nr);
+  localStorage.setItem('nita_user',S.user);
+  updateBadge(); applyRoleUI(); updateSideNav(); navTo(nr==='student'?'home':'notes');
+  toast('Switched to '+(nr==='teacher'?'teacher':'student')+' view');
+}
+function openNav(){
+  document.getElementById('sidenav').classList.add('open');
+  document.getElementById('nav-backdrop').classList.add('open');
+}
+function closeNav(){
+  document.getElementById('sidenav').classList.remove('open');
+  document.getElementById('nav-backdrop').classList.remove('open');
+}
+function updateSideNav(){
+  var isT=S.role==='teacher';
+  document.getElementById('sn-name').textContent=S.user||'';
+  document.getElementById('sn-role-lbl').textContent=isT?'Teacher · Kru Nita':'Student';
+  document.getElementById('sn-avatar').textContent=isT?'🌸':'🎓';
+  document.getElementById('sn-j-lbl').textContent=isT?'Reviews':'My Journal';
+}
+function logout(){
+  closeNav();
+  localStorage.removeItem('nita_user');
+  localStorage.removeItem('nita_role');
+  S.user=null; S.role=null;
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('welcome').classList.remove('out');
+  document.getElementById('name-input').value='';
+}
+function updateBadge(){
+  document.getElementById('role-badge').textContent=S.role==='teacher'?'👩‍🏫 Kru Nita':'🎓 '+S.user;
+}
+function applyRoleUI(){
+  var isT=S.role==='teacher';
+  document.getElementById('add-session-btn').style.display=isT?'':'none';
+  document.getElementById('student-journal').style.display=isT?'none':'';
+  document.getElementById('teacher-reviews').style.display=isT?'':'none';
+  document.getElementById('tab-j-lbl').textContent=isT?'Reviews':'Journal';
+  var tabHome=document.getElementById('tab-home');
+  var snHome=document.getElementById('sn-home');
+  if(tabHome) tabHome.style.display=isT?'none':'';
+  if(snHome) snHome.style.display=isT?'none':'';
+}
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  localStorage.setItem('nita_theme',t);
+  document.getElementById('theme-pill-dark').classList.toggle('active',t==='dark');
+  document.getElementById('theme-pill-light').classList.toggle('active',t==='light');
+}
+function renderSettings(){
+  var t=localStorage.getItem('nita_theme')||'light';
+  document.getElementById('theme-pill-dark').classList.toggle('active',t==='dark');
+  document.getElementById('theme-pill-light').classList.toggle('active',t==='light');
+  document.getElementById('set-user-name').textContent=S.user||'—';
+  document.getElementById('set-user-role').textContent=S.role==='teacher'?'Teacher · Kru Nita':'Student';
+}
+function navTo(t){
+  ['home','notes','cards','journal','settings'].forEach(function(v){
+    var view=document.getElementById('view-'+v); if(view) view.classList.remove('active');
+    var tb=document.getElementById('tab-'+v); if(tb) tb.classList.remove('active');
+    var sn=document.getElementById('sn-'+v); if(sn) sn.classList.remove('active');
+  });
+  var view=document.getElementById('view-'+t); if(view) view.classList.add('active');
+  var tb=document.getElementById('tab-'+t); if(tb) tb.classList.add('active');
+  var sn=document.getElementById('sn-'+t); if(sn) sn.classList.add('active');
+  closeAnnotPopup();
+  if(t==='home') renderHome();
+  if(t==='notes') renderSessions();
+  if(t==='cards') renderCards();
+  if(t==='journal'){S.role==='teacher'?renderNitaQueue():renderJournalList();}
+  if(t==='settings') renderSettings();
+}
+function renderHome(){
+  var today=new Date().toISOString().slice(0,10);
+  var hr=new Date().getHours();
+  var greet=hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
+  document.getElementById('dash-hi').textContent=greet+', '+S.user+'! 👋';
+  document.getElementById('dash-sub').textContent='Keep up the great work with your Thai 🌟';
+  var upcoming=S.sessions.filter(function(s){return s.date>=today;})
+    .sort(function(a,b){return a.date<b.date?-1:1;})[0];
+  var nxt=document.getElementById('dash-next-session');
+  if(upcoming){
+    nxt.innerHTML='<div class="dash-next" onclick="navTo(\'notes\')">'
+      +'<div class="dash-next-date">📅 '+esc(fmtDate(upcoming.date))+'</div>'
+      +'<div class="dash-next-topic">'+esc(upcoming.topicEn)+'</div>'
+      +'<div class="dash-next-loc">'+esc(upcoming.location)+'</div>'
+      +'</div>';
+  } else {
+    nxt.innerHTML='<div class="dash-next-none">No upcoming sessions — check back soon!</div>';
+  }
+  var pastCount=S.sessions.filter(function(s){return s.date<today;}).length;
+  document.getElementById('stat-sessions').textContent=pastCount;
+  document.getElementById('stat-words').textContent=S.cards.length;
+  document.getElementById('stat-entries').textContent=S.entries.length;
+}
+function renderSessions(){
+  document.getElementById('sessions-list').style.display='';
+  document.getElementById('session-detail').style.display='none';
+  var today=new Date().toISOString().slice(0,10);
+  var sorted=S.sessions.slice().sort(function(a,b){return a.date<b.date?1:-1;});
+  document.getElementById('sessions-list').innerHTML=sorted.map(function(s){
+    var upcoming=s.date>=today;
+    var badge=upcoming?'<span class="pill pill-v" style="font-size:.63rem;vertical-align:middle;margin-left:.35rem">📅 Upcoming</span>':'';
+    return '<div class="session-card'+(upcoming?' session-upcoming':'')+'" onclick="openSession(\''+s.id+'\')">'
+      +'<div class="sc-meta">'+esc(fmtDate(s.date))+' · '+esc(s.location)+badge+'</div>'
+      +'<div class="sc-topic">'+esc(s.topicTh)+'</div>'
+      +'<div class="sc-sub">'+esc(s.topicEn)+'</div>'
+      +'<div class="sc-pills">'
+      +'<span class="pill pill-g">'+s.vocab.length+' vocab</span>'
+      +'<span class="pill pill-m">'+s.phrases.length+' phrases</span>'
+      +'</div></div>';
+  }).join('');
+}
+function openSession(id){
+  var s=S.sessions.find(function(x){return x.id===id;});
+  if(!s) return;
+  currentSessionId=id;
+  document.getElementById('sessions-list').style.display='none';
+  document.getElementById('session-detail').style.display='block';
+  document.getElementById('sd-title').textContent=s.topicTh+' — '+s.topicEn;
+  document.getElementById('sd-meta').textContent=fmtDate(s.date)+' · '+s.location;
+  document.getElementById('sd-vocab').innerHTML=s.vocab.map(function(v){
+    return '<div class="vocab-card">'+'<div class="vc-th">'+esc(v.th)+'</div>'+'<div class="vc-rom">'+esc(v.rom)+'</div>'+'<div class="vc-en">'+esc(v.en)+'</div>'+'</div>';
+  }).join('');
+  document.getElementById('sd-phrases').innerHTML=s.phrases.map(function(p){
+    return '<div class="phrase-item">'+'<div class="ph-th">'+esc(p.th)+'</div>'+'<div class="ph-en">'+esc(p.en)+'</div>'+'</div>';
+  }).join('');
+  document.getElementById('sd-note').textContent=s.note;
+}
+function closeSession(){
+  currentSessionId=null;
+  document.getElementById('session-detail').style.display='none';
+  document.getElementById('sessions-list').style.display='';
+}
+function addSessionCards(){
+  var s=S.sessions.find(function(x){return x.id===currentSessionId;});
+  if(!s) return;
+  var added=0;
+  s.vocab.forEach(function(v){
+    if(!S.cards.find(function(c){return c.thai===v.th;})){
+      S.cards.push({id:'c'+Date.now()+'r'+Math.random().toString(36).slice(2,6),thai:v.th,rom:v.rom,en:v.en,cat:s.topicEn,status:'new'});
+      added++;
+    }
+  });
+  save();
+  toast(added?'Added '+added+' card'+(added>1?'s':'')+' to your deck!':'All vocab already in your deck');
+}
+function toggleAddSession(){document.getElementById('add-session-form').classList.toggle('open');}
+function saveSession(){
+  var en=document.getElementById('sf-en').value.trim();
+  var th=document.getElementById('sf-th').value.trim();
+  var loc=document.getElementById('sf-loc').value.trim();
+  var note=document.getElementById('sf-note').value.trim();
+  if(!en||!th){toast('Please fill in both topic fields');return;}
+  S.sessions.unshift({id:'s'+Date.now(),date:new Date().toISOString().slice(0,10),location:loc||'Café class',topicEn:en,topicTh:th,vocab:[],phrases:[],note:note||''});
+  save();
+  ['sf-en','sf-th','sf-loc','sf-note'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('add-session-form').classList.remove('open');
+  renderSessions(); toast('Session added!');
+}
+function renderCards(){
+  document.getElementById('card-count').textContent='('+S.cards.length+')';
+  document.getElementById('cards-grid').innerHTML=S.cards.map(function(c){
+    return '<div class="card-item'+(c.status==='known'?' known':'')+' " onclick="toggleCardStatus(\''+c.id+'\')">'+'<div class="known-mark">✓</div>'+'<div class="ci-thai">'+esc(c.thai)+'</div>'+'<div class="ci-rom">'+esc(c.rom)+'</div>'+'<div class="ci-en">'+esc(c.en)+'</div>'+'<div class="ci-cat"><span class="pill pill-g">'+esc(c.cat)+'</span></div>'+'</div>';
+  }).join('');
+}
+function toggleCardStatus(id){
+  var c=S.cards.find(function(x){return x.id===id;});
+  if(!c) return;
+  c.status=c.status==='known'?'learning':'known';
+  save(); renderCards();
+}
+function toggleAddCard(){document.getElementById('add-card-form').classList.toggle('open');}
+function saveNewCard(){
+  var thai=document.getElementById('cf-thai').value.trim();
+  var rom=document.getElementById('cf-rom').value.trim();
+  var en=document.getElementById('cf-en').value.trim();
+  var cat=document.getElementById('cf-cat').value.trim();
+  if(!thai||!en){toast('Thai and English fields are required');return;}
+  S.cards.push({id:'c'+Date.now(),thai:thai,rom:rom,en:en,cat:cat||'General',status:'new'});
+  save();
+  ['cf-thai','cf-rom','cf-en','cf-cat'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('add-card-form').classList.remove('open');
+  renderCards(); toast('Card added!');
+}
+function startStudy(){
+  studyQ=S.cards.filter(function(c){return c.status!=='known';});
+  if(!studyQ.length) studyQ=S.cards.slice();
+  if(!studyQ.length){toast('No cards to study!');return;}
+  for(var i=studyQ.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=studyQ[i];studyQ[i]=studyQ[j];studyQ[j]=tmp;}
+  studyIdx=0;
+  document.getElementById('study-mode').classList.add('open');
+  loadStudyCard();
+}
+function loadStudyCard(){
+  var total=studyQ.length;
+  document.getElementById('study-prog').style.width=((studyIdx/total)*100)+'%';
+  document.getElementById('study-ct').textContent=(studyIdx+1)+'/'+total;
+  var c=studyQ[studyIdx];
+  document.getElementById('flip-thai').textContent=c.thai;
+  document.getElementById('flip-en').textContent=c.en;
+  document.getElementById('flip-rom').textContent=c.rom;
+  document.getElementById('flip-card').classList.remove('flipped');
+}
+function flipCard(){document.getElementById('flip-card').classList.toggle('flipped');}
+function studyNext(ok){
+  if(ok){var c=S.cards.find(function(x){return x.id===studyQ[studyIdx].id;});if(c){c.status='known';save();}}
+  studyIdx++;
+  if(studyIdx>=studyQ.length){endStudy();renderCards();toast('Study session complete!');return;}
+  loadStudyCard();
+}
+function endStudy(){document.getElementById('study-mode').classList.remove('open');}
+function renderJournalList(){
+  closeEntryRead(); closeEditor();
+  var mine=S.entries.filter(function(e){return e.author===S.user||S.user==='Alex';});
+  document.getElementById('journal-list').innerHTML=mine.length?mine.map(function(e){
+    return '<div class="journal-card" onclick="openEntry(\''+e.id+'\')">'+'<div class="jc-title">'+esc(e.title)+'</div>'+'<div class="jc-preview">'+esc(e.body.slice(0,80))+(e.body.length>80?'…':'')+'</div>'+'<div class="jc-foot"><div class="jc-date">'+fmtDate(e.date)+'</div>'+statusPill(e.status)+'</div>'+'</div>';
+  }).join(''):'<div class="empty-msg">No entries yet. Write your first entry!</div>';
+}
+function statusPill(s){
+  if(s==='reviewed') return '<span class="pill pill-v">✓ Reviewed</span>';
+  if(s==='submitted') return '<span class="pill pill-g">📤 Submitted</span>';
+  return '<span class="pill pill-m">Draft</span>';
+}
+/* ── Journal image helpers ── */
+var jImgs=[];
+var MAX_IMG_BYTES=2*1024*1024; /* 2 MB limit per image */
+function handleJournalImages(input){
+  var skipped=0;
+  var files=Array.from(input.files);
+  files.forEach(function(file){
+    /* Reject files that are wildly oversized even before compression (>15 MB) */
+    if(file.size>15*1024*1024){skipped++;
+      if(skipped===files.length) toast('Images too large to process (max ~15 MB original)');
+      return;
+    }
+    var reader=new FileReader();
+    reader.onload=function(e){
+      resizeJImg(e.target.result,function(resized){
+        if(resized===null){
+          toast('One image could not fit under 2 MB — skipped');return;
+        }
+        jImgs.push(resized);
+        renderJImgStrip();
+      });
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value='';
+}
+function resizeJImg(src,cb){
+  var img=new Image();
+  img.onload=function(){
+    var maxW=1200,w=img.width,h=img.height;
+    if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+    var c=document.createElement('canvas');
+    c.width=w;c.height=h;
+    c.getContext('2d').drawImage(img,0,0,w,h);
+    /* Try reducing quality until output is under MAX_IMG_BYTES */
+    var quality=0.78;
+    var result;
+    while(quality>=0.3){
+      result=c.toDataURL('image/jpeg',quality);
+      /* base64 overhead: actual bytes ≈ length * 0.75 */
+      if(result.length*0.75<=MAX_IMG_BYTES) break;
+      quality=Math.round((quality-0.1)*10)/10;
+    }
+    cb(result.length*0.75<=MAX_IMG_BYTES?result:null);
+  };
+  img.src=src;
+}
+function renderJImgStrip(){
+  var strip=document.getElementById('journal-img-strip');
+  if(!strip) return;
+  strip.innerHTML=jImgs.map(function(src,i){
+    return '<div class="jimg-thumb"><img src="'+src+'"><button class="jimg-rm" onclick="removeJImg('+i+')">×</button></div>';
+  }).join('');
+}
+function removeJImg(i){jImgs.splice(i,1);renderJImgStrip();}
+function renderEntryImgs(images,containerId){
+  var el=document.getElementById(containerId);
+  if(!el) return;
+  if(!images||!images.length){el.innerHTML='';return;}
+  el.innerHTML='<div class="entry-imgs">'+images.map(function(src){
+    return '<img class="entry-img" src="'+src+'" onclick="viewImg(this.src)">';
+  }).join('')+'</div>';
+}
+function viewImg(src){
+  document.getElementById('img-viewer-img').src=src;
+  document.getElementById('img-viewer').classList.add('open');
+}
+function closeImgViewer(){document.getElementById('img-viewer').classList.remove('open');}
+
+function openEditor(){
+  jImgs=[];
+  renderJImgStrip();
+  document.getElementById('journal-list-area').style.display='none';
+  document.getElementById('entry-read').classList.remove('open');
+  document.getElementById('entry-editor').classList.add('open');
+  document.getElementById('entry-title-in').value='';
+  document.getElementById('entry-body-in').value='';
+}
+function closeEditor(){
+  document.getElementById('entry-editor').classList.remove('open');
+  document.getElementById('journal-list-area').style.display='';
+}
+function saveDraft(){
+  var title=document.getElementById('entry-title-in').value.trim();
+  var body=document.getElementById('entry-body-in').value.trim();
+  if(!title||!body){toast('Please fill in title and body');return;}
+  S.entries.push({id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,images:jImgs.slice(),date:new Date().toISOString().slice(0,10),status:'draft',annotations:[],nitaComment:''});
+  save(); closeEditor(); renderJournalList(); toast('Draft saved!');
+}
+function submitJournal(){
+  var title=document.getElementById('entry-title-in').value.trim();
+  var body=document.getElementById('entry-body-in').value.trim();
+  if(!title||!body){toast('Please fill in title and body');return;}
+  S.entries.push({id:'j'+Date.now(),author:S.user,authorDisplay:S.user,title:title,body:body,images:jImgs.slice(),date:new Date().toISOString().slice(0,10),status:'submitted',annotations:[],nitaComment:''});
+  save(); closeEditor(); renderJournalList(); toast('Submitted to Kru Nita!');
+}
+var currentJournalId=null;
+function openEntry(id){
+  currentJournalId=id;
+  var e=S.entries.find(function(x){return x.id===id;});
+  if(!e) return;
+  document.getElementById('journal-list-area').style.display='none';
+  document.getElementById('entry-editor').classList.remove('open');
+  document.getElementById('entry-read').classList.add('open');
+  document.getElementById('er-title').textContent=e.title;
+  document.getElementById('er-meta').textContent=fmtDate(e.date);
+  renderEntryImgs(e.images,'er-images');
+  document.getElementById('er-body').innerHTML=renderAnnotatedText(e.body,e.annotations,{interactive:false});
+  var fb=document.getElementById('er-feedback');
+  if(e.status==='reviewed'&&e.nitaComment){
+    fb.innerHTML='<div class="feedback-box"><div class="feedback-lbl">👩‍🏫 Nita\'s Feedback</div><div class="feedback-txt">'+esc(e.nitaComment)+'</div></div>';
+  } else if(e.status==='submitted'){
+    fb.innerHTML='<div class="pending-notice">📤 Submitted — waiting for Kru Nita\'s review</div>';
+  } else {fb.innerHTML='';}
+}
+function addWatermark(b64,cb){
+  var img=new Image();
+  img.onload=function(){
+    var c=document.createElement('canvas');
+    c.width=img.width; c.height=img.height;
+    var ctx=c.getContext('2d');
+    ctx.drawImage(img,0,0);
+    /* Watermark sizing */
+    var fs=Math.max(18,Math.round(img.width/26));
+    var pad=Math.round(fs*0.55);
+    var label='Easy Thai With Nita  ·  @easythaiwithnita';
+    ctx.font='bold '+fs+'px sans-serif';
+    var tw=ctx.measureText(label).width;
+    var bw=tw+pad*2.5, bh=fs+pad*1.6;
+    var bx=img.width-bw-pad*1.5, by=img.height-bh-pad*1.5;
+    /* Pill background */
+    ctx.save();
+    ctx.globalAlpha=0.52;
+    ctx.fillStyle='#000';
+    ctx.beginPath();
+    var r=bh/2;
+    ctx.moveTo(bx+r,by); ctx.lineTo(bx+bw-r,by);
+    ctx.arcTo(bx+bw,by,bx+bw,by+bh,r);
+    ctx.lineTo(bx+bw,by+bh-r);
+    ctx.arcTo(bx+bw,by+bh,bx+bw-r,by+bh,r);
+    ctx.lineTo(bx+r,by+bh);
+    ctx.arcTo(bx,by+bh,bx,by+bh-r,r);
+    ctx.lineTo(bx,by+r);
+    ctx.arcTo(bx,by,bx+r,by,r);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+    /* Gold text */
+    ctx.globalAlpha=1;
+    ctx.fillStyle='#84CC16';
+    ctx.font='bold '+fs+'px sans-serif';
+    ctx.textBaseline='middle';
+    ctx.textAlign='left';
+    ctx.fillText(label,bx+pad*1.25,by+bh/2);
+    cb(c.toDataURL('image/jpeg',0.88));
+  };
+  img.src=b64;
+}
+function b64toFile(b64,name){
+  var parts=b64.split(','),mime=parts[0].match(/:(.*?);/)[1];
+  var bin=atob(parts[1]),len=bin.length,arr=new Uint8Array(len);
+  for(var j=0;j<len;j++) arr[j]=bin.charCodeAt(j);
+  return new File([arr],name,{type:mime});
+}
+function shareJournal(){
+  var e=S.entries.find(function(x){return x.id===currentJournalId;});
+  if(!e) return;
+  var caption=e.title+'\n\n'+e.body+'\n\n#EasyThaiWithNita #เรียนภาษาไทย #ThaiLanguage #HuaHin\n\nLearn Thai with us → easythaiwithnita.online';
+  var images=e.images||[];
+  if(!images.length){
+    /* Text-only share */
+    if(navigator.share){navigator.share({title:e.title,text:caption}).catch(function(){});}
+    else{navigator.clipboard&&navigator.clipboard.writeText(caption);toast('Caption copied!');}
+    return;
+  }
+  toast('Preparing images…');
+  /* Watermark all images async then share */
+  var watermarked=[],done=0;
+  images.forEach(function(b64,i){
+    addWatermark(b64,function(wm){
+      watermarked[i]=wm;
+      done++;
+      if(done===images.length){
+        var files=watermarked.map(function(w,k){return b64toFile(w,'nita-journal-'+(k+1)+'.jpg');});
+        if(navigator.canShare&&navigator.canShare({files:files})){
+          navigator.share({files:files,text:caption,title:e.title})
+            .catch(function(err){if(err.name!=='AbortError') toast('Could not open share sheet');});
+        } else if(navigator.share){
+          navigator.share({title:e.title,text:caption}).catch(function(){});
+        } else {
+          var url=URL.createObjectURL(files[0]);
+          var a=document.createElement('a');a.href=url;a.download=files[0].name;a.click();
+          setTimeout(function(){URL.revokeObjectURL(url);},1000);
+          navigator.clipboard&&navigator.clipboard.writeText(caption);
+          toast('Image saved & caption copied!');
+        }
+      }
+    });
+  });
+}
+function closeEntryRead(){
+  document.getElementById('entry-read').classList.remove('open');
+  document.getElementById('journal-list-area').style.display='';
+}
+function renderNitaQueue(){
+  closeReview();
+  var waiting=S.entries.filter(function(e){return e.status==='submitted';});
+  var done=S.entries.filter(function(e){return e.status==='reviewed';});
+  var html='';
+  if(waiting.length){html+='<div class="queue-sec"><div class="queue-lbl">⏳ Waiting for Review ('+waiting.length+')</div>';html+=waiting.map(reviewCard).join('');html+='</div>';}
+  if(done.length){html+='<div class="queue-sec"><div class="queue-lbl">✓ Already Reviewed ('+done.length+')</div>';html+=done.map(reviewCard).join('');html+='</div>';}
+  if(!waiting.length&&!done.length) html='<div class="empty-msg">No journal entries submitted yet.</div>';
+  document.getElementById('review-queue').innerHTML=html;
+}
+function reviewCard(e){
+  return '<div class="journal-card" onclick="openReview(\''+e.id+'\')">'+'<div class="jc-title">'+esc(e.title)+'</div>'+'<div class="jc-preview">By '+esc(e.authorDisplay)+' &mdash; '+esc(e.body.slice(0,60))+'…</div>'+'<div class="jc-foot"><div class="jc-date">'+fmtDate(e.date)+'</div>'+statusPill(e.status)+'</div>'+'</div>';
+}
+function openReview(id){
+  var e=S.entries.find(function(x){return x.id===id;});
+  if(!e) return;
+  currentReviewId=id;
+  annCtx.journalId=id; annCtx.editingId=null;
+  document.getElementById('review-list-area').style.display='none';
+  document.getElementById('review-editor').style.display='block';
+  document.getElementById('rv-title').textContent=e.title;
+  document.getElementById('rv-meta').textContent='By '+e.authorDisplay+' · '+fmtDate(e.date);
+  document.getElementById('rv-comment').value=e.nitaComment||'';
+  renderReviewBody(e);
+  renderEntryImgs(e.images,'rv-images');
+  var body=document.getElementById('rv-body');
+  body.onmouseup=onPossibleSelection;
+  body.ontouchend=onPossibleSelection;
+}
+function renderReviewBody(e){
+  document.getElementById('rv-body').innerHTML=renderAnnotatedText(e.body,e.annotations,{interactive:true,journalId:e.id});
+}
+function closeReview(){
+  currentReviewId=null; annCtx.journalId=null;
+  document.getElementById('review-editor').style.display='none';
+  document.getElementById('review-list-area').style.display='';
+  closeAnnotPopup();
+}
+function sendReview(){
+  var id=currentReviewId;
+  var e=S.entries.find(function(x){return x.id===id;});
+  if(!e) return;
+  e.status='reviewed';
+  e.nitaComment=document.getElementById('rv-comment').value.trim();
+  save(); closeReview(); renderNitaQueue(); toast('Feedback sent!');
+}
+function renderAnnotatedText(body,annotations,opts){
+  opts=opts||{};
+  var interactive=opts.interactive||false;
+  var jid=opts.journalId||null;
+  var anns=(annotations||[]).slice().sort(function(a,b){return a.start-b.start;});
+  var result='';var cursor=0;
+  anns.forEach(function(a){
+    if(a.start>cursor) result+=mkSeg(body.slice(cursor,a.start),cursor,interactive);
+    result+=renderChip(a,{interactive:interactive,journalId:jid});
+    cursor=a.end;
+  });
+  if(cursor<body.length) result+=mkSeg(body.slice(cursor),cursor,interactive);
+  return result;
+}
+function mkSeg(text,start,interactive){
+  if(!text) return '';
+  return '<span class="seg" data-start="'+start+'">'+esc(text)+'</span>';
+}
+function renderChip(a,opts){
+  var interactive=opts&&opts.interactive;
+  var jid=opts&&opts.journalId;
+  var click=interactive?' onclick="editAnnotation(\''+jid+'\',\''+a.id+'\')"':'';
+  var noteHtml=a.note?'<button class="chip-nb" onclick="toggleNote(\''+a.id+'\');event.stopPropagation()">💬</button>'+'<span class="chip-note" id="cn-'+a.id+'">'+esc(a.note)+'</span>':'';
+  return '<span class="chip"'+click+'>'+'<span class="chip-orig">'+esc(a.original)+'</span>'+'<span class="chip-arrow">→</span>'+'<span class="chip-corr">'+esc(a.correction)+'</span>'+noteHtml+'</span>';
+}
+function toggleNote(id){var el=document.getElementById('cn-'+id);if(el) el.classList.toggle('open');}
+function onPossibleSelection(){
+  setTimeout(function(){
+    var sel=window.getSelection();
+    if(!sel||sel.isCollapsed||!sel.toString().trim()) return;
+    var range=sel.getRangeAt(0);
+    var startSeg=findSeg(range.startContainer);
+    var endSeg=findSeg(range.endContainer);
+    if(!startSeg||!endSeg) return;
+    var ss=parseInt(startSeg.dataset.start,10);
+    var es=parseInt(endSeg.dataset.start,10);
+    var absStart=ss+range.startOffset;
+    var absEnd=es+range.endOffset;
+    if(absStart>=absEnd) return;
+    var e=S.entries.find(function(x){return x.id===annCtx.journalId;});
+    if(!e) return;
+    annCtx.editingId=null;
+    annCtx.selStart=absStart;
+    annCtx.selEnd=absEnd;
+    annCtx.selText=e.body.slice(absStart,absEnd);
+    var rect=range.getBoundingClientRect();
+    sel.removeAllRanges();
+    openAnnotPopup(rect);
+  },10);
+}
+function findSeg(node){
+  var n=node;
+  while(n&&n!==document.body){
+    if(n.nodeType===1&&n.classList&&n.classList.contains('seg')) return n;
+    n=n.parentNode;
+  }
+  return null;
+}
+function openAnnotPopup(rect){
+  var popup=document.getElementById('annot-popup');
+  document.getElementById('pop-sel').textContent=annCtx.selText;
+  document.getElementById('pop-corr').value=annCtx.editingId?(function(){var e=S.entries.find(function(x){return x.id===annCtx.journalId;});var a=e&&e.annotations.find(function(a){return a.id===annCtx.editingId;});return a?a.correction:'';}()):'';
+  document.getElementById('pop-note').value=annCtx.editingId?(function(){var e=S.entries.find(function(x){return x.id===annCtx.journalId;});var a=e&&e.annotations.find(function(a){return a.id===annCtx.editingId;});return a&&a.note?a.note:'';}()):'';
+  document.getElementById('pop-del').style.display=annCtx.editingId?'':'none';
+  var pw=Math.min(320,window.innerWidth*0.9);
+  var top=rect?(rect.bottom+window.scrollY+8):(window.innerHeight/2);
+  var left=rect?rect.left:Math.max(8,(window.innerWidth-pw)/2);
+  if(left+pw>window.innerWidth-8) left=window.innerWidth-pw-8;
+  if(top+220>window.innerHeight+window.scrollY&&rect) top=rect.top+window.scrollY-228;
+  popup.style.top=Math.max(8,top)+'px';
+  popup.style.left=Math.max(8,left)+'px';
+  popup.classList.add('open');
+  document.getElementById('pop-corr').focus();
+}
+function closeAnnotPopup(){document.getElementById('annot-popup').classList.remove('open');annCtx.editingId=null;}
+function saveAnnotation(){
+  var corr=document.getElementById('pop-corr').value.trim();
+  if(!corr){toast('Please enter a correction');return;}
+  var note=document.getElementById('pop-note').value.trim();
+  var e=S.entries.find(function(x){return x.id===annCtx.journalId;});
+  if(!e) return;
+  if(annCtx.editingId){
+    var ann=e.annotations.find(function(a){return a.id===annCtx.editingId;});
+    if(ann){ann.correction=corr;ann.note=note;}
+  } else {
+    e.annotations.push({id:'a'+Date.now(),start:annCtx.selStart,end:annCtx.selEnd,original:annCtx.selText,correction:corr,note:note});
+  }
+  save(); closeAnnotPopup(); renderReviewBody(e); toast('Annotation saved!');
+}
+function deleteAnnotation(){
+  if(!annCtx.editingId) return;
+  var e=S.entries.find(function(x){return x.id===annCtx.journalId;});
+  if(!e) return;
+  e.annotations=e.annotations.filter(function(a){return a.id!==annCtx.editingId;});
+  save(); closeAnnotPopup(); renderReviewBody(e); toast('Annotation removed');
+}
+function editAnnotation(journalId,annId){
+  var e=S.entries.find(function(x){return x.id===journalId;});
+  if(!e) return;
+  var ann=e.annotations.find(function(a){return a.id===annId;});
+  if(!ann) return;
+  annCtx.journalId=journalId;annCtx.editingId=annId;
+  annCtx.selText=ann.original;annCtx.selStart=ann.start;annCtx.selEnd=ann.end;
+  var cx=window.innerWidth/2;var cy=window.innerHeight/2;
+  openAnnotPopup({bottom:cy+20,left:cx-140,top:cy-200});
+}
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fmtDate(d){
+  var dt=new Date(d+'T00:00:00');
+  return dt.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+}
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');clearTimeout(t._t);
+  t._t=setTimeout(function(){t.classList.remove('show');},2600);
+}
+(function(){
+  /* Apply saved theme immediately so there's no flash */
+  var savedTheme=localStorage.getItem('nita_theme')||'light';
+  document.documentElement.setAttribute('data-theme',savedTheme);
+
+  var user=localStorage.getItem('nita_user');
+  var role=localStorage.getItem('nita_role');
+  if(user&&role){startApp(user,role);return;}
+  document.getElementById('name-input').addEventListener('keydown',function(e){if(e.key==='Enter') loginStudent();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape') closeAnnotPopup();});
+})();
+</script>
+<div id="img-viewer" onclick="closeImgViewer()">
+  <button id="img-viewer-close" onclick="closeImgViewer()">✕</button>
+  <img id="img-viewer-img" src="" alt="">
+</div>
+</body>
+</html>
