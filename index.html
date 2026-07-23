@@ -1599,12 +1599,11 @@ function openSession(id){
   document.getElementById('session-detail').style.display='block';
   document.getElementById('sd-title').textContent=s.topicTh+' — '+s.topicEn;
   document.getElementById('sd-meta').textContent=fmtDate(s.date)+' · '+s.location;
-  var cat=s.topicEn;
-  document.getElementById('sd-vocab').innerHTML=s.vocab.map(function(v){
+  document.getElementById('sd-vocab').innerHTML=s.vocab.map(function(v,idx){
     var saved=!!S.cards.find(function(c){return c.thai===v.th;});
     var btnCls='vc-add-btn'+(saved?' vc-saved':'');
     var btnTxt=saved?'✓ Saved':'+ Add to Vocab';
-    var btnAttr=saved?'disabled':'onclick="openAddWordModal('+JSON.stringify(v)+','+JSON.stringify(cat)+')"';
+    var btnAttr=saved?'disabled':'onclick="openAddWordModalByIdx('+idx+')"';
     return '<div class="vocab-card">'
       +'<div class="vc-th">'+esc(v.th)+'</div>'
       +'<div class="vc-rom">'+esc(v.rom)+'</div>'
@@ -1621,6 +1620,11 @@ function closeSession(){
   currentSessionId=null;
   document.getElementById('session-detail').style.display='none';
   document.getElementById('sessions-list').style.display='';
+}
+function openAddWordModalByIdx(idx){
+  var s=S.sessions.find(function(x){return x.id===currentSessionId;});
+  if(!s||!s.vocab[idx]) return;
+  openAddWordModal(s.vocab[idx],s.topicEn);
 }
 function openAddWordModal(v,cat){
   pendingWord={v:v,cat:cat};
