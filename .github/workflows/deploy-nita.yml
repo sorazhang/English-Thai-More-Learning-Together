@@ -1,0 +1,13 @@
+name: Deploy Nita to Production
+
+on:
+  push:
+    branches: [nita]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel production deployment
+        run: |
+          curl -X POST "https://api.vercel.com/v1/integrations/deploy/prj_1aL2Y1yAONfdoR3VcLg5JUFsW6oW/ZAyyPx4bOc"
