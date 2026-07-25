@@ -1,0 +1,16 @@
+{
+  "name": "Easy Thai With Nita",
+  "short_name": "NitaThai",
+  "description": "Learn Thai in Hua Hin with Kru Nita",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#EEF1F5",
+  "theme_color": "#84CC16",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
