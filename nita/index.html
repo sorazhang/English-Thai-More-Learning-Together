@@ -934,6 +934,9 @@ input,textarea{font-family:'IBM Plex Sans Thai',sans-serif;outline:none}
       </div>
       <div class="wl-err" id="wl-err"></div>
       <button class="btn-gold" id="wl-submit-btn" onclick="submitAuth()">Log In</button>
+      <div class="wl-toggle" id="wl-forgot" style="margin-top:-.2rem">
+        <a onclick="resetPassword()">Forgot password?</a>
+      </div>
       <div class="wl-toggle" id="wl-toggle">
         New here? <a onclick="toggleAuthMode()">Create account</a>
       </div>
@@ -1465,6 +1468,18 @@ function submitAuth(){
       'auth/invalid-email':'Please enter a valid email.'
     };
     errEl.textContent = msgs[err.code] || 'Something went wrong. Please try again.';
+  });
+}
+function resetPassword(){
+  var email = document.getElementById('wl-email').value.trim();
+  var errEl = document.getElementById('wl-err');
+  if(!email){ errEl.textContent = 'Enter your email above first.'; return; }
+  fbAuth.sendPasswordResetEmail(email).then(function(){
+    errEl.style.color = 'var(--green)';
+    errEl.textContent = 'Reset link sent — check your inbox.';
+  }).catch(function(err){
+    errEl.style.color = 'var(--red)';
+    errEl.textContent = err.code === 'auth/user-not-found' ? 'No account with that email.' : 'Could not send reset email.';
   });
 }
 
