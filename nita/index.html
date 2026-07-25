@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <style>
 :root{
   --bg:#EEF1F5;--bg2:#E4E8EE;--card:#FFFFFF;--card2:#F6F8FA;
@@ -1435,7 +1435,7 @@ firebase.initializeApp({
   appId:"1:819147772990:web:a1849fac436b038672ed6f"
 });
 var fbAuth = firebase.auth();
-var fbDb = firebase.firestore();
+var fbDb = firebase.database();
 
 function loginWithGoogle(){
   var provider = new firebase.auth.GoogleAuthProvider();
@@ -1444,9 +1444,9 @@ function loginWithGoogle(){
 
 function loadData(uid, callback){
   var seedSessions = JSON.parse(JSON.stringify(SEED.sessions));
-  fbDb.collection('users').doc(uid).get().then(function(doc){
-    if(doc.exists){
-      var d = doc.data();
+  fbDb.ref('users/' + uid).once('value').then(function(snap){
+    var d = snap.val();
+    if(d){
       var ids = (d.sessions||[]).map(function(s){return s.id;});
       seedSessions.forEach(function(s){ if(ids.indexOf(s.id)===-1)(d.sessions=d.sessions||[]).push(s); });
       callback({sessions:d.sessions||seedSessions, cards:d.cards||[], entries:d.entries||[]});
@@ -1459,7 +1459,7 @@ function loadData(uid, callback){
 function save(){
   var uid = fbAuth.currentUser ? fbAuth.currentUser.uid : null;
   if(!uid) return;
-  fbDb.collection('users').doc(uid).set({sessions:S.sessions, cards:S.cards, entries:S.entries});
+  fbDb.ref('users/' + uid).set({sessions:S.sessions, cards:S.cards, entries:S.entries});
 }
 /* ── Photo gallery ── */
 var galleryIdx=0,GALLERY_TOTAL=5,galleryTouchX=0;
