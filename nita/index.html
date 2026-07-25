@@ -1439,7 +1439,7 @@ var fbDb = firebase.database();
 
 function loginWithGoogle(){
   var provider = new firebase.auth.GoogleAuthProvider();
-  fbAuth.signInWithPopup(provider).catch(function(){ toast('Sign-in failed. Please try again.'); });
+  fbAuth.signInWithRedirect(provider).catch(function(){ toast('Sign-in failed. Please try again.'); });
 }
 
 function loadData(uid, callback){
