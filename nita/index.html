@@ -710,6 +710,7 @@ input,textarea{font-family:'IBM Plex Sans Thai',sans-serif;outline:none}
 }
 .flip-back{transform:rotateY(180deg);background:var(--card2)}
 .flip-thai{font-size:2rem;font-weight:600;color:var(--gold2)}
+.flip-rom-front{font-size:.8rem;color:var(--muted);font-style:italic;margin-top:.3rem}
 .flip-hint{font-size:.75rem;color:var(--muted);margin-top:.5rem}
 .flip-en{font-size:1.4rem;color:var(--cream);font-weight:500;text-align:center}
 .flip-rom{font-size:.85rem;color:var(--cream2);font-style:italic;margin-top:.3rem}
@@ -1234,6 +1235,7 @@ input,textarea{font-family:'IBM Plex Sans Thai',sans-serif;outline:none}
       <div class="flip-card" id="flip-card">
         <div class="flip-face flip-front">
           <div class="flip-thai" id="flip-thai"></div>
+          <div class="flip-rom flip-rom-front" id="flip-rom-front"></div>
           <div class="flip-hint">tap to reveal</div>
         </div>
         <div class="flip-face flip-back">
@@ -1732,6 +1734,7 @@ function loadStudyCard(){
   document.getElementById('study-ct').textContent=(studyIdx+1)+'/'+total;
   var c=studyQ[studyIdx];
   document.getElementById('flip-thai').textContent=c.thai;
+  document.getElementById('flip-rom-front').textContent=c.rom;
   document.getElementById('flip-en').textContent=c.en;
   document.getElementById('flip-rom').textContent=c.rom;
   document.getElementById('flip-card').classList.remove('flipped');
