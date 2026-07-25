@@ -21,6 +21,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
 :root{
   --bg:#EEF1F5;--bg2:#E4E8EE;--card:#FFFFFF;--card2:#F6F8FA;
@@ -283,6 +286,14 @@ input,textarea{font-family:'IBM Plex Sans Thai',sans-serif;outline:none}
   font-size:.82rem;font-weight:500;transition:border-color .15s,background .15s,color .15s;
 }
 .wl-opt-btn:active{border-color:var(--gold);color:var(--gold2);background:rgba(132,204,22,.07)}
+.btn-google{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:.65rem;
+  background:#fff;color:#3c4043;border:1.5px solid #dadce0;border-radius:12px;
+  padding:.78rem 1rem;font-family:'Kanit',sans-serif;font-size:.98rem;font-weight:500;
+  box-shadow:0 1px 3px rgba(0,0,0,.12);transition:box-shadow .15s,background .15s;
+}
+.btn-google:active{box-shadow:0 1px 1px rgba(0,0,0,.1);background:#f8f8f8}
+.btn-google svg{width:20px;height:20px;flex-shrink:0}
 .w-input{
   width:100%;background:var(--card);border:1px solid var(--border);
   border-radius:12px;padding:.72rem 1rem;color:var(--cream);font-size:1rem;
@@ -917,18 +928,16 @@ input,textarea{font-family:'IBM Plex Sans Thai',sans-serif;outline:none}
     <div class="who-title">เรียนกับนิตา</div>
     <div class="who-tagline">Thai classes at the local café · Hua Hin</div>
     <div class="w-login">
-      <div class="wl-headline">Log in to continue<br>your Thai journey</div>
-      <div class="wl-input-wrap">
-        <label class="wl-float-label" for="name-input">Your name</label>
-        <input id="name-input" type="text" placeholder="e.g. Sarah" autocomplete="given-name">
-      </div>
-      <button class="btn-gold" onclick="loginStudent()">Continue →</button>
-      <div class="wl-divider"><span>Other log in options</span></div>
-      <div class="wl-options">
-        <button class="wl-opt-btn" onclick="loginNita()">
-          <span>👩‍🏫</span><span>Kru Nita · Teacher</span>
-        </button>
-      </div>
+      <div class="wl-headline">Continue your<br>Thai journey</div>
+      <button class="btn-google" onclick="loginWithGoogle()">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Sign in with Google
+      </button>
     </div>
     <div class="w-scroll-hint">↓ learn more</div>
   </div>
@@ -1415,23 +1424,42 @@ var currentSessionId=null, currentReviewId=null;
 var pendingWord=null;
 var annCtx={journalId:null,editingId:null,selStart:0,selEnd:0,selText:''};
 
-function loadData(){
-  var raw=localStorage.getItem('nita_data');
-  if(raw){
-    try{
-      var d=JSON.parse(raw);
-      var ids=d.sessions.map(function(s){return s.id;});
-      SEED.sessions.forEach(function(s){
-        if(ids.indexOf(s.id)===-1) d.sessions.push(s);
-      });
-      return d;
-    }catch(e){}
-  }
-  localStorage.setItem('nita_data',JSON.stringify(SEED));
-  return JSON.parse(JSON.stringify(SEED));
+/* ── Firebase ── */
+var TEACHER_EMAIL = 'YOUR_NITA_EMAIL@gmail.com'; // replace with Kru Nita's Google email
+firebase.initializeApp({
+  apiKey:"AIzaSyBkKf_2Tzxe6emQim9x3Ez5f221KbUd3nk",
+  authDomain:"easy-thai-with-nita.firebaseapp.com",
+  projectId:"easy-thai-with-nita",
+  storageBucket:"easy-thai-with-nita.firebasestorage.app",
+  messagingSenderId:"819147772990",
+  appId:"1:819147772990:web:a1849fac436b038672ed6f"
+});
+var fbAuth = firebase.auth();
+var fbDb = firebase.firestore();
+
+function loginWithGoogle(){
+  var provider = new firebase.auth.GoogleAuthProvider();
+  fbAuth.signInWithPopup(provider).catch(function(){ toast('Sign-in failed. Please try again.'); });
 }
+
+function loadData(uid, callback){
+  var seedSessions = JSON.parse(JSON.stringify(SEED.sessions));
+  fbDb.collection('users').doc(uid).get().then(function(doc){
+    if(doc.exists){
+      var d = doc.data();
+      var ids = (d.sessions||[]).map(function(s){return s.id;});
+      seedSessions.forEach(function(s){ if(ids.indexOf(s.id)===-1)(d.sessions=d.sessions||[]).push(s); });
+      callback({sessions:d.sessions||seedSessions, cards:d.cards||[], entries:d.entries||[]});
+    } else {
+      callback({sessions:seedSessions, cards:[], entries:[]});
+    }
+  }).catch(function(){ callback({sessions:seedSessions, cards:[], entries:[]}); });
+}
+
 function save(){
-  localStorage.setItem('nita_data',JSON.stringify({sessions:S.sessions,cards:S.cards,entries:S.entries}));
+  var uid = fbAuth.currentUser ? fbAuth.currentUser.uid : null;
+  if(!uid) return;
+  fbDb.collection('users').doc(uid).set({sessions:S.sessions, cards:S.cards, entries:S.entries});
 }
 /* ── Photo gallery ── */
 var galleryIdx=0,GALLERY_TOTAL=5,galleryTouchX=0;
@@ -1451,26 +1479,22 @@ function galleryMove(dir){
   },{passive:true});
 })();
 
-document.getElementById('name-input').addEventListener('focus',function(){
-  setTimeout(function(){document.getElementById('name-input').scrollIntoView({behavior:'smooth',block:'center'});},320);
+fbAuth.onAuthStateChanged(function(user){
+  if(user){
+    var role = user.email === TEACHER_EMAIL ? 'teacher' : 'student';
+    var name = user.displayName || user.email.split('@')[0];
+    loadData(user.uid, function(d){
+      S.sessions=d.sessions; S.cards=d.cards; S.entries=d.entries;
+      startApp(name, role);
+    });
+  } else {
+    S.user=null; S.role=null;
+    document.getElementById('app').classList.remove('visible');
+    document.getElementById('welcome').classList.remove('out');
+  }
 });
-function loginStudent(){
-  var name=document.getElementById('name-input').value.trim();
-  if(!name){toast('Please enter your name');return;}
-  localStorage.setItem('nita_user',name);
-  localStorage.setItem('nita_role','student');
-  localStorage.setItem('nita_last_student',name);
-  startApp(name,'student');
-}
-function loginNita(){
-  localStorage.setItem('nita_user','Kru Nita');
-  localStorage.setItem('nita_role','teacher');
-  startApp('Kru Nita','teacher');
-}
 function startApp(user,role){
   S.user=user; S.role=role;
-  var d=loadData();
-  S.sessions=d.sessions; S.cards=d.cards; S.entries=d.entries;
   document.getElementById('welcome').classList.add('out');
   document.getElementById('app').classList.add('visible');
   updateBadge(); applyRoleUI(); updateSideNav(); navTo(role==='student'?'home':'notes');
@@ -1478,10 +1502,6 @@ function startApp(user,role){
 function switchRole(){
   var nr=S.role==='teacher'?'student':'teacher';
   S.role=nr;
-  if(nr==='student'){var ls=localStorage.getItem('nita_last_student')||'Alex';S.user=ls;}
-  else{S.user='Kru Nita';}
-  localStorage.setItem('nita_role',nr);
-  localStorage.setItem('nita_user',S.user);
   updateBadge(); applyRoleUI(); updateSideNav(); navTo(nr==='student'?'home':'notes');
   toast('Switched to '+(nr==='teacher'?'teacher':'student')+' view');
 }
@@ -1502,12 +1522,7 @@ function updateSideNav(){
 }
 function logout(){
   closeNav();
-  localStorage.removeItem('nita_user');
-  localStorage.removeItem('nita_role');
-  S.user=null; S.role=null;
-  document.getElementById('app').classList.remove('visible');
-  document.getElementById('welcome').classList.remove('out');
-  document.getElementById('name-input').value='';
+  fbAuth.signOut();
 }
 function updateBadge(){
   document.getElementById('role-badge').textContent=S.role==='teacher'?'👩‍🏫 Kru Nita':'🎓 '+S.user;
@@ -2132,10 +2147,6 @@ function toast(msg){
   var savedTheme=localStorage.getItem('nita_theme')||'light';
   document.documentElement.setAttribute('data-theme',savedTheme);
 
-  var user=localStorage.getItem('nita_user');
-  var role=localStorage.getItem('nita_role');
-  if(user&&role){startApp(user,role);return;}
-  document.getElementById('name-input').addEventListener('keydown',function(e){if(e.key==='Enter') loginStudent();});
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape'){closeAnnotPopup();closeAddWordModal();}
   });
